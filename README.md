@@ -11,13 +11,10 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
   * Nutzt `OPENAI_API_KEY` oder `GROQ_API_KEY`, falls vorhanden.
   * Fällt automatisch auf **Ollama** zurück, wenn keine API-Keys gefunden werden.
 * ⚙️ **Einheitliches Interface**
-
   * Eine Methode `chat_completion(messages)` für alle Backends.
 * 🧩 **Flexible Konfiguration**
-
   * Modell, Temperatur, Token-Limit und API-Typ frei wählbar.
 * 🧪 **Testabdeckung**
-
   * Pytest-basiertes Testsuite inklusive Mocking und Fehlerhandling.
 
 ---
@@ -39,7 +36,9 @@ llm-client/
 ├── secrets.env
 ├── pyproject.toml
 ├── environment.yml
-└── README.md
+├── README.md
+├── LICENSE                        # MIT Lizenz
+└── .gitignore                     # Git-Ignore-Regeln
 ```
 
 ---
