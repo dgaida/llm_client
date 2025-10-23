@@ -10,8 +10,10 @@ die Methode `chat_completion()` aufruft.
 """
 
 from .llm_client import LLMClient
+from .adapter import LLMClientAdapter
 
-__all__ = ["LLMClient"]
+__all__ = ["LLMClient", "LLMClientAdapter"]
+
 
 __version__ = "0.1.0"
 __author__ = "Daniel Gaida"
