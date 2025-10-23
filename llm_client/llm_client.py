@@ -35,6 +35,9 @@ class LLMClient:
         keep_alive: str = "5m",
     ):
         """
+        LLMClient: Universal Client für OpenAI, Groq, Ollama.
+        Colab-Support: Wenn secrets.env fehlt, werden Keys über google.colab.userdata geladen.
+
         Parameter:
         -----------
         llm : str
@@ -50,12 +53,29 @@ class LLMClient:
         keep_alive : str
             Ollama Parameter – wie lange das Modell im Speicher bleiben soll.
         """
-        load_dotenv(secrets_path)
+        # 1. Lade secrets.env, falls vorhanden
+        if os.path.exists(secrets_path):
+            load_dotenv(secrets_path)
 
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         self.groq_api_key = os.getenv("GROQ_API_KEY")
 
-        # Automatische API-Auswahl
+        # 2. Fallback für Google Colab
+        if self.openai_api_key is None or self.groq_api_key is None:
+            try:
+                import sys
+                if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
+                    # Google Colab erkannt
+                    from google.colab import userdata
+                    if self.openai_api_key is None:
+                        self.openai_api_key = userdata.get("OPENAI_API_KEY")
+                    if self.groq_api_key is None:
+                        self.groq_api_key = userdata.get("GROQ_API_KEY")
+            except ImportError:
+                # Nicht auf Colab oder userdata nicht verfügbar
+                pass
+
+        # 3. Automatische API-Auswahl
         if api_choice is None:
             if self.openai_api_key:
                 self.api_choice = "openai"
