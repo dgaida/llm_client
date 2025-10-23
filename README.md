@@ -8,7 +8,6 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 ## 🚀 Features
 
 * 🔍 **Automatische API-Erkennung**
-
   * Nutzt `OPENAI_API_KEY` oder `GROQ_API_KEY`, falls vorhanden.
   * Fällt automatisch auf **Ollama** zurück, wenn keine API-Keys gefunden werden.
 * ⚙️ **Einheitliches Interface**
