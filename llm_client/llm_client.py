@@ -1,7 +1,7 @@
 """LLM Client Module für universelle LLM-API Zugriffe."""
 
 import os
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 from dotenv import load_dotenv
 
@@ -50,10 +50,10 @@ class LLMClient:
 
     def __init__(
         self,
-        llm: Optional[str] = None,
+        llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
-        api_choice: Optional[Literal["openai", "groq", "ollama"]] = None,
+        api_choice: Literal["openai", "groq", "ollama"] | None = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
     ) -> None:
@@ -79,8 +79,8 @@ class LLMClient:
         if os.path.exists(secrets_path):
             load_dotenv(secrets_path)
 
-        self.openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
-        self.groq_api_key: Optional[str] = os.getenv("GROQ_API_KEY")
+        self.openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
+        self.groq_api_key: str | None = os.getenv("GROQ_API_KEY")
 
         # 2. Fallback für Google Colab
         if self.openai_api_key is None or self.groq_api_key is None:
@@ -111,8 +111,7 @@ class LLMClient:
             valid_choices = {"openai", "groq", "ollama"}
             if api_choice.lower() not in valid_choices:
                 raise ValueError(
-                    f"Invalid api_choice: {api_choice}. "
-                    f"Must be one of {valid_choices}"
+                    f"Invalid api_choice: {api_choice}. " f"Must be one of {valid_choices}"
                 )
             self.api_choice = api_choice.lower()
 
@@ -132,7 +131,7 @@ class LLMClient:
         self.keep_alive: str = keep_alive
 
         # 5. Clients vorbereiten
-        self.client: Optional[Any] = None
+        self.client: Any | None = None
         if self.api_choice == "openai" and OpenAI:
             self.client = OpenAI(api_key=self.openai_api_key)
         elif self.api_choice == "groq" and Groq:

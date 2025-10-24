@@ -24,6 +24,7 @@ dev = [
   "pytest>=8.3.0",
   "pytest-cov>=5.0.0",
   "pytest-mock>=3.12.0",
+  "pytest-asyncio>=0.23.0",
   "ruff>=0.5.0",
   "black>=24.0.0",
   "mypy>=1.8.0",
@@ -35,10 +36,6 @@ llama-index = [
 ]
 all = [
   "llm-client[dev,llama-index]"
-]
-llama-index = [
-  "llama-index-core>=0.10.0",
-  "pydantic>=2.0.0"
 ]
 
 [tool.pytest.ini_options]
@@ -68,7 +65,6 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]  # Allow assert in tests
 "notebooks/*" = ["F401", "F821", "I001"]  # Ignore notebook issues
-"llm_client/__init__.py" = ["F401"]  # Allow re-exports
 "llm_client/__init__.py" = ["F401"]  # Allow re-exports
 
 [tool.black]

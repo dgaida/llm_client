@@ -135,11 +135,7 @@ class TestLLMClientChatCompletion:
 
     def test_chat_completion_with_ollama(self):
         """Test: chat_completion mit Ollama (gemockt)."""
-        mock_response = {
-            "message": {
-                "content": "Ollama response"
-            }
-        }
+        mock_response = {"message": {"content": "Ollama response"}}
 
         with patch("llm_client.llm_client.ollama") as mock_ollama:
             mock_ollama.chat.return_value = mock_response
@@ -199,12 +195,7 @@ class TestLLMClientChatCompletion:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            client = LLMClient(
-                api_choice="openai",
-                llm="gpt-4",
-                temperature=0.8,
-                max_tokens=1024
-            )
+            client = LLMClient(api_choice="openai", llm="gpt-4", temperature=0.8, max_tokens=1024)
             messages = [{"role": "user", "content": "Test"}]
             client.chat_completion(messages)
 
@@ -252,7 +243,7 @@ class TestLLMClientEdgeCases:
                 {"role": "system", "content": "You are helpful"},
                 {"role": "user", "content": "Hello"},
                 {"role": "assistant", "content": "Hi"},
-                {"role": "user", "content": "How are you?"}
+                {"role": "user", "content": "How are you?"},
             ]
             response = client.chat_completion(messages)
 
@@ -287,11 +278,7 @@ class TestLLMClientEdgeCases:
 
     def test_repr_method(self):
         """Test: __repr__ gibt korrekte String-Repräsentation zurück."""
-        client = LLMClient(
-            api_choice="openai",
-            llm="gpt-4o",
-            temperature=0.5
-        )
+        client = LLMClient(api_choice="openai", llm="gpt-4o", temperature=0.5)
         repr_str = repr(client)
 
         assert "LLMClient" in repr_str
@@ -318,11 +305,12 @@ class TestLLMClientEdgeCases:
         mock_userdata = MagicMock()
         mock_userdata.get.side_effect = lambda key: {
             "OPENAI_API_KEY": "sk-colab-key",
-            "GROQ_API_KEY": None
+            "GROQ_API_KEY": None,
         }.get(key)
 
         with patch.dict("sys.modules", {"google.colab": MagicMock(userdata=mock_userdata)}):
             client = LLMClient()
+            print(client)
             # In Colab sollte der Key aus userdata geladen werden
             # (funktioniert im Test nur bedingt wegen Import-Reihenfolge)
 
@@ -343,12 +331,10 @@ class TestLLMClientTypeHints:
 
     def test_messages_type_validation(self):
         """Test: Nachrichten haben korrektes Format."""
-        client = LLMClient(api_choice="ollama")
+        # client = LLMClient(api_choice="ollama")
 
         # Korrektes Format
-        valid_messages = [
-            {"role": "user", "content": "Hello"}
-        ]
+        valid_messages = [{"role": "user", "content": "Hello"}]
 
         # Diese sollten funktionieren
         assert isinstance(valid_messages, list)
@@ -371,4 +357,3 @@ class TestLLMClientTypeHints:
             response = client.chat_completion([{"role": "user", "content": "Hi"}])
 
             assert isinstance(response, str)
-            

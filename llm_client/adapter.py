@@ -3,7 +3,7 @@
 Dieser Adapter ermöglicht die Nutzung von LLMClient als llama-index LLM.
 """
 
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import Field
 
@@ -11,10 +11,10 @@ from .llm_client import LLMClient
 
 try:
     from llama_index.core.llms import (
+        LLM,
         ChatMessage,
         ChatResponse,
         CompletionResponse,
-        LLM,
         LLMMetadata,
     )
 
@@ -51,7 +51,7 @@ class LLMClientAdapter(LLM):
         pip install llama-index-core
     """
 
-    client: Optional[LLMClient] = Field(default=None, exclude=True)
+    client: LLMClient | None = Field(default=None, exclude=True)
 
     def __init__(self, **data: Any) -> None:
         """Initialisiert den LLMClientAdapter.
@@ -73,9 +73,7 @@ class LLMClientAdapter(LLM):
             )
         super().__init__(**data)
 
-    def chat(
-        self, messages: list[ChatMessage], **kwargs: Any
-    ) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs: Any) -> ChatResponse:
         """Führt einen Chat-Completion Request aus.
 
         Args:
@@ -102,9 +100,7 @@ class LLMClientAdapter(LLM):
         # Nutze LLMClient
         response = self.client.chat_completion(hf_messages)
 
-        return ChatResponse(
-            message=ChatMessage(role="assistant", content=response)
-        )
+        return ChatResponse(message=ChatMessage(role="assistant", content=response))
 
     def complete(self, prompt: str, **kwargs: Any) -> CompletionResponse:
         """Führt einen Completion Request aus.
