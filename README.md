@@ -1,7 +1,7 @@
 # 🧠 LLM Client
 
 Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs)
-über **OpenAI**, **Groq** oder **Ollama** – mit automatischer API-Erkennung anhand von `secrets.env`.
+über **OpenAI**, **Groq** oder **Ollama** – mit automatischer API-Erkennung.
 
 ---
 
@@ -10,200 +10,247 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 [![Tests](https://github.com/dgaida/llm_client/actions/workflows/tests.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/tests.yml)
 [![Code Quality](https://github.com/dgaida/llm_client/actions/workflows/lint.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/lint.yml)
 [![CodeQL](https://github.com/dgaida/llm_client/actions/workflows/codeql.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/codeql.yml)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+## 📑 Inhaltsverzeichnis
+
+- [Features](#-features)
+- [Installation](#%EF%B8%8F-installation)
+- [Schnellstart](#-schnellstart)
+- [Verwendung](#-verwendung)
+- [API Unterstützung](#-unterstützte-apis--default-modelle)
+- [Tests](#-tests-ausführen)
+- [Contributing](#-contributing)
+- [Lizenz](#-lizenz)
 
 ## 🚀 Features
 
-* 🔍 **Automatische API-Erkennung**
-  * Nutzt `OPENAI_API_KEY` oder `GROQ_API_KEY`, falls vorhanden.
-  * Fällt automatisch auf **Ollama** zurück, wenn keine API-Keys gefunden werden.
-* ⚙️ **Einheitliches Interface**
-  * Eine Methode `chat_completion(messages)` für alle Backends.
-* 🧩 **Flexible Konfiguration**
-  * Modell, Temperatur, Token-Limit und API-Typ frei wählbar.
-* 🧪 **Testabdeckung**
-  * Pytest-basiertes Testsuite inklusive Mocking und Fehlerhandling.
-
----
-
-## 🧱 Projektstruktur
-
-```
-llm-client/
-│
-├── llm_client/
-│   ├── __init__.py
-│   └── llm_client.py
-│
-├── tests/
-│   ├── __init__.py
-│   └── test_llm_client.py
-│
-├── main.py
-├── secrets.env
-├── pyproject.toml
-├── environment.yml
-├── README.md
-├── LICENSE                        # MIT Lizenz
-└── .gitignore                     # Git-Ignore-Regeln
-```
+* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
+* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
+* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
+* 🧪 **Vollständige Tests** - Pytest-basiert mit hoher Code-Coverage
+* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
+* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
 
 ---
 
 ## ⚙️ Installation
 
-### 🧠 1. Umgebung erstellen
-
-Mit Conda:
+### Schnellinstallation
 
 ```bash
-conda env create -f environment.yml
-conda activate llm-client-env
+pip install git+https://github.com/dgaida/llm_client.git
 ```
 
-oder mit Mamba:
+### Entwicklungsinstallation
 
 ```bash
-mamba env create -f environment.yml
-mamba activate llm-client-env
+git clone https://github.com/dgaida/llm_client.git
+cd llm_client
+pip install -e ".[dev]"
+```
+
+### Mit llama-index Support
+
+```bash
+pip install -e ".[llama-index]"
 ```
 
 ---
 
-### 🪄 2. Installation im Entwicklungsmodus
-
-```bash
-pip install -e .[dev]
-```
-
-Dies installiert:
-
-* `llm_client` (das eigentliche Package)
-* `pytest`, `ruff`, `pytest-cov` (für Tests & Linting)
-
----
-
-### 🔑 3. API-Keys konfigurieren
-
-Lege eine Datei `secrets.env` im Projektverzeichnis an:
-
-```bash
-OPENAI_API_KEY=sk-xxxxxxxx
-# GROQ_API_KEY=groq-xxxxxxxx
-```
-
-Wenn keine Keys gesetzt sind, verwendet der Client automatisch **Ollama**.
-🔗 Stelle sicher, dass Ollama lokal installiert ist.
-
-[Ollama Python Download](https://www.ollama.com/download)
-
----
-
-## 💡 Verwendung
-
-### Beispiel `main.py`
+## 🚦 Schnellstart
 
 ```python
 from llm_client import LLMClient
 
-def main():
-    client = LLMClient()  # automatische API-Erkennung
+# Automatische API-Erkennung
+client = LLMClient()
 
-    print(f"Verwendete API: {client.api_choice}")
-    print(f"Verwendetes Modell: {client.llm}")
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Erkläre Machine Learning in einem Satz."}
+]
 
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Erkläre kurz, was neuronale Netze sind."}
-    ]
-
-    response = client.chat_completion(messages)
-    print("\nAntwort:\n", response)
-
-if __name__ == "__main__":
-    main()
-```
-
-Ausführen mit:
-
-```bash
-python main.py
+response = client.chat_completion(messages)
+print(response)
 ```
 
 ---
 
-## 🧢 Tests ausführen
+## 🔧 Konfiguration
+
+### API-Keys einrichten
+
+Erstellen Sie `secrets.env`:
 
 ```bash
-pytest
+# OpenAI
+OPENAI_API_KEY=sk-xxxxxxxx
+
+# Oder Groq
+GROQ_API_KEY=gsk-xxxxxxxx
 ```
 
-Mit Code Coverage:
+**Ohne API-Keys**: Verwendet automatisch lokales Ollama (Installation erforderlich).
 
-```bash
-pytest --cov=llm_client
-```
+### Google Colab
 
----
-
-## ⚡️ Beispiele für Konfiguration
-
-### API explizit wählen
+In Colab werden Keys automatisch aus `userdata` geladen:
 
 ```python
+# Secrets → OPENAI_API_KEY oder GROQ_API_KEY hinzufügen
+from llm_client import LLMClient
+client = LLMClient()  # Lädt automatisch aus userdata
+```
+
+---
+
+## 📚 Erweiterte Verwendung
+
+### Spezifisches Modell wählen
+
+```python
+client = LLMClient(
+    llm="gpt-4o",
+    temperature=0.5,
+    max_tokens=2048
+)
+```
+
+### API manuell wählen
+
+```python
+# Ollama erzwingen (auch wenn API-Keys vorhanden)
 client = LLMClient(api_choice="ollama")
+
+# OpenAI explizit wählen
+client = LLMClient(api_choice="openai", llm="gpt-4")
 ```
 
-### Modell und Temperatur ändern
+### Mit llama-index Integration
 
 ```python
-client = LLMClient(llm="gpt-4o", temperature=0.5)
-```
+from llm_client import LLMClientAdapter, LLMClient
 
-### Tokens und Keep-Alive anpassen
+# Adapter erstellen
+llm_adapter = LLMClientAdapter(client=LLMClient())
 
-```python
-client = LLMClient(max_tokens=2048, keep_alive="10m")
+# In llama-index verwenden
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+documents = SimpleDirectoryReader("data").load_data()
+index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 ```
 
 ---
 
 ## 🧩 Unterstützte APIs & Default-Modelle
 
-| API    | Default-Modell                 | Bemerkung                       |
-| ------ | ------------------------------ | ------------------------------- |
-| OpenAI | `gpt-4o-mini`                  | Schnell, zuverlässig            |
+| API    | Default-Modell                     | Bemerkung                       |
+| ------ | ---------------------------------- | ------------------------------- |
+| OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig            |
 | Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud    |
-| Ollama | `llama3.2:1b`                     | Läuft lokal, kein API-Key nötig |
+| Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig |
+
+### Ollama Installation
+
+```bash
+# macOS/Linux
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Windows
+# Download von https://ollama.ai/download
+
+# Modell herunterladen
+ollama pull llama3.2:1b
+```
 
 ---
 
-## 👨‍💻 Entwickler:innen-Info
-
-**Tests & Linting**
+## 🧪 Tests ausführen
 
 ```bash
+# Alle Tests
 pytest
-ruff check llm_client
+
+# Mit Coverage Report
+pytest --cov=llm_client --cov-report=html
+
+# Einzelne Tests
+pytest tests/test_llm_client.py -v
 ```
 
-**Version bump (manuell):**
+### Code-Qualität prüfen
 
 ```bash
-# in pyproject.toml ändern:
-version = "0.1.1"
+# Formatierung
+black .
+
+# Linting
+ruff check .
+
+# Auto-fix
+ruff check --fix .
+```
+
+---
+
+## 👥 Contributing
+
+Beiträge sind willkommen! Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
+
+### Entwickler-Workflow
+
+1. Fork & Clone
+2. Feature-Branch erstellen: `git checkout -b feature/mein-feature`
+3. Tests schreiben und ausführen
+4. Code formatieren: `black . && ruff check --fix .`
+5. Commit & Push
+6. Pull Request öffnen
+
+---
+
+## 📊 Projektstruktur
+
+```
+llm_client/
+├── .github/
+│   └── workflows/         # CI/CD Pipelines
+├── llm_client/
+│   ├── __init__.py       # Package Exports
+│   ├── llm_client.py     # Hauptklasse
+│   └── adapter.py        # llama-index Integration
+├── tests/
+│   └── test_llm_client.py
+├── main.py               # Beispiel-Script
+├── pyproject.toml        # Dependencies & Config
+├── README.md
+├── CONTRIBUTING.md
+└── LICENSE
 ```
 
 ---
 
 ## 📄 Lizenz
 
-Dieses Projekt steht unter der **MIT-Lizenz**.
-© 2025 – Daniel Gaida, Technische Hochschule Köln.
+MIT License - siehe [LICENSE](LICENSE)
+
+© 2025 Daniel Gaida, Technische Hochschule Köln
 
 ---
 
-## 🌐 Hinweise
+## 🔗 Weiterführende Links
 
-* [Ollama Python API Doku](https://github.com/ollama/ollama/tree/main/api)
-* [OpenAI Python SDK](https://github.com/openai/openai-python)
-* [Groq SDK](https://github.com/groq/groq-python)
+* [Ollama Dokumentation](https://github.com/ollama/ollama)
+* [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
+* [Groq Cloud](https://groq.com/)
+* [llama-index Docs](https://docs.llamaindex.ai/)
+
+---
+
+## ⭐ Support
+
+Wenn Ihnen dieses Projekt gefällt, geben Sie ihm einen Stern auf GitHub!
+
+Fragen? Öffnen Sie ein [Issue](https://github.com/dgaida/llm_client/issues).

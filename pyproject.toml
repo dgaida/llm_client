@@ -29,6 +29,17 @@ dev = [
   "mypy>=1.8.0",
   "bandit>=1.7.0"
 ]
+llama-index = [
+  "llama-index-core>=0.10.0",
+  "pydantic>=2.0.0"
+]
+all = [
+  "llm-client[dev,llama-index]"
+]
+llama-index = [
+  "llama-index-core>=0.10.0",
+  "pydantic>=2.0.0"
+]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -57,6 +68,8 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]  # Allow assert in tests
 "notebooks/*" = ["F401", "F821", "I001"]  # Ignore notebook issues
+"llm_client/__init__.py" = ["F401"]  # Allow re-exports
+"llm_client/__init__.py" = ["F401"]  # Allow re-exports
 
 [tool.black]
 line-length = 100
