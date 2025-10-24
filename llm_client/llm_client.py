@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 # Optionale Imports – falls nicht installiert, wird das erkannt
@@ -64,9 +65,11 @@ class LLMClient:
         if self.openai_api_key is None or self.groq_api_key is None:
             try:
                 import sys
+
                 if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
                     # Google Colab erkannt
                     from google.colab import userdata
+
                     if self.openai_api_key is None:
                         self.openai_api_key = userdata.get("OPENAI_API_KEY")
                     if self.groq_api_key is None:

@@ -9,8 +9,8 @@ welche API verfügbar ist (basierend auf `secrets.env`) und entsprechend
 die Methode `chat_completion()` aufruft.
 """
 
-from .llm_client import LLMClient
 from .adapter import LLMClientAdapter
+from .llm_client import LLMClient
 
 __all__ = ["LLMClient", "LLMClientAdapter"]
 

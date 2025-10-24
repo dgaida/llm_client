@@ -1,9 +1,9 @@
-import os
-import pytest
-import sys
 import importlib
-from llm_client import LLMClient
-from llm_client import llm_client
+import sys
+
+import pytest
+
+from llm_client import LLMClient, llm_client
 
 
 @pytest.fixture(autouse=True)

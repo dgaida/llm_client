@@ -1,6 +1,6 @@
-from typing import List, Optional
-from pydantic import Field
 from llama_index.core.llms import LLM, ChatMessage, ChatResponse, CompletionResponse, LLMMetadata
+from pydantic import Field
+
 from .llm_client import LLMClient
 
 
@@ -9,21 +9,19 @@ class LLMClientAdapter(LLM):
     Adapter für llama_index, um den LLMClient als normales LLM zu verwenden.
     """
 
-    client: Optional[LLMClient] = Field(default=None, exclude=True)
+    client: LLMClient | None = Field(default=None, exclude=True)
 
     def __init__(self, **data):
         super().__init__(**data)
 
-    def chat(self, messages: List[ChatMessage], **kwargs) -> ChatResponse:
+    def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
         # Konvertiere llama_index Nachrichten in dict
         hf_messages = [{"role": m.role, "content": m.content} for m in messages]
 
         # Nutze LLMClient
         response = self.client.chat_completion(hf_messages)
 
-        return ChatResponse(
-            message=ChatMessage(role="assistant", content=response)
-        )
+        return ChatResponse(message=ChatMessage(role="assistant", content=response))
 
     def complete(self, prompt: str, **kwargs) -> CompletionResponse:
         raise NotImplementedError("complete not implemented")
@@ -53,8 +51,5 @@ class LLMClientAdapter(LLM):
     @property
     def metadata(self) -> LLMMetadata:
         return LLMMetadata(
-            context_window=2048,
-            num_output=512,
-            is_chat_model=True,
-            model_name=self.model
+            context_window=2048, num_output=512, is_chat_model=True, model_name=self.model
         )
