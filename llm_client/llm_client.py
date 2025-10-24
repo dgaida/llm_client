@@ -1,4 +1,7 @@
+"""LLM Client Module für universelle LLM-API Zugriffe."""
+
 import os
+from typing import Any, Literal, Optional
 
 from dotenv import load_dotenv
 
@@ -6,60 +9,78 @@ from dotenv import load_dotenv
 try:
     from openai import OpenAI
 except ImportError:
-    OpenAI = None
+    OpenAI = None  # type: ignore
 
 try:
     from groq import Groq
 except ImportError:
-    Groq = None
+    Groq = None  # type: ignore
 
 try:
     import ollama
 except ImportError:
-    ollama = None
+    ollama = None  # type: ignore
 
 
 class LLMClient:
-    """
-    Eine universelle Klasse zur Nutzung von OpenAI, Groq oder Ollama.
-    Erkennt automatisch, welche API-Keys vorhanden sind,
-    oder erlaubt manuelle Steuerung per Parameter.
+    """Eine universelle Klasse zur Nutzung von OpenAI, Groq oder Ollama.
+
+    Diese Klasse erkennt automatisch verfügbare API-Keys und wählt die
+    entsprechende API oder erlaubt manuelle Steuerung per Parameter.
+
+    Attributes:
+        api_choice: Die gewählte API ('openai', 'groq' oder 'ollama').
+        llm: Name des verwendeten Modells.
+        temperature: Sampling-Temperatur für die Generierung.
+        max_tokens: Maximale Anzahl zu generierender Tokens.
+        keep_alive: Ollama-spezifisch - wie lange Modell im Speicher bleibt.
+        client: Instanz des gewählten API-Clients.
+        openai_api_key: OpenAI API Key (falls vorhanden).
+        groq_api_key: Groq API Key (falls vorhanden).
+
+    Examples:
+        >>> # Automatische API-Auswahl basierend auf verfügbaren Keys
+        >>> client = LLMClient()
+        >>> messages = [{"role": "user", "content": "Hello!"}]
+        >>> response = client.chat_completion(messages)
+
+        >>> # Manuell Ollama wählen
+        >>> client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
     """
 
     def __init__(
         self,
-        llm: str = None,
+        llm: Optional[str] = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
-        api_choice: str = None,
+        api_choice: Optional[Literal["openai", "groq", "ollama"]] = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
-    ):
-        """
-        LLMClient: Universal Client für OpenAI, Groq, Ollama.
-        Colab-Support: Wenn secrets.env fehlt, werden Keys über google.colab.userdata geladen.
+    ) -> None:
+        """Initialisiert den LLM Client.
 
-        Parameter:
-        -----------
-        llm : str
-            Name des Modells (z. B. 'gpt-4o-mini', 'meta-llama/llama-guard-4-12b', 'llama3.1')
-        temperature : float
-            Sampling-Temperatur (Standard: 0.7)
-        max_tokens : int
-            Maximale Tokenanzahl in der Antwort (Standard: 512)
-        api_choice : str
-            'openai', 'groq' oder 'ollama'. Wenn None, wird anhand vorhandener API Keys entschieden.
-        secrets_path : str
-            Pfad zur secrets.env-Datei
-        keep_alive : str
-            Ollama Parameter – wie lange das Modell im Speicher bleiben soll.
+        Args:
+            llm: Name des Modells. Wenn None, wird ein Default-Modell gewählt.
+            temperature: Sampling-Temperatur (0.0 bis 2.0). Standard: 0.7.
+            max_tokens: Maximale Anzahl zu generierender Tokens. Standard: 512.
+            api_choice: Explizite API-Wahl ('openai', 'groq', 'ollama').
+                Wenn None, wird automatisch gewählt.
+            secrets_path: Pfad zur secrets.env-Datei. Standard: "secrets.env".
+            keep_alive: Ollama-Parameter für Modell-Caching. Standard: "5m".
+
+        Raises:
+            ValueError: Wenn api_choice einen ungültigen Wert hat.
+
+        Examples:
+            >>> client = LLMClient(llm="gpt-4o", temperature=0.5)
+            >>> client = LLMClient(api_choice="ollama", max_tokens=1024)
         """
         # 1. Lade secrets.env, falls vorhanden
         if os.path.exists(secrets_path):
             load_dotenv(secrets_path)
 
-        self.openai_api_key = os.getenv("OPENAI_API_KEY")
-        self.groq_api_key = os.getenv("GROQ_API_KEY")
+        self.openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
+        self.groq_api_key: Optional[str] = os.getenv("GROQ_API_KEY")
 
         # 2. Fallback für Google Colab
         if self.openai_api_key is None or self.groq_api_key is None:
@@ -81,17 +102,23 @@ class LLMClient:
         # 3. Automatische API-Auswahl
         if api_choice is None:
             if self.openai_api_key:
-                self.api_choice = "openai"
+                self.api_choice: str = "openai"
             elif self.groq_api_key:
                 self.api_choice = "groq"
             else:
                 self.api_choice = "ollama"
         else:
+            valid_choices = {"openai", "groq", "ollama"}
+            if api_choice.lower() not in valid_choices:
+                raise ValueError(
+                    f"Invalid api_choice: {api_choice}. "
+                    f"Must be one of {valid_choices}"
+                )
             self.api_choice = api_choice.lower()
 
-        # Default-Modellauswahl
+        # 4. Default-Modellauswahl
         if llm:
-            self.llm = llm
+            self.llm: str = llm
         else:
             if self.api_choice == "openai":
                 self.llm = "gpt-4o-mini"
@@ -100,27 +127,41 @@ class LLMClient:
             else:
                 self.llm = "llama3.2:1b"
 
-        self.temperature = temperature
-        self.max_tokens = max_tokens
-        self.keep_alive = keep_alive
+        self.temperature: float = temperature
+        self.max_tokens: int = max_tokens
+        self.keep_alive: str = keep_alive
 
-        # Clients vorbereiten
-        self.client = None
+        # 5. Clients vorbereiten
+        self.client: Optional[Any] = None
         if self.api_choice == "openai" and OpenAI:
             self.client = OpenAI(api_key=self.openai_api_key)
         elif self.api_choice == "groq" and Groq:
             self.client = Groq(api_key=self.groq_api_key)
 
-    def chat_completion(self, messages):
-        """
-        Führt eine Chat-Completion mit der gewählten API aus.
+    def chat_completion(self, messages: list[dict[str, str]]) -> str:
+        """Führt eine Chat-Completion mit der gewählten API aus.
 
-        Parameter:
-        -----------
-        messages : list[dict]
-            Liste von Nachrichten im Format [{"role": "user", "content": "..."}]
-        """
+        Args:
+            messages: Liste von Nachrichten im Chat-Format.
+                Jede Nachricht ist ein Dict mit 'role' und 'content' Keys.
+                Beispiel: [{"role": "user", "content": "Hello!"}]
 
+        Returns:
+            Der generierte Text als String.
+
+        Raises:
+            RuntimeError: Wenn der gewählte Client nicht verfügbar ist.
+            ValueError: Wenn api_choice ungültig ist.
+
+        Examples:
+            >>> client = LLMClient()
+            >>> messages = [
+            ...     {"role": "system", "content": "You are helpful."},
+            ...     {"role": "user", "content": "Explain AI."}
+            ... ]
+            >>> response = client.chat_completion(messages)
+            >>> print(response)
+        """
         if self.api_choice == "openai":
             if not self.client:
                 raise RuntimeError("OpenAI client not available or not installed.")
@@ -146,7 +187,8 @@ class LLMClient:
         elif self.api_choice == "ollama":
             if not ollama:
                 raise RuntimeError(
-                    "Ollama Python package not available. Please install it via `pip install ollama`."
+                    "Ollama Python package not available. "
+                    "Please install it via `pip install ollama`."
                 )
             response = ollama.chat(
                 model=self.llm,
@@ -165,3 +207,14 @@ class LLMClient:
 
         else:
             raise ValueError(f"Unsupported API choice: {self.api_choice}")
+
+    def __repr__(self) -> str:
+        """Gibt eine String-Repräsentation des Clients zurück.
+
+        Returns:
+            String-Repräsentation mit API und Modell-Info.
+        """
+        return (
+            f"LLMClient(api={self.api_choice}, model={self.llm}, "
+            f"temperature={self.temperature})"
+        )
