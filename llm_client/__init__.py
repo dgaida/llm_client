@@ -9,10 +9,18 @@ welche API verfügbar ist (basierend auf `secrets.env`) und entsprechend
 die Methode `chat_completion()` aufruft.
 """
 
-from .adapter import LLMClientAdapter
 from .llm_client import LLMClient
 
-__all__ = ["LLMClient", "LLMClientAdapter"]
+__all__ = ["LLMClient"]
+
+# Optionaler Import des Adapters
+try:
+    from .adapter import LLMClientAdapter  # noqa: F401
+
+    __all__.append("LLMClientAdapter")
+except ImportError:
+    # llama_index nicht installiert - Adapter nicht verfügbar
+    pass
 
 
 __version__ = "0.1.0"

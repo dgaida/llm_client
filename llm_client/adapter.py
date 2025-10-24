@@ -1,17 +1,43 @@
-from llama_index.core.llms import LLM, ChatMessage, ChatResponse, CompletionResponse, LLMMetadata
 from pydantic import Field
 
 from .llm_client import LLMClient
+
+try:
+    from llama_index.core.llms import (
+        LLM,
+        ChatMessage,
+        ChatResponse,
+        CompletionResponse,
+        LLMMetadata,
+    )
+
+    LLAMA_INDEX_AVAILABLE = True
+except ImportError:
+    LLAMA_INDEX_AVAILABLE = False
+    # Dummy-Klassen für den Fall, dass llama_index nicht installiert ist
+    LLM = object
+    ChatMessage = dict
+    ChatResponse = dict
+    CompletionResponse = dict
+    LLMMetadata = dict
 
 
 class LLMClientAdapter(LLM):
     """
     Adapter für llama_index, um den LLMClient als normales LLM zu verwenden.
+
+    Hinweis: Benötigt llama-index-core Installation:
+        pip install llama-index-core
     """
 
     client: LLMClient | None = Field(default=None, exclude=True)
 
     def __init__(self, **data):
+        if not LLAMA_INDEX_AVAILABLE:
+            raise ImportError(
+                "llama-index-core is required to use LLMClientAdapter. "
+                "Install it with: pip install llama-index-core"
+            )
         super().__init__(**data)
 
     def chat(self, messages: list[ChatMessage], **kwargs) -> ChatResponse:
@@ -51,5 +77,8 @@ class LLMClientAdapter(LLM):
     @property
     def metadata(self) -> LLMMetadata:
         return LLMMetadata(
-            context_window=2048, num_output=512, is_chat_model=True, model_name=self.model
+            context_window=2048,
+            num_output=512,
+            is_chat_model=True,
+            model_name=self.model,
         )
