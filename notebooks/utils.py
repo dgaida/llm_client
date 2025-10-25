@@ -40,10 +40,10 @@ def read_pdf_files_with_unstructured_reader(pdf_directory: str = "pdfs") -> List
     all_documents = []
 
     # Loop through PDF files in the folder and read each one individually
-    for filename in os.listdir(PDF_DIR):
+    for filename in os.listdir(pdf_directory):
         print("File:" + filename)
         if filename.lower().endswith(".pdf"):
-            file_path = os.path.join(PDF_DIR, filename)
+            file_path = os.path.join(pdf_directory, filename)
             docs = reader.load_data(file_path)
             all_documents.extend(docs)
 
