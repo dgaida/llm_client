@@ -1,8 +1,6 @@
 # 🧠 RAG Chatbot mit LLMClient (Groq, OpenAI & Hugging Face)
 
-Dieses Notebook zeigt, wie man mit der Klasse [`LLMClient`](../llm_client/llm_client.py)  
-einen **Retrieval-Augmented-Generation (RAG)**-Chatbot erstellt, der wahlweise
-über **Groq**, **OpenAI** oder **Ollama** betrieben wird.  
+Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie man mit der Klasse [`LLMClient`](../llm_client/llm_client.py) einen **Retrieval-Augmented-Generation (RAG)**-Chatbot erstellt, der wahlweise über **Groq**, **OpenAI** oder **Ollama** betrieben wird.  
 
 ---
 
@@ -37,12 +35,26 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 ## 🦮 Hugging Face API Key erstellen
 
 1. Gehe zu [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
-   ![Hugging Face – Settings Menu](images/Hugging%20Face%20-%20settings%20menu%20-%20access%20tokens.png)
+   <p align="center">
+   <img src="images/Hugging%20Face%20-%20settings%20menu%20-%20access%20tokens.png" 
+       alt="Hugging Face – Settings Menu" 
+       width="50">
+   </p>
 
-2. Klicke auf **„New token“**  
-   ![Hugging Face – Create New Write Token](images/Hugging%20Face%20-%20create%20new%20write%20token.png)
+2. Klicke auf die Schaltfläche **„Create new token“**  
+   <p align="center">
+   <img src="images/Hugging%20Face%20-%20User%20Access%20Tokens.png" 
+       alt="Hugging Face – User Access Tokens" 
+       width="150">
+   </p>
 
 3. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**  
+<p align="center">
+   <img src="images/Hugging%20Face%20-%20create%20new%20write%20token.png" 
+       alt="Hugging Face – Create New Write Token" 
+       width="100">
+   </p>
+
 4. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
 
 ---
@@ -59,10 +71,16 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 ## 🔮 OpenAI API Key erstellen
 
 1. Melde dich bei [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) an  
-   ![OpenAI API – API Keys](images/OpenAI%20API%20-%20API%20keys.png)
+   <img src="images/OpenAI%20API%20-%20API%20keys.png" 
+       alt="OpenAI API – API Keys" 
+       width="50">
+   </p>
 
 2. Klicke auf **„Create new secret key“**  
-   ![OpenAI API – Create New Secret Key](images/OpenAI%20API%20-%20Create%20new%20secret%20key.png)
+   <img src="images/OpenAI%20API%20-%20Create%20new%20secret%20key.png" 
+       alt="OpenAI API – Create New Secret Key" 
+       width="100">
+   </p>
 
 3. Kopiere den Key (beginnt meist mit `sk-...`).
 
