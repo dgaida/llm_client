@@ -339,6 +339,8 @@ class TestLLMClientEdgeCases:
         client1 = LLMClient(api_choice="OPENAI")
         assert client1.api_choice == "openai"
 
+        monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
+
         client2 = LLMClient(api_choice="Groq")
         assert client2.api_choice == "groq"
 
