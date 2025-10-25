@@ -45,14 +45,14 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
    <p align="center">
    <img src="images/Hugging%20Face%20-%20User%20Access%20Tokens.png" 
        alt="Hugging Face – User Access Tokens" 
-       width="750">
+       width="850">
    </p>
 
 3. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**  
 <p align="center">
    <img src="images/Hugging%20Face%20-%20create%20new%20write%20token.png" 
        alt="Hugging Face – Create New Write Token" 
-       width="650">
+       width="750">
    </p>
 
 4. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
@@ -73,13 +73,13 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 1. Melde dich bei [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) an  
    <img src="images/OpenAI%20API%20-%20API%20keys.png" 
        alt="OpenAI API – API Keys" 
-       width="200">
+       width="175">
    </p>
 
 2. Klicke auf **„Create new secret key“**  
    <img src="images/OpenAI%20API%20-%20Create%20new%20secret%20key.png" 
        alt="OpenAI API – Create New Secret Key" 
-       width="500">
+       width="450">
    </p>
 
 3. Kopiere den Key (beginnt meist mit `sk-...`).
