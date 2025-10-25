@@ -11,7 +11,7 @@ import os
 import random
 import chromadb
 import requests
-from typing import List, Any
+from typing import Any
 from llama_index.readers.file.unstructured import UnstructuredReader
 from llama_index.core.schema import Document
 from llama_index.core import VectorStoreIndex, StorageContext
@@ -29,7 +29,7 @@ except ImportError:
     OpenAIError = Exception  # Fallback für OpenAI nicht installiert
 
 
-def read_pdf_files_with_unstructured_reader(pdf_directory: str = "pdfs") -> List[Document]:
+def read_pdf_files_with_unstructured_reader(pdf_directory: str = "pdfs") -> list[Document]:
     """
     Liest alle PDF-Dateien in einem angegebenen Verzeichnis mithilfe des `UnstructuredReader`
     aus LlamaIndex ein und gibt eine Liste von `Document`-Objekten zurück.
@@ -39,7 +39,7 @@ def read_pdf_files_with_unstructured_reader(pdf_directory: str = "pdfs") -> List
                              Standardmäßig wird das Unterverzeichnis 'pdfs' verwendet.
 
     Returns:
-        List[Document]: Eine Liste von `Document`-Objekten, die den Inhalt der PDFs enthalten.
+        list[Document]: Eine Liste von `Document`-Objekten, die den Inhalt der PDFs enthalten.
 
     Raises:
         FileNotFoundError: Wenn das angegebene Verzeichnis nicht existiert.
@@ -64,7 +64,7 @@ def read_pdf_files_with_unstructured_reader(pdf_directory: str = "pdfs") -> List
     return all_documents
 
 
-def create_chromadb_vector_store_and_index(all_documents: List[Document]) -> VectorStoreIndex:
+def create_chromadb_vector_store_and_index(all_documents: list[Document]) -> VectorStoreIndex:
     """
     Erstellt einen temporären Chroma-Datenbank-Client und baut einen
     `VectorStoreIndex` aus den übergebenen Dokumenten auf.
@@ -72,7 +72,7 @@ def create_chromadb_vector_store_and_index(all_documents: List[Document]) -> Vec
     Bestehende Sammlungen (Collections) werden gelöscht, bevor eine neue erstellt wird.
 
     Args:
-        all_documents (List[Document]): Eine Liste von Dokumenten, die in den Vektorspeicher
+        all_documents (list[Document]): Eine Liste von Dokumenten, die in den Vektorspeicher
                                         aufgenommen werden sollen.
 
     Returns:

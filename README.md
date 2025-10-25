@@ -221,6 +221,8 @@ llm_client/
 │   ├── __init__.py       # Package Exports
 │   ├── llm_client.py     # Hauptklasse
 │   └── adapter.py        # llama-index Integration
+├── notebooks/
+│   └── RAGChatbot_groq_API.ipynb
 ├── tests/
 │   └── test_llm_client.py
 ├── main.py               # Beispiel-Script
