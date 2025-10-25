@@ -52,7 +52,7 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 <p align="center">
    <img src="images/Hugging%20Face%20-%20create%20new%20write%20token.png" 
        alt="Hugging Face – Create New Write Token" 
-       width="750">
+       width="850">
    </p>
 
 4. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
