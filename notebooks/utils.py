@@ -46,7 +46,9 @@ def read_pdf_files_with_unstructured_reader(pdf_directory: str = "pdfs") -> List
     """
     # --- Check if PDF directory exists ---
     if not os.path.exists(pdf_directory):
-        raise FileNotFoundError(f"The folder '{pdf_directory}' does not exist. Please create it and add PDF files.")
+        raise FileNotFoundError(
+            f"The folder '{pdf_directory}' does not exist. Please create it and add PDF files."
+        )
 
     reader = UnstructuredReader()
     all_documents = []
