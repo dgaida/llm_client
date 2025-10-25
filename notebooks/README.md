@@ -38,21 +38,21 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
    <p align="center">
    <img src="images/Hugging%20Face%20-%20settings%20menu%20-%20access%20tokens.png" 
        alt="Hugging Face – Settings Menu" 
-       width="50">
+       width="250">
    </p>
 
 2. Klicke auf die Schaltfläche **„Create new token“**  
    <p align="center">
    <img src="images/Hugging%20Face%20-%20User%20Access%20Tokens.png" 
        alt="Hugging Face – User Access Tokens" 
-       width="150">
+       width="600">
    </p>
 
 3. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**  
 <p align="center">
    <img src="images/Hugging%20Face%20-%20create%20new%20write%20token.png" 
        alt="Hugging Face – Create New Write Token" 
-       width="100">
+       width="500">
    </p>
 
 4. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
@@ -73,13 +73,13 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 1. Melde dich bei [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) an  
    <img src="images/OpenAI%20API%20-%20API%20keys.png" 
        alt="OpenAI API – API Keys" 
-       width="50">
+       width="250">
    </p>
 
 2. Klicke auf **„Create new secret key“**  
    <img src="images/OpenAI%20API%20-%20Create%20new%20secret%20key.png" 
        alt="OpenAI API – Create New Secret Key" 
-       width="100">
+       width="500">
    </p>
 
 3. Kopiere den Key (beginnt meist mit `sk-...`).
@@ -88,9 +88,11 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 
 ## ☁️ API Keys als Secrets in Google Colab hinterlegen
 
-1. Öffne in Colab **„Datei > Einstellungen > Secrets“**  
-   oder klicke im Menü links auf das Schlüssel-Symbol 🔑  
-   ![Google Colab – Secrets – API Keys](images/Google%20Colab%20-%20secrets%20-%20api%20keys.png)
+1. Klicke im Menü links auf das Schlüssel-Symbol 🔑  
+   <img src="images/Google%20Colab%20-%20secrets%20-%20api%20keys.png" 
+       alt="Google Colab – Secrets – API Keys" 
+       width="600">
+   </p>
 
 2. Lege folgende Secrets an:
 
