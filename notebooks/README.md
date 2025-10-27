@@ -3,13 +3,13 @@
 ## 📑 Inhaltsverzeichnis
 
 - [Inhalt des Notebooks](#-inhalt-des-notebooks)
-- [Erforderliche API Keys](#erforderliche-api-keys)
+- [Erforderliche API Keys](#-erforderliche-api-keys)
 - [Hugging Face API Key erstellen](#-hugging-face-api-key-erstellen)
-- [Groq API Key erstellen](#-groq-api-key-erstellen)
+- [Groq API Key erstellen](#%EF%B8%8F-groq-api-key-erstellen)
 - [OpenAI API Key erstellen](#-openai-api-key-erstellen)
-- [API Keys als Secrets in Google Colab hinterlegen](#-api-keys-als-secrets-in-google-colab-hinterlegen)
+- [API Keys als Secrets in Google Colab hinterlegen](#%EF%B8%8F-api-keys-als-secrets-in-google-colab-hinterlegen)
 - [Nutzung von LLMClient im Notebook](#-nutzung-von-llmclient-im-notebook)
-- [Ressourcen zu RAG](#-ressourcen-zu-rag)
+- [Ressourcen zu RAG](#ressourcen-zu-rag)
 - [Lizenz](#-lizenz)
 
 Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie man mit der Klasse [`LLMClient`](../llm_client/llm_client.py) einen **Retrieval-Augmented-Generation (RAG)**-Chatbot erstellt, der wahlweise über **Groq**, **OpenAI** oder **Ollama** betrieben wird.  
@@ -17,7 +17,7 @@ Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie
 <p align="center">
    <img src="images/PDF_RAG_Chatbot.png" 
        alt="RAG-Chatbot GUI" 
-       width="500">
+       width="650">
    </p>
 
 ---
