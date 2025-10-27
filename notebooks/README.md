@@ -1,6 +1,24 @@
 # 🧠 RAG Chatbot mit LLMClient (Groq, OpenAI & Hugging Face)
 
+## 📑 Inhaltsverzeichnis
+
+- [Inhalt des Notebooks](#-inhalt-des-notebooks)
+- [Erforderliche API Keys](#erforderliche-api-keys)
+- [Hugging Face API Key erstellen](#-hugging-face-api-key-erstellen)
+- [Groq API Key erstellen](#-groq-api-key-erstellen)
+- [OpenAI API Key erstellen](#-openai-api-key-erstellen)
+- [API Keys als Secrets in Google Colab hinterlegen](#-api-keys-als-secrets-in-google-colab-hinterlegen)
+- [Nutzung von LLMClient im Notebook](#-nutzung-von-llmclient-im-notebook)
+- [Ressourcen zu RAG](#-ressourcen-zu-rag)
+- [Lizenz](#-lizenz)
+
 Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie man mit der Klasse [`LLMClient`](../llm_client/llm_client.py) einen **Retrieval-Augmented-Generation (RAG)**-Chatbot erstellt, der wahlweise über **Groq**, **OpenAI** oder **Ollama** betrieben wird.  
+
+<p align="center">
+   <img src="images/PDF_RAG_Chatbot.png" 
+       alt="RAG-Chatbot GUI" 
+       width="500">
+   </p>
 
 ---
 
@@ -14,9 +32,9 @@ Das Notebook demonstriert:
    - 🔮 **OpenAI API** *(optional)*
    - 💻 **Ollama (local)** *(Fallback)*
 3. Aufbau eines einfachen **RAG-Workflows**:
-   - Dokumente laden  
-   - Embeddings mit einem Embedding-Modell von **Hugging Face** erzeugen  
-   - Antworten aus LLM + Vektorstore kombinieren
+   - PDF Dokumente laden mit [`UnstructuredReader`](https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader) von [`llamaindex`](https://developers.llamaindex.ai/) 
+   - Embeddings mit einem Embedding-Modell von [`Hugging Face`](https://huggingface.co/) erzeugen  
+   - Antworten aus LLM + [`ChromaDB`](https://www.trychroma.com/)-Vektordatenbank kombinieren
 
 ---
 
@@ -25,7 +43,7 @@ Das Notebook demonstriert:
 | Dienst | Pflicht | Zweck |
 |--------|----------|--------|
 | **Hugging Face API Key** | ✅ **erforderlich** | Laden des Embedding-Modells |
-| **Groq API Key** | optional | Nutzung der Groq LLM-API |
+| **Groq API Key** | optional | Nutzung der [`Groq`](https://console.groq.com/home) LLM-API |
 | **OpenAI API Key** | optional | Nutzung der OpenAI LLM-API |
 
 Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **Ollama** (funktioniert nur lokal und nicht in Google Colab).
@@ -104,7 +122,7 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 
 ---
 
-## ⚙️ Nutzung im Notebook
+## ⚙️ Nutzung von LLMClient im Notebook
 
 ```python
 from llm_client import LLMClient
@@ -117,6 +135,12 @@ print("Modell:", client.llm)
 ```
 
 Falls kein Groq- oder OpenAI-Key gefunden wird, fällt der Client automatisch auf **Ollama** zurück (lokaler Betrieb).
+
+---
+
+## Ressourcen zu RAG
+
+[`Coursera Kurs zu Retrieval Augmented Generation (RAG) von DeepLearning.AI`](https://www.coursera.org/learn/retrieval-augmented-generation-rag/)
 
 ---
 
