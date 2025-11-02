@@ -30,8 +30,23 @@ Das folgende Schaubild zeigt den grundlegenden Aufbau eines RAG-Systems:
 
 *Abbildung: „High-level overview of the Retrieval Augmented Generation System“  
 von [Maanjunath S Naragund](https://maanjunathn07ds.medium.com/), entnommen aus [diesem Blogbeitrag auf Medium](https://blog.gopenai.com/step-by-step-guide-to-implementing-retrieval-augmented-generation-in-python-4801be2771c3).  
-Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG).  
-Diese Abbildung steht **nicht unter der MIT-Lizenz** dieses Repositories.*
+Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abbildung steht **nicht unter der MIT-Lizenz** dieses Repositories.*
+
+<p align="center">
+   <img src="images/vectorspace.png" 
+       alt="Sentence Embedding Example" 
+       width="850">
+   </p>
+*Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum.  
+Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) von [DeepLearning.AI](https://www.deeplearning.ai/) auf [Coursera](https://www.coursera.org/).*
+
+<p align="center">
+   <img src="images/vectorspace_question.png" 
+       alt="Sentence Embedding Example with question" 
+       width="850">
+   </p>
+*Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum inklusive einer Frage.  
+Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) von [DeepLearning.AI](https://www.deeplearning.ai/) auf [Coursera](https://www.coursera.org/).*
 
 ---
 
