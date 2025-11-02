@@ -2,6 +2,7 @@
 
 ## 📑 Inhaltsverzeichnis
 
+- [Überblick über Retrieval-Augmented Generation](#%C3%BCberblick-%C3%BCber-retrieval-augmented-generation-rag)
 - [Inhalt des Notebooks](#-inhalt-des-notebooks)
 - [Erforderliche API Keys](#-erforderliche-api-keys)
 - [Hugging Face Access Token erstellen](#-hugging-face-access-token-erstellen)
@@ -35,16 +36,18 @@ Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abb
 <p align="center">
    <img src="images/vectorspace.png" 
        alt="Sentence Embedding Example" 
-       width="850">
+       width="750">
    </p>
+
 *Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum.  
 Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) von [DeepLearning.AI](https://www.deeplearning.ai/) auf [Coursera](https://www.coursera.org/).*
 
 <p align="center">
    <img src="images/vectorspace_question.png" 
        alt="Sentence Embedding Example with question" 
-       width="850">
+       width="750">
    </p>
+
 *Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum inklusive einer Frage.  
 Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) von [DeepLearning.AI](https://www.deeplearning.ai/) auf [Coursera](https://www.coursera.org/).*
 
