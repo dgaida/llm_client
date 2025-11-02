@@ -4,11 +4,11 @@
 
 - [Inhalt des Notebooks](#-inhalt-des-notebooks)
 - [Erforderliche API Keys](#-erforderliche-api-keys)
-- [Hugging Face API Key erstellen](#-hugging-face-api-key-erstellen)
+- [Hugging Face Access Token erstellen](#-hugging-face-access-token-erstellen)
 - [Groq API Key erstellen](#%EF%B8%8F-groq-api-key-erstellen)
 - [OpenAI API Key erstellen](#-openai-api-key-erstellen)
 - [API Keys als Secrets in Google Colab hinterlegen](#%EF%B8%8F-api-keys-als-secrets-in-google-colab-hinterlegen)
-- [Nutzung von LLMClient im Notebook](#-nutzung-von-llmclient-im-notebook)
+- [Nutzung von LLMClient im Notebook](#%EF%B8%8F-nutzung-von-llmclient-im-notebook)
 - [Ressourcen zu RAG](#ressourcen-zu-rag)
 - [Lizenz](#-lizenz)
 
@@ -17,8 +17,22 @@ Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie
 <p align="center">
    <img src="images/PDF_RAG_Chatbot.png" 
        alt="RAG-Chatbot GUI" 
-       width="650">
+       width="750">
    </p>
+
+---
+
+## Überblick über Retrieval-Augmented Generation (RAG)
+
+Das folgende Schaubild zeigt den grundlegenden Aufbau eines RAG-Systems:
+
+![High-level overview of the Retrieval Augmented Generation System](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*ys44J6jLm5vSTjFIMDDEfw.png)
+
+*Abbildung: „High-level overview of the Retrieval Augmented Generation System“  
+von [Maanjunath S Naragund](https://maanjunathn07ds.medium.com/),  
+entnommen aus [diesem Blogbeitrag auf Medium](https://blog.gopenai.com/step-by-step-guide-to-implementing-retrieval-augmented-generation-in-python-4801be2771c3).  
+Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG).  
+Diese Abbildung steht **nicht unter der MIT-Lizenz** dieses Repositories.*
 
 ---
 
@@ -42,7 +56,7 @@ Das Notebook demonstriert:
 
 | Dienst | Pflicht | Zweck |
 |--------|----------|--------|
-| **Hugging Face API Key** | ✅ **erforderlich** | Laden des Embedding-Modells |
+| **Hugging Face Access Token** | ✅ **erforderlich** | Laden des Embedding-Modells |
 | **Groq API Key** | optional | Nutzung der [`Groq`](https://console.groq.com/home) LLM-API |
 | **OpenAI API Key** | optional | Nutzung der OpenAI LLM-API |
 
@@ -50,39 +64,42 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 
 ---
 
-## 🦮 Hugging Face API Key erstellen
+## 🦮 Hugging Face Access Token erstellen
 
-1. Gehe zu [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
+1. Erstelle kostenlosen Account bei [https://huggingface.co/](https://huggingface.co/) oder logge dich ein (falls nötig). 
+
+2. Gehe zu [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
    <p align="center">
    <img src="images/Hugging%20Face%20-%20settings%20menu%20-%20access%20tokens.png" 
        alt="Hugging Face – Settings Menu" 
        width="250">
    </p>
 
-2. Klicke auf die Schaltfläche **„Create new token“**  
+3. Klicke auf die Schaltfläche **„Create new token“**  
    <p align="center">
    <img src="images/Hugging%20Face%20-%20User%20Access%20Tokens.png" 
        alt="Hugging Face – User Access Tokens" 
        width="850">
    </p>
 
-3. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**  
+4. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**  
 <p align="center">
    <img src="images/Hugging%20Face%20-%20create%20new%20write%20token.png" 
        alt="Hugging Face – Create New Write Token" 
        width="850">
    </p>
 
-4. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
+5. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
 
 ---
 
 ## ⚡️ Groq API Key erstellen
 
-1. Besuche [https://console.groq.com/keys](https://console.groq.com/keys)  
-2. Klicke auf **„Create API Key“**  
+1. Erstelle kostenlosen Account bei [https://groq.com/](https://groq.com/) oder logge dich ein (falls nötig). 
+2. Besuche [https://console.groq.com/keys](https://console.groq.com/keys)  
+3. Klicke auf **„Create API Key“**  
    ![Groq API Keys – Create API Key](images/groq%20API%20Keys%20-%20Create%20API%20Key.png)
-3. Kopiere den Schlüssel (beginnt meist mit `groq_...`).
+4. Kopiere den Schlüssel (beginnt meist mit `groq_...`).
 
 ---
 
@@ -116,7 +133,7 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 
    | Name | Wert |
    |-------|------|
-   | `HF_TOKEN` | dein Hugging Face Token |
+   | `HF_TOKEN` | dein Hugging Face Access Token |
    | `GROQ_API_KEY` | (optional) dein Groq API Key |
    | `OPENAI_API_KEY` | (optional) dein OpenAI API Key |
 
