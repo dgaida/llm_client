@@ -29,8 +29,7 @@ Das folgende Schaubild zeigt den grundlegenden Aufbau eines RAG-Systems:
 ![High-level overview of the Retrieval Augmented Generation System](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*ys44J6jLm5vSTjFIMDDEfw.png)
 
 *Abbildung: „High-level overview of the Retrieval Augmented Generation System“  
-von [Maanjunath S Naragund](https://maanjunathn07ds.medium.com/),  
-entnommen aus [diesem Blogbeitrag auf Medium](https://blog.gopenai.com/step-by-step-guide-to-implementing-retrieval-augmented-generation-in-python-4801be2771c3).  
+von [Maanjunath S Naragund](https://maanjunathn07ds.medium.com/), entnommen aus [diesem Blogbeitrag auf Medium](https://blog.gopenai.com/step-by-step-guide-to-implementing-retrieval-augmented-generation-in-python-4801be2771c3).  
 Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG).  
 Diese Abbildung steht **nicht unter der MIT-Lizenz** dieses Repositories.*
 
