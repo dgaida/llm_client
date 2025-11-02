@@ -36,7 +36,7 @@ Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abb
 <p align="center">
    <img src="images/vectorspace.png" 
        alt="Sentence Embedding Example" 
-       width="750">
+       width="650">
    </p>
 
 *Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum.  
@@ -45,7 +45,7 @@ Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented 
 <p align="center">
    <img src="images/vectorspace_question.png" 
        alt="Sentence Embedding Example with question" 
-       width="750">
+       width="650">
    </p>
 
 *Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum inklusive einer Frage.  
