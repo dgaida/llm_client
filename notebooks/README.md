@@ -87,7 +87,7 @@ Das Notebook demonstriert:
 
 | Dienst | Pflicht | Zweck |
 |--------|----------|--------|
-| **Hugging Face Access Token** | ✅ **erforderlich** | Laden des Embedding-Modells |
+| **Hugging Face Access Token** | ✅ **erforderlich** | Herunterladen des Embedding-Modells zur lokalen Ausführung |
 | **Groq API Key** | optional | Nutzung der [`Groq`](https://console.groq.com/home) LLM-API |
 | **OpenAI API Key** | optional | Nutzung der OpenAI LLM-API |
 
@@ -96,6 +96,8 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 ---
 
 ## 🦮 Hugging Face Access Token erstellen
+
+Der Hugging Face Access Token wird benötigt, um auf **Embedding-Modelle** und andere KI-Modelle aus der Hugging Face Model Hub zuzugreifen, die zur Berechnung der Satz-Embeddings verwendet werden. Diese werden von dem Model Hub heruntergeladen und lokal ausgeführt. 
 
 1. Erstelle kostenlosen Account bei [https://huggingface.co/](https://huggingface.co/) oder logge dich ein (falls nötig). 
 
@@ -126,6 +128,8 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 
 ## ⚡️ Groq API Key erstellen
 
+Der Groq API Key ermöglicht den Zugriff auf öffentlich verfügbare **LLMs**, die für besonders schnelle **Textgenerierung und Beantwortung von Fragen** im RAG-Workflow eingesetzt werden können. Diese LLMs werden in der GroqCloud ausgeführt. 
+
 1. Erstelle kostenlosen Account bei [https://groq.com/](https://groq.com/) oder logge dich ein (falls nötig). 
 2. Besuche [https://console.groq.com/keys](https://console.groq.com/keys)  
 3. Klicke auf **„Create API Key“**  
@@ -135,6 +139,8 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 ---
 
 ## 🔮 OpenAI API Key erstellen
+
+Der OpenAI API Key erlaubt die Nutzung von **OpenAI-Modellen** (z. B. GPT-4 oder GPT-4o), um **kontextbezogene Antworten** im Retrieval-Augmented-Generation-System zu erzeugen.
 
 1. Melde dich bei [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) an  
    <img src="images/OpenAI%20API%20-%20API%20keys.png" 
