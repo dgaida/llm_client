@@ -1,7 +1,7 @@
 # 🧠 LLM Client
 
 Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs)
-über **OpenAI**, **Groq** oder **Ollama** – mit automatischer API-Erkennung.
+über **OpenAI**, [**Groq**](https://groq.com/) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung.
 
 ---
 
@@ -92,7 +92,7 @@ OPENAI_API_KEY=sk-xxxxxxxx
 GROQ_API_KEY=gsk-xxxxxxxx
 ```
 
-**Ohne API-Keys**: Verwendet automatisch lokales Ollama (Installation erforderlich).
+**Ohne API-Keys**: Verwendet automatisch lokales [Ollama](https://ollama.com/) (Installation erforderlich).
 
 ### Google Colab
 

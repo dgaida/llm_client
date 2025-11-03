@@ -25,6 +25,12 @@ Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie
 
 ## Überblick über Retrieval-Augmented Generation (RAG)
 
+Retrieval-Augmented Generation (RAG) kombiniert **Wissen aus eigenen Dokumenten** mit der **Sprachkompetenz großer KI-Modelle** wie ChatGPT.
+Statt dass das Modell nur auf sein internes (und begrenztes) Trainingswissen zugreift, sucht RAG zuerst gezielt in einer **Wissensdatenbank** oder **Dokumentsammlung** nach relevanten Textstellen („Retrieval“) und übergibt diese dann zusammen mit der Nutzerfrage an das **Large Language Model** („Generation“).
+
+So kann das System **aktuelle, überprüfbare und kontextbezogene Antworten** geben – z. B. auf Basis von PDF-Berichten, Forschungsartikeln oder internen Dokumentationen.
+Typische Anwendungsfälle sind **Chatbots für Fachwissen**, **intelligente Assistenzsysteme** oder **unternehmensinterne Wissensassistenten**.
+
 Das folgende Schaubild zeigt den grundlegenden Aufbau eines RAG-Systems:
 
 ![High-level overview of the Retrieval Augmented Generation System](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*ys44J6jLm5vSTjFIMDDEfw.png)
@@ -32,6 +38,12 @@ Das folgende Schaubild zeigt den grundlegenden Aufbau eines RAG-Systems:
 *Abbildung: „High-level overview of the Retrieval Augmented Generation System“  
 von [Maanjunath S Naragund](https://maanjunathn07ds.medium.com/), entnommen aus [diesem Blogbeitrag auf Medium](https://blog.gopenai.com/step-by-step-guide-to-implementing-retrieval-augmented-generation-in-python-4801be2771c3).  
 Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abbildung steht **nicht unter der MIT-Lizenz** dieses Repositories.*
+
+Die folgenden beiden Abbildungen veranschaulichen, wie **Satz-Embeddings** die **semantische Bedeutung** von Sätzen in einem gemeinsamen Vektorraum darstellen.
+Sätze mit **ähnlicher Bedeutung** (z. B. Paraphrasen) werden als **nahe beieinanderliegende Vektoren** abgebildet, während **inhaltlich verschiedene Sätze** **weiter voneinander entfernt** liegen.
+Sogenannte **Embedding-Modelle** (eine Form von LLM) wandeln Sätze dabei in diese numerischen Vektoren um, die die semantischen Eigenschaften der Sätze mathematisch erfassbar machen.
+
+Die erste Abbildung zeigt drei Beispielsätze und deren Einbettungen in einem dreidimensionalen Raum – zwei **semantisch ähnliche Sätze** (in Rot) und einen **thematisch unabhängigen Satz** (in Blau).
 
 <p align="center">
    <img src="images/vectorspace.png" 
@@ -41,6 +53,8 @@ Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abb
 
 *Abbildung: Visualisierung der semantischen Ähnlichkeit von Satz-Embeddings in einem dreidimensionalen Vektorraum.  
 Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) von [DeepLearning.AI](https://www.deeplearning.ai/) auf [Coursera](https://www.coursera.org/).*
+
+Die zweite Abbildung erweitert dieses Beispiel um einen **Frage-Vektor** und demonstriert, wie semantische Ähnlichkeit genutzt werden kann, um **relevante Informationen** in einem **Retrieval-Augmented-Generation**-System abzurufen.
 
 <p align="center">
    <img src="images/vectorspace_question.png" 
