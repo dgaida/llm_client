@@ -82,21 +82,22 @@ class LLMClient:
         self.openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
         self.groq_api_key: str | None = os.getenv("GROQ_API_KEY")
 
-        # 2. Fallback für Google Colab
-        if self.openai_api_key is None or self.groq_api_key is None:
+        # 2. Fallback für Google Colab – Keys einzeln und robust prüfen
+        import sys
+        if ("google.colab" in sys.modules or "COLAB_GPU" in os.environ):
             try:
-                import sys
-
-                if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
-                    # Google Colab erkannt
-                    from google.colab import userdata
-
-                    if self.openai_api_key is None:
+                from google.colab import userdata
+                try:
+                    if not self.openai_api_key:
                         self.openai_api_key = userdata.get("OPENAI_API_KEY")
-                    if self.groq_api_key is None:
+                except Exception:
+                    pass
+                try:
+                    if not self.groq_api_key:
                         self.groq_api_key = userdata.get("GROQ_API_KEY")
-            except ImportError:
-                # Nicht auf Colab oder userdata nicht verfügbar
+                except Exception:
+                    pass
+            except Exception:
                 pass
 
         # 3. Automatische API-Auswahl
@@ -106,7 +107,12 @@ class LLMClient:
             elif self.groq_api_key:
                 self.api_choice = "groq"
             else:
-                self.api_choice = "ollama"
+                if ("google.colab" in sys.modules or "COLAB_GPU" in os.environ):
+                    raise RuntimeError(
+                        "Kein API-Key gefunden. Bitte OPENAI_API_KEY oder GROQ_API_KEY in Colab-Umgebung setzen."
+                    )
+                else:
+                    self.api_choice = "ollama"
         else:
             valid_choices = {"openai", "groq", "ollama"}
             if api_choice.lower() not in valid_choices:
