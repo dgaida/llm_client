@@ -1,7 +1,7 @@
 # 🧠 LLM Client
 
 Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs)
-über **OpenAI**, [**Groq**](https://groq.com/) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung.
+über **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung.
 
 ---
 
@@ -31,6 +31,7 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 * 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
 * 🧪 **Vollständige Tests** - Pytest-basiert mit hoher Code-Coverage
 * 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
+* 🌟 **Google Gemini Support** - Nutzung via OpenAI-Kompatibilitätsmodus
 * 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
 
 ---
@@ -90,6 +91,9 @@ OPENAI_API_KEY=sk-xxxxxxxx
 
 # Oder Groq
 GROQ_API_KEY=gsk-xxxxxxxx
+
+# Oder Google Gemini
+GEMINI_API_KEY=AIzaSy-xxxxxxxx
 ```
 
 **Ohne API-Keys**: Verwendet automatisch lokales [Ollama](https://ollama.com/) (Installation erforderlich).
@@ -99,7 +103,7 @@ GROQ_API_KEY=gsk-xxxxxxxx
 In Colab werden Keys automatisch aus `userdata` geladen:
 
 ```python
-# Secrets → OPENAI_API_KEY oder GROQ_API_KEY hinzufügen
+# Secrets → OPENAI_API_KEY, GROQ_API_KEY oder GEMINI_API_KEY hinzufügen
 from llm_client import LLMClient
 client = LLMClient()  # Lädt automatisch aus userdata
 ```
@@ -121,6 +125,9 @@ client = LLMClient(
 ### API manuell wählen
 
 ```python
+# Gemini explizit wählen
+client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
+
 # Ollama erzwingen (auch wenn API-Keys vorhanden)
 client = LLMClient(api_choice="ollama")
 
@@ -128,13 +135,35 @@ client = LLMClient(api_choice="ollama")
 client = LLMClient(api_choice="openai", llm="gpt-4")
 ```
 
+### Gemini-Modelle nutzen
+
+```python
+from llm_client import LLMClient
+
+# Automatisch, wenn GEMINI_API_KEY gesetzt ist
+client = LLMClient()
+
+# Oder explizit mit spezifischem Modell
+client = LLMClient(
+    api_choice="gemini",
+    llm="gemini-2.5-flash",
+    temperature=0.7
+)
+
+messages = [
+    {"role": "user", "content": "Explain quantum computing"}
+]
+response = client.chat_completion(messages)
+print(response)
+```
+
 ### Mit llama-index Integration
 
 ```python
 from llm_client import LLMClientAdapter, LLMClient
 
-# Adapter erstellen
-llm_adapter = LLMClientAdapter(client=LLMClient())
+# Adapter erstellen (funktioniert auch mit Gemini)
+llm_adapter = LLMClientAdapter(client=LLMClient(api_choice="gemini"))
 
 # In llama-index verwenden
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
@@ -147,11 +176,19 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 
 ## 🧩 Unterstützte APIs & Default-Modelle
 
-| API    | Default-Modell                     | Bemerkung                       |
-| ------ | ---------------------------------- | ------------------------------- |
-| OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig            |
-| Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud    |
-| Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig |
+| API    | Default-Modell                     | Bemerkung                                    |
+| ------ | ---------------------------------- | -------------------------------------------- |
+| OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                         |
+| Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud                 |
+| Gemini | `gemini-2.0-flash-exp`             | Google's neuestes Modell via OpenAI-API      |
+| Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig              |
+
+### Verfügbare Gemini-Modelle
+
+- `gemini-2.5-flash` - Schnelles, effizientes Modell
+- `gemini-2.0-flash-exp` - Experimentelles Flash-Modell (Default)
+- `gemini-1.5-pro` - Leistungsstarkes Modell mit großem Context-Window
+- `gemini-1.5-flash` - Ausgewogenes Modell für die meisten Anwendungen
 
 ### Ollama Installation
 
@@ -247,6 +284,8 @@ MIT License - siehe [LICENSE](LICENSE)
 * [Ollama Dokumentation](https://github.com/ollama/ollama)
 * [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
 * [Groq Cloud](https://groq.com/)
+* [Google Gemini API](https://ai.google.dev/gemini-api/docs)
+* [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)
 * [llama-index Docs](https://docs.llamaindex.ai/)
 
 ---

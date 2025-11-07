@@ -158,6 +158,17 @@ Der OpenAI API Key erlaubt die Nutzung von **OpenAI-Modellen** (z. B. GPT-4 oder
 
 ---
 
+## Google Gemini API Key erstellen
+
+1. Besuche [Google AI Studio](https://aistudio.google.com/apikey)
+2. Klicke auf **"Get API Key"** oder **"Create API Key"**
+3. Wähle ein Google Cloud Projekt oder erstelle ein neues
+4. Kopiere den generierten API Key (beginnt mit `AIzaSy...`)
+
+**Hinweis**: Der Gemini API wird über den OpenAI-Kompatibilitätsmodus angesprochen, benötigt aber nur das `openai` Python-Package.
+
+---
+
 ## ☁️ API Keys als Secrets in Google Colab hinterlegen
 
 1. Klicke im Menü links auf das Schlüssel-Symbol 🔑  

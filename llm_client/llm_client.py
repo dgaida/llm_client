@@ -23,13 +23,13 @@ except ImportError:
 
 
 class LLMClient:
-    """Eine universelle Klasse zur Nutzung von OpenAI, Groq oder Ollama.
+    """Eine universelle Klasse zur Nutzung von OpenAI, Groq, Gemini oder Ollama.
 
     Diese Klasse erkennt automatisch verfügbare API-Keys und wählt die
     entsprechende API oder erlaubt manuelle Steuerung per Parameter.
 
     Attributes:
-        api_choice: Die gewählte API ('openai', 'groq' oder 'ollama').
+        api_choice: Die gewählte API ('openai', 'groq', 'gemini' oder 'ollama').
         llm: Name des verwendeten Modells.
         temperature: Sampling-Temperatur für die Generierung.
         max_tokens: Maximale Anzahl zu generierender Tokens.
@@ -37,6 +37,7 @@ class LLMClient:
         client: Instanz des gewählten API-Clients.
         openai_api_key: OpenAI API Key (falls vorhanden).
         groq_api_key: Groq API Key (falls vorhanden).
+        gemini_api_key: Gemini API Key (falls vorhanden).
 
     Examples:
         >>> # Automatische API-Auswahl basierend auf verfügbaren Keys
@@ -44,8 +45,8 @@ class LLMClient:
         >>> messages = [{"role": "user", "content": "Hello!"}]
         >>> response = client.chat_completion(messages)
 
-        >>> # Manuell Ollama wählen
-        >>> client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
+        >>> # Manuell Gemini wählen
+        >>> client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
     """
 
     def __init__(
@@ -53,7 +54,7 @@ class LLMClient:
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
-        api_choice: Literal["openai", "groq", "ollama"] | None = None,
+        api_choice: Literal["openai", "groq", "gemini", "ollama"] | None = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
     ) -> None:
@@ -63,7 +64,7 @@ class LLMClient:
             llm: Name des Modells. Wenn None, wird ein Default-Modell gewählt.
             temperature: Sampling-Temperatur (0.0 bis 2.0). Standard: 0.7.
             max_tokens: Maximale Anzahl zu generierender Tokens. Standard: 512.
-            api_choice: Explizite API-Wahl ('openai', 'groq', 'ollama').
+            api_choice: Explizite API-Wahl ('openai', 'groq', 'gemini', 'ollama').
                 Wenn None, wird automatisch gewählt.
             secrets_path: Pfad zur secrets.env-Datei. Standard: "secrets.env".
             keep_alive: Ollama-Parameter für Modell-Caching. Standard: "5m".
@@ -73,7 +74,7 @@ class LLMClient:
 
         Examples:
             >>> client = LLMClient(llm="gpt-4o", temperature=0.5)
-            >>> client = LLMClient(api_choice="ollama", max_tokens=1024)
+            >>> client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
         """
         # 1. Lade secrets.env, falls vorhanden
         if os.path.exists(secrets_path):
@@ -81,6 +82,7 @@ class LLMClient:
 
         self.openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
         self.groq_api_key: str | None = os.getenv("GROQ_API_KEY")
+        self.gemini_api_key: str | None = os.getenv("GEMINI_API_KEY")
 
         # 2. Fallback für Google Colab – Keys einzeln und robust prüfen
         import sys
@@ -97,6 +99,11 @@ class LLMClient:
                         self.groq_api_key = userdata.get("GROQ_API_KEY")
                 except Exception:
                     pass
+                try:
+                    if not self.gemini_api_key:
+                        self.gemini_api_key = userdata.get("GEMINI_API_KEY")
+                except Exception:
+                    pass
             except Exception:
                 pass
 
@@ -106,15 +113,18 @@ class LLMClient:
                 self.api_choice: str = "openai"
             elif self.groq_api_key:
                 self.api_choice = "groq"
+            elif self.gemini_api_key:
+                self.api_choice = "gemini"
             else:
                 if ("google.colab" in sys.modules or "COLAB_GPU" in os.environ):
                     raise RuntimeError(
-                        "Kein API-Key gefunden. Bitte OPENAI_API_KEY oder GROQ_API_KEY in Colab-Umgebung setzen."
+                        "Kein API-Key gefunden. Bitte OPENAI_API_KEY, GROQ_API_KEY "
+                        "oder GEMINI_API_KEY in Colab-Umgebung setzen."
                     )
                 else:
                     self.api_choice = "ollama"
         else:
-            valid_choices = {"openai", "groq", "ollama"}
+            valid_choices = {"openai", "groq", "gemini", "ollama"}
             if api_choice.lower() not in valid_choices:
                 raise ValueError(
                     f"Invalid api_choice: {api_choice}. " f"Must be one of {valid_choices}"
@@ -129,6 +139,8 @@ class LLMClient:
                 self.llm = "gpt-4o-mini"
             elif self.api_choice == "groq":
                 self.llm = "moonshotai/kimi-k2-instruct-0905"
+            elif self.api_choice == "gemini":
+                self.llm = "gemini-2.0-flash-exp"
             else:
                 self.llm = "llama3.2:1b"
 
@@ -142,6 +154,12 @@ class LLMClient:
             self.client = OpenAI(api_key=self.openai_api_key)
         elif self.api_choice == "groq" and Groq:
             self.client = Groq(api_key=self.groq_api_key)
+        elif self.api_choice == "gemini" and OpenAI:
+            # Nutze OpenAI-Kompatibilitätsmodus für Gemini
+            self.client = OpenAI(
+                api_key=self.gemini_api_key,
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+            )
 
     def chat_completion(self, messages: list[dict[str, str]]) -> str:
         """Führt eine Chat-Completion mit der gewählten API aus.
@@ -181,6 +199,17 @@ class LLMClient:
         elif self.api_choice == "groq":
             if not self.client:
                 raise RuntimeError("Groq client not available or not installed.")
+            response = self.client.chat.completions.create(
+                model=self.llm,
+                messages=messages,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+            )
+            return response.choices[0].message.content
+
+        elif self.api_choice == "gemini":
+            if not self.client:
+                raise RuntimeError("Gemini client not available or not installed.")
             response = self.client.chat.completions.create(
                 model=self.llm,
                 messages=messages,

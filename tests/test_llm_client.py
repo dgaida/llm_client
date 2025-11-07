@@ -1,4 +1,4 @@
-"""Erweiterte Tests für LLMClient mit Type-Checking und Edge Cases."""
+"""Erweiterte Tests für LLMClient mit Gemini-Support."""
 
 import importlib
 import sys
@@ -14,6 +14,7 @@ def clear_env(monkeypatch):
     """Sorgt dafür, dass API Keys sauber getestet werden."""
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     monkeypatch.delenv("OLLAMA_HOST", raising=False)
 
 
@@ -44,16 +45,21 @@ class TestLLMClientInitialization:
         assert client.api_choice == "groq"
         assert "moonshotai" in client.llm.lower()
 
-    # def test_auto_select_ollama(self, monkeypatch):
-    #     """Test: Ollama wird automatisch gewählt wenn keine API Keys vorhanden."""
-    #     # Stelle sicher, dass keine API Keys gesetzt sind
-    #     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    #     monkeypatch.delenv("GROQ_API_KEY", raising=False)
-    #     monkeypatch.delenv("COLAB_GPU", raising=False)
-    #
-    #     client = LLMClient()
-    #     assert client.api_choice == "ollama"
-    #     assert "llama" in client.llm.lower()
+    def test_auto_select_gemini(self, monkeypatch):
+        """Test: Gemini wird automatisch gewählt wenn API Key vorhanden."""
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        monkeypatch.delenv("GROQ_API_KEY", raising=False)
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+        client = LLMClient()
+        assert client.api_choice == "gemini"
+        assert "gemini" in client.llm.lower()
+
+    def test_manual_override_to_gemini(self, monkeypatch):
+        """Test: API kann manuell auf Gemini gesetzt werden."""
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+        client = LLMClient(api_choice="gemini")
+        assert client.api_choice == "gemini"
+        assert "gemini" in client.llm.lower()
 
     def test_manual_override_to_ollama(self, monkeypatch):
         """Test: API kann manuell auf Ollama gesetzt werden."""
@@ -73,6 +79,12 @@ class TestLLMClientInitialization:
         with pytest.raises(ValueError, match="Invalid api_choice"):
             LLMClient(api_choice="invalid_api")
 
+    def test_gemini_custom_model(self, monkeypatch):
+        """Test: Benutzerdefiniertes Gemini-Modell."""
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+        client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
+        assert client.llm == "gemini-2.5-flash"
+
     def test_set_custom_model_and_temperature(self):
         """Test: Benutzerdefiniertes Modell und Temperatur."""
         client = LLMClient(llm="gpt-4o", temperature=0.5)
@@ -88,6 +100,25 @@ class TestLLMClientInitialization:
         """Test: Benutzerdefinierter keep_alive Parameter."""
         client = LLMClient(keep_alive="10m")
         assert client.keep_alive == "10m"
+
+    def test_gemini_client_initialization(self, monkeypatch):
+        """Test: Gemini Client wird korrekt initialisiert."""
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test-key")
+
+        with patch("llm_client.llm_client.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_openai.return_value = mock_client
+
+            client = LLMClient(api_choice="gemini")
+
+            assert client.gemini_api_key == "AIzaSy-test-key"
+            assert client.api_choice == "gemini"
+
+            # Prüfe dass OpenAI mit korrekter base_url initialisiert wurde
+            mock_openai.assert_called_once_with(
+                api_key="AIzaSy-test-key",
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+            )
 
     def test_openai_client_initialization(self, monkeypatch):
         """Test: OpenAI Client wird korrekt initialisiert."""
@@ -106,6 +137,26 @@ class TestLLMClientInitialization:
 
 class TestLLMClientChatCompletion:
     """Tests für die chat_completion Methode."""
+
+    def test_chat_completion_with_gemini(self, monkeypatch):
+        """Test: chat_completion mit Gemini (gemockt)."""
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+
+        # Mock Gemini response (via OpenAI compatibility)
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Gemini response"
+
+        with patch("llm_client.llm_client.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            client = LLMClient(api_choice="gemini")
+            messages = [{"role": "user", "content": "Hello"}]
+            response = client.chat_completion(messages)
+
+            assert response == "Gemini response"
+            mock_client.chat.completions.create.assert_called_once()
 
     def test_chat_completion_with_openai(self, monkeypatch):
         """Test: chat_completion mit OpenAI (gemockt)."""
@@ -161,6 +212,15 @@ class TestLLMClientChatCompletion:
             assert response == "Ollama response"
             mock_ollama.chat.assert_called_once()
 
+    def test_chat_completion_without_gemini_client_raises_error(self):
+        """Test: RuntimeError wenn Gemini Client nicht verfügbar."""
+        with patch("llm_client.llm_client.OpenAI", None):
+            client = LLMClient(api_choice="gemini")
+            client.client = None
+
+            with pytest.raises(RuntimeError, match="Gemini client not available"):
+                client.chat_completion([{"role": "user", "content": "test"}])
+
     def test_chat_completion_without_openai_client_raises_error(self):
         """Test: RuntimeError wenn OpenAI Client nicht verfügbar."""
         with patch("llm_client.llm_client.OpenAI", None):
@@ -196,6 +256,33 @@ class TestLLMClientChatCompletion:
         # Cleanup: ollama wiederherstellen
         del sys.modules["ollama"]
         importlib.reload(llm_client)
+
+    def test_gemini_parameters_passed_correctly(self, monkeypatch):
+        """Test: Parameter werden korrekt an Gemini API übergeben."""
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Response"
+
+        with patch("llm_client.llm_client.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            client = LLMClient(
+                api_choice="gemini",
+                llm="gemini-2.5-flash",
+                temperature=0.8,
+                max_tokens=1024
+            )
+            messages = [{"role": "user", "content": "Test"}]
+            client.chat_completion(messages)
+
+            # Prüfe ob Parameter korrekt übergeben wurden
+            call_args = mock_client.chat.completions.create.call_args
+            assert call_args[1]["model"] == "gemini-2.5-flash"
+            assert call_args[1]["temperature"] == 0.8
+            assert call_args[1]["max_tokens"] == 1024
 
     def test_chat_completion_parameters_passed_correctly(self, monkeypatch):
         """Test: Parameter werden korrekt an die API übergeben."""
@@ -292,19 +379,20 @@ class TestLLMClientEdgeCases:
 
     def test_repr_method(self, monkeypatch):
         """Test: __repr__ gibt korrekte String-Repräsentation zurück."""
-        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
-        client = LLMClient(api_choice="openai", llm="gpt-4o", temperature=0.5)
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+        client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash", temperature=0.5)
         repr_str = repr(client)
 
         assert "LLMClient" in repr_str
-        assert "openai" in repr_str
-        assert "gpt-4o" in repr_str
+        assert "gemini" in repr_str
+        assert "gemini-2.5-flash" in repr_str
         assert "0.5" in repr_str
 
     def test_secrets_file_not_found(self, monkeypatch, tmp_path):
         """Test: Funktioniert wenn secrets.env nicht existiert."""
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
         monkeypatch.delenv("GROQ_API_KEY", raising=False)
+        monkeypatch.delenv("GEMINI_API_KEY", raising=False)
 
         # Nutze einen nicht-existierenden Pfad
         fake_path = tmp_path / "nonexistent.env"
@@ -313,8 +401,8 @@ class TestLLMClientEdgeCases:
         # Sollte auf Ollama zurückfallen
         assert client.api_choice == "ollama"
 
-    def test_google_colab_integration(self, monkeypatch):
-        """Test: Google Colab userdata Integration (gemockt)."""
+    def test_google_colab_integration_with_gemini(self, monkeypatch):
+        """Test: Google Colab userdata Integration mit Gemini (gemockt)."""
         # Simuliere Colab-Umgebung
         monkeypatch.setitem(sys.modules, "google.colab", MagicMock())
         monkeypatch.setenv("COLAB_GPU", "1")
@@ -322,15 +410,14 @@ class TestLLMClientEdgeCases:
         # Mock userdata
         mock_userdata = MagicMock()
         mock_userdata.get.side_effect = lambda key: {
-            "OPENAI_API_KEY": "sk-colab-key",
+            "OPENAI_API_KEY": None,
             "GROQ_API_KEY": None,
+            "GEMINI_API_KEY": "AIzaSy-colab-key",
         }.get(key)
 
         with patch.dict("sys.modules", {"google.colab": MagicMock(userdata=mock_userdata)}):
             client = LLMClient()
             print(client)
-            # In Colab sollte der Key aus userdata geladen werden
-            # (funktioniert im Test nur bedingt wegen Import-Reihenfolge)
 
     def test_case_insensitive_api_choice(self, monkeypatch):
         """Test: api_choice ist case-insensitive."""
@@ -344,8 +431,13 @@ class TestLLMClientEdgeCases:
         client2 = LLMClient(api_choice="Groq")
         assert client2.api_choice == "groq"
 
-        client3 = LLMClient(api_choice="OlLaMa")
-        assert client3.api_choice == "ollama"
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+
+        client3 = LLMClient(api_choice="GEMINI")
+        assert client3.api_choice == "gemini"
+
+        client4 = LLMClient(api_choice="OlLaMa")
+        assert client4.api_choice == "ollama"
 
 
 class TestLLMClientTypeHints:
@@ -353,8 +445,6 @@ class TestLLMClientTypeHints:
 
     def test_messages_type_validation(self):
         """Test: Nachrichten haben korrektes Format."""
-        # client = LLMClient(api_choice="ollama")
-
         # Korrektes Format
         valid_messages = [{"role": "user", "content": "Hello"}]
 
@@ -365,7 +455,7 @@ class TestLLMClientTypeHints:
 
     def test_return_type_is_string(self, monkeypatch):
         """Test: chat_completion gibt String zurück."""
-        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
 
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Test response"
@@ -375,7 +465,7 @@ class TestLLMClientTypeHints:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            client = LLMClient(api_choice="openai")
+            client = LLMClient(api_choice="gemini")
             response = client.chat_completion([{"role": "user", "content": "Hi"}])
 
             assert isinstance(response, str)
