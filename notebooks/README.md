@@ -165,7 +165,7 @@ Der OpenAI API Key erlaubt die Nutzung von **OpenAI-Modellen** (z. B. GPT-4 oder
 3. Wähle ein Google Cloud Projekt oder erstelle ein neues
 4. Kopiere den generierten API Key (beginnt mit `AIzaSy...`)
 
-**Hinweis**: Der Gemini API wird über den OpenAI-Kompatibilitätsmodus angesprochen, benötigt aber nur das `openai` Python-Package.
+**Hinweis**: Die Gemini API wird über den OpenAI-Kompatibilitätsmodus angesprochen, benötigt deshalb nur das `openai` Python-Package.
 
 ---
 

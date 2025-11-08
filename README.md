@@ -77,6 +77,10 @@ response = client.chat_completion(messages)
 print(response)
 ```
 
+### Jupyter Notebook
+
+Für einen Überblick über das Package teste das Jupyter Notebook [llm_client_example.ipynb](notebooks/llm_client_example.ipynb) auf Google Colab.
+
 ---
 
 ## 🔧 Konfiguration
@@ -176,19 +180,12 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 
 ## 🧩 Unterstützte APIs & Default-Modelle
 
-| API    | Default-Modell                     | Bemerkung                                    |
-| ------ | ---------------------------------- | -------------------------------------------- |
-| OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                         |
-| Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud                 |
-| Gemini | `gemini-2.0-flash-exp`             | Google's neuestes Modell via OpenAI-API      |
-| Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig              |
-
-### Verfügbare Gemini-Modelle
-
-- `gemini-2.5-flash` - Schnelles, effizientes Modell
-- `gemini-2.0-flash-exp` - Experimentelles Flash-Modell (Default)
-- `gemini-1.5-pro` - Leistungsstarkes Modell mit großem Context-Window
-- `gemini-1.5-flash` - Ausgewogenes Modell für die meisten Anwendungen
+| API    | Default-Modell                     | Bemerkung                           |
+| ------ |------------------------------------|-------------------------------------|
+| OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
+| Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud        |
+| Gemini | `gemini-2.0-flash`                 | Google's Modell via OpenAI-API      |
+| Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
 ### Ollama Installation
 
