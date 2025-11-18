@@ -284,6 +284,7 @@ MIT License - siehe [LICENSE](LICENSE)
 * [Google Gemini API](https://ai.google.dev/gemini-api/docs)
 * [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)
 * [llama-index Docs](https://docs.llamaindex.ai/)
+* [Andrew Ng's AISuite](https://github.com/andrewyng/aisuite)
 
 ---
 
