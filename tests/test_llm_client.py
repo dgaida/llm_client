@@ -117,7 +117,7 @@ class TestLLMClientInitialization:
             # Prüfe dass OpenAI mit korrekter base_url initialisiert wurde
             mock_openai.assert_called_once_with(
                 api_key="AIzaSy-test-key",
-                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
             )
 
     def test_openai_client_initialization(self, monkeypatch):
@@ -270,10 +270,7 @@ class TestLLMClientChatCompletion:
             mock_openai.return_value = mock_client
 
             client = LLMClient(
-                api_choice="gemini",
-                llm="gemini-2.5-flash",
-                temperature=0.8,
-                max_tokens=1024
+                api_choice="gemini", llm="gemini-2.5-flash", temperature=0.8, max_tokens=1024
             )
             messages = [{"role": "user", "content": "Test"}]
             client.chat_completion(messages)

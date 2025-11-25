@@ -144,7 +144,7 @@ Tests für `LLMClientAdapter` werden übersprungen, wenn llama-index-core nicht 
 
 ```python
 @pytest.mark.skipif(
-    not LLAMA_INDEX_INSTALLED, 
+    not LLAMA_INDEX_INSTALLED,
     reason="llama-index-core not installed"
 )
 ```
@@ -200,10 +200,10 @@ def test_my_new_feature():
     """Test: Kurze Beschreibung was getestet wird."""
     # Arrange - Setup
     client = LLMClient(api_choice="openai")
-    
+
     # Act - Ausführung
     result = client.some_method()
-    
+
     # Assert - Überprüfung
     assert result == expected_value
 ```
@@ -213,11 +213,11 @@ def test_my_new_feature():
 ```python
 class TestMyFeature:
     """Tests für ein spezifisches Feature."""
-    
+
     def test_case_1(self):
         """Test: Erster Fall."""
         ...
-    
+
     def test_case_2(self):
         """Test: Zweiter Fall."""
         ...
@@ -231,11 +231,11 @@ from unittest.mock import MagicMock, patch
 def test_with_mock(monkeypatch):
     """Test: Mit gemockten Dependencies."""
     monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
-    
+
     with patch("llm_client.llm_client.OpenAI") as mock_openai:
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        
+
         # Teste mit gemocktem Client
         ...
 ```

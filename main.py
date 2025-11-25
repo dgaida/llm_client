@@ -28,16 +28,10 @@ def main():
     print("Beispiel 2: Google Gemini")
     print("=" * 50)
     try:
-        gemini_client = LLMClient(
-            api_choice="gemini",
-            llm="gemini-2.0-flash-exp",
-            temperature=0.7
-        )
+        gemini_client = LLMClient(api_choice="gemini", llm="gemini-2.0-flash-exp", temperature=0.7)
         print(f"Verwendetes Modell: {gemini_client.llm}")
 
-        gemini_messages = [
-            {"role": "user", "content": "Erkläre Quantencomputing in einem Satz."}
-        ]
+        gemini_messages = [{"role": "user", "content": "Erkläre Quantencomputing in einem Satz."}]
 
         gemini_response = gemini_client.chat_completion(gemini_messages)
         print("\nAntwort:\n", gemini_response)

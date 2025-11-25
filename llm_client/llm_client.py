@@ -86,26 +86,28 @@ class LLMClient:
 
         # 2. Fallback für Google Colab – Keys einzeln und robust prüfen
         import sys
-        if ("google.colab" in sys.modules or "COLAB_GPU" in os.environ):
+
+        if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
             try:
                 from google.colab import userdata
+
                 try:
                     if not self.openai_api_key:
                         self.openai_api_key = userdata.get("OPENAI_API_KEY")
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(e)
                 try:
                     if not self.groq_api_key:
                         self.groq_api_key = userdata.get("GROQ_API_KEY")
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(e)
                 try:
                     if not self.gemini_api_key:
                         self.gemini_api_key = userdata.get("GEMINI_API_KEY")
-                except Exception:
-                    pass
-            except Exception:
-                pass
+                except Exception as e:
+                    print(e)
+            except Exception as e:
+                print(e)
 
         # 3. Automatische API-Auswahl
         if api_choice is None:
@@ -116,7 +118,7 @@ class LLMClient:
             elif self.gemini_api_key:
                 self.api_choice = "gemini"
             else:
-                if ("google.colab" in sys.modules or "COLAB_GPU" in os.environ):
+                if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
                     raise RuntimeError(
                         "Kein API-Key gefunden. Bitte OPENAI_API_KEY, GROQ_API_KEY "
                         "oder GEMINI_API_KEY in Colab-Umgebung setzen."
@@ -158,7 +160,7 @@ class LLMClient:
             # Nutze OpenAI-Kompatibilitätsmodus für Gemini
             self.client = OpenAI(
                 api_key=self.gemini_api_key,
-                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
             )
 
     def chat_completion(self, messages: list[dict[str, str]]) -> str:
