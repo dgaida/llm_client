@@ -29,6 +29,7 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 
 * 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
 * ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
+* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt
 * 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
 * 🧪 **Vollständige Tests** - Pytest-basiert mit hoher Code-Coverage
 * 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
@@ -140,6 +141,73 @@ client = LLMClient(api_choice="ollama")
 client = LLMClient(api_choice="openai", llm="gpt-4")
 ```
 
+### Provider zur Laufzeit wechseln
+
+**Neu in Version 0.2.0**: Sie können den LLM-Provider dynamisch wechseln, ohne ein neues `LLMClient`-Objekt erstellen zu müssen. Dies ist besonders nützlich für:
+
+- Kostenoptimierung durch Wechsel zwischen verschiedenen APIs
+- Fallback-Strategien bei API-Ausfällen
+- A/B-Testing verschiedener Modelle
+- Dynamische Provider-Auswahl basierend auf Anforderungen
+
+```python
+from llm_client import LLMClient
+
+# Start mit OpenAI
+client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
+response1 = client.chat_completion([{"role": "user", "content": "Hello"}])
+
+# Wechsel zu Gemini
+client.switch_provider("gemini", llm="gemini-2.5-flash")
+response2 = client.chat_completion([{"role": "user", "content": "Hello"}])
+
+# Wechsel zu Groq mit angepasster Temperatur
+client.switch_provider("groq", temperature=0.3)
+response3 = client.chat_completion([{"role": "user", "content": "Hello"}])
+
+# Wechsel zu lokalem Ollama
+client.switch_provider("ollama")
+response4 = client.chat_completion([{"role": "user", "content": "Hello"}])
+```
+
+**Parameter von `switch_provider()`:**
+- `api_choice` (erforderlich): Ziel-API ('openai', 'groq', 'gemini', 'ollama')
+- `llm` (optional): Neues Modell. Wenn nicht angegeben, wird Default-Modell gewählt
+- `temperature` (optional): Neue Temperatur. Wenn nicht angegeben, bleibt alte erhalten
+- `max_tokens` (optional): Neue max_tokens. Wenn nicht angegeben, bleibt alte erhalten
+
+**Beispiel: Fallback-Strategie**
+
+```python
+from llm_client import LLMClient
+
+client = LLMClient(api_choice="openai")
+
+try:
+    response = client.chat_completion(messages)
+except Exception as e:
+    print(f"OpenAI failed: {e}")
+    # Fallback zu Groq
+    client.switch_provider("groq")
+    response = client.chat_completion(messages)
+```
+
+**Beispiel: Kostenoptimierung**
+
+```python
+from llm_client import LLMClient
+
+client = LLMClient()
+
+# Günstigeres Modell für einfache Aufgaben
+client.switch_provider("groq", llm="moonshotai/kimi-k2-instruct-0905")
+simple_response = client.chat_completion(simple_messages)
+
+# Leistungsstärkeres Modell für komplexe Aufgaben
+client.switch_provider("openai", llm="gpt-4o")
+complex_response = client.chat_completion(complex_messages)
+```
+
 ### Gemini-Modelle nutzen
 
 ```python
@@ -185,7 +253,7 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 | ------ |------------------------------------|-------------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
 | Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud        |
-| Gemini | `gemini-2.0-flash`                 | Google's Modell via OpenAI-API      |
+| Gemini | `gemini-2.0-flash-exp`             | Google's Modell via OpenAI-API      |
 | Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
 ### Ollama Installation
@@ -214,6 +282,9 @@ pytest --cov=llm_client --cov-report=html
 
 # Einzelne Tests
 pytest tests/test_llm_client.py -v
+
+# Tests für switch_provider Feature
+pytest tests/test_switch_provider.py -v
 ```
 
 ### Code-Qualität prüfen
@@ -259,7 +330,8 @@ llm_client/
 ├── notebooks/
 │   └── RAGChatbot_groq_API.ipynb
 ├── tests/
-│   └── test_llm_client.py
+│   ├── test_llm_client.py
+│   └── test_switch_provider.py
 ├── main.py               # Beispiel-Script
 ├── pyproject.toml        # Dependencies & Config
 ├── README.md
