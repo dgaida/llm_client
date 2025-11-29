@@ -215,29 +215,26 @@ class TestLLMClientChatCompletion:
     def test_chat_completion_without_gemini_client_raises_error(self):
         """Test: RuntimeError wenn Gemini Client nicht verfügbar."""
         with patch("llm_client.llm_client.OpenAI", None):
-            client = LLMClient(api_choice="gemini")
-            client.client = None
-
             with pytest.raises(RuntimeError, match="Gemini client not available"):
-                client.chat_completion([{"role": "user", "content": "test"}])
+                client = LLMClient(api_choice="gemini")
+
+            client.chat_completion([{"role": "user", "content": "test"}])
 
     def test_chat_completion_without_openai_client_raises_error(self):
         """Test: RuntimeError wenn OpenAI Client nicht verfügbar."""
         with patch("llm_client.llm_client.OpenAI", None):
-            client = LLMClient(api_choice="openai")
-            client.client = None
-
             with pytest.raises(RuntimeError, match="OpenAI client not available"):
-                client.chat_completion([{"role": "user", "content": "test"}])
+                client = LLMClient(api_choice="openai")
+
+            client.chat_completion([{"role": "user", "content": "test"}])
 
     def test_chat_completion_without_groq_client_raises_error(self):
         """Test: RuntimeError wenn Groq Client nicht verfügbar."""
         with patch("llm_client.llm_client.Groq", None):
-            client = LLMClient(api_choice="groq")
-            client.client = None
-
             with pytest.raises(RuntimeError, match="Groq client not available"):
-                client.chat_completion([{"role": "user", "content": "test"}])
+                client = LLMClient(api_choice="groq")
+
+            client.chat_completion([{"role": "user", "content": "test"}])
 
     def test_missing_ollama_package(self, monkeypatch):
         """Test: RuntimeError wenn Ollama Package nicht verfügbar."""
