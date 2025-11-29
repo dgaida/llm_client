@@ -11,6 +11,8 @@ import os
 import random
 import chromadb
 import requests
+import tempfile
+import soundfile as sf
 from typing import Any
 from llama_index.readers.file.unstructured import UnstructuredReader
 from llama_index.core.schema import Document
@@ -140,3 +142,17 @@ def safe_query_engine_call(query_engine: Any, query: str) -> str:
     except Exception as e:
         print(f"[safe_query_engine_call] Unexpected error: {e.__class__.__name__}: {e}")
         return "Unexpected error during inference."
+
+
+# TTS generation using Kokoro's KPipeline
+def generate_tts_audio(tts, text):
+    # Get audio waveform (numpy array) and sample rate
+    audio_generator = tts(text, voice='af_heart', speed=1)
+    result = next(audio_generator)      # Extract the first (and usually only) item
+    waveform = result.output.audio.cpu().numpy()  # Convert to NumPy
+    sample_rate = 22050
+
+    # Save to a temporary WAV file to send to Gradio
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+        sf.write(f.name, waveform, sample_rate)
+        return f.name  # return the file path
