@@ -255,7 +255,9 @@ class TestLLMClientChatCompletion:
         with patch("llm_client.providers.ollama", None):
             client = LLMClient(api_choice="ollama")
 
-            with pytest.raises(RuntimeError, match="Ollama package not available"):
+            with pytest.raises(
+                RuntimeError, match="Ollama package not available. Install with: pip install ollama"
+            ):
                 client.chat_completion([{"role": "user", "content": "test"}])
 
     def test_gemini_parameters_passed_correctly(self, monkeypatch):
