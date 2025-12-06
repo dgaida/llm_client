@@ -15,7 +15,7 @@ class ConcreteProvider(BaseProvider):
         self.client = MagicMock()
         self.init_kwargs = kwargs
 
-    def chat_completion(self, messages):
+    def _chat_completion_impl(self, messages):
         """Return a mock response."""
         return "Mock response"
 
@@ -113,8 +113,8 @@ class IncompleteProvider(BaseProvider):
 class TestAbstractMethodEnforcement:
     """Tests for abstract method enforcement."""
 
-    def test_missing_chat_completion_raises_error(self):
-        """Test: Cannot instantiate without chat_completion method."""
+    def test_missing_chat_completion_impl_raises_error(self):
+        """Test: Cannot instantiate without _chat_completion_impl method."""
         with pytest.raises(TypeError, match="Can't instantiate abstract class"):
             IncompleteProvider(llm="test")
 
@@ -125,7 +125,7 @@ class TestAbstractMethodEnforcement:
             def _initialize_client(self, **kwargs):
                 self.client = MagicMock()
 
-            def chat_completion(self, messages):
+            def _chat_completion_impl(self, messages):
                 return "response"
 
             @staticmethod
@@ -282,3 +282,97 @@ class TestProviderInheritance:
         assert provider.middle_method() == "middle"
         assert provider.leaf_method() == "leaf"
         assert provider.chat_completion([]) == "Mock response"
+
+
+class TestRetryLogic:
+    """Tests for retry logic in chat_completion."""
+
+    def test_chat_completion_with_retry_on_success(self):
+        """Test: chat_completion succeeds on first try."""
+        provider = ConcreteProvider(llm="test-model")
+        messages = [{"role": "user", "content": "Hello"}]
+
+        response = provider.chat_completion(messages)
+        assert response == "Mock response"
+
+    def test_chat_completion_retries_on_failure(self):
+        """Test: chat_completion retries on transient failures."""
+
+        class FailingProvider(ConcreteProvider):
+            def __init__(self, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                self.attempt_count = 0
+
+            def _chat_completion_impl(self, messages):
+                self.attempt_count += 1
+                if self.attempt_count < 3:
+                    raise Exception("Transient error")
+                return "Success after retry"
+
+        provider = FailingProvider(llm="test-model")
+        messages = [{"role": "user", "content": "Hello"}]
+
+        response = provider.chat_completion(messages)
+        assert response == "Success after retry"
+        assert provider.attempt_count == 3
+
+    def test_chat_completion_fails_after_max_retries(self):
+        """Test: chat_completion raises error after all retries exhausted."""
+        from llm_client.exceptions import ChatCompletionError
+
+        class AlwaysFailingProvider(ConcreteProvider):
+            def _chat_completion_impl(self, messages):
+                raise Exception("Persistent error")
+
+        provider = AlwaysFailingProvider(llm="test-model")
+        messages = [{"role": "user", "content": "Hello"}]
+
+        with pytest.raises(ChatCompletionError) as exc_info:
+            provider.chat_completion(messages)
+
+        assert "Persistent error" in str(exc_info.value)
+
+
+class TestStreamingSupport:
+    """Tests for streaming functionality."""
+
+    def test_streaming_not_implemented_by_default(self):
+        """Test: Streaming raises NotImplementedError by default."""
+        from llm_client.exceptions import StreamingNotSupportedError
+
+        provider = ConcreteProvider(llm="test-model")
+        messages = [{"role": "user", "content": "Hello"}]
+
+        with pytest.raises(StreamingNotSupportedError):
+            list(provider.chat_completion_stream(messages))
+
+    def test_streaming_can_be_implemented(self):
+        """Test: Providers can implement streaming."""
+
+        class StreamingProvider(ConcreteProvider):
+            def _chat_completion_stream_impl(self, messages):
+                yield "Hello"
+                yield " "
+                yield "world"
+
+        provider = StreamingProvider(llm="test-model")
+        messages = [{"role": "user", "content": "Hello"}]
+
+        chunks = list(provider.chat_completion_stream(messages))
+        assert chunks == ["Hello", " ", "world"]
+
+    def test_streaming_wraps_errors(self):
+        """Test: Streaming errors are wrapped in ChatCompletionError."""
+        from llm_client.exceptions import ChatCompletionError
+
+        class FailingStreamProvider(ConcreteProvider):
+            def _chat_completion_stream_impl(self, messages):
+                raise Exception("Stream error")
+
+        provider = FailingStreamProvider(llm="test-model")
+        messages = [{"role": "user", "content": "Hello"}]
+
+        with pytest.raises(ChatCompletionError) as exc_info:
+            list(provider.chat_completion_stream(messages))
+
+        assert "Stream error" in str(exc_info.value)
