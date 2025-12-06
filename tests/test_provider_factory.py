@@ -7,6 +7,7 @@ import pytest
 
 from llm_client.exceptions import (
     APIKeyNotFoundError,
+    InvalidProviderError,
 )
 from llm_client.provider_factory import ProviderFactory
 from llm_client.providers import (
@@ -101,8 +102,11 @@ class TestProviderFactoryCreation:
             assert provider.llm == "gpt-4o-mini"
 
     def test_invalid_api_choice_raises_error(self):
-        """Test: Invalid api_choice raises ValueError."""
-        with pytest.raises(ValueError, match="Invalid api_choice: invalid"):
+        """Test: InvalidProviderError for invalid api_choice."""
+        with pytest.raises(
+            InvalidProviderError,
+            match="Invalid provider: invalid. Valid providers are: openai, groq, gemini, ollama",
+        ):
             ProviderFactory.create_provider(api_choice="invalid")
 
     def test_case_insensitive_api_choice(self):

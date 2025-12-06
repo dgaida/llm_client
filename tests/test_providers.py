@@ -146,15 +146,18 @@ class TestGroqProvider:
             mock_groq.assert_called_once_with(api_key="gsk-test")
 
     def test_initialization_without_api_key_raises_error(self):
-        """Test: RuntimeError when API key is missing."""
-        with pytest.raises(RuntimeError, match="GROQ_API_KEY not found"):
+        """Test: APIKeyNotFoundError when API key is missing."""
+        with pytest.raises(APIKeyNotFoundError, match="GROQ_API_KEY not found for groq provider"):
             GroqProvider(llm="llama-3.3-70b-versatile", temperature=0.7, max_tokens=512)
 
     def test_initialization_when_package_not_available(self):
-        """Test: RuntimeError when Groq package is not installed."""
+        """Test: ProviderNotAvailableError when Groq package is not installed."""
         with (
             patch("llm_client.providers.Groq", None),
-            pytest.raises(RuntimeError, match="Groq package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="groq provider not available. Install with: pip install groq",
+            ),
         ):
             GroqProvider(llm="llama-3.3-70b-versatile", api_key="gsk-test")
 
@@ -224,15 +227,20 @@ class TestGeminiProvider:
             )
 
     def test_initialization_without_api_key_raises_error(self):
-        """Test: RuntimeError when API key is missing."""
-        with pytest.raises(RuntimeError, match="GEMINI_API_KEY not found"):
+        """Test: APIKeyNotFoundError when API key is missing."""
+        with pytest.raises(
+            APIKeyNotFoundError, match="GEMINI_API_KEY not found for gemini provider"
+        ):
             GeminiProvider(llm="gemini-2.5-flash", temperature=0.7, max_tokens=512)
 
     def test_initialization_when_package_not_available(self):
-        """Test: RuntimeError when OpenAI package (needed for Gemini) is not installed."""
+        """Test: ProviderNotAvailableError when OpenAI package (needed for Gemini) is not installed."""
         with (
             patch("llm_client.providers.OpenAI", None),
-            pytest.raises(RuntimeError, match="OpenAI package required for Gemini"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="gemini provider not available. Install with: pip install openai",
+            ),
         ):
             GeminiProvider(llm="gemini-2.5-flash", api_key="AIzaSy-test")
 
@@ -309,10 +317,13 @@ class TestOllamaProvider:
             assert provider.client is None  # Ollama doesn't use a client object
 
     def test_initialization_when_package_not_available(self):
-        """Test: RuntimeError when ollama package is not installed."""
+        """Test: ProviderNotAvailableError when ollama package is not installed."""
         with (
             patch("llm_client.providers.ollama", None),
-            pytest.raises(RuntimeError, match="Ollama package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="ollama provider not available. Install with: pip install ollama",
+            ),
         ):
             OllamaProvider(llm="llama3.2:1b")
 
@@ -343,13 +354,16 @@ class TestOllamaProvider:
             )
 
     def test_chat_completion_when_package_not_available(self):
-        """Test: RuntimeError when ollama package is not available during chat."""
+        """Test: ProviderNotAvailableError when ollama package is not available during chat."""
         with patch("llm_client.providers.ollama", MagicMock()):
             provider = OllamaProvider(llm="llama3.2:1b")
 
         with (
             patch("llm_client.providers.ollama", None),
-            pytest.raises(RuntimeError, match="Ollama Python package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="ollama provider not available. Install with: pip install ollama",
+            ),
         ):
             provider.chat_completion([{"role": "user", "content": "test"}])
 

@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_client import LLMClient
+from llm_client.exceptions import APIKeyNotFoundError, InvalidProviderError
 
 
 class TestSwitchProvider:
@@ -150,7 +151,7 @@ class TestSwitchProvider:
             assert client.client is None  # Ollama hat keinen Client
 
     def test_switch_invalid_provider_raises_error(self, monkeypatch):
-        """Test: Ungültiger Provider wirft ValueError."""
+        """Test: Ungültiger Provider wirft InvalidProviderError."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         # Patch at the correct location - in providers.py
@@ -159,11 +160,11 @@ class TestSwitchProvider:
 
             client = LLMClient(api_choice="openai")
 
-            with pytest.raises(ValueError, match="Invalid api_choice"):
+            with pytest.raises(InvalidProviderError, match="Invalid provider"):
                 client.switch_provider("invalid_provider")
 
     def test_switch_without_api_key_raises_error(self, monkeypatch):
-        """Test: Wechsel ohne API-Key wirft RuntimeError."""
+        """Test: Wechsel ohne API-Key wirft APIKeyNotFoundError."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
         monkeypatch.delenv("GROQ_API_KEY", raising=False)
 
@@ -173,7 +174,7 @@ class TestSwitchProvider:
 
             client = LLMClient(api_choice="openai")
 
-            with pytest.raises(RuntimeError, match="GROQ_API_KEY not found"):
+            with pytest.raises(APIKeyNotFoundError, match="GROQ_API_KEY not found"):
                 client.switch_provider("groq")
 
     def test_switch_preserves_old_parameters(self, monkeypatch):
