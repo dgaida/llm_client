@@ -1,4 +1,4 @@
-"""Factory for creating LLM provider instances with improved error handling."""
+"""Factory for creating LLM provider instances with async support."""
 
 import os
 from typing import Literal
@@ -13,6 +13,7 @@ class ProviderFactory:
 
     This factory handles the creation and configuration of different
     LLM providers based on the requested API choice and available API keys.
+    Supports both sync and async providers.
     """
 
     _provider_classes = {
@@ -21,6 +22,8 @@ class ProviderFactory:
         "gemini": GeminiProvider,
         "ollama": OllamaProvider,
     }
+
+    _async_provider_classes = {}  # Will be populated if async module available
 
     @classmethod
     def create_provider(
@@ -33,6 +36,7 @@ class ProviderFactory:
         groq_api_key: str | None = None,
         gemini_api_key: str | None = None,
         keep_alive: str = "5m",
+        use_async: bool = False,
     ) -> BaseProvider:
         """Create a provider instance.
 
@@ -45,6 +49,7 @@ class ProviderFactory:
             groq_api_key: Groq API key.
             gemini_api_key: Gemini API key.
             keep_alive: Ollama keep-alive duration.
+            use_async: If True, create async provider.
 
         Returns:
             Configured provider instance.
@@ -54,17 +59,26 @@ class ProviderFactory:
             APIKeyNotFoundError: If required API key is missing.
             ProviderNotAvailableError: If required package is not installed.
         """
+        # Lazy load async providers
+        if use_async and not cls._async_provider_classes:
+            cls._load_async_providers()
+
         # Auto-select API if not specified
         if api_choice is None:
             api_choice = cls._auto_select_api(openai_api_key, groq_api_key, gemini_api_key)
 
         # Validate API choice
         api_choice = api_choice.lower()
-        if api_choice not in cls._provider_classes:
-            raise InvalidProviderError(api_choice, list(cls._provider_classes.keys()))
+
+        # Select provider classes based on async flag
+        provider_classes = cls._async_provider_classes if use_async else cls._provider_classes
+
+        if api_choice not in provider_classes:
+            valid_providers = list(cls._provider_classes.keys())
+            raise InvalidProviderError(api_choice, valid_providers)
 
         # Get provider class
-        provider_class = cls._provider_classes[api_choice]
+        provider_class = provider_classes[api_choice]
 
         # Get model name (use default if not specified)
         if llm is None:
@@ -83,6 +97,26 @@ class ProviderFactory:
 
         # Create and return provider
         return provider_class(llm=llm, temperature=temperature, max_tokens=max_tokens, **kwargs)
+
+    @classmethod
+    def _load_async_providers(cls) -> None:
+        """Load async provider classes."""
+        try:
+            from .async_providers import (
+                AsyncGeminiProvider,
+                AsyncGroqProvider,
+                AsyncOpenAIProvider,
+            )
+
+            cls._async_provider_classes = {
+                "openai": AsyncOpenAIProvider,
+                "groq": AsyncGroqProvider,
+                "gemini": AsyncGeminiProvider,
+                "ollama": OllamaProvider,  # Ollama doesn't have async yet
+            }
+        except ImportError:
+            # Async providers not available
+            cls._async_provider_classes = cls._provider_classes.copy()
 
     @staticmethod
     def _auto_select_api(

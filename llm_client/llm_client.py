@@ -1,24 +1,28 @@
-"""Refactored LLM Client using Strategy Pattern with Providers."""
+"""LLM Client with token counting, async support, and config file loading."""
 
 import os
 import sys
-from collections.abc import Iterator
+from collections.abc import AsyncIterator, Iterator
+from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
 
 from .base_provider import BaseProvider
-
-# from .exceptions import ChatCompletionError
+from .config import LLMConfig
 from .provider_factory import ProviderFactory
+from .token_counter import TokenCounter
 
 
 class LLMClient:
     """Universal client for interacting with various LLM providers.
 
     This client uses a strategy pattern with provider classes to handle
-    different LLM APIs (OpenAI, Groq, Gemini, Ollama). It automatically
-    detects available API keys or allows manual provider selection.
+    different LLM APIs (OpenAI, Groq, Gemini, Ollama). It supports:
+    - Automatic API detection or manual selection
+    - Token counting with tiktoken
+    - Async operations
+    - Configuration file loading
 
     Attributes:
         provider: The current LLM provider instance.
@@ -26,6 +30,7 @@ class LLMClient:
         llm: Name of the current model.
         temperature: Current sampling temperature.
         max_tokens: Current maximum tokens setting.
+        token_counter: TokenCounter instance for counting tokens.
 
     Examples:
         >>> # Automatic API selection
@@ -33,15 +38,15 @@ class LLMClient:
         >>> messages = [{"role": "user", "content": "Hello!"}]
         >>> response = client.chat_completion(messages)
 
-        >>> # Manual provider selection
-        >>> client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
+        >>> # From config file
+        >>> client = LLMClient.from_config("llm_config.yaml")
 
-        >>> # Switch provider at runtime
-        >>> client.switch_provider("openai", llm="gpt-4o")
+        >>> # Count tokens
+        >>> token_count = client.count_tokens(messages)
 
-        >>> # Stream responses
-        >>> for chunk in client.chat_completion_stream(messages):
-        ...     print(chunk, end="", flush=True)
+        >>> # Async usage
+        >>> async_client = LLMClient(use_async=True)
+        >>> response = await async_client.achat_completion(messages)
     """
 
     def __init__(
@@ -52,6 +57,7 @@ class LLMClient:
         api_choice: Literal["openai", "groq", "gemini", "ollama"] | None = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
+        use_async: bool = False,
     ) -> None:
         """Initialize the LLM Client.
 
@@ -62,10 +68,12 @@ class LLMClient:
             api_choice: Explicit API choice. If None, auto-selects.
             secrets_path: Path to secrets.env file.
             keep_alive: Ollama-specific keep-alive duration.
+            use_async: If True, use async providers.
 
         Examples:
             >>> client = LLMClient(llm="gpt-4o", temperature=0.5)
             >>> client = LLMClient(api_choice="gemini")
+            >>> async_client = LLMClient(use_async=True)
         """
         # Load environment variables
         if os.path.exists(secrets_path):
@@ -84,6 +92,10 @@ class LLMClient:
         self.max_tokens = max_tokens
         self.keep_alive = keep_alive
         self._user_specified_llm = llm
+        self.use_async = use_async
+
+        # Initialize token counter
+        self.token_counter = TokenCounter()
 
         # Create provider using factory
         self.provider: BaseProvider = ProviderFactory.create_provider(
@@ -95,10 +107,73 @@ class LLMClient:
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             keep_alive=keep_alive,
+            use_async=use_async,
         )
 
-        # Store current API choice (infer from provider class)
+        # Store current API choice
         self.api_choice = self._get_api_choice_from_provider()
+
+    @classmethod
+    def from_config(
+        cls,
+        config_path: str | Path,
+        provider: str | None = None,
+        secrets_path: str = "secrets.env",
+        use_async: bool = False,
+    ) -> "LLMClient":
+        """Create LLMClient from configuration file.
+
+        Args:
+            config_path: Path to YAML or JSON configuration file.
+            provider: Provider to use. If None, uses default from config.
+            secrets_path: Path to secrets.env file.
+            use_async: If True, use async providers.
+
+        Returns:
+            Configured LLMClient instance.
+
+        Raises:
+            FileNotFoundError: If config file doesn't exist.
+            ValueError: If configuration is invalid.
+
+        Examples:
+            >>> # Use default provider from config
+            >>> client = LLMClient.from_config("llm_config.yaml")
+
+            >>> # Use specific provider
+            >>> client = LLMClient.from_config("llm_config.yaml", provider="groq")
+
+            >>> # Async client
+            >>> client = LLMClient.from_config("llm_config.yaml", use_async=True)
+        """
+        # Load configuration
+        config = LLMConfig.from_file(config_path)
+
+        # Validate configuration
+        is_valid, errors = config.validate()
+        if not is_valid:
+            raise ValueError(f"Invalid configuration: {'; '.join(errors)}")
+
+        # Determine which provider to use
+        provider_name = provider or config.default_provider
+        provider_config = config.get_provider_config(provider_name)
+
+        # Extract parameters
+        llm = provider_config.get("model")
+        temperature = provider_config.get("temperature", 0.7)
+        max_tokens = provider_config.get("max_tokens", 512)
+        keep_alive = provider_config.get("keep_alive", "5m")
+
+        # Create client
+        return cls(
+            llm=llm,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            api_choice=provider_name,
+            secrets_path=secrets_path,
+            keep_alive=keep_alive,
+            use_async=use_async,
+        )
 
     def _load_colab_secrets(self) -> None:
         """Load API keys from Google Colab userdata if available."""
@@ -193,6 +268,7 @@ class LLMClient:
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             keep_alive=self.keep_alive,
+            use_async=self.use_async,
         )
 
         # Update API choice
@@ -246,6 +322,85 @@ class LLMClient:
         """
         return self.provider.chat_completion_stream(messages)
 
+    async def achat_completion(self, messages: list[dict[str, str]]) -> str:
+        """Execute async chat completion.
+
+        Args:
+            messages: List of message dicts.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            RuntimeError: If provider doesn't support async.
+
+        Examples:
+            >>> response = await client.achat_completion(messages)
+        """
+        if not hasattr(self.provider, "achat_completion"):
+            raise RuntimeError(
+                f"{self.provider.__class__.__name__} does not support async. "
+                f"Create client with use_async=True"
+            )
+        return await self.provider.achat_completion(messages)
+
+    async def achat_completion_stream(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
+        """Stream response tokens asynchronously.
+
+        Args:
+            messages: List of message dicts.
+
+        Yields:
+            Individual tokens or chunks.
+
+        Raises:
+            RuntimeError: If provider doesn't support async streaming.
+
+        Examples:
+            >>> async for chunk in client.achat_completion_stream(messages):
+            ...     print(chunk, end="", flush=True)
+        """
+        if not hasattr(self.provider, "achat_completion_stream"):
+            raise RuntimeError(
+                f"{self.provider.__class__.__name__} does not support async streaming"
+            )
+        async for chunk in self.provider.achat_completion_stream(messages):
+            yield chunk
+
+    def count_tokens(self, messages: list[dict[str, str]], model: str | None = None) -> int:
+        """Count tokens in messages using tiktoken.
+
+        Args:
+            messages: List of message dicts to count tokens for.
+            model: Model name for encoding. If None, uses current model.
+
+        Returns:
+            Total token count.
+
+        Examples:
+            >>> messages = [{"role": "user", "content": "Hello world"}]
+            >>> token_count = client.count_tokens(messages)
+            >>> print(f"Tokens: {token_count}")
+        """
+        model_name = model or self.llm
+        return self.token_counter.count_tokens(messages, model=model_name)
+
+    def count_string_tokens(self, text: str, model: str | None = None) -> int:
+        """Count tokens in a string.
+
+        Args:
+            text: Text to count tokens for.
+            model: Model name. If None, uses current model.
+
+        Returns:
+            Token count.
+
+        Examples:
+            >>> token_count = client.count_string_tokens("Hello world!")
+        """
+        model_name = model or self.llm
+        return self.token_counter.count_string_tokens(text, model=model_name)
+
     @property
     def llm(self) -> str:
         """Get the current model name.
@@ -270,7 +425,8 @@ class LLMClient:
         Returns:
             String with client configuration info.
         """
+        async_suffix = " (async)" if self.use_async else ""
         return (
             f"LLMClient(api={self.api_choice}, model={self.llm}, "
-            f"temperature={self.temperature})"
+            f"temperature={self.temperature}{async_suffix})"
         )

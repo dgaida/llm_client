@@ -6,6 +6,7 @@ import pytest
 
 from llm_client.exceptions import (
     APIKeyNotFoundError,
+    ChatCompletionError,
     ProviderNotAvailableError,
 )
 from llm_client.providers import (
@@ -81,7 +82,10 @@ class TestOpenAIProvider:
             provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
             provider.client = None  # Simulate uninitialized client
 
-            with pytest.raises(RuntimeError, match="OpenAI client not initialized"):
+            with pytest.raises(
+                ChatCompletionError,
+                match="Chat completion failed for OpenAIProvider provider: RuntimeError: OpenAI client not initialized",
+            ):
                 provider.chat_completion([{"role": "user", "content": "test"}])
 
     def test_get_default_model(self):
@@ -186,7 +190,10 @@ class TestGroqProvider:
             provider = GroqProvider(llm="llama-3.3-70b-versatile", api_key="gsk-test")
             provider.client = None
 
-            with pytest.raises(RuntimeError, match="Groq client not initialized"):
+            with pytest.raises(
+                ChatCompletionError,
+                match="Chat completion failed for GroqProvider provider: RuntimeError: Groq client not initialized",
+            ):
                 provider.chat_completion([{"role": "user", "content": "test"}])
 
     def test_get_default_model(self):
@@ -361,8 +368,8 @@ class TestOllamaProvider:
         with (
             patch("llm_client.providers.ollama", None),
             pytest.raises(
-                ProviderNotAvailableError,
-                match="ollama provider not available. Install with: pip install ollama",
+                ChatCompletionError,
+                match="Chat completion failed for OllamaProvider provider: ProviderNotAvailableError: ollama provider not available. Install with: pip install ollama",
             ),
         ):
             provider.chat_completion([{"role": "user", "content": "test"}])

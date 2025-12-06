@@ -1,0 +1,45 @@
+# LLM Client Configuration File
+# This file configures multiple LLM providers for easy switching
+
+# Default provider to use when none specified
+default_provider: openai
+
+# Global settings applied to all providers (can be overridden per provider)
+global_settings:
+  temperature: 0.7
+  max_tokens: 512
+
+# Provider-specific configurations
+providers:
+  # OpenAI Configuration
+  openai:
+    model: gpt-4o-mini
+    temperature: 0.7
+    max_tokens: 512
+    # Optional: Override global settings
+    # temperature: 0.5
+
+  # Groq Configuration
+  groq:
+    model: moonshotai/kimi-k2-instruct-0905
+    temperature: 0.5
+    max_tokens: 1024
+
+  # Google Gemini Configuration
+  gemini:
+    model: gemini-2.0-flash-exp
+    temperature: 0.8
+    max_tokens: 2048
+
+  # Local Ollama Configuration
+  ollama:
+    model: llama3.2:1b
+    temperature: 0.7
+    max_tokens: 512
+    keep_alive: 5m  # Ollama-specific setting
+
+# Optional: Add custom provider configurations
+# custom_providers:
+#   my_custom_api:
+#     model: custom-model-v1
+#     temperature: 0.6

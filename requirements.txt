@@ -4,3 +4,6 @@ groq>=0.5.0
 ollama>=0.1.9
 llama-index
 tenacity>=8.2.0
+tiktoken
+pyyaml
+asyncio
