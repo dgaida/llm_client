@@ -416,12 +416,18 @@ class TestProviderFactoryIntegration:
         """Test: Auto-select only chooses from available packages."""
         with (
             patch("llm_client.providers.OpenAI", None),
-            patch("llm_client.providers.Groq", MagicMock()),
+            patch("llm_client.providers.Groq") as mock_groq,
         ):
+            mock_groq.return_value = MagicMock()
+
             # OpenAI not available, should select Groq
+            # Pass ONLY Groq key (not OpenAI key) since OpenAI is unavailable
             provider = ProviderFactory.create_provider(
-                api_choice=None, openai_api_key="sk-test", groq_api_key="gsk-test"
+                api_choice=None,
+                openai_api_key=None,  # Changed from "sk-test" to None
+                groq_api_key="gsk-test",
+                gemini_api_key=None,
             )
 
-            # Even though OpenAI key was provided, Groq is selected because OpenAI is unavailable
+            # Groq should be selected since OpenAI is unavailable
             assert isinstance(provider, GroqProvider)

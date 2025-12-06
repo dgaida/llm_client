@@ -1,8 +1,10 @@
-"""Concrete implementations of LLM providers."""
+"""Concrete implementations of LLM providers with streaming support."""
 
+from collections.abc import Iterator
 from typing import Any
 
 from .base_provider import BaseProvider
+from .exceptions import APIKeyNotFoundError, ProviderNotAvailableError
 
 # Optional imports - providers check availability
 try:
@@ -22,7 +24,7 @@ except ImportError:
 
 
 class OpenAIProvider(BaseProvider):
-    """Provider for OpenAI API."""
+    """Provider for OpenAI API with streaming support."""
 
     def _initialize_client(self, **kwargs: Any) -> None:
         """Initialize OpenAI client.
@@ -31,18 +33,19 @@ class OpenAIProvider(BaseProvider):
             **kwargs: Must contain 'api_key' for OpenAI authentication.
 
         Raises:
-            RuntimeError: If OpenAI package is not installed or API key is missing.
+            ProviderNotAvailableError: If OpenAI package is not installed.
+            APIKeyNotFoundError: If API key is missing.
         """
         if not self.is_available():
-            raise RuntimeError("OpenAI package not available. Install with: pip install openai")
+            raise ProviderNotAvailableError("openai", "openai")
 
         api_key = kwargs.get("api_key")
         if not api_key:
-            raise RuntimeError("OPENAI_API_KEY not found. Please set it in environment.")
+            raise APIKeyNotFoundError("openai", "OPENAI_API_KEY")
 
         self.client = OpenAI(api_key=api_key)
 
-    def chat_completion(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with OpenAI.
 
         Args:
@@ -65,6 +68,33 @@ class OpenAIProvider(BaseProvider):
         )
         return response.choices[0].message.content
 
+    def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream chat completion with OpenAI.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Yields:
+            Response text chunks as they arrive.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        stream = self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+            stream=True,
+        )
+
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                yield chunk.choices[0].delta.content
+
     @staticmethod
     def get_default_model() -> str:
         """Get default OpenAI model.
@@ -85,7 +115,7 @@ class OpenAIProvider(BaseProvider):
 
 
 class GroqProvider(BaseProvider):
-    """Provider for Groq API."""
+    """Provider for Groq API with streaming support."""
 
     def _initialize_client(self, **kwargs: Any) -> None:
         """Initialize Groq client.
@@ -94,18 +124,19 @@ class GroqProvider(BaseProvider):
             **kwargs: Must contain 'api_key' for Groq authentication.
 
         Raises:
-            RuntimeError: If Groq package is not installed or API key is missing.
+            ProviderNotAvailableError: If Groq package is not installed.
+            APIKeyNotFoundError: If API key is missing.
         """
         if not self.is_available():
-            raise RuntimeError("Groq package not available. Install with: pip install groq")
+            raise ProviderNotAvailableError("groq", "groq")
 
         api_key = kwargs.get("api_key")
         if not api_key:
-            raise RuntimeError("GROQ_API_KEY not found. Please set it in environment.")
+            raise APIKeyNotFoundError("groq", "GROQ_API_KEY")
 
         self.client = Groq(api_key=api_key)
 
-    def chat_completion(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Groq.
 
         Args:
@@ -127,6 +158,33 @@ class GroqProvider(BaseProvider):
             max_tokens=self.max_tokens,
         )
         return response.choices[0].message.content
+
+    def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream chat completion with Groq.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Yields:
+            Response text chunks as they arrive.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("Groq client not initialized")
+
+        stream = self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+            stream=True,
+        )
+
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                yield chunk.choices[0].delta.content
 
     @staticmethod
     def get_default_model() -> str:
@@ -157,16 +215,15 @@ class GeminiProvider(BaseProvider):
             **kwargs: Must contain 'api_key' for Gemini authentication.
 
         Raises:
-            RuntimeError: If OpenAI package is not installed or API key is missing.
+            ProviderNotAvailableError: If OpenAI package is not installed.
+            APIKeyNotFoundError: If API key is missing.
         """
         if not self.is_available():
-            raise RuntimeError(
-                "OpenAI package required for Gemini. Install with: pip install openai"
-            )
+            raise ProviderNotAvailableError("gemini", "openai")
 
         api_key = kwargs.get("api_key")
         if not api_key:
-            raise RuntimeError("GEMINI_API_KEY not found. Please set it in environment.")
+            raise APIKeyNotFoundError("gemini", "GEMINI_API_KEY")
 
         # Use OpenAI client with Gemini's base URL
         self.client = OpenAI(
@@ -174,7 +231,7 @@ class GeminiProvider(BaseProvider):
             base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
         )
 
-    def chat_completion(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Gemini.
 
         Args:
@@ -197,6 +254,33 @@ class GeminiProvider(BaseProvider):
         )
         return response.choices[0].message.content
 
+    def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream chat completion with Gemini.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Yields:
+            Response text chunks as they arrive.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("Gemini client not initialized")
+
+        stream = self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+            stream=True,
+        )
+
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                yield chunk.choices[0].delta.content
+
     @staticmethod
     def get_default_model() -> str:
         """Get default Gemini model.
@@ -217,7 +301,7 @@ class GeminiProvider(BaseProvider):
 
 
 class OllamaProvider(BaseProvider):
-    """Provider for local Ollama API."""
+    """Provider for local Ollama API with streaming support."""
 
     def __init__(
         self,
@@ -246,14 +330,14 @@ class OllamaProvider(BaseProvider):
             **kwargs: Unused for Ollama.
 
         Raises:
-            RuntimeError: If ollama package is not installed.
+            ProviderNotAvailableError: If ollama package is not installed.
         """
         if not self.is_available():
-            raise RuntimeError("Ollama package not available. Install with: pip install ollama")
+            raise ProviderNotAvailableError("ollama", "ollama")
         # Ollama doesn't need a client object
         self.client = None
 
-    def chat_completion(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Ollama.
 
         Args:
@@ -263,13 +347,10 @@ class OllamaProvider(BaseProvider):
             Generated text response.
 
         Raises:
-            RuntimeError: If ollama package is not available.
+            ProviderNotAvailableError: If ollama package is not available.
         """
         if not self.is_available():
-            raise RuntimeError(
-                "Ollama Python package not available. "
-                "Please install it via `pip install ollama`."
-            )
+            raise ProviderNotAvailableError("ollama", "ollama")
 
         response = ollama.chat(
             model=self.llm,
@@ -285,6 +366,39 @@ class OllamaProvider(BaseProvider):
             keep_alive=self.keep_alive,
         )
         return response["message"]["content"]
+
+    def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream chat completion with Ollama.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Yields:
+            Response text chunks as they arrive.
+
+        Raises:
+            ProviderNotAvailableError: If ollama package is not available.
+        """
+        if not self.is_available():
+            raise ProviderNotAvailableError("ollama", "ollama")
+
+        stream = ollama.chat(
+            model=self.llm,
+            messages=messages,
+            stream=True,
+            options={
+                "temperature": self.temperature,
+                "num_predict": self.max_tokens,
+                "repeat_penalty": 1.2,
+                "top_k": 10,
+                "top_p": 0.5,
+            },
+            keep_alive=self.keep_alive,
+        )
+
+        for chunk in stream:
+            if "message" in chunk and "content" in chunk["message"]:
+                yield chunk["message"]["content"]
 
     @staticmethod
     def get_default_model() -> str:

@@ -2,11 +2,14 @@
 
 import os
 import sys
+from collections.abc import Iterator
 from typing import Literal
 
 from dotenv import load_dotenv
 
 from .base_provider import BaseProvider
+
+# from .exceptions import ChatCompletionError
 from .provider_factory import ProviderFactory
 
 
@@ -35,6 +38,10 @@ class LLMClient:
 
         >>> # Switch provider at runtime
         >>> client.switch_provider("openai", llm="gpt-4o")
+
+        >>> # Stream responses
+        >>> for chunk in client.chat_completion_stream(messages):
+        ...     print(chunk, end="", flush=True)
     """
 
     def __init__(
@@ -158,8 +165,9 @@ class LLMClient:
             max_tokens: Optional new max_tokens. If None, keeps current.
 
         Raises:
-            ValueError: If api_choice is invalid.
-            RuntimeError: If API key for chosen provider is missing.
+            InvalidProviderError: If api_choice is invalid.
+            APIKeyNotFoundError: If API key for chosen provider is missing.
+            ProviderNotAvailableError: If provider package is not installed.
 
         Examples:
             >>> client = LLMClient(api_choice="openai")
@@ -193,6 +201,9 @@ class LLMClient:
     def chat_completion(self, messages: list[dict[str, str]]) -> str:
         """Execute a chat completion using the current provider.
 
+        This method includes automatic retry logic with exponential backoff
+        to handle transient API failures.
+
         Args:
             messages: List of message dicts with 'role' and 'content' keys.
 
@@ -200,7 +211,7 @@ class LLMClient:
             Generated text response.
 
         Raises:
-            RuntimeError: If the provider call fails.
+            ChatCompletionError: If the provider call fails after retries.
 
         Examples:
             >>> messages = [
@@ -210,6 +221,30 @@ class LLMClient:
             >>> response = client.chat_completion(messages)
         """
         return self.provider.chat_completion(messages)
+
+    def chat_completion_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream response tokens as they arrive from the LLM.
+
+        This method returns an iterator that yields response tokens in real-time,
+        enabling progressive display of the response.
+
+        Args:
+            messages: List of message dicts with 'role' and 'content' keys.
+
+        Yields:
+            Individual tokens or chunks of the response text.
+
+        Raises:
+            StreamingNotSupportedError: If streaming is not supported.
+            ChatCompletionError: If the streaming API call fails.
+
+        Examples:
+            >>> messages = [{"role": "user", "content": "Tell me a story"}]
+            >>> for chunk in client.chat_completion_stream(messages):
+            ...     print(chunk, end="", flush=True)
+            >>> print()  # New line after streaming completes
+        """
+        return self.provider.chat_completion_stream(messages)
 
     @property
     def llm(self) -> str:

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-client"
-version = "0.1.0"
-description = "Ein universeller LLM-Client für OpenAI, Groq und Ollama."
+version = "0.2.0"
+description = "Ein universeller LLM-Client für OpenAI, Groq, Gemini und Ollama."
 authors = [
   { name = "Daniel Gaida", email = "daniel.gaida@th-koeln.de" }
 ]
@@ -16,7 +16,8 @@ dependencies = [
   "python-dotenv>=1.0.1",
   "openai>=1.51.0",
   "groq>=0.5.0",
-  "ollama>=0.1.9"
+  "ollama>=0.1.9",
+  "tenacity>=8.2.0"
 ]
 
 [project.optional-dependencies]

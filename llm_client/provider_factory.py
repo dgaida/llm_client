@@ -1,9 +1,10 @@
-"""Factory for creating LLM provider instances."""
+"""Factory for creating LLM provider instances with improved error handling."""
 
 import os
 from typing import Literal
 
 from .base_provider import BaseProvider
+from .exceptions import APIKeyNotFoundError, InvalidProviderError
 from .providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
 
 
@@ -49,8 +50,9 @@ class ProviderFactory:
             Configured provider instance.
 
         Raises:
-            ValueError: If api_choice is invalid.
-            RuntimeError: If no API key is found and not using Ollama.
+            InvalidProviderError: If api_choice is invalid.
+            APIKeyNotFoundError: If required API key is missing.
+            ProviderNotAvailableError: If required package is not installed.
         """
         # Auto-select API if not specified
         if api_choice is None:
@@ -59,10 +61,7 @@ class ProviderFactory:
         # Validate API choice
         api_choice = api_choice.lower()
         if api_choice not in cls._provider_classes:
-            raise ValueError(
-                f"Invalid api_choice: {api_choice}. "
-                f"Must be one of {list(cls._provider_classes.keys())}"
-            )
+            raise InvalidProviderError(api_choice, list(cls._provider_classes.keys()))
 
         # Get provider class
         provider_class = cls._provider_classes[api_choice]
@@ -104,7 +103,7 @@ class ProviderFactory:
             Selected API name as string.
 
         Raises:
-            RuntimeError: If running in Colab without API keys.
+            APIKeyNotFoundError: If running in Colab without API keys.
         """
         import sys
 
@@ -117,9 +116,9 @@ class ProviderFactory:
         else:
             # Check if in Google Colab - if so, require API key
             if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
-                raise RuntimeError(
-                    "Kein API-Key gefunden. Bitte OPENAI_API_KEY, GROQ_API_KEY "
-                    "oder GEMINI_API_KEY in Colab-Umgebung setzen."
+                raise APIKeyNotFoundError(
+                    "colab",
+                    "OPENAI_API_KEY, GROQ_API_KEY, or GEMINI_API_KEY",
                 )
             return "ollama"
 

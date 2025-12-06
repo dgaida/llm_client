@@ -252,13 +252,13 @@ class TestLLMClientChatCompletion:
     def test_missing_ollama_package(self):
         """Test: RuntimeError wenn Ollama Package nicht verfügbar."""
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.ollama", None):
-            client = LLMClient(api_choice="ollama")
-
-            with pytest.raises(
-                RuntimeError, match="Ollama package not available. Install with: pip install ollama"
-            ):
-                client.chat_completion([{"role": "user", "content": "test"}])
+        # Need to patch BOTH the import check AND prevent initialization
+        with (
+            patch("llm_client.providers.ollama", None),
+            pytest.raises(RuntimeError, match="Ollama package not available"),
+        ):
+            # Now the error should be raised during initialization
+            LLMClient(api_choice="ollama")
 
     def test_gemini_parameters_passed_correctly(self, monkeypatch):
         """Test: Parameter werden korrekt an Gemini API übergeben."""
