@@ -1,54 +1,39 @@
-"""LLM Client Module für universelle LLM-API Zugriffe."""
+"""Refactored LLM Client using Strategy Pattern with Providers."""
 
 import os
-from typing import Any, Literal
+import sys
+from typing import Literal
 
 from dotenv import load_dotenv
 
-# Optionale Imports – falls nicht installiert, wird das erkannt
-try:
-    from openai import OpenAI
-except ImportError:
-    OpenAI = None  # type: ignore
-
-try:
-    from groq import Groq
-except ImportError:
-    Groq = None  # type: ignore
-
-try:
-    import ollama
-except ImportError:
-    ollama = None  # type: ignore
+from .base_provider import BaseProvider
+from .provider_factory import ProviderFactory
 
 
 class LLMClient:
-    """Eine universelle Klasse zur Nutzung von OpenAI, Groq, Gemini oder Ollama.
+    """Universal client for interacting with various LLM providers.
 
-    Diese Klasse erkennt automatisch verfügbare API-Keys und wählt die
-    entsprechende API oder erlaubt manuelle Steuerung per Parameter.
+    This client uses a strategy pattern with provider classes to handle
+    different LLM APIs (OpenAI, Groq, Gemini, Ollama). It automatically
+    detects available API keys or allows manual provider selection.
 
     Attributes:
-        api_choice: Die gewählte API ('openai', 'groq', 'gemini' oder 'ollama').
-        llm: Name des verwendeten Modells.
-        temperature: Sampling-Temperatur für die Generierung.
-        max_tokens: Maximale Anzahl zu generierender Tokens.
-        keep_alive: Ollama-spezifisch - wie lange Modell im Speicher bleibt.
-        client: Instanz des gewählten API-Clients.
-        openai_api_key: OpenAI API Key (falls vorhanden).
-        groq_api_key: Groq API Key (falls vorhanden).
-        gemini_api_key: Gemini API Key (falls vorhanden).
+        provider: The current LLM provider instance.
+        api_choice: Name of the currently active API.
+        llm: Name of the current model.
+        temperature: Current sampling temperature.
+        max_tokens: Current maximum tokens setting.
 
     Examples:
-        >>> # Automatische API-Auswahl basierend auf verfügbaren Keys
+        >>> # Automatic API selection
         >>> client = LLMClient()
         >>> messages = [{"role": "user", "content": "Hello!"}]
         >>> response = client.chat_completion(messages)
 
-        >>> # Manuell Gemini wählen
+        >>> # Manual provider selection
         >>> client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
 
-        >>> # Provider während der Laufzeit wechseln
+        >>> # Switch provider at runtime
         >>> client.switch_provider("openai", llm="gpt-4o")
     """
 
@@ -61,150 +46,98 @@ class LLMClient:
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
     ) -> None:
-        """Initialisiert den LLM Client.
+        """Initialize the LLM Client.
 
         Args:
-            llm: Name des Modells. Wenn None, wird ein Default-Modell gewählt.
-            temperature: Sampling-Temperatur (0.0 bis 2.0). Standard: 0.7.
-            max_tokens: Maximale Anzahl zu generierender Tokens. Standard: 512.
-            api_choice: Explizite API-Wahl ('openai', 'groq', 'gemini', 'ollama').
-                Wenn None, wird automatisch gewählt.
-            secrets_path: Pfad zur secrets.env-Datei. Standard: "secrets.env".
-            keep_alive: Ollama-Parameter für Modell-Caching. Standard: "5m".
-
-        Raises:
-            ValueError: Wenn api_choice einen ungültigen Wert hat.
+            llm: Model name. If None, uses provider's default.
+            temperature: Sampling temperature (0.0 to 2.0).
+            max_tokens: Maximum tokens to generate.
+            api_choice: Explicit API choice. If None, auto-selects.
+            secrets_path: Path to secrets.env file.
+            keep_alive: Ollama-specific keep-alive duration.
 
         Examples:
             >>> client = LLMClient(llm="gpt-4o", temperature=0.5)
-            >>> client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
+            >>> client = LLMClient(api_choice="gemini")
         """
-        # 1. Lade secrets.env, falls vorhanden
+        # Load environment variables
         if os.path.exists(secrets_path):
             load_dotenv(secrets_path)
 
-        self.openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
-        self.groq_api_key: str | None = os.getenv("GROQ_API_KEY")
-        self.gemini_api_key: str | None = os.getenv("GEMINI_API_KEY")
+        # Load API keys from environment
+        self.openai_api_key = os.getenv("OPENAI_API_KEY")
+        self.groq_api_key = os.getenv("GROQ_API_KEY")
+        self.gemini_api_key = os.getenv("GEMINI_API_KEY")
 
-        # 2. Fallback für Google Colab – Keys einzeln und robust prüfen
-        import sys
+        # Try loading from Google Colab userdata
+        self._load_colab_secrets()
 
-        if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
-            try:
-                from google.colab import userdata
+        # Store configuration
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+        self.keep_alive = keep_alive
+        self._user_specified_llm = llm
 
-                try:
-                    if not self.openai_api_key:
-                        self.openai_api_key = userdata.get("OPENAI_API_KEY")
-                except Exception as e:
-                    print(e)
-                try:
-                    if not self.groq_api_key:
-                        self.groq_api_key = userdata.get("GROQ_API_KEY")
-                except Exception as e:
-                    print(e)
-                try:
-                    if not self.gemini_api_key:
-                        self.gemini_api_key = userdata.get("GEMINI_API_KEY")
-                except Exception as e:
-                    print(e)
-            except Exception as e:
-                print(e)
+        # Create provider using factory
+        self.provider: BaseProvider = ProviderFactory.create_provider(
+            api_choice=api_choice,
+            llm=llm,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            openai_api_key=self.openai_api_key,
+            groq_api_key=self.groq_api_key,
+            gemini_api_key=self.gemini_api_key,
+            keep_alive=keep_alive,
+        )
 
-        # 3. Automatische API-Auswahl
-        if api_choice is None:
-            if self.openai_api_key:
-                self.api_choice: str = "openai"
-            elif self.groq_api_key:
-                self.api_choice = "groq"
-            elif self.gemini_api_key:
-                self.api_choice = "gemini"
-            else:
-                if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
-                    raise RuntimeError(
-                        "Kein API-Key gefunden. Bitte OPENAI_API_KEY, GROQ_API_KEY "
-                        "oder GEMINI_API_KEY in Colab-Umgebung setzen."
-                    )
-                else:
-                    self.api_choice = "ollama"
-        else:
-            valid_choices = {"openai", "groq", "gemini", "ollama"}
-            if api_choice.lower() not in valid_choices:
-                raise ValueError(
-                    f"Invalid api_choice: {api_choice}. " f"Must be one of {valid_choices}"
-                )
-            self.api_choice = api_choice.lower()
+        # Store current API choice (infer from provider class)
+        self.api_choice = self._get_api_choice_from_provider()
 
-        self.temperature: float = temperature
-        self.max_tokens: int = max_tokens
-        self.keep_alive: str = keep_alive
+    def _load_colab_secrets(self) -> None:
+        """Load API keys from Google Colab userdata if available."""
+        if "google.colab" not in sys.modules and "COLAB_GPU" not in os.environ:
+            return
 
-        # 4. Modell setzen (wird in _set_default_model verwendet)
-        self._user_specified_llm = llm  # Speichere ob User ein Modell angegeben hat
-        self.llm: str = ""  # Wird gleich gesetzt
+        try:
+            from google.colab import userdata
 
-        # 5. Initialize client
-        self.client: Any | None = None
-        self._initialize_client()
-
-    def _set_default_model(self) -> None:
-        """Setzt das Default-Modell basierend auf der gewählten API.
-
-        Wird intern verwendet um das passende Modell zu wählen wenn
-        kein spezifisches Modell vom User angegeben wurde.
-        """
-        if self._user_specified_llm:
-            self.llm = self._user_specified_llm
-        else:
-            if self.api_choice == "openai":
-                self.llm = "gpt-4o-mini"
-            elif self.api_choice == "groq":
-                self.llm = "moonshotai/kimi-k2-instruct-0905"
-            elif self.api_choice == "gemini":
-                self.llm = "gemini-2.0-flash-exp"
-            else:
-                self.llm = "llama3.2:1b"
-
-    def _initialize_client(self) -> None:
-        """Initialisiert den API-Client basierend auf api_choice.
-
-        Wird intern verwendet um den passenden Client zu erstellen.
-        Prüft auch ob die benötigten API-Keys vorhanden sind.
-
-        Raises:
-            RuntimeError: Wenn kein API-Key für die gewählte API vorhanden ist.
-        """
-        self._set_default_model()
-
-        if self.api_choice == "openai":
+            # Try loading each key individually
             if not self.openai_api_key:
-                raise RuntimeError(
-                    "OPENAI_API_KEY not found. Please set it in secrets.env or environment."
-                )
-            if OpenAI:
-                self.client = OpenAI(api_key=self.openai_api_key)
-        elif self.api_choice == "groq":
+                try:
+                    self.openai_api_key = userdata.get("OPENAI_API_KEY")
+                except Exception as e:
+                    print(e)
+
             if not self.groq_api_key:
-                raise RuntimeError(
-                    "GROQ_API_KEY not found. Please set it in secrets.env or environment."
-                )
-            if Groq:
-                self.client = Groq(api_key=self.groq_api_key)
-        elif self.api_choice == "gemini":
+                try:
+                    self.groq_api_key = userdata.get("GROQ_API_KEY")
+                except Exception as e:
+                    print(e)
+
             if not self.gemini_api_key:
-                raise RuntimeError(
-                    "GEMINI_API_KEY not found. Please set it in secrets.env or environment."
-                )
-            if OpenAI:
-                # Nutze OpenAI-Kompatibilitätsmodus für Gemini
-                self.client = OpenAI(
-                    api_key=self.gemini_api_key,
-                    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-                )
-        elif self.api_choice == "ollama":
-            # Ollama benötigt keinen API-Key
-            self.client = None
+                try:
+                    self.gemini_api_key = userdata.get("GEMINI_API_KEY")
+                except Exception as e:
+                    print(e)
+        except Exception as e:
+            print(e)
+
+    def _get_api_choice_from_provider(self) -> str:
+        """Infer API choice from provider class name.
+
+        Returns:
+            API name as string.
+        """
+        provider_class_name = self.provider.__class__.__name__.lower()
+        if "openai" in provider_class_name:
+            return "openai"
+        elif "groq" in provider_class_name:
+            return "groq"
+        elif "gemini" in provider_class_name:
+            return "gemini"
+        elif "ollama" in provider_class_name:
+            return "ollama"
+        return "unknown"
 
     def switch_provider(
         self,
@@ -213,143 +146,94 @@ class LLMClient:
         temperature: float | None = None,
         max_tokens: int | None = None,
     ) -> None:
-        """Wechselt den LLM-Provider zur Laufzeit.
+        """Switch to a different LLM provider at runtime.
 
-        Diese Methode ermöglicht es, den Provider zu wechseln ohne ein neues
-        LLMClient-Objekt erstellen zu müssen. Optional können auch Modell,
-        Temperatur und max_tokens angepasst werden.
+        This allows changing providers without creating a new client instance.
+        Useful for fallback strategies, cost optimization, or A/B testing.
 
         Args:
-            api_choice: Die neue API ('openai', 'groq', 'gemini' oder 'ollama').
-            llm: Optionales neues Modell. Wenn None, wird Default-Modell gewählt.
-            temperature: Optional neue Temperatur. Wenn None, bleibt alte erhalten.
-            max_tokens: Optional neue max_tokens. Wenn None, bleibt alte erhalten.
+            api_choice: Target API to switch to.
+            llm: Optional new model name. If None, uses provider default.
+            temperature: Optional new temperature. If None, keeps current.
+            max_tokens: Optional new max_tokens. If None, keeps current.
 
         Raises:
-            ValueError: Wenn api_choice ungültig ist.
-            RuntimeError: Wenn kein API-Key für die gewählte API vorhanden ist.
+            ValueError: If api_choice is invalid.
+            RuntimeError: If API key for chosen provider is missing.
 
         Examples:
             >>> client = LLMClient(api_choice="openai")
-            >>> # ... mehrere API-Calls ...
             >>> client.switch_provider("gemini", llm="gemini-2.5-flash")
-            >>> # Jetzt wird Gemini verwendet
-
-            >>> # Provider wechseln und Temperatur anpassen
-            >>> client.switch_provider("groq", temperature=0.5)
-
-            >>> # Nur Provider wechseln, Rest bleibt gleich
-            >>> client.switch_provider("ollama")
+            >>> client.switch_provider("groq", temperature=0.3)
         """
-        valid_choices = {"openai", "groq", "gemini", "ollama"}
-        if api_choice.lower() not in valid_choices:
-            raise ValueError(f"Invalid api_choice: {api_choice}. Must be one of {valid_choices}")
-
-        # Setze neuen API-Choice
-        self.api_choice = api_choice.lower()
-
-        # Update Modell wenn angegeben, sonst merke dass User-Spezifikation gelöscht wird
-        if llm is not None:
-            self._user_specified_llm = llm
-        else:
-            # Beim Provider-Wechsel ohne Modell-Angabe zum Default wechseln
-            self._user_specified_llm = None
-
-        # Update optionale Parameter
+        # Update parameters if provided
         if temperature is not None:
             self.temperature = temperature
         if max_tokens is not None:
             self.max_tokens = max_tokens
 
-        # Re-initialisiere Client
-        self._initialize_client()
+        # Update user-specified model
+        self._user_specified_llm = llm
+
+        # Create new provider
+        self.provider = ProviderFactory.create_provider(
+            api_choice=api_choice,
+            llm=llm,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+            openai_api_key=self.openai_api_key,
+            groq_api_key=self.groq_api_key,
+            gemini_api_key=self.gemini_api_key,
+            keep_alive=self.keep_alive,
+        )
+
+        # Update API choice
+        self.api_choice = api_choice.lower()
 
     def chat_completion(self, messages: list[dict[str, str]]) -> str:
-        """Führt eine Chat-Completion mit der gewählten API aus.
+        """Execute a chat completion using the current provider.
 
         Args:
-            messages: Liste von Nachrichten im Chat-Format.
-                Jede Nachricht ist ein Dict mit 'role' und 'content' Keys.
-                Beispiel: [{"role": "user", "content": "Hello!"}]
+            messages: List of message dicts with 'role' and 'content' keys.
 
         Returns:
-            Der generierte Text als String.
+            Generated text response.
 
         Raises:
-            RuntimeError: Wenn der gewählte Client nicht verfügbar ist.
-            ValueError: Wenn api_choice ungültig ist.
+            RuntimeError: If the provider call fails.
 
         Examples:
-            >>> client = LLMClient()
             >>> messages = [
             ...     {"role": "system", "content": "You are helpful."},
             ...     {"role": "user", "content": "Explain AI."}
             ... ]
             >>> response = client.chat_completion(messages)
-            >>> print(response)
         """
-        if self.api_choice == "openai":
-            if not self.client:
-                raise RuntimeError("OpenAI client not available or not installed.")
-            response = self.client.chat.completions.create(
-                model=self.llm,
-                messages=messages,
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-            )
-            return response.choices[0].message.content
+        return self.provider.chat_completion(messages)
 
-        elif self.api_choice == "groq":
-            if not self.client:
-                raise RuntimeError("Groq client not available or not installed.")
-            response = self.client.chat.completions.create(
-                model=self.llm,
-                messages=messages,
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-            )
-            return response.choices[0].message.content
-
-        elif self.api_choice == "gemini":
-            if not self.client:
-                raise RuntimeError("Gemini client not available or not installed.")
-            response = self.client.chat.completions.create(
-                model=self.llm,
-                messages=messages,
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-            )
-            return response.choices[0].message.content
-
-        elif self.api_choice == "ollama":
-            if not ollama:
-                raise RuntimeError(
-                    "Ollama Python package not available. "
-                    "Please install it via `pip install ollama`."
-                )
-            response = ollama.chat(
-                model=self.llm,
-                messages=messages,
-                stream=False,
-                options={
-                    "temperature": self.temperature,
-                    "num_predict": self.max_tokens,
-                    "repeat_penalty": 1.2,
-                    "top_k": 10,
-                    "top_p": 0.5,
-                },
-                keep_alive=self.keep_alive,
-            )
-            return response["message"]["content"]
-
-        else:
-            raise ValueError(f"Unsupported API choice: {self.api_choice}")
-
-    def __repr__(self) -> str:
-        """Gibt eine String-Repräsentation des Clients zurück.
+    @property
+    def llm(self) -> str:
+        """Get the current model name.
 
         Returns:
-            String-Repräsentation mit API und Modell-Info.
+            Name of the current model.
+        """
+        return self.provider.llm
+
+    @property
+    def client(self):
+        """Get the underlying API client (for backward compatibility).
+
+        Returns:
+            The provider's client instance.
+        """
+        return self.provider.client
+
+    def __repr__(self) -> str:
+        """Return string representation of the client.
+
+        Returns:
+            String with client configuration info.
         """
         return (
             f"LLMClient(api={self.api_choice}, model={self.llm}, "
