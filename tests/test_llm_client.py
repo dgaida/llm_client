@@ -6,6 +6,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_client import LLMClient
+from llm_client.exceptions import (
+    InvalidProviderError,
+    ProviderNotAvailableError,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -75,7 +79,10 @@ class TestLLMClientInitialization:
 
     def test_invalid_api_choice_raises_error(self):
         """Test: Ungültige API-Wahl wirft ValueError."""
-        with pytest.raises(ValueError, match="Invalid api_choice"):
+        with pytest.raises(
+            InvalidProviderError,
+            match="Invalid provider: invalid_api. Valid providers are: openai, groq, gemini, ollama",
+        ):
             LLMClient(api_choice="invalid_api")
 
     def test_gemini_custom_model(self, monkeypatch):
@@ -223,7 +230,10 @@ class TestLLMClientChatCompletion:
         # Patch at the correct location - in providers.py
         with (
             patch("llm_client.providers.OpenAI", None),
-            pytest.raises(RuntimeError, match="OpenAI package required for Gemini"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="gemini provider not available. Install with: pip install openai",
+            ),
         ):
             LLMClient(api_choice="gemini")
 
@@ -234,7 +244,10 @@ class TestLLMClientChatCompletion:
         # Patch at the correct location - in providers.py
         with (
             patch("llm_client.providers.OpenAI", None),
-            pytest.raises(RuntimeError, match="OpenAI package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="openai provider not available. Install with: pip install openai",
+            ),
         ):
             LLMClient(api_choice="openai")
 
@@ -245,7 +258,10 @@ class TestLLMClientChatCompletion:
         # Patch at the correct location - in providers.py
         with (
             patch("llm_client.providers.Groq", None),
-            pytest.raises(RuntimeError, match="Groq package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="groq provider not available. Install with: pip install groq",
+            ),
         ):
             LLMClient(api_choice="groq")
 
@@ -255,7 +271,10 @@ class TestLLMClientChatCompletion:
         # Need to patch BOTH the import check AND prevent initialization
         with (
             patch("llm_client.providers.ollama", None),
-            pytest.raises(RuntimeError, match="Ollama package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="ollama provider not available. Install with: pip install ollama",
+            ),
         ):
             # Now the error should be raised during initialization
             LLMClient(api_choice="ollama")

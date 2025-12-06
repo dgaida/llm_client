@@ -5,6 +5,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from llm_client.exceptions import (
+    APIKeyNotFoundError,
+)
 from llm_client.provider_factory import ProviderFactory
 from llm_client.providers import (
     GeminiProvider,
@@ -193,7 +196,10 @@ class TestAutoSelectAPI:
         monkeypatch.setitem(sys.modules, "google.colab", MagicMock())
         monkeypatch.setenv("COLAB_GPU", "1")
 
-        with pytest.raises(RuntimeError, match="Kein API-Key gefunden"):
+        with pytest.raises(
+            APIKeyNotFoundError,
+            match="OPENAI_API_KEY, GROQ_API_KEY, or GEMINI_API_KEY not found for colab provider. Please set it in environment or pass explicitly.",
+        ):
             ProviderFactory._auto_select_api(
                 openai_api_key=None, groq_api_key=None, gemini_api_key=None
             )

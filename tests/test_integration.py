@@ -8,6 +8,11 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from llm_client import LLMClient, ProviderFactory
+from llm_client.exceptions import (
+    APIKeyNotFoundError,
+    InvalidProviderError,
+    ProviderNotAvailableError,
+)
 from llm_client.providers import (
     GeminiProvider,
     GroqProvider,
@@ -284,7 +289,10 @@ class TestErrorHandlingIntegration:
         """Test: Missing API key error propagates from provider through client."""
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        with pytest.raises(RuntimeError, match="OPENAI_API_KEY not found"):
+        with pytest.raises(
+            APIKeyNotFoundError,
+            match="OPENAI_API_KEY not found for openai provider. Please set it in environment or pass explicitly.",
+        ):
             LLMClient(api_choice="openai")
 
     def test_invalid_provider_switch_propagates(self, monkeypatch):
@@ -296,7 +304,10 @@ class TestErrorHandlingIntegration:
 
             client = LLMClient(api_choice="openai")
 
-            with pytest.raises(ValueError, match="Invalid api_choice"):
+            with pytest.raises(
+                InvalidProviderError,
+                match="Invalid provider: nonexistent. Valid providers are: openai, groq, gemini, ollama",
+            ):
                 client.switch_provider("nonexistent")
 
     def test_package_not_available_error(self, monkeypatch):
@@ -305,7 +316,10 @@ class TestErrorHandlingIntegration:
 
         with (
             patch("llm_client.providers.Groq", None),
-            pytest.raises(RuntimeError, match="Groq package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="groq provider not available. Install with: pip install groq",
+            ),
         ):
             LLMClient(api_choice="groq")
 

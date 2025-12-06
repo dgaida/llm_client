@@ -4,6 +4,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from llm_client.exceptions import (
+    APIKeyNotFoundError,
+    ProviderNotAvailableError,
+)
 from llm_client.providers import (
     GeminiProvider,
     GroqProvider,
@@ -33,14 +37,20 @@ class TestOpenAIProvider:
 
     def test_initialization_without_api_key_raises_error(self):
         """Test: RuntimeError when API key is missing."""
-        with pytest.raises(RuntimeError, match="OPENAI_API_KEY not found"):
+        with pytest.raises(
+            APIKeyNotFoundError,
+            match="OPENAI_API_KEY not found for openai provider. Please set it in environment or pass explicitly.",
+        ):
             OpenAIProvider(llm="gpt-4o", temperature=0.7, max_tokens=512)
 
     def test_initialization_when_package_not_available(self):
         """Test: RuntimeError when OpenAI package is not installed."""
         with (
             patch("llm_client.providers.OpenAI", None),
-            pytest.raises(RuntimeError, match="OpenAI package not available"),
+            pytest.raises(
+                ProviderNotAvailableError,
+                match="openai provider not available. Install with: pip install openai",
+            ),
         ):
             OpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
