@@ -164,9 +164,12 @@ providers:
     keep_alive: 15m
 """
         )
+        mock_response = {"message": {"content": "test"}}
 
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = {"message": {"content": "test"}}
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_response
+            mock_client.return_value = mock_instance
 
             client = LLMClient.from_config(config_path)
 

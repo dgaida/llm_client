@@ -315,7 +315,7 @@ class TestOllamaProvider:
 
     def test_initialization_success(self):
         """Test: Ollama provider initializes correctly."""
-        with patch("llm_client.providers.ollama", MagicMock()):
+        with patch("llm_client.providers.Client", MagicMock()):
             provider = OllamaProvider(
                 llm="llama3.2:1b", temperature=0.7, max_tokens=512, keep_alive="5m"
             )
@@ -329,7 +329,8 @@ class TestOllamaProvider:
     def test_initialization_when_package_not_available(self):
         """Test: ProviderNotAvailableError when ollama package is not installed."""
         with (
-            patch("llm_client.providers.ollama", None),
+            patch("llm_client.providers.Client", None),
+            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="ollama provider not available. Install with: pip install ollama",
@@ -341,15 +342,17 @@ class TestOllamaProvider:
         """Test: Chat completion returns correct response."""
         mock_response = {"message": {"content": "Ollama response"}}
 
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = mock_response
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_response
+            mock_client.return_value = mock_instance
 
             provider = OllamaProvider(llm="llama3.2:1b", keep_alive="10m")
             messages = [{"role": "user", "content": "Hello"}]
             response = provider.chat_completion(messages)
 
             assert response == "Ollama response"
-            mock_ollama.chat.assert_called_once_with(
+            mock_instance.chat.assert_called_once_with(
                 model="llama3.2:1b",
                 messages=messages,
                 stream=False,
@@ -365,11 +368,12 @@ class TestOllamaProvider:
 
     def test_chat_completion_when_package_not_available(self):
         """Test: ProviderNotAvailableError when ollama package is not available during chat."""
-        with patch("llm_client.providers.ollama", MagicMock()):
+        with patch("llm_client.providers.Client", MagicMock()):
             provider = OllamaProvider(llm="llama3.2:1b")
 
         with (
-            patch("llm_client.providers.ollama", None),
+            patch("llm_client.providers.Client", None),
+            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
             pytest.raises(
                 ChatCompletionError,
                 match="Chat completion failed for OllamaProvider provider: ProviderNotAvailableError: ollama provider not available. Install with: pip install ollama",
@@ -383,17 +387,17 @@ class TestOllamaProvider:
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when package is installed."""
-        with patch("llm_client.providers.ollama", MagicMock()):
+        with patch("llm_client.providers.Client", MagicMock()):
             assert OllamaProvider.is_available() is True
 
     def test_is_available_when_not_installed(self):
         """Test: is_available returns False when package is not installed."""
-        with patch("llm_client.providers.ollama", None):
+        with patch("llm_client.providers.Client", None):
             assert OllamaProvider.is_available() is False
 
     def test_custom_keep_alive_parameter(self):
         """Test: Custom keep_alive parameter is stored correctly."""
-        with patch("llm_client.providers.ollama", MagicMock()):
+        with patch("llm_client.providers.Client", MagicMock()):
             provider = OllamaProvider(llm="llama3.2:1b", keep_alive="15m")
             assert provider.keep_alive == "15m"
 
@@ -401,13 +405,15 @@ class TestOllamaProvider:
         """Test: Custom parameters are passed correctly to ollama.chat."""
         mock_response = {"message": {"content": "Response"}}
 
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = mock_response
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_response
+            mock_client.return_value = mock_instance
 
             provider = OllamaProvider(llm="llama3.2:1b", temperature=0.5, max_tokens=1024)
             provider.chat_completion([{"role": "user", "content": "test"}])
 
-            call_kwargs = mock_ollama.chat.call_args[1]
+            call_kwargs = mock_instance.chat.call_args[1]
             assert call_kwargs["options"]["temperature"] == 0.5
             assert call_kwargs["options"]["num_predict"] == 1024
 

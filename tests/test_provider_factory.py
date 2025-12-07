@@ -74,8 +74,9 @@ class TestProviderFactoryCreation:
 
     def test_create_ollama_provider_explicit(self):
         """Test: Create Ollama provider explicitly."""
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = {"message": {"content": "test"}}
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_client.return_value = mock_instance
 
             provider = ProviderFactory.create_provider(
                 api_choice="ollama",
@@ -167,8 +168,9 @@ class TestAutoSelectAPI:
         if "google.colab" in sys.modules:
             del sys.modules["google.colab"]
 
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = {"message": {"content": "test"}}
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_client.return_value = mock_instance
 
             provider = ProviderFactory.create_provider(
                 api_choice=None, openai_api_key=None, groq_api_key=None, gemini_api_key=None
@@ -202,7 +204,7 @@ class TestAutoSelectAPI:
 
         with pytest.raises(
             APIKeyNotFoundError,
-            match="OPENAI_API_KEY, GROQ_API_KEY, or GEMINI_API_KEY not found for colab provider. Please set it in environment or pass explicitly.",
+            match="OPENAI_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, or OLLAMA_API_KEY not found for colab provider. Please set it in environment or pass explicitly.",
         ):
             ProviderFactory._auto_select_api(
                 openai_api_key=None, groq_api_key=None, gemini_api_key=None
@@ -217,7 +219,7 @@ class TestProviderAvailability:
         with (
             patch("llm_client.providers.OpenAI", MagicMock()),
             patch("llm_client.providers.Groq", MagicMock()),
-            patch("llm_client.providers.ollama", MagicMock()),
+            patch("llm_client.providers.Client", MagicMock()),
         ):
             available = ProviderFactory.get_available_providers()
 
@@ -231,7 +233,7 @@ class TestProviderAvailability:
         with (
             patch("llm_client.providers.OpenAI", MagicMock()),
             patch("llm_client.providers.Groq", None),
-            patch("llm_client.providers.ollama", MagicMock()),
+            patch("llm_client.providers.Client", MagicMock()),
         ):
             available = ProviderFactory.get_available_providers()
 
@@ -303,8 +305,9 @@ class TestProviderFactoryParameters:
 
     def test_ollama_keep_alive_parameter(self):
         """Test: keep_alive parameter is passed to Ollama provider."""
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = {"message": {"content": "test"}}
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_client.return_value = mock_instance
 
             provider = ProviderFactory.create_provider(api_choice="ollama", keep_alive="15m")
 
@@ -333,8 +336,9 @@ class TestProviderFactoryEdgeCases:
 
     def test_empty_api_key_strings(self):
         """Test: Empty string API keys are treated as None."""
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = {"message": {"content": "test"}}
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_client.return_value = mock_instance
 
             # Empty strings should be treated as no key
             provider = ProviderFactory.create_provider(
