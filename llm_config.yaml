@@ -16,8 +16,6 @@ providers:
     model: gpt-4o-mini
     temperature: 0.7
     max_tokens: 512
-    # Optional: Override global settings
-    # temperature: 0.5
 
   # Groq Configuration
   groq:
@@ -36,10 +34,14 @@ providers:
     model: llama3.2:1b
     temperature: 0.7
     max_tokens: 512
-    keep_alive: 5m  # Ollama-specific setting
+    keep_alive: 5m
+    use_cloud: false  # Set to true for Ollama Cloud
+    # host: http://localhost:11434  # Optional: Custom host
 
-# Optional: Add custom provider configurations
-# custom_providers:
-#   my_custom_api:
-#     model: custom-model-v1
-#     temperature: 0.6
+  # Ollama Cloud Configuration (alternative)
+  ollama_cloud:
+    model: gpt-oss:120b-cloud
+    temperature: 0.7
+    max_tokens: 1024
+    use_cloud: true
+    # host: https://ollama.com  # Optional: Custom cloud host

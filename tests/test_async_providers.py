@@ -115,7 +115,7 @@ class TestAsyncOpenAIProvider:
             assert result["tool_calls"][0]["function"]["name"] == "get_weather"
 
     async def test_sync_method_raises_runtime_error(self):
-        """Test: Sync method raises RuntimeError."""
+        """Test: Sync method raises RuntimeError wrapped in ChatCompletionError."""
         with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
@@ -123,7 +123,7 @@ class TestAsyncOpenAIProvider:
 
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
-            with pytest.raises(RuntimeError, match="only supports async"):
+            with pytest.raises(ChatCompletionError, match="only supports async"):
                 provider.chat_completion([])
 
     async def test_get_default_model(self):

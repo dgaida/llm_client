@@ -58,6 +58,8 @@ class LLMClient:
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
         use_async: bool = False,
+        use_ollama_cloud: bool = False,  # NEW
+        ollama_host: str | None = None,  # NEW
     ) -> None:
         """Initialize the LLM Client.
 
@@ -83,6 +85,12 @@ class LLMClient:
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
+        # Load Ollama Cloud API key
+        self.ollama_api_key = os.getenv("OLLAMA_API_KEY")
+
+        # Store Ollama-specific settings
+        self.use_ollama_cloud = use_ollama_cloud
+        self.ollama_host = ollama_host
 
         # Try loading from Google Colab userdata (nur für benötigte Keys)
         self._load_colab_secrets(api_choice)
@@ -106,8 +114,11 @@ class LLMClient:
             openai_api_key=self.openai_api_key,
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
+            ollama_api_key=self.ollama_api_key,  # NEW
             keep_alive=keep_alive,
             use_async=use_async,
+            use_ollama_cloud=use_ollama_cloud,  # NEW
+            ollama_host=ollama_host,  # NEW
         )
 
         # Store current API choice
@@ -163,6 +174,8 @@ class LLMClient:
         temperature = provider_config.get("temperature", 0.7)
         max_tokens = provider_config.get("max_tokens", 512)
         keep_alive = provider_config.get("keep_alive", "5m")
+        use_ollama_cloud = provider_config.get("use_cloud", False)  # NEW
+        ollama_host = provider_config.get("host")  # NEW
 
         # Create client
         return cls(
@@ -173,6 +186,8 @@ class LLMClient:
             secrets_path=secrets_path,
             keep_alive=keep_alive,
             use_async=use_async,
+            use_ollama_cloud=use_ollama_cloud,  # NEW
+            ollama_host=ollama_host,  # NEW
         )
 
     def _load_colab_secrets(self, api_choice: str | None = None) -> None:
@@ -188,15 +203,13 @@ class LLMClient:
         try:
             from google.colab import userdata
 
-            # Bestimme welche Keys geladen werden sollen
             if api_choice:
-                # Nur spezifischen Key laden
                 api_choice_lower = api_choice.lower()
                 key_map = {
                     "openai": ("OPENAI_API_KEY", "openai_api_key"),
                     "groq": ("GROQ_API_KEY", "groq_api_key"),
                     "gemini": ("GEMINI_API_KEY", "gemini_api_key"),
-                    # Ollama braucht keinen API Key
+                    "ollama": ("OLLAMA_API_KEY", "ollama_api_key"),  # NEW
                 }
 
                 if api_choice_lower in key_map:
@@ -208,7 +221,7 @@ class LLMClient:
                         except Exception as e:
                             print(f"Info: {env_key} not found in Colab secrets: {e}")
             else:
-                # Auto-Selection: Alle Keys versuchen zu laden
+                # Load all keys for auto-selection
                 if not self.openai_api_key:
                     try:
                         self.openai_api_key = userdata.get("OPENAI_API_KEY")
@@ -224,6 +237,12 @@ class LLMClient:
                 if not self.gemini_api_key:
                     try:
                         self.gemini_api_key = userdata.get("GEMINI_API_KEY")
+                    except Exception as e:
+                        print(e)
+
+                if not self.ollama_api_key:  # NEW
+                    try:
+                        self.ollama_api_key = userdata.get("OLLAMA_API_KEY")
                     except Exception as e:
                         print(e)
         except Exception as e:
@@ -252,6 +271,7 @@ class LLMClient:
         llm: str | None = None,
         temperature: float | None = None,
         max_tokens: int | None = None,
+        use_ollama_cloud: bool | None = None,
     ) -> None:
         """Switch to a different LLM provider at runtime.
 
@@ -279,11 +299,13 @@ class LLMClient:
             self.temperature = temperature
         if max_tokens is not None:
             self.max_tokens = max_tokens
+        if use_ollama_cloud is not None:  # NEW
+            self.use_ollama_cloud = use_ollama_cloud
 
         # Update user-specified model
         self._user_specified_llm = llm
 
-        # Lade ggf. fehlende API Keys aus Colab für den neuen Provider
+        # Load missing API keys from Colab
         self._load_colab_secrets(api_choice)
 
         # Create new provider
@@ -295,8 +317,11 @@ class LLMClient:
             openai_api_key=self.openai_api_key,
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
+            ollama_api_key=self.ollama_api_key,  # NEW
             keep_alive=self.keep_alive,
             use_async=self.use_async,
+            use_ollama_cloud=self.use_ollama_cloud,  # NEW
+            ollama_host=self.ollama_host,  # NEW
         )
 
         # Update API choice
