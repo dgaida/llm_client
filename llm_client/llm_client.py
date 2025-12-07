@@ -84,8 +84,8 @@ class LLMClient:
         self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
 
-        # Try loading from Google Colab userdata
-        self._load_colab_secrets()
+        # Try loading from Google Colab userdata (nur für benötigte Keys)
+        self._load_colab_secrets(api_choice)
 
         # Store configuration
         self.temperature = temperature
@@ -175,34 +175,59 @@ class LLMClient:
             use_async=use_async,
         )
 
-    def _load_colab_secrets(self) -> None:
-        """Load API keys from Google Colab userdata if available."""
+    def _load_colab_secrets(self, api_choice: str | None = None) -> None:
+        """Load API keys from Google Colab userdata if available.
+
+        Args:
+            api_choice: If specified, only load the key for this provider.
+                       If None, load all available keys for auto-selection.
+        """
         if "google.colab" not in sys.modules and "COLAB_GPU" not in os.environ:
             return
 
         try:
             from google.colab import userdata
 
-            # Try loading each key individually
-            if not self.openai_api_key:
-                try:
-                    self.openai_api_key = userdata.get("OPENAI_API_KEY")
-                except Exception as e:
-                    print(e)
+            # Bestimme welche Keys geladen werden sollen
+            if api_choice:
+                # Nur spezifischen Key laden
+                api_choice_lower = api_choice.lower()
+                key_map = {
+                    "openai": ("OPENAI_API_KEY", "openai_api_key"),
+                    "groq": ("GROQ_API_KEY", "groq_api_key"),
+                    "gemini": ("GEMINI_API_KEY", "gemini_api_key"),
+                    # Ollama braucht keinen API Key
+                }
 
-            if not self.groq_api_key:
-                try:
-                    self.groq_api_key = userdata.get("GROQ_API_KEY")
-                except Exception as e:
-                    print(e)
+                if api_choice_lower in key_map:
+                    env_key, attr_name = key_map[api_choice_lower]
+                    current_value = getattr(self, attr_name)
+                    if not current_value:
+                        try:
+                            setattr(self, attr_name, userdata.get(env_key))
+                        except Exception as e:
+                            print(f"Info: {env_key} not found in Colab secrets: {e}")
+            else:
+                # Auto-Selection: Alle Keys versuchen zu laden
+                if not self.openai_api_key:
+                    try:
+                        self.openai_api_key = userdata.get("OPENAI_API_KEY")
+                    except Exception as e:
+                        print(e)
 
-            if not self.gemini_api_key:
-                try:
-                    self.gemini_api_key = userdata.get("GEMINI_API_KEY")
-                except Exception as e:
-                    print(e)
+                if not self.groq_api_key:
+                    try:
+                        self.groq_api_key = userdata.get("GROQ_API_KEY")
+                    except Exception as e:
+                        print(e)
+
+                if not self.gemini_api_key:
+                    try:
+                        self.gemini_api_key = userdata.get("GEMINI_API_KEY")
+                    except Exception as e:
+                        print(e)
         except Exception as e:
-            print(e)
+            print(f"Info: Could not access Colab userdata: {e}")
 
     def _get_api_choice_from_provider(self) -> str:
         """Infer API choice from provider class name.
@@ -257,6 +282,9 @@ class LLMClient:
 
         # Update user-specified model
         self._user_specified_llm = llm
+
+        # Lade ggf. fehlende API Keys aus Colab für den neuen Provider
+        self._load_colab_secrets(api_choice)
 
         # Create new provider
         self.provider = ProviderFactory.create_provider(
