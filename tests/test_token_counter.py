@@ -27,9 +27,16 @@ class TestTokenCountingWithTiktoken:
     @pytest.fixture
     def mock_tiktoken(self):
         """Mock tiktoken module."""
+        # Import the module to ensure tiktoken attribute exists
+        import llm_client.token_counter as token_counter_module
+
+        # Create mock tiktoken if it doesn't exist
+        if not hasattr(token_counter_module, "tiktoken"):
+            token_counter_module.tiktoken = MagicMock()
+
         with (
             patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch.object(token_counter_module, "tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_encoding.encode.return_value = [1, 2, 3, 4, 5]  # 5 tokens
