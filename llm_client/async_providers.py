@@ -63,6 +63,31 @@ class AsyncProviderMixin:
         """
         raise NotImplementedError("Async chat completion not implemented")
 
+    async def achat_completion_with_tools(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute async chat completion with tools."""
+        try:
+            return await self._achat_completion_with_tools_impl(messages, tools, tool_choice)
+        except NotImplementedError as err:
+            raise NotImplementedError(
+                f"{self.__class__.__name__} does not support tool calling"
+            ) from err
+        except Exception as e:
+            raise ChatCompletionError(self.__class__.__name__, e) from e
+
+    async def _achat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Internal async implementation of tool calling."""
+        raise NotImplementedError("Async tool calling not implemented")
+
     async def achat_completion_stream(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
         """Stream response tokens asynchronously.
 
@@ -142,6 +167,46 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
         )
         return response.choices[0].message.content
 
+    async def _achat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute async chat completion with tools using OpenAI."""
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        kwargs = {
+            "model": self.llm,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": tools,
+        }
+
+        if tool_choice is not None:
+            kwargs["tool_choice"] = tool_choice
+
+        response = await self.client.chat.completions.create(**kwargs)
+
+        choice = response.choices[0]
+        return {
+            "content": choice.message.content,
+            "tool_calls": (
+                [
+                    {
+                        "id": tc.id,
+                        "type": tc.type,
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    }
+                    for tc in (choice.message.tool_calls or [])
+                ]
+                if choice.message.tool_calls
+                else None
+            ),
+        }
+
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
     ) -> AsyncIterator[str]:
@@ -204,6 +269,46 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
             max_tokens=self.max_tokens,
         )
         return response.choices[0].message.content
+
+    async def _achat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute async chat completion with tools using Groq."""
+        if not self.client:
+            raise RuntimeError("Groq client not initialized")
+
+        kwargs = {
+            "model": self.llm,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": tools,
+        }
+
+        if tool_choice is not None:
+            kwargs["tool_choice"] = tool_choice
+
+        response = await self.client.chat.completions.create(**kwargs)
+
+        choice = response.choices[0]
+        return {
+            "content": choice.message.content,
+            "tool_calls": (
+                [
+                    {
+                        "id": tc.id,
+                        "type": tc.type,
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    }
+                    for tc in (choice.message.tool_calls or [])
+                ]
+                if choice.message.tool_calls
+                else None
+            ),
+        }
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
@@ -270,6 +375,46 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
             max_tokens=self.max_tokens,
         )
         return response.choices[0].message.content
+
+    async def _achat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute async chat completion with tools using Gemini."""
+        if not self.client:
+            raise RuntimeError("Gemini client not initialized")
+
+        kwargs = {
+            "model": self.llm,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": tools,
+        }
+
+        if tool_choice is not None:
+            kwargs["tool_choice"] = tool_choice
+
+        response = await self.client.chat.completions.create(**kwargs)
+
+        choice = response.choices[0]
+        return {
+            "content": choice.message.content,
+            "tool_calls": (
+                [
+                    {
+                        "id": tc.id,
+                        "type": tc.type,
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    }
+                    for tc in (choice.message.tool_calls or [])
+                ]
+                if choice.message.tool_calls
+                else None
+            ),
+        }
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]

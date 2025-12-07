@@ -278,7 +278,10 @@ class TestGeminiProvider:
             provider = GeminiProvider(llm="gemini-2.5-flash", api_key="AIzaSy-test")
             provider.client = None
 
-            with pytest.raises(RuntimeError, match="Gemini client not initialized"):
+            with pytest.raises(
+                ChatCompletionError,
+                match="Chat completion failed for GeminiProvider provider: RuntimeError: Gemini client not initialized",
+            ):
                 provider.chat_completion([{"role": "user", "content": "test"}])
 
     def test_get_default_model(self):

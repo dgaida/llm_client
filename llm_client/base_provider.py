@@ -103,6 +103,74 @@ class BaseProvider(ABC):
         """
         pass
 
+    def chat_completion_with_tools(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute chat completion with function/tool calling support.
+
+        Args:
+            messages: List of message dictionaries.
+            tools: List of tool/function definitions.
+            tool_choice: Controls which tool is called ("auto", "none", specific tool).
+
+        Returns:
+            Dictionary with 'content' (str or None) and 'tool_calls' (list or None).
+
+        Raises:
+            ChatCompletionError: If the API call fails.
+            NotImplementedError: If provider doesn't support tools.
+
+        Examples:
+            >>> tools = [{
+            ...     "type": "function",
+            ...     "function": {
+            ...         "name": "get_weather",
+            ...         "description": "Get weather for a location",
+            ...         "parameters": {
+            ...             "type": "object",
+            ...             "properties": {
+            ...                 "location": {"type": "string"}
+            ...             }
+            ...         }
+            ...     }
+            ... }]
+            >>> result = provider.chat_completion_with_tools(messages, tools)
+        """
+        try:
+            return self._chat_completion_with_tools_impl(messages, tools, tool_choice)
+        except NotImplementedError as err:
+            raise NotImplementedError(
+                f"{self.__class__.__name__} does not support tool calling"
+            ) from err
+        except Exception as e:
+            raise ChatCompletionError(self.__class__.__name__, e) from e
+
+    def _chat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Internal implementation of tool calling.
+
+        Should be overridden by providers that support tools.
+
+        Args:
+            messages: List of message dictionaries.
+            tools: List of tool definitions.
+            tool_choice: Tool choice parameter.
+
+        Returns:
+            Dict with 'content' and 'tool_calls' keys.
+
+        Raises:
+            NotImplementedError: If provider doesn't support tools.
+        """
+        raise NotImplementedError("Tool calling not implemented for this provider")
+
     def chat_completion_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream response tokens as they arrive.
 

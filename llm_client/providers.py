@@ -95,6 +95,46 @@ class OpenAIProvider(BaseProvider):
             if chunk.choices[0].delta.content is not None:
                 yield chunk.choices[0].delta.content
 
+    def _chat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute chat completion with tools using OpenAI."""
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        kwargs = {
+            "model": self.llm,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": tools,
+        }
+
+        if tool_choice is not None:
+            kwargs["tool_choice"] = tool_choice
+
+        response = self.client.chat.completions.create(**kwargs)
+
+        choice = response.choices[0]
+        return {
+            "content": choice.message.content,
+            "tool_calls": (
+                [
+                    {
+                        "id": tc.id,
+                        "type": tc.type,
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    }
+                    for tc in (choice.message.tool_calls or [])
+                ]
+                if choice.message.tool_calls
+                else None
+            ),
+        }
+
     @staticmethod
     def get_default_model() -> str:
         """Get default OpenAI model.
@@ -158,6 +198,46 @@ class GroqProvider(BaseProvider):
             max_tokens=self.max_tokens,
         )
         return response.choices[0].message.content
+
+    def _chat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute chat completion with tools using OpenAI."""
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        kwargs = {
+            "model": self.llm,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": tools,
+        }
+
+        if tool_choice is not None:
+            kwargs["tool_choice"] = tool_choice
+
+        response = self.client.chat.completions.create(**kwargs)
+
+        choice = response.choices[0]
+        return {
+            "content": choice.message.content,
+            "tool_calls": (
+                [
+                    {
+                        "id": tc.id,
+                        "type": tc.type,
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    }
+                    for tc in (choice.message.tool_calls or [])
+                ]
+                if choice.message.tool_calls
+                else None
+            ),
+        }
 
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with Groq.
@@ -253,6 +333,46 @@ class GeminiProvider(BaseProvider):
             max_tokens=self.max_tokens,
         )
         return response.choices[0].message.content
+
+    def _chat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute chat completion with tools using OpenAI."""
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        kwargs = {
+            "model": self.llm,
+            "messages": messages,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": tools,
+        }
+
+        if tool_choice is not None:
+            kwargs["tool_choice"] = tool_choice
+
+        response = self.client.chat.completions.create(**kwargs)
+
+        choice = response.choices[0]
+        return {
+            "content": choice.message.content,
+            "tool_calls": (
+                [
+                    {
+                        "id": tc.id,
+                        "type": tc.type,
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                    }
+                    for tc in (choice.message.tool_calls or [])
+                ]
+                if choice.message.tool_calls
+                else None
+            ),
+        }
 
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with Gemini.
@@ -366,6 +486,23 @@ class OllamaProvider(BaseProvider):
             keep_alive=self.keep_alive,
         )
         return response["message"]["content"]
+
+    def _chat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Ollama supports tools in newer versions."""
+        if not self.is_available():
+            raise ProviderNotAvailableError("ollama", "ollama")
+
+        # Ollama has experimental tool support
+        # This may need adjustment based on Ollama version
+        raise NotImplementedError(
+            "Tool calling support in Ollama is experimental. "
+            "Please check Ollama documentation for current status."
+        )
 
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with Ollama.

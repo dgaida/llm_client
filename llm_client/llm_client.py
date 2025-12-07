@@ -298,6 +298,66 @@ class LLMClient:
         """
         return self.provider.chat_completion(messages)
 
+    def chat_completion_with_tools(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute chat completion with function/tool calling.
+
+        This method enables the LLM to call external functions/tools during
+        generation. The LLM can decide which tools to call based on the context.
+
+        Args:
+            messages: List of message dicts with 'role' and 'content' keys.
+            tools: List of tool definitions in OpenAI format.
+            tool_choice: Controls tool selection:
+                - "auto" (default): LLM decides whether to call tools
+                - "none": LLM will not call any tools
+                - {"type": "function", "function": {"name": "..."}}: Force specific tool
+
+        Returns:
+            Dictionary containing:
+                - 'content': Generated text (str or None if tool called)
+                - 'tool_calls': List of tool calls (or None if no tools called)
+                    Each tool call has: id, type, function (with name and arguments)
+
+        Raises:
+            NotImplementedError: If provider doesn't support tool calling.
+            ChatCompletionError: If the API call fails.
+
+        Examples:
+            >>> tools = [{
+            ...     "type": "function",
+            ...     "function": {
+            ...         "name": "get_current_weather",
+            ...         "description": "Get the current weather in a location",
+            ...         "parameters": {
+            ...             "type": "object",
+            ...             "properties": {
+            ...                 "location": {
+            ...                     "type": "string",
+            ...                     "description": "City and state, e.g. San Francisco, CA"
+            ...                 },
+            ...                 "unit": {
+            ...                     "type": "string",
+            ...                     "enum": ["celsius", "fahrenheit"]
+            ...                 }
+            ...             },
+            ...             "required": ["location"]
+            ...         }
+            ...     }
+            ... }]
+            >>> messages = [{"role": "user", "content": "What's the weather in Boston?"}]
+            >>> result = client.chat_completion_with_tools(messages, tools)
+            >>> if result['tool_calls']:
+            ...     for tool_call in result['tool_calls']:
+            ...         print(f"Calling: {tool_call['function']['name']}")
+            ...         print(f"Arguments: {tool_call['function']['arguments']}")
+        """
+        return self.provider.chat_completion_with_tools(messages, tools, tool_choice)
+
     def chat_completion_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream response tokens as they arrive from the LLM.
 
@@ -343,6 +403,35 @@ class LLMClient:
                 f"Create client with use_async=True"
             )
         return await self.provider.achat_completion(messages)
+
+    async def achat_completion_with_tools(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute async chat completion with tools.
+
+        Args:
+            messages: List of message dicts.
+            tools: List of tool definitions.
+            tool_choice: Tool selection control.
+
+        Returns:
+            Dict with 'content' and 'tool_calls' keys.
+
+        Raises:
+            RuntimeError: If provider doesn't support async tools.
+
+        Examples:
+            >>> result = await client.achat_completion_with_tools(messages, tools)
+        """
+        if not hasattr(self.provider, "achat_completion_with_tools"):
+            raise RuntimeError(
+                f"{self.provider.__class__.__name__} does not support async tools. "
+                f"Create client with use_async=True"
+            )
+        return await self.provider.achat_completion_with_tools(messages, tools, tool_choice)
 
     async def achat_completion_stream(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
         """Stream response tokens asynchronously.
