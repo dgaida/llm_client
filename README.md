@@ -1,6 +1,6 @@
 # 🧠 LLM Client
 
-Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs) über **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung und dynamischem Provider-Wechsel.
+Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs) über **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung, dynamischem Provider-Wechsel, Token-Zählung, Async-Unterstützung und Konfigurationsdatei-Verwaltung.
 
 ---
 
@@ -16,26 +16,126 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 ## 📑 Inhaltsverzeichnis
 
 - [Features](#-features)
+- [Neu in v0.3.0](#-neu-in-v030)
 - [Installation](#%EF%B8%8F-installation)
 - [Schnellstart](#-schnellstart)
 - [Verwendung](#-verwendung)
-- [API Unterstützung](#-unterstützte-apis--default-modelle)
+  - [Token-Zählung](#-token-zählung)
+  - [Async-Unterstützung](#-async-unterstützung)
+  - [Konfigurationsdateien](#-konfigurationsdateien)
+  - [Response-Streaming](#-response-streaming)
+  - [Dynamischer Provider-Wechsel](#-dynamischer-provider-wechsel)
+- [Unterstützte APIs](#-unterstützte-apis--default-modelle)
 - [Tests](#-tests-ausführen)
-- [Projekt-Struktur](#-projekt-architektur)
+- [Architektur](#-projekt-architektur)
 - [Contributing](#-contributing)
 - [Lizenz](#-lizenz)
 
 ## 🚀 Features
 
+### Kern-Features
 * 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
 * ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
-* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt (**Neu in v0.2.0**)
+* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt
 * 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
-* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen und Factory
-* 🧪 **Vollständige Tests** - Pytest-basiert mit >92% Code-Coverage
 * 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
-* 🌟 **Google Gemini Support** - Nutzung via OpenAI-Kompatibilitätsmodus
 * 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
+
+### Neu in v0.3.0
+* 📊 **Token-Zählung** - Präzise Token-Zählung mit tiktoken
+* ⚡ **Async-Unterstützung** - Vollständiges async/await für Chat-Completions
+* 📁 **Konfigurationsdateien** - Einstellungen aus YAML/JSON-Dateien laden
+
+### Seit v0.2.0
+* 🌊 **Response-Streaming** - Tokens in Echtzeit streamen
+* 🔄 **Automatische Wiederholung** - Exponential Backoff bei vorübergehenden Fehlern
+* 🚨 **Custom Exceptions** - Detaillierter Fehlerkontext und umsetzbare Meldungen
+
+### Architektur
+* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
+* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
+* 🧪 **Vollständige Tests** - Pytest-basiert mit >92% Code-Coverage
+* 🌟 **Google Gemini Support** - Nutzung via OpenAI-Kompatibilitätsmodus
+
+---
+
+## ✨ Neu in v0.3.0
+
+Version 0.3.0 führt drei große Features ein:
+
+### 1. 📊 Token-Zählung mit tiktoken
+
+```python
+from llm_client import LLMClient
+
+client = LLMClient()
+
+# Tokens in Nachrichten zählen
+messages = [
+    {"role": "system", "content": "Du bist hilfsbereit."},
+    {"role": "user", "content": "Erkläre KI im Detail."}
+]
+token_count = client.count_tokens(messages)
+print(f"Dies wird ~{token_count} Tokens verwenden")
+
+# Tokens in einem String zählen
+text = "Hallo, wie geht es dir?"
+tokens = client.count_string_tokens(text)
+```
+
+### 2. ⚡ Async-Unterstützung
+
+```python
+from llm_client import LLMClient
+
+# Async-Client erstellen
+async_client = LLMClient(use_async=True)
+
+# Async Chat-Completion
+response = await async_client.achat_completion(messages)
+
+# Async Streaming
+async for chunk in async_client.achat_completion_stream(messages):
+    print(chunk, end="", flush=True)
+
+# Async Tool-Calling
+result = await async_client.achat_completion_with_tools(messages, tools)
+```
+
+### 3. 📁 Konfigurationsdateien
+
+```python
+from llm_client import LLMClient
+
+# Client aus Konfigurationsdatei laden
+client = LLMClient.from_config("llm_config.yaml")
+
+# Spezifischen Provider aus Config verwenden
+client = LLMClient.from_config("llm_config.yaml", provider="groq")
+```
+
+Beispiel `llm_config.yaml`:
+
+```yaml
+default_provider: openai
+
+global_settings:
+  temperature: 0.7
+  max_tokens: 512
+
+providers:
+  openai:
+    model: gpt-4o-mini
+    temperature: 0.7
+
+  groq:
+    model: llama-3.3-70b-versatile
+    temperature: 0.5
+
+  gemini:
+    model: gemini-2.0-flash-exp
+    temperature: 0.8
+```
 
 ---
 
@@ -61,6 +161,12 @@ pip install -e ".[dev]"
 pip install -e ".[llama-index]"
 ```
 
+### Mit allen Features
+
+```bash
+pip install -e ".[all]"
+```
+
 ---
 
 ## 🚦 Schnellstart
@@ -72,7 +178,7 @@ from llm_client import LLMClient
 client = LLMClient()
 
 messages = [
-    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "system", "content": "Du bist ein hilfreicher Assistent."},
     {"role": "user", "content": "Erkläre Machine Learning in einem Satz."}
 ]
 
@@ -90,7 +196,7 @@ Für einen umfassenden Überblick teste das Jupyter Notebook [llm_client_example
 
 ### API-Keys einrichten
 
-Erstellen Sie `secrets.env`:
+Erstelle `secrets.env`:
 
 ```bash
 # OpenAI
@@ -117,87 +223,292 @@ client = LLMClient()  # Lädt automatisch aus userdata
 
 ---
 
-## 📚 Erweiterte Verwendung
+## 📚 Verwendung
 
-### Spezifisches Modell wählen
+### 📊 Token-Zählung
 
-```python
-client = LLMClient(
-    llm="gpt-4o",
-    temperature=0.5,
-    max_tokens=2048
-)
-```
-
-### API manuell wählen
-
-```python
-# Gemini explizit wählen
-client = LLMClient(api_choice="gemini", llm="gemini-2.5-flash")
-
-# Ollama erzwingen (auch wenn API-Keys vorhanden)
-client = LLMClient(api_choice="ollama")
-
-# OpenAI explizit wählen
-client = LLMClient(api_choice="openai", llm="gpt-4o")
-```
-
-### Provider zur Laufzeit wechseln (**Neu in v0.2.0**)
-
-Sie können den LLM-Provider dynamisch wechseln, ohne ein neues `LLMClient`-Objekt erstellen zu müssen. Dies ist besonders nützlich für:
-
-- **Kostenoptimierung** durch Wechsel zwischen verschiedenen APIs
-- **Fallback-Strategien** bei API-Ausfällen
-- **A/B-Testing** verschiedener Modelle
-- **Dynamische Provider-Auswahl** basierend auf Anforderungen
+Präzise Token-Zählung hilft, API-Kosten und Kontext-Limits zu verwalten:
 
 ```python
 from llm_client import LLMClient
 
-# Start mit OpenAI
+client = LLMClient()
+
+# Tokens in Nachrichten zählen
+messages = [
+    {"role": "system", "content": "Du bist hilfsbereit."},
+    {"role": "user", "content": "Was ist Quantencomputing?"}
+]
+
+token_count = client.count_tokens(messages)
+print(f"Nachrichten enthalten {token_count} Tokens")
+
+# Prüfen, ob im Budget
+max_tokens = 4096
+reserved_for_response = 500
+available = max_tokens - token_count - reserved_for_response
+
+if available > 0:
+    print(f"✓ {available} Tokens verfügbar für Antwort")
+else:
+    print("✗ Nachricht zu lang!")
+
+# Tokens in Plain-Text zählen
+text = "Hallo, wie geht es dir heute?"
+string_tokens = client.count_string_tokens(text)
+print(f"String hat {string_tokens} Tokens")
+```
+
+**Features:**
+- Nutzt tiktoken für präzise Zählung
+- Unterstützt alle GPT-Modelle (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)
+- Fallback auf Schätzung wenn tiktoken nicht verfügbar
+- Funktioniert mit jedem Provider
+
+---
+
+### ⚡ Async-Unterstützung
+
+Vollständige async/await-Unterstützung für nicht-blockierende Operationen:
+
+```python
+from llm_client import LLMClient
+import asyncio
+
+async def main():
+    # Async-Client erstellen
+    client = LLMClient(use_async=True)
+
+    messages = [{"role": "user", "content": "Was ist asynchrone Programmierung?"}]
+
+    # Async Chat-Completion
+    response = await client.achat_completion(messages)
+    print(response)
+
+    # Async Streaming
+    print("\nStreaming-Antwort:")
+    async for chunk in client.achat_completion_stream(messages):
+        print(chunk, end="", flush=True)
+    print()
+
+    # Async Tool-Calling
+    tools = [{
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Wetter für einen Ort abrufen",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {"type": "string"}
+                }
+            }
+        }
+    }]
+
+    result = await client.achat_completion_with_tools(messages, tools)
+    print(result)
+
+# Async-Code ausführen
+asyncio.run(main())
+```
+
+**Gleichzeitige Anfragen:**
+
+```python
+async def process_many_questions():
+    client = LLMClient(use_async=True)
+
+    questions = [
+        "Was ist Python?",
+        "Was ist JavaScript?",
+        "Was ist Rust?"
+    ]
+
+    # Alle Fragen gleichzeitig verarbeiten
+    tasks = [
+        client.achat_completion([{"role": "user", "content": q}])
+        for q in questions
+    ]
+
+    responses = await asyncio.gather(*tasks)
+
+    for q, r in zip(questions, responses):
+        print(f"F: {q}")
+        print(f"A: {r[:100]}...\n")
+
+asyncio.run(process_many_questions())
+```
+
+---
+
+### 📁 Konfigurationsdateien
+
+Verwalte mehrere Provider-Konfigurationen einfach:
+
+**Config-Datei erstellen:**
+
+```python
+from llm_client.config import generate_config_template
+
+# Template generieren
+generate_config_template("llm_config.yaml", format="yaml")
+```
+
+**Beispiel-Konfiguration:**
+
+```yaml
+# llm_config.yaml
+default_provider: openai
+
+global_settings:
+  temperature: 0.7
+  max_tokens: 512
+
+providers:
+  openai:
+    model: gpt-4o-mini
+    temperature: 0.7
+    max_tokens: 512
+
+  groq:
+    model: llama-3.3-70b-versatile
+    temperature: 0.5
+    max_tokens: 1024
+
+  gemini:
+    model: gemini-2.0-flash-exp
+    temperature: 0.8
+    max_tokens: 2048
+
+  ollama:
+    model: llama3.2:1b
+    temperature: 0.7
+    keep_alive: 5m
+```
+
+**Aus Config laden:**
+
+```python
+from llm_client import LLMClient
+
+# Standard-Provider laden
+client = LLMClient.from_config("llm_config.yaml")
+print(f"Verwendet: {client.api_choice} - {client.llm}")
+
+# Spezifischen Provider laden
+groq_client = LLMClient.from_config("llm_config.yaml", provider="groq")
+print(f"Verwendet: {groq_client.api_choice} - {groq_client.llm}")
+
+# Async-Client aus Config laden
+async_client = LLMClient.from_config("llm_config.yaml", use_async=True)
+```
+
+**Programmatische Konfiguration:**
+
+```python
+from llm_client.config import LLMConfig
+
+config_dict = {
+    "default_provider": "groq",
+    "providers": {
+        "groq": {
+            "model": "llama-3.3-70b-versatile",
+            "temperature": 0.5
+        }
+    }
+}
+
+config = LLMConfig.from_dict(config_dict)
+
+# Konfiguration validieren
+is_valid, errors = config.validate()
+if is_valid:
+    print("✓ Konfiguration ist gültig")
+else:
+    print(f"✗ Fehler: {errors}")
+```
+
+---
+
+### 🌊 Response-Streaming
+
+Streame Antworten in Echtzeit für bessere Benutzererfahrung:
+
+```python
+from llm_client import LLMClient
+
+client = LLMClient()
+messages = [{"role": "user", "content": "Erzähle mir eine Geschichte über KI"}]
+
+print("Streaming-Antwort:")
+for chunk in client.chat_completion_stream(messages):
+    print(chunk, end="", flush=True)
+print()
+```
+
+**Streaming mit Fehlerbehandlung:**
+
+```python
+from llm_client.exceptions import StreamingNotSupportedError, ChatCompletionError
+
+try:
+    for chunk in client.chat_completion_stream(messages):
+        print(chunk, end="", flush=True)
+except StreamingNotSupportedError:
+    print("Streaming nicht unterstützt, verwende normale Completion")
+    response = client.chat_completion(messages)
+    print(response)
+except ChatCompletionError as e:
+    print(f"Fehler: {e}")
+```
+
+---
+
+### 🔄 Dynamischer Provider-Wechsel
+
+Wechsle zwischen Providern zur Laufzeit ohne neue Objekte zu erstellen:
+
+```python
+from llm_client import LLMClient
+
+# Starte mit OpenAI
 client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
-response1 = client.chat_completion([{"role": "user", "content": "Hello"}])
+response1 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu Gemini
-client.switch_provider("gemini", llm="gemini-2.5-flash")
-response2 = client.chat_completion([{"role": "user", "content": "Hello"}])
+client.switch_provider("gemini", llm="gemini-2.0-flash-exp")
+response2 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu Groq mit angepasster Temperatur
 client.switch_provider("groq", temperature=0.3)
-response3 = client.chat_completion([{"role": "user", "content": "Hello"}])
+response3 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu lokalem Ollama
 client.switch_provider("ollama")
-response4 = client.chat_completion([{"role": "user", "content": "Hello"}])
+response4 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 ```
 
-**Parameter von `switch_provider()`:**
-- `api_choice` (erforderlich): Ziel-API ('openai', 'groq', 'gemini', 'ollama')
-- `llm` (optional): Neues Modell. Wenn nicht angegeben, wird Default-Modell gewählt
-- `temperature` (optional): Neue Temperatur. Wenn nicht angegeben, bleibt alte erhalten
-- `max_tokens` (optional): Neue max_tokens. Wenn nicht angegeben, bleibt alte erhalten
-
-**Beispiel: Fallback-Strategie**
+**Fallback-Strategie:**
 
 ```python
 from llm_client import LLMClient
+from llm_client.exceptions import ChatCompletionError
 
 client = LLMClient(api_choice="openai")
 
 try:
     response = client.chat_completion(messages)
-except Exception as e:
-    print(f"OpenAI failed: {e}")
+except ChatCompletionError as e:
+    print(f"OpenAI fehlgeschlagen: {e}")
     # Fallback zu Groq
     client.switch_provider("groq")
     response = client.chat_completion(messages)
 ```
 
-**Beispiel: Kostenoptimierung**
+**Kostenoptimierung:**
 
 ```python
-from llm_client import LLMClient
-
 client = LLMClient()
 
 # Günstigeres Modell für einfache Aufgaben
@@ -209,7 +520,82 @@ client.switch_provider("openai", llm="gpt-4o")
 complex_response = client.chat_completion(complex_messages)
 ```
 
-### Gemini-Modelle nutzen
+---
+
+### 🧰 Tool-Calling (Function Calling)
+
+Alle Provider unterstützen OpenAI-kompatibles Tool-Calling:
+
+```python
+from llm_client import LLMClient
+
+client = LLMClient()
+
+# Tools definieren
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_current_weather",
+        "description": "Aktuelles Wetter an einem Ort abrufen",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "string",
+                    "description": "Stadt und Land, z.B. Berlin, Deutschland"
+                },
+                "unit": {
+                    "type": "string",
+                    "enum": ["celsius", "fahrenheit"]
+                }
+            },
+            "required": ["location"]
+        }
+    }
+}]
+
+messages = [{"role": "user", "content": "Wie ist das Wetter in Berlin?"}]
+
+# Tool-Calling-Anfrage stellen
+result = client.chat_completion_with_tools(messages, tools)
+
+# Prüfen, ob Tools aufgerufen wurden
+if result['tool_calls']:
+    for tool_call in result['tool_calls']:
+        print(f"Aufrufen: {tool_call['function']['name']}")
+        print(f"Argumente: {tool_call['function']['arguments']}")
+else:
+    print(f"Antwort: {result['content']}")
+```
+
+---
+
+### 🔧 Erweiterte Verwendung
+
+**Spezifisches Modell wählen:**
+
+```python
+client = LLMClient(
+    llm="gpt-4o",
+    temperature=0.5,
+    max_tokens=2048
+)
+```
+
+**API manuell wählen:**
+
+```python
+# Gemini erzwingen
+client = LLMClient(api_choice="gemini", llm="gemini-2.5-pro")
+
+# Ollama erzwingen (auch wenn API-Keys vorhanden)
+client = LLMClient(api_choice="ollama")
+
+# OpenAI explizit wählen
+client = LLMClient(api_choice="openai", llm="gpt-4o")
+```
+
+**Gemini-Modelle nutzen:**
 
 ```python
 from llm_client import LLMClient
@@ -224,14 +610,12 @@ client = LLMClient(
     temperature=0.7
 )
 
-messages = [
-    {"role": "user", "content": "Explain quantum computing"}
-]
+messages = [{"role": "user", "content": "Erkläre Quantencomputing"}]
 response = client.chat_completion(messages)
 print(response)
 ```
 
-### Mit llama-index Integration
+**Mit llama-index Integration:**
 
 ```python
 from llm_client import LLMClientAdapter, LLMClient
@@ -254,7 +638,7 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 | ------ |------------------------------------|-------------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
 | Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud        |
-| Gemini | `gemini-2.0-flash-exp`             | Google's neuestes Modell (Dez 2024) |
+| Gemini | `gemini-2.0-flash-exp`             | Googles neuestes Modell (Dez 2024)  |
 | Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
 ### Verfügbare Gemini-Modelle
@@ -298,9 +682,16 @@ llm_client/
 │   ├── GroqProvider
 │   ├── GeminiProvider
 │   └── OllamaProvider
+├── async_providers.py    # Async Provider-Implementierungen
+│   ├── AsyncOpenAIProvider
+│   ├── AsyncGroqProvider
+│   └── AsyncGeminiProvider
 ├── provider_factory.py   # Factory für Provider-Erstellung
 ├── llm_client.py        # Hauptklasse (verwendet Strategy Pattern)
-└── adapter.py           # llama-index Integration
+├── adapter.py           # llama-index Integration
+├── token_counter.py     # Token-Zähl-Utilities
+├── config.py            # Konfigurationsdatei-Unterstützung
+└── exceptions.py        # Custom Exception-Klassen
 ```
 
 ### Design Principles
@@ -328,30 +719,37 @@ Um einen neuen Provider hinzuzufügen:
 # Alle Tests
 pytest
 
-# Mit Coverage Report
+# Mit Coverage-Report
 pytest --cov=llm_client --cov-report=html
 
 # Einzelne Tests
 pytest tests/test_llm_client.py -v
 
-# Tests für switch_provider Feature
-pytest tests/test_switch_provider.py -v
+# Tests für neue Features
+pytest tests/test_new_features.py -v
+pytest tests/tests_new_features_complete.py -v
 ```
 
 ### Test-Struktur
 
 ```
 tests/
-├── test_llm_client.py        # Umfassende Tests für alle Provider
-├── test_switch_provider.py   # Tests für dynamischen Provider-Wechsel
-├── test_adapter.py           # Tests für llama-index Integration
-└── README.md                 # Detaillierte Test-Dokumentation
+├── test_llm_client.py              # Umfassende Tests für alle Provider
+├── test_switch_provider.py         # Dynamischer Provider-Wechsel Tests
+├── test_adapter.py                 # llama-index Integration Tests
+├── test_base_provider.py           # Abstract Base Class Tests
+├── test_providers.py               # Provider-Implementierung Tests
+├── test_provider_factory.py        # Factory Pattern Tests
+├── test_new_features.py            # Streaming und Retry-Logik Tests
+├── tests_new_features_complete.py  # Token-Zählung, Async, Config Tests
+├── test_integration.py             # End-to-End Integration Tests
+└── README.md                       # Detaillierte Test-Dokumentation
 ```
 
 ### Code-Qualität prüfen
 
 ```bash
-# Formatierung
+# Code formatieren
 black .
 
 # Linting
@@ -379,26 +777,40 @@ llm_client/
 ├── llm_client/
 │   ├── __init__.py             # Package Exports
 │   ├── base_provider.py        # Abstract Base Class
-│   ├── providers.py            # Provider-Implementierungen
+│   ├── providers.py            # Sync Provider-Implementierungen
+│   ├── async_providers.py      # Async Provider-Implementierungen
 │   ├── provider_factory.py     # Factory Pattern
 │   ├── llm_client.py           # Hauptklasse
-│   └── adapter.py              # llama-index Integration
+│   ├── adapter.py              # llama-index Integration
+│   ├── token_counter.py        # Token-Zählung mit tiktoken
+│   ├── config.py               # Konfigurationsdatei-Unterstützung
+│   └── exceptions.py           # Custom Exception-Klassen
+├── examples/
+│   ├── streaming_example.py    # Streaming und Retry Beispiele
+│   └── usage_examples.py       # Token-Zählung, Async, Config Beispiele
 ├── notebooks/
 │   ├── llm_client_example.ipynb      # Demo-Notebook
 │   ├── RAGChatbot_groq_API.ipynb     # RAG Tutorial
-│   ├── RAGChatbot_groq_API_t2s.ipynb # RAG mit Text-to-Speech
 │   ├── utils.py                      # Hilfsfunktionen
 │   └── README.md                     # Notebook-Dokumentation
 ├── tests/
 │   ├── test_llm_client.py            # Haupttests
 │   ├── test_switch_provider.py       # Provider-Wechsel Tests
 │   ├── test_adapter.py               # Adapter-Tests
+│   ├── test_base_provider.py         # Base Class Tests
+│   ├── test_providers.py             # Provider Tests
+│   ├── test_provider_factory.py      # Factory Tests
+│   ├── test_new_features.py          # Streaming/Retry Tests
+│   ├── tests_new_features_complete.py # Token/Async/Config Tests
+│   ├── test_integration.py           # Integration Tests
 │   └── README.md                     # Test-Dokumentation
 ├── main.py                           # Beispiel-Script
 ├── pyproject.toml                    # Dependencies & Config
 ├── requirements.txt                  # Pip Requirements
 ├── environment.yaml                  # Conda Environment
+├── llm_config.yaml                   # Beispiel-Konfigurationsdatei
 ├── README.md                         # Diese Datei
+├── CHANGELOG.md                      # Versionshistorie
 ├── CONTRIBUTING.md                   # Contribution Guidelines
 └── LICENSE                           # MIT License
 ```
@@ -450,7 +862,25 @@ MIT License - siehe [LICENSE](LICENSE)
 
 ## 📝 Changelog
 
-### Version 0.2.0 (Aktuell)
+### Version 0.3.0 (Aktuell)
+
+**New Features:**
+- ✨ **Token Counting**: Accurate counting with tiktoken
+- ⚡ **Async Support**: Full async/await for all operations
+- 📁 **Configuration Files**: YAML/JSON support for easy management
+
+**Improvements:**
+- 🧪 Enhanced test suite (>92% coverage)
+- 📚 Improved documentation
+- 🔧 Better error handling
+- 🎯 Type hints for all public APIs
+
+**Dependencies:**
+- ➕ Added `tiktoken` for token counting
+- ➕ Added `pyyaml` for configuration files
+- ➕ Added `asyncio` for async support
+
+### Version 0.2.0
 
 **Neue Features:**
 - ✨ **Dynamischer Provider-Wechsel**: `switch_provider()` Methode für Laufzeit-Wechsel

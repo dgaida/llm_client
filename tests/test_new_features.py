@@ -320,7 +320,13 @@ class TestRetryLogic:
 
         with patch("llm_client.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
-            mock_client.chat.completions.create.side_effect = Exception("Stream error")
+
+            # Create an iterator that raises an exception when consumed
+            def error_generator():
+                raise Exception("Stream error")
+                yield  # Never reached, but makes this a generator
+
+            mock_client.chat.completions.create.return_value = error_generator()
             mock_openai.return_value = mock_client
 
             client = LLMClient(api_choice="openai")
