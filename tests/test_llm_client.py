@@ -213,15 +213,17 @@ class TestLLMClientChatCompletion:
         mock_response = {"message": {"content": "Ollama response"}}
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = mock_response
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_response
+            mock_client.return_value = mock_instance
 
             client = LLMClient(api_choice="ollama")
             messages = [{"role": "user", "content": "Hello"}]
             response = client.chat_completion(messages)
 
             assert response == "Ollama response"
-            mock_ollama.chat.assert_called_once()
+            mock_instance.chat.assert_called_once()
 
     def test_chat_completion_without_gemini_client_raises_error(self, monkeypatch):
         """Test: RuntimeError wenn Gemini Client nicht verfügbar."""
@@ -270,10 +272,11 @@ class TestLLMClientChatCompletion:
         # Patch at the correct location - in providers.py
         # Need to patch BOTH the import check AND prevent initialization
         with (
-            patch("llm_client.providers.ollama", None),
+            patch("llm_client.providers.Client", None),
+            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
             pytest.raises(
                 ProviderNotAvailableError,
-                match="ollama provider not available. Install with: pip install ollama",
+                match="ollama provider not available",
             ),
         ):
             # Now the error should be raised during initialization

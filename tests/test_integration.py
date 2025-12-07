@@ -93,8 +93,10 @@ class TestEndToEndWorkflow:
         """Test: Complete workflow with Ollama provider."""
         mock_response = {"message": {"content": "Ollama local response"}}
 
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = mock_response
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_response
+            mock_client.return_value = mock_instance
 
             client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
             messages = [{"role": "user", "content": "Hello"}]
@@ -186,11 +188,12 @@ class TestFactoryAndClientIntegration:
         with (
             patch("llm_client.providers.OpenAI") as mock_openai,
             patch("llm_client.providers.Groq") as mock_groq,
-            patch("llm_client.providers.ollama") as mock_ollama,
+            patch("llm_client.providers.Client") as mock_client,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
-            mock_ollama.chat.return_value = {"message": {"content": "test"}}
+            mock_ollama_instance = MagicMock()
+            mock_client.return_value = mock_ollama_instance
 
             # Test each provider's default model
             openai_provider = ProviderFactory.create_provider(

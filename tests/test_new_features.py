@@ -212,8 +212,10 @@ class TestStreamingSupport:
             {"message": {"content": " response"}},
         ]
 
-        with patch("llm_client.providers.ollama") as mock_ollama:
-            mock_ollama.chat.return_value = iter(mock_chunks)
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = iter(mock_chunks)
+            mock_client.return_value = mock_instance
 
             client = LLMClient(api_choice="ollama")
             messages = [{"role": "user", "content": "Test"}]
