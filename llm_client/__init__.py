@@ -35,6 +35,7 @@ New in v0.3.0:
 - Token counting with tiktoken
 - Full async/await support
 - YAML/JSON configuration files
+- Ollama Cloud support
 """
 
 from .base_provider import BaseProvider
