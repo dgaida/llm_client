@@ -138,9 +138,13 @@ class TestSwitchProvider:
         """Test: Wechsel zu Ollama (keine API-Keys nötig)."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with (
+            patch("llm_client.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.Client") as mock_ollama_client,
+        ):
             mock_openai.return_value = MagicMock()
+            mock_ollama_instance = MagicMock()
+            mock_ollama_client.return_value = mock_ollama_instance
 
             client = LLMClient(api_choice="openai")
             assert client.api_choice == "openai"
@@ -148,7 +152,9 @@ class TestSwitchProvider:
             # Wechsel zu Ollama
             client.switch_provider("ollama")
             assert client.api_choice == "ollama"
-            assert client.client is None  # Ollama hat keinen Client
+            # OllamaProvider DOES have a client object
+            assert client.client is not None
+            assert client.client == mock_ollama_instance
 
     def test_switch_invalid_provider_raises_error(self, monkeypatch):
         """Test: Ungültiger Provider wirft InvalidProviderError."""

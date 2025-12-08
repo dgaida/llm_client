@@ -61,7 +61,7 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 
 ## ✨ Neu in v0.3.0
 
-Version 0.3.0 führt drei große Features ein:
+Version 0.3.0 führt vier große Features ein:
 
 ### 1. 📊 Token-Zählung mit tiktoken
 
@@ -136,6 +136,54 @@ providers:
     model: gemini-2.0-flash-exp
     temperature: 0.8
 ```
+
+### 4. ☁️ Ollama Cloud-Unterstützung
+
+```python
+from llm_client import LLMClient
+
+# Automatische Cloud-Erkennung bei Modellen mit '-cloud' Suffix
+client = LLMClient(llm="gpt-oss:120b-cloud")
+
+# Oder explizit Cloud-Modus aktivieren
+client = LLMClient(
+    api_choice="ollama",
+    llm="gpt-oss:120b-cloud",
+    use_ollama_cloud=True
+)
+
+# Mit eigenem Ollama Cloud API Key
+import os
+os.environ["OLLAMA_API_KEY"] = "your-api-key"
+client = LLMClient(llm="gpt-oss:120b-cloud")
+
+# Nahtlos zwischen lokal und Cloud wechseln
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # Lokal
+client.switch_provider("ollama", llm="gpt-oss:120b-cloud", use_ollama_cloud=True)  # Cloud
+```
+
+**Verfügbare Cloud-Modelle:**
+- `gpt-oss:120b-cloud` - GPT OSS 120B auf Ollama Cloud
+- Weitere Modelle siehe [Ollama Cloud Dokumentation](https://ollama.com)
+
+**Hybrid-Ansatz:**
+```python
+# Lokales Ollama für einfache Aufgaben (kostenlos, privat)
+local_client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
+simple_response = local_client.chat_completion(simple_messages)
+
+# Ollama Cloud für komplexe Aufgaben (leistungsstark)
+cloud_client = LLMClient(llm="gpt-oss:120b-cloud")
+complex_response = cloud_client.chat_completion(complex_messages)
+```
+
+**Vorteile von Ollama Cloud:**
+- ✅ Zugriff auf leistungsstarke Modelle ohne lokale Hardware
+- ✅ Schnellere Inferenz als lokale Ausführung
+- ✅ Einfaches Umschalten zwischen lokal und Cloud
+- ✅ Kompatibel mit allen bestehenden Features (Streaming, Async, etc.)
+
+Siehe `examples/ollama_cloud_examples.py` für umfassende Beispiele.
 
 ---
 

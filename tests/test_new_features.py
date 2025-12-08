@@ -323,10 +323,10 @@ class TestRetryLogic:
         with patch("llm_client.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
-            # Create an iterator that raises an exception when consumed
+            # Create a generator that raises an exception immediately
             def error_generator():
                 raise Exception("Stream error")
-                yield  # Never reached, but makes this a generator
+                yield  # Never reached
 
             mock_client.chat.completions.create.return_value = error_generator()
             mock_openai.return_value = mock_client
@@ -334,8 +334,10 @@ class TestRetryLogic:
             client = LLMClient(api_choice="openai")
             messages = [{"role": "user", "content": "Test"}]
 
+            # The error should be caught when we try to iterate
             with pytest.raises(ChatCompletionError) as exc_info:
-                list(client.chat_completion_stream(messages))
+                for _ in client.chat_completion_stream(messages):
+                    pass
 
             assert "Stream error" in str(exc_info.value)
 

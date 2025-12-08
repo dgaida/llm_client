@@ -36,6 +36,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔄 Support for multiple provider configurations in one file
 - 🌍 Global settings with per-provider overrides
 
+#### Ollama Cloud Support
+- ☁️ **Ollama Cloud API integration** - Access to cloud-hosted Ollama models
+- 🔄 **Automatic cloud detection** from model names ending with `-cloud`
+- 🔑 Support for `OLLAMA_API_KEY` environment variable
+- 🎯 `use_ollama_cloud=True` parameter for explicit cloud mode
+- 🌐 `ollama_host` parameter for custom Ollama endpoints
+- 🔀 Seamless switching between local and cloud Ollama instances
+- 📝 Example: `ollama_cloud_examples.py` demonstrating all cloud features
+
 ### Changed
 - 📚 Enhanced documentation with examples for all new features
 - 🧪 Expanded test suite with >92% coverage
@@ -44,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Examples
 - 📖 `examples/usage_examples.py` - Demonstrates token counting, async, and config features
+- 📖 `examples/ollama_cloud_examples.py` - Comprehensive Ollama Cloud usage examples
 - 📖 Updated all existing examples with new capabilities
 
 ### Dependencies
@@ -155,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Release History
 
-- **0.3.0** - Token counting, async support, configuration files
+- **0.3.0** - Token counting, async support, configuration files, Ollama Cloud
 - **0.2.0** - Streaming, retry logic, custom exceptions
 - **0.1.0** - Initial release with multi-provider support
 
@@ -177,6 +187,9 @@ response = await async_client.achat_completion(messages)
 
 # Config files (optional)
 client = LLMClient.from_config("config.yaml")
+
+# Ollama Cloud (optional)
+cloud_client = LLMClient(llm="gpt-oss:120b-cloud", use_ollama_cloud=True)
 ```
 
 ### From 0.1.0 to 0.2.0

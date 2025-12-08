@@ -315,7 +315,10 @@ class TestOllamaProvider:
 
     def test_initialization_success(self):
         """Test: Ollama provider initializes correctly."""
-        with patch("llm_client.providers.Client", MagicMock()):
+        with patch("llm_client.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_client.return_value = mock_instance
+
             provider = OllamaProvider(
                 llm="llama3.2:1b", temperature=0.7, max_tokens=512, keep_alive="5m"
             )
@@ -324,7 +327,8 @@ class TestOllamaProvider:
             assert provider.temperature == 0.7
             assert provider.max_tokens == 512
             assert provider.keep_alive == "5m"
-            assert provider.client is None  # Ollama doesn't use a client object
+            assert provider.client == mock_instance  # Changed from: is None
+            mock_client.assert_called_once()
 
     def test_initialization_when_package_not_available(self):
         """Test: ProviderNotAvailableError when ollama package is not installed."""
@@ -392,7 +396,10 @@ class TestOllamaProvider:
 
     def test_is_available_when_not_installed(self):
         """Test: is_available returns False when package is not installed."""
-        with patch("llm_client.providers.Client", None):
+        with (
+            patch("llm_client.providers.Client", None),
+            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
+        ):
             assert OllamaProvider.is_available() is False
 
     def test_custom_keep_alive_parameter(self):
