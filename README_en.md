@@ -570,6 +570,84 @@ complex_response = client.chat_completion(complex_messages)
 
 ---
 
+### 📝 Logging
+
+The LLM Client includes comprehensive logging to help with debugging and monitoring:
+
+```python
+from llm_client import LLMClient, setup_logging
+
+# Enable INFO level logging
+setup_logging(level="INFO")
+
+client = LLMClient()
+messages = [{"role": "user", "content": "Hello"}]
+response = client.chat_completion(messages)
+```
+
+**Log Levels:**
+
+- `DEBUG`: Maximum verbosity - shows all operations, API calls, token counts
+- `INFO`: Moderate verbosity - shows provider initialization, switching, and high-level operations
+- `WARNING`: Default level - shows only warnings and errors
+- `ERROR`: Only errors
+- `CRITICAL`: Only critical errors
+
+**Configuration Options:**
+
+```python
+# Via function call
+setup_logging(level="DEBUG")
+
+# Via environment variable
+import os
+os.environ["LLM_CLIENT_LOG_LEVEL"] = "INFO"
+setup_logging()
+
+# Custom format
+setup_logging(
+    level="INFO",
+    format_string="%(levelname)s - %(message)s"
+)
+
+# Disable logging
+from llm_client import disable_logging
+disable_logging()
+
+# Re-enable logging
+from llm_client import enable_logging
+enable_logging("INFO")
+```
+
+**Example Output (INFO level):**
+
+```
+2024-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
+2024-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
+2024-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
+2024-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
+```
+
+**What Gets Logged:**
+
+- Provider initialization and switching
+- API key availability (without exposing keys)
+- Model selection and configuration
+- API calls and responses (size, not content)
+- Token counting operations
+- Errors and warnings with context
+
+**Best Practices:**
+
+- **Development**: Use `DEBUG` or `INFO` for visibility
+- **Production**: Use `WARNING` or `ERROR` to minimize noise
+- **Testing**: Use `disable_logging()` to keep test output clean
+- **Debugging Issues**: Temporarily enable `DEBUG` level
+
+See [LOGGING.md](docs/LOGGING.md) for complete logging documentation and examples.
+
+---
+
 ### 🧰 Tool Calling (Function Calling)
 
 All providers support OpenAI-compatible tool calling:

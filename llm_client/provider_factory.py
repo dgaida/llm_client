@@ -5,7 +5,10 @@ from typing import Literal
 
 from .base_provider import BaseProvider
 from .exceptions import APIKeyNotFoundError, InvalidProviderError
+from .logging_config import get_logger
 from .providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
+
+logger = get_logger(__name__)
 
 
 class ProviderFactory:
@@ -65,12 +68,15 @@ class ProviderFactory:
             APIKeyNotFoundError: If required API key is missing.
             ProviderNotAvailableError: If required package is not installed.
         """
+        logger.debug(f"Creating provider with api_choice={api_choice}, async={use_async}")
+
         # Lazy load async providers
         if use_async and not cls._async_provider_classes:
             cls._load_async_providers()
 
         # Auto-detect Ollama Cloud from model name
         if llm and llm.endswith("-cloud"):
+            logger.debug(f"Auto-detected cloud model: {llm}")
             use_ollama_cloud = True
             if api_choice is None:
                 api_choice = "ollama"
@@ -80,6 +86,7 @@ class ProviderFactory:
             api_choice = cls._auto_select_api(
                 openai_api_key, groq_api_key, gemini_api_key, ollama_api_key, use_ollama_cloud
             )
+            logger.info(f"Auto-selected API: {api_choice}")
 
         # Validate API choice
         api_choice = api_choice.lower()
@@ -89,6 +96,7 @@ class ProviderFactory:
 
         if api_choice not in provider_classes:
             valid_providers = list(cls._provider_classes.keys())
+            logger.error(f"Invalid provider: {api_choice}. Valid: {valid_providers}")
             raise InvalidProviderError(api_choice, valid_providers)
 
         # Get provider class
@@ -97,6 +105,7 @@ class ProviderFactory:
         # Get model name (use default if not specified)
         if llm is None:
             llm = provider_class.get_default_model()
+            logger.debug(f"Using default model: {llm}")
 
         # Prepare kwargs based on provider type
         kwargs = {}
@@ -114,12 +123,13 @@ class ProviderFactory:
             if use_ollama_cloud and ollama_api_key:
                 kwargs["api_key"] = ollama_api_key
 
-        # Create and return provider
+        logger.info(f"Creating {provider_class.__name__} with model {llm}")
         return provider_class(llm=llm, temperature=temperature, max_tokens=max_tokens, **kwargs)
 
     @classmethod
     def _load_async_providers(cls) -> None:
         """Load async provider classes."""
+        logger.debug("Loading async provider classes")
         try:
             from .async_providers import (
                 AsyncGeminiProvider,
@@ -133,8 +143,9 @@ class ProviderFactory:
                 "gemini": AsyncGeminiProvider,
                 "ollama": OllamaProvider,  # Ollama doesn't have async yet
             }
-        except ImportError:
-            # Async providers not available
+            logger.debug("Async providers loaded successfully")
+        except ImportError as e:
+            logger.warning(f"Could not load async providers: {e}")
             cls._async_provider_classes = cls._provider_classes.copy()
 
     @staticmethod
@@ -164,21 +175,29 @@ class ProviderFactory:
         """
         import sys
 
+        logger.debug("Auto-selecting API based on available keys")
+
         if openai_api_key:
+            logger.debug("Selected OpenAI (API key found)")
             return "openai"
         elif groq_api_key:
+            logger.debug("Selected Groq (API key found)")
             return "groq"
         elif gemini_api_key:
+            logger.debug("Selected Gemini (API key found)")
             return "gemini"
         elif use_ollama_cloud and ollama_api_key:
+            logger.debug("Selected Ollama Cloud (API key found)")
             return "ollama"
         else:
             # Check if in Google Colab - if so, require API key
             if "google.colab" in sys.modules or "COLAB_GPU" in os.environ:
+                logger.error("Running in Colab but no API keys found")
                 raise APIKeyNotFoundError(
                     "colab",
                     "OPENAI_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, or OLLAMA_API_KEY",
                 )
+            logger.debug("Selected local Ollama (no API keys found)")
             return "ollama"
 
     @classmethod
@@ -192,6 +211,7 @@ class ProviderFactory:
         for name, provider_class in cls._provider_classes.items():
             if provider_class.is_available():
                 available.append(name)
+        logger.debug(f"Available providers: {available}")
         return available
 
     @classmethod
@@ -207,4 +227,6 @@ class ProviderFactory:
         provider_class = cls._provider_classes.get(provider_name.lower())
         if provider_class is None:
             return False
-        return provider_class.is_available()
+        is_available = provider_class.is_available()
+        logger.debug(f"Provider {provider_name} available: {is_available}")
+        return is_available

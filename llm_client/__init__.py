@@ -31,11 +31,17 @@ Custom exceptions:
 - ChatCompletionError: Chat completion failed
 - StreamingNotSupportedError: Streaming not supported
 
+Logging configuration:
+- setup_logging: Configure logging for the package
+- enable_logging: Enable logging at specified level
+- disable_logging: Disable all logging
+
 New in v0.3.0:
 - Token counting with tiktoken
 - Full async/await support
 - YAML/JSON configuration files
 - Ollama Cloud support
+- Comprehensive logging
 """
 
 from .base_provider import BaseProvider
@@ -49,6 +55,7 @@ from .exceptions import (
     StreamingNotSupportedError,
 )
 from .llm_client import LLMClient
+from .logging_config import disable_logging, enable_logging, setup_logging
 from .provider_factory import ProviderFactory
 from .providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
 from .token_counter import TokenCounter
@@ -75,6 +82,10 @@ __all__ = [
     # Config utilities
     "create_default_config",
     "generate_config_template",
+    # Logging
+    "setup_logging",
+    "enable_logging",
+    "disable_logging",
 ]
 
 # Optional async providers

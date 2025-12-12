@@ -5,8 +5,11 @@ from typing import Any
 
 from .base_provider import BaseProvider
 from .exceptions import APIKeyNotFoundError, ProviderNotAvailableError
+from .logging_config import get_logger
 
-# Optional imports - providers check availability
+logger = get_logger(__name__)
+
+# Optional imports
 try:
     from openai import OpenAI
 except ImportError:
@@ -39,14 +42,19 @@ class OpenAIProvider(BaseProvider):
             ProviderNotAvailableError: If OpenAI package is not installed.
             APIKeyNotFoundError: If API key is missing.
         """
+        logger.debug("Initializing OpenAI provider")
+
         if not self.is_available():
+            logger.error("OpenAI package not available")
             raise ProviderNotAvailableError("openai", "openai")
 
         api_key = kwargs.get("api_key")
         if not api_key:
+            logger.error("OpenAI API key not found")
             raise APIKeyNotFoundError("openai", "OPENAI_API_KEY")
 
         self.client = OpenAI(api_key=api_key)
+        logger.info(f"OpenAI client initialized with model {self.llm}")
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with OpenAI.
@@ -61,7 +69,10 @@ class OpenAIProvider(BaseProvider):
             RuntimeError: If client is not initialized.
         """
         if not self.client:
+            logger.error("OpenAI client not initialized")
             raise RuntimeError("OpenAI client not initialized")
+
+        logger.debug(f"Calling OpenAI API: model={self.llm}, messages={len(messages)}")
 
         response = self.client.chat.completions.create(
             model=self.llm,
@@ -69,7 +80,10 @@ class OpenAIProvider(BaseProvider):
             temperature=self.temperature,
             max_tokens=self.max_tokens,
         )
-        return response.choices[0].message.content
+
+        content = response.choices[0].message.content
+        logger.debug(f"OpenAI response received: {len(content)} characters")
+        return content
 
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with OpenAI.
@@ -84,7 +98,10 @@ class OpenAIProvider(BaseProvider):
             RuntimeError: If client is not initialized.
         """
         if not self.client:
+            logger.error("OpenAI client not initialized")
             raise RuntimeError("OpenAI client not initialized")
+
+        logger.debug(f"Starting OpenAI streaming: model={self.llm}")
 
         stream = self.client.chat.completions.create(
             model=self.llm,
@@ -94,9 +111,13 @@ class OpenAIProvider(BaseProvider):
             stream=True,
         )
 
+        chunk_count = 0
         for chunk in stream:
             if chunk.choices[0].delta.content is not None:
+                chunk_count += 1
                 yield chunk.choices[0].delta.content
+
+        logger.debug(f"OpenAI streaming completed: {chunk_count} chunks")
 
     def _chat_completion_with_tools_impl(
         self,
@@ -104,9 +125,11 @@ class OpenAIProvider(BaseProvider):
         tools: list[dict],
         tool_choice: str | dict | None = None,
     ) -> dict:
-        """Execute chat completion with tools using OpenAI."""
+        """Execute chat completion with tools."""
         if not self.client:
             raise RuntimeError("OpenAI client not initialized")
+
+        logger.debug(f"Calling OpenAI with {len(tools)} tools")
 
         kwargs = {
             "model": self.llm,
@@ -120,9 +143,9 @@ class OpenAIProvider(BaseProvider):
             kwargs["tool_choice"] = tool_choice
 
         response = self.client.chat.completions.create(**kwargs)
-
         choice = response.choices[0]
-        return {
+
+        result = {
             "content": choice.message.content,
             "tool_calls": (
                 [
@@ -137,6 +160,11 @@ class OpenAIProvider(BaseProvider):
                 else None
             ),
         }
+
+        if result["tool_calls"]:
+            logger.debug(f"Tools called: {[tc['function']['name'] for tc in result['tool_calls']]}")
+
+        return result
 
     @staticmethod
     def get_default_model() -> str:
@@ -154,7 +182,10 @@ class OpenAIProvider(BaseProvider):
         Returns:
             True if openai package is installed.
         """
-        return OpenAI is not None
+        available = OpenAI is not None
+        if not available:
+            logger.debug("OpenAI package not available")
+        return available
 
 
 class GroqProvider(BaseProvider):
@@ -170,14 +201,19 @@ class GroqProvider(BaseProvider):
             ProviderNotAvailableError: If Groq package is not installed.
             APIKeyNotFoundError: If API key is missing.
         """
+        logger.debug("Initializing Groq provider")
+
         if not self.is_available():
+            logger.error("Groq package not available")
             raise ProviderNotAvailableError("groq", "groq")
 
         api_key = kwargs.get("api_key")
         if not api_key:
+            logger.error("Groq API key not found")
             raise APIKeyNotFoundError("groq", "GROQ_API_KEY")
 
         self.client = Groq(api_key=api_key)
+        logger.info(f"Groq client initialized with model {self.llm}")
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Groq.
@@ -192,7 +228,10 @@ class GroqProvider(BaseProvider):
             RuntimeError: If client is not initialized.
         """
         if not self.client:
+            logger.error("Groq client not initialized")
             raise RuntimeError("Groq client not initialized")
+
+        logger.debug(f"Calling Groq API: model={self.llm}, messages={len(messages)}")
 
         response = self.client.chat.completions.create(
             model=self.llm,
@@ -200,7 +239,10 @@ class GroqProvider(BaseProvider):
             temperature=self.temperature,
             max_tokens=self.max_tokens,
         )
-        return response.choices[0].message.content
+
+        content = response.choices[0].message.content
+        logger.debug(f"Groq response received: {len(content)} characters")
+        return content
 
     def _chat_completion_with_tools_impl(
         self,
@@ -208,9 +250,11 @@ class GroqProvider(BaseProvider):
         tools: list[dict],
         tool_choice: str | dict | None = None,
     ) -> dict:
-        """Execute chat completion with tools using OpenAI."""
+        """Execute chat completion with tools."""
         if not self.client:
-            raise RuntimeError("OpenAI client not initialized")
+            raise RuntimeError("Groq client not initialized")
+
+        logger.debug(f"Calling Groq with {len(tools)} tools")
 
         kwargs = {
             "model": self.llm,
@@ -224,8 +268,8 @@ class GroqProvider(BaseProvider):
             kwargs["tool_choice"] = tool_choice
 
         response = self.client.chat.completions.create(**kwargs)
-
         choice = response.choices[0]
+
         return {
             "content": choice.message.content,
             "tool_calls": (
@@ -257,6 +301,8 @@ class GroqProvider(BaseProvider):
         if not self.client:
             raise RuntimeError("Groq client not initialized")
 
+        logger.debug(f"Starting Groq streaming: model={self.llm}")
+
         stream = self.client.chat.completions.create(
             model=self.llm,
             messages=messages,
@@ -285,7 +331,10 @@ class GroqProvider(BaseProvider):
         Returns:
             True if groq package is installed.
         """
-        return Groq is not None
+        available = Groq is not None
+        if not available:
+            logger.debug("Groq package not available")
+        return available
 
 
 class GeminiProvider(BaseProvider):
@@ -301,18 +350,22 @@ class GeminiProvider(BaseProvider):
             ProviderNotAvailableError: If OpenAI package is not installed.
             APIKeyNotFoundError: If API key is missing.
         """
+        logger.debug("Initializing Gemini provider")
+
         if not self.is_available():
+            logger.error("OpenAI package not available (required for Gemini)")
             raise ProviderNotAvailableError("gemini", "openai")
 
         api_key = kwargs.get("api_key")
         if not api_key:
+            logger.error("Gemini API key not found")
             raise APIKeyNotFoundError("gemini", "GEMINI_API_KEY")
 
-        # Use OpenAI client with Gemini's base URL
         self.client = OpenAI(
             api_key=api_key,
             base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
         )
+        logger.info(f"Gemini client initialized with model {self.llm}")
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Gemini.
@@ -329,13 +382,18 @@ class GeminiProvider(BaseProvider):
         if not self.client:
             raise RuntimeError("Gemini client not initialized")
 
+        logger.debug(f"Calling Gemini API: model={self.llm}")
+
         response = self.client.chat.completions.create(
             model=self.llm,
             messages=messages,
             temperature=self.temperature,
             max_tokens=self.max_tokens,
         )
-        return response.choices[0].message.content
+
+        content = response.choices[0].message.content
+        logger.debug(f"Gemini response received: {len(content)} characters")
+        return content
 
     def _chat_completion_with_tools_impl(
         self,
@@ -343,9 +401,11 @@ class GeminiProvider(BaseProvider):
         tools: list[dict],
         tool_choice: str | dict | None = None,
     ) -> dict:
-        """Execute chat completion with tools using OpenAI."""
+        """Execute chat completion with tools."""
         if not self.client:
-            raise RuntimeError("OpenAI client not initialized")
+            raise RuntimeError("Gemini client not initialized")
+
+        logger.debug(f"Calling Gemini with {len(tools)} tools")
 
         kwargs = {
             "model": self.llm,
@@ -359,8 +419,8 @@ class GeminiProvider(BaseProvider):
             kwargs["tool_choice"] = tool_choice
 
         response = self.client.chat.completions.create(**kwargs)
-
         choice = response.choices[0]
+
         return {
             "content": choice.message.content,
             "tool_calls": (
@@ -392,6 +452,8 @@ class GeminiProvider(BaseProvider):
         if not self.client:
             raise RuntimeError("Gemini client not initialized")
 
+        logger.debug(f"Starting Gemini streaming: model={self.llm}")
+
         stream = self.client.chat.completions.create(
             model=self.llm,
             messages=messages,
@@ -420,7 +482,10 @@ class GeminiProvider(BaseProvider):
         Returns:
             True if openai package is installed.
         """
-        return OpenAI is not None
+        available = OpenAI is not None
+        if not available:
+            logger.debug("OpenAI package not available (required for Gemini)")
+        return available
 
 
 class OllamaProvider(BaseProvider):
@@ -468,9 +533,9 @@ class OllamaProvider(BaseProvider):
         self.host = host
         self._api_key = kwargs.get("api_key")
 
-        # Auto-detect cloud mode from model name
         if llm.endswith("-cloud") and not use_cloud:
             self.use_cloud = True
+            logger.debug(f"Auto-detected cloud mode from model name: {llm}")
 
         super().__init__(llm, temperature, max_tokens, **kwargs)
 
@@ -484,13 +549,18 @@ class OllamaProvider(BaseProvider):
             ProviderNotAvailableError: If ollama package is not installed.
             APIKeyNotFoundError: If cloud mode but API key is missing.
         """
+        mode = "cloud" if self.use_cloud else "local"
+        logger.debug(f"Initializing Ollama provider in {mode} mode")
+
         if not self.is_available():
+            logger.error("Ollama package not available")
             raise ProviderNotAvailableError("ollama", "ollama")
 
         if self.use_cloud:
             # Ollama Cloud mode
             api_key = kwargs.get("api_key") or self._api_key
             if not api_key:
+                logger.error("Ollama Cloud API key not found")
                 raise APIKeyNotFoundError("ollama_cloud", "OLLAMA_API_KEY")
 
             # Create client with cloud settings
@@ -498,13 +568,16 @@ class OllamaProvider(BaseProvider):
                 host=self.host or "https://ollama.com",
                 headers={"Authorization": f"Bearer {api_key}"},
             )
+            logger.info(f"Ollama Cloud client initialized with model {self.llm}")
         else:
             # Local Ollama mode
             if self.host:
                 self.client = Client(host=self.host)
+                logger.info(f"Ollama local client initialized with custom host: {self.host}")
             else:
                 # Use default local client
                 self.client = Client()
+                logger.info(f"Ollama local client initialized with model {self.llm}")
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Ollama (local or cloud).
@@ -520,6 +593,9 @@ class OllamaProvider(BaseProvider):
         """
         if not self.is_available():
             raise ProviderNotAvailableError("ollama", "ollama")
+
+        mode = "cloud" if self.use_cloud else "local"
+        logger.debug(f"Calling Ollama ({mode}): model={self.llm}, messages={len(messages)}")
 
         options = {
             "temperature": self.temperature,
@@ -548,7 +624,9 @@ class OllamaProvider(BaseProvider):
             kwargs["keep_alive"] = self.keep_alive
 
         response = self.client.chat(**kwargs)
-        return response["message"]["content"]
+        content = response["message"]["content"]
+        logger.debug(f"Ollama response received: {len(content)} characters")
+        return content
 
     def _chat_completion_with_tools_impl(
         self,
@@ -560,7 +638,7 @@ class OllamaProvider(BaseProvider):
         if not self.is_available():
             raise ProviderNotAvailableError("ollama", "ollama")
 
-        # Tool support is experimental in Ollama
+        logger.warning("Tool calling in Ollama is experimental")
         raise NotImplementedError(
             "Tool calling support in Ollama is experimental. "
             "Please check Ollama documentation for current status."
@@ -580,6 +658,9 @@ class OllamaProvider(BaseProvider):
         """
         if not self.is_available():
             raise ProviderNotAvailableError("ollama", "ollama")
+
+        mode = "cloud" if self.use_cloud else "local"
+        logger.debug(f"Starting Ollama ({mode}) streaming: model={self.llm}")
 
         options = {
             "temperature": self.temperature,
@@ -629,7 +710,10 @@ class OllamaProvider(BaseProvider):
         Returns:
             True if ollama package is installed.
         """
-        return OLLAMA_AVAILABLE
+        available = OLLAMA_AVAILABLE
+        if not available:
+            logger.debug("Ollama package not available")
+        return available
 
     def __repr__(self) -> str:
         """Return string representation of the provider.

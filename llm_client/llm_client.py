@@ -10,8 +10,11 @@ from dotenv import load_dotenv
 
 from .base_provider import BaseProvider
 from .config import LLMConfig
+from .logging_config import get_logger
 from .provider_factory import ProviderFactory
 from .token_counter import TokenCounter
+
+logger = get_logger(__name__)
 
 
 class LLMClient:
@@ -58,8 +61,8 @@ class LLMClient:
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
         use_async: bool = False,
-        use_ollama_cloud: bool = False,  # NEW
-        ollama_host: str | None = None,  # NEW
+        use_ollama_cloud: bool = False,
+        ollama_host: str | None = None,
     ) -> None:
         """Initialize the LLM Client.
 
@@ -71,28 +74,48 @@ class LLMClient:
             secrets_path: Path to secrets.env file.
             keep_alive: Ollama-specific keep-alive duration.
             use_async: If True, use async providers.
+            use_ollama_cloud: If True, use Ollama Cloud API.
+            ollama_host: Custom Ollama host URL.
 
         Examples:
             >>> client = LLMClient(llm="gpt-4o", temperature=0.5)
             >>> client = LLMClient(api_choice="gemini")
             >>> async_client = LLMClient(use_async=True)
         """
+        logger.debug(f"Initializing LLMClient with api_choice={api_choice}, llm={llm}")
+
         # Load environment variables
         if os.path.exists(secrets_path):
+            logger.debug(f"Loading secrets from {secrets_path}")
             load_dotenv(secrets_path)
 
         # Load API keys from environment
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
-        # Load Ollama Cloud API key
         self.ollama_api_key = os.getenv("OLLAMA_API_KEY")
+
+        # Log which keys are available (without exposing values)
+        available_keys = []
+        if self.openai_api_key:
+            available_keys.append("OpenAI")
+        if self.groq_api_key:
+            available_keys.append("Groq")
+        if self.gemini_api_key:
+            available_keys.append("Gemini")
+        if self.ollama_api_key:
+            available_keys.append("Ollama")
+
+        if available_keys:
+            logger.debug(f"Found API keys for: {', '.join(available_keys)}")
+        else:
+            logger.debug("No API keys found in environment, will use Ollama")
 
         # Store Ollama-specific settings
         self.use_ollama_cloud = use_ollama_cloud
         self.ollama_host = ollama_host
 
-        # Try loading from Google Colab userdata (nur für benötigte Keys)
+        # Try loading from Google Colab userdata
         self._load_colab_secrets(api_choice)
 
         # Store configuration
@@ -104,8 +127,10 @@ class LLMClient:
 
         # Initialize token counter
         self.token_counter = TokenCounter()
+        logger.debug("Initialized TokenCounter")
 
         # Create provider using factory
+        logger.info(f"Creating provider for API: {api_choice or 'auto-detect'}")
         self.provider: BaseProvider = ProviderFactory.create_provider(
             api_choice=api_choice,
             llm=llm,
@@ -114,15 +139,16 @@ class LLMClient:
             openai_api_key=self.openai_api_key,
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
-            ollama_api_key=self.ollama_api_key,  # NEW
+            ollama_api_key=self.ollama_api_key,
             keep_alive=keep_alive,
             use_async=use_async,
-            use_ollama_cloud=use_ollama_cloud,  # NEW
-            ollama_host=ollama_host,  # NEW
+            use_ollama_cloud=use_ollama_cloud,
+            ollama_host=ollama_host,
         )
 
         # Store current API choice
         self.api_choice = self._get_api_choice_from_provider()
+        logger.info(f"Initialized with provider: {self.api_choice}, model: {self.llm}")
 
     @classmethod
     def from_config(
@@ -157,25 +183,32 @@ class LLMClient:
             >>> # Async client
             >>> client = LLMClient.from_config("llm_config.yaml", use_async=True)
         """
+        logger.info(f"Loading LLMClient from config: {config_path}")
+
         # Load configuration
         config = LLMConfig.from_file(config_path)
 
         # Validate configuration
         is_valid, errors = config.validate()
         if not is_valid:
-            raise ValueError(f"Invalid configuration: {'; '.join(errors)}")
+            error_msg = f"Invalid configuration: {'; '.join(errors)}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        logger.debug("Configuration validated successfully")
 
         # Determine which provider to use
         provider_name = provider or config.default_provider
         provider_config = config.get_provider_config(provider_name)
+        logger.debug(f"Using provider: {provider_name}")
 
         # Extract parameters
         llm = provider_config.get("model")
         temperature = provider_config.get("temperature", 0.7)
         max_tokens = provider_config.get("max_tokens", 512)
         keep_alive = provider_config.get("keep_alive", "5m")
-        use_ollama_cloud = provider_config.get("use_cloud", False)  # NEW
-        ollama_host = provider_config.get("host")  # NEW
+        use_ollama_cloud = provider_config.get("use_cloud", False)
+        ollama_host = provider_config.get("host")
 
         # Create client
         return cls(
@@ -186,8 +219,8 @@ class LLMClient:
             secrets_path=secrets_path,
             keep_alive=keep_alive,
             use_async=use_async,
-            use_ollama_cloud=use_ollama_cloud,  # NEW
-            ollama_host=ollama_host,  # NEW
+            use_ollama_cloud=use_ollama_cloud,
+            ollama_host=ollama_host,
         )
 
     def _load_colab_secrets(self, api_choice: str | None = None) -> None:
@@ -200,6 +233,8 @@ class LLMClient:
         if "google.colab" not in sys.modules and "COLAB_GPU" not in os.environ:
             return
 
+        logger.debug("Detected Google Colab environment, attempting to load secrets")
+
         try:
             from google.colab import userdata
 
@@ -209,7 +244,7 @@ class LLMClient:
                     "openai": ("OPENAI_API_KEY", "openai_api_key"),
                     "groq": ("GROQ_API_KEY", "groq_api_key"),
                     "gemini": ("GEMINI_API_KEY", "gemini_api_key"),
-                    "ollama": ("OLLAMA_API_KEY", "ollama_api_key"),  # NEW
+                    "ollama": ("OLLAMA_API_KEY", "ollama_api_key"),
                 }
 
                 if api_choice_lower in key_map:
@@ -218,35 +253,25 @@ class LLMClient:
                     if not current_value:
                         try:
                             setattr(self, attr_name, userdata.get(env_key))
+                            logger.debug(f"Loaded {env_key} from Colab userdata")
                         except Exception as e:
-                            print(f"Info: {env_key} not found in Colab secrets: {e}")
+                            logger.debug(f"{env_key} not found in Colab secrets: {e}")
             else:
                 # Load all keys for auto-selection
-                if not self.openai_api_key:
-                    try:
-                        self.openai_api_key = userdata.get("OPENAI_API_KEY")
-                    except Exception as e:
-                        print(e)
-
-                if not self.groq_api_key:
-                    try:
-                        self.groq_api_key = userdata.get("GROQ_API_KEY")
-                    except Exception as e:
-                        print(e)
-
-                if not self.gemini_api_key:
-                    try:
-                        self.gemini_api_key = userdata.get("GEMINI_API_KEY")
-                    except Exception as e:
-                        print(e)
-
-                if not self.ollama_api_key:  # NEW
-                    try:
-                        self.ollama_api_key = userdata.get("OLLAMA_API_KEY")
-                    except Exception as e:
-                        print(e)
+                for key_name, attr_name in [
+                    ("OPENAI_API_KEY", "openai_api_key"),
+                    ("GROQ_API_KEY", "groq_api_key"),
+                    ("GEMINI_API_KEY", "gemini_api_key"),
+                    ("OLLAMA_API_KEY", "ollama_api_key"),
+                ]:
+                    if not getattr(self, attr_name):
+                        try:
+                            setattr(self, attr_name, userdata.get(key_name))
+                            logger.debug(f"Loaded {key_name} from Colab userdata")
+                        except Exception as e:
+                            logger.debug(f"Could not load {key_name}: {e}")
         except Exception as e:
-            print(f"Info: Could not access Colab userdata: {e}")
+            logger.debug(f"Could not access Colab userdata: {e}")
 
     def _get_api_choice_from_provider(self) -> str:
         """Infer API choice from provider class name.
@@ -280,9 +305,10 @@ class LLMClient:
 
         Args:
             api_choice: Target API to switch to.
-            llm: Optional new model name. If None, uses provider default.
-            temperature: Optional new temperature. If None, keeps current.
-            max_tokens: Optional new max_tokens. If None, keeps current.
+            llm: Optional new model name.
+            temperature: Optional new temperature.
+            max_tokens: Optional new max_tokens.
+            use_ollama_cloud: Optional cloud mode setting.
 
         Raises:
             InvalidProviderError: If api_choice is invalid.
@@ -294,13 +320,18 @@ class LLMClient:
             >>> client.switch_provider("gemini", llm="gemini-2.5-flash")
             >>> client.switch_provider("groq", temperature=0.3)
         """
+        logger.info(f"Switching provider from {self.api_choice} to {api_choice}")
+
         # Update parameters if provided
         if temperature is not None:
             self.temperature = temperature
+            logger.debug(f"Updated temperature to {temperature}")
         if max_tokens is not None:
             self.max_tokens = max_tokens
-        if use_ollama_cloud is not None:  # NEW
+            logger.debug(f"Updated max_tokens to {max_tokens}")
+        if use_ollama_cloud is not None:
             self.use_ollama_cloud = use_ollama_cloud
+            logger.debug(f"Updated use_ollama_cloud to {use_ollama_cloud}")
 
         # Update user-specified model
         self._user_specified_llm = llm
@@ -317,15 +348,16 @@ class LLMClient:
             openai_api_key=self.openai_api_key,
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
-            ollama_api_key=self.ollama_api_key,  # NEW
+            ollama_api_key=self.ollama_api_key,
             keep_alive=self.keep_alive,
             use_async=self.use_async,
-            use_ollama_cloud=self.use_ollama_cloud,  # NEW
-            ollama_host=self.ollama_host,  # NEW
+            use_ollama_cloud=self.use_ollama_cloud,
+            ollama_host=self.ollama_host,
         )
 
         # Update API choice
         self.api_choice = api_choice.lower()
+        logger.info(f"Successfully switched to {self.api_choice} with model {self.llm}")
 
     def chat_completion(self, messages: list[dict[str, str]]) -> str:
         """Execute a chat completion using the current provider.
@@ -343,13 +375,13 @@ class LLMClient:
             ChatCompletionError: If the provider call fails after retries.
 
         Examples:
-            >>> messages = [
-            ...     {"role": "system", "content": "You are helpful."},
-            ...     {"role": "user", "content": "Explain AI."}
-            ... ]
+            >>> messages = [{"role": "user", "content": "Hello"}]
             >>> response = client.chat_completion(messages)
         """
-        return self.provider.chat_completion(messages)
+        logger.debug(f"Executing chat completion with {len(messages)} messages")
+        response = self.provider.chat_completion(messages)
+        logger.debug(f"Chat completion successful, response length: {len(response)}")
+        return response
 
     def chat_completion_with_tools(
         self,
@@ -409,7 +441,11 @@ class LLMClient:
             ...         print(f"Calling: {tool_call['function']['name']}")
             ...         print(f"Arguments: {tool_call['function']['arguments']}")
         """
-        return self.provider.chat_completion_with_tools(messages, tools, tool_choice)
+        logger.debug(f"Executing chat completion with {len(tools)} tools")
+        result = self.provider.chat_completion_with_tools(messages, tools, tool_choice)
+        if result.get("tool_calls"):
+            logger.debug(f"Tools called: {[tc['function']['name'] for tc in result['tool_calls']]}")
+        return result
 
     def chat_completion_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream response tokens as they arrive from the LLM.
@@ -433,6 +469,7 @@ class LLMClient:
             ...     print(chunk, end="", flush=True)
             >>> print()  # New line after streaming completes
         """
+        logger.debug(f"Starting streaming chat completion with {len(messages)} messages")
         return self.provider.chat_completion_stream(messages)
 
     async def achat_completion(self, messages: list[dict[str, str]]) -> str:
@@ -450,12 +487,17 @@ class LLMClient:
         Examples:
             >>> response = await client.achat_completion(messages)
         """
+        logger.debug(f"Executing async chat completion with {len(messages)} messages")
         if not hasattr(self.provider, "achat_completion"):
-            raise RuntimeError(
+            error_msg = (
                 f"{self.provider.__class__.__name__} does not support async. "
                 f"Create client with use_async=True"
             )
-        return await self.provider.achat_completion(messages)
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
+        response = await self.provider.achat_completion(messages)
+        logger.debug("Async chat completion successful")
+        return response
 
     async def achat_completion_with_tools(
         self,
@@ -479,11 +521,14 @@ class LLMClient:
         Examples:
             >>> result = await client.achat_completion_with_tools(messages, tools)
         """
+        logger.debug(f"Executing async chat completion with {len(tools)} tools")
         if not hasattr(self.provider, "achat_completion_with_tools"):
-            raise RuntimeError(
+            error_msg = (
                 f"{self.provider.__class__.__name__} does not support async tools. "
                 f"Create client with use_async=True"
             )
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
         return await self.provider.achat_completion_with_tools(messages, tools, tool_choice)
 
     async def achat_completion_stream(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
@@ -502,10 +547,11 @@ class LLMClient:
             >>> async for chunk in client.achat_completion_stream(messages):
             ...     print(chunk, end="", flush=True)
         """
+        logger.debug(f"Starting async streaming with {len(messages)} messages")
         if not hasattr(self.provider, "achat_completion_stream"):
-            raise RuntimeError(
-                f"{self.provider.__class__.__name__} does not support async streaming"
-            )
+            error_msg = f"{self.provider.__class__.__name__} does not support async streaming"
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
         async for chunk in self.provider.achat_completion_stream(messages):
             yield chunk
 
@@ -525,7 +571,9 @@ class LLMClient:
             >>> print(f"Tokens: {token_count}")
         """
         model_name = model or self.llm
-        return self.token_counter.count_tokens(messages, model=model_name)
+        token_count = self.token_counter.count_tokens(messages, model=model_name)
+        logger.debug(f"Counted {token_count} tokens for {len(messages)} messages")
+        return token_count
 
     def count_string_tokens(self, text: str, model: str | None = None) -> int:
         """Count tokens in a string.
