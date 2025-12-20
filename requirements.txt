@@ -7,3 +7,4 @@ tenacity>=8.2.0
 tiktoken
 pyyaml
 asyncio
+click>=8.0.0

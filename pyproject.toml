@@ -17,7 +17,11 @@ dependencies = [
   "openai>=1.51.0",
   "groq>=0.5.0",
   "ollama>=0.1.9",
-  "tenacity>=8.2.0"
+  "tenacity>=8.2.0",
+  "click>=8.0.0",
+  "tiktoken>=0.5.0",
+  "pyyaml>=6.0.0",
+  "rich>=13.0.0"
 ]
 
 [project.optional-dependencies]
