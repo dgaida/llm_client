@@ -56,7 +56,7 @@ class OpenAIProvider(BaseProvider):
         self.client = OpenAI(api_key=api_key)
         logger.info(f"OpenAI client initialized with model {self.llm}")
 
-    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
         """Execute chat completion with OpenAI.
 
         Args:
@@ -82,6 +82,11 @@ class OpenAIProvider(BaseProvider):
         )
 
         content = response.choices[0].message.content
+
+        if content is None:
+            logger.debug("OpenAI response content is None")
+            return None
+
         logger.debug(f"OpenAI response received: {len(content)} characters")
         return content
 
@@ -215,7 +220,7 @@ class GroqProvider(BaseProvider):
         self.client = Groq(api_key=api_key)
         logger.info(f"Groq client initialized with model {self.llm}")
 
-    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
         """Execute chat completion with Groq.
 
         Args:
@@ -241,6 +246,11 @@ class GroqProvider(BaseProvider):
         )
 
         content = response.choices[0].message.content
+
+        if content is None:
+            logger.debug("Groq response content is None")
+            return None
+
         logger.debug(f"Groq response received: {len(content)} characters")
         return content
 
@@ -367,7 +377,7 @@ class GeminiProvider(BaseProvider):
         )
         logger.info(f"Gemini client initialized with model {self.llm}")
 
-    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
         """Execute chat completion with Gemini.
 
         Args:
@@ -392,6 +402,11 @@ class GeminiProvider(BaseProvider):
         )
 
         content = response.choices[0].message.content
+
+        if content is None:
+            logger.debug("Gemini response content is None")
+            return None
+
         logger.debug(f"Gemini response received: {len(content)} characters")
         return content
 

@@ -67,8 +67,8 @@ class TestRateLimiting:
             mock_client = MagicMock()
 
             def rate_limit_generator():
+                yield MagicMock(choices=[MagicMock(delta=MagicMock(content="Start"))])
                 raise Exception("Rate limit exceeded")
-                yield  # Never reached
 
             mock_client.chat.completions.create.return_value = rate_limit_generator()
             mock_openai.return_value = mock_client
