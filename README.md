@@ -41,16 +41,6 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 * 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
 * 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
 
-### Neu in v0.3.0
-* 📊 **Token-Zählung** - Präzise Token-Zählung mit tiktoken
-* ⚡ **Async-Unterstützung** - Vollständiges async/await für Chat-Completions
-* 📁 **Konfigurationsdateien** - Einstellungen aus YAML/JSON-Dateien laden
-
-### Seit v0.2.0
-* 🌊 **Response-Streaming** - Tokens in Echtzeit streamen
-* 🔄 **Automatische Wiederholung** - Exponential Backoff bei vorübergehenden Fehlern
-* 🚨 **Custom Exceptions** - Detaillierter Fehlerkontext und umsetzbare Meldungen
-
 ### Architektur
 * 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
 * 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
@@ -763,52 +753,7 @@ Um einen neuen Provider hinzuzufügen:
 
 ## 🧪 Tests ausführen
 
-```bash
-# Alle Tests
-pytest
-
-# Mit Coverage-Report
-pytest --cov=llm_client --cov-report=html
-
-# Einzelne Tests
-pytest tests/test_llm_client.py -v
-
-# Tests für neue Features
-pytest tests/test_new_features.py -v
-pytest tests/tests_new_features_complete.py -v
-```
-
-### Test-Struktur
-
-```
-tests/
-├── test_llm_client.py              # Umfassende Tests für alle Provider
-├── test_switch_provider.py         # Dynamischer Provider-Wechsel Tests
-├── test_adapter.py                 # llama-index Integration Tests
-├── test_base_provider.py           # Abstract Base Class Tests
-├── test_providers.py               # Provider-Implementierung Tests
-├── test_provider_factory.py        # Factory Pattern Tests
-├── test_new_features.py            # Streaming und Retry-Logik Tests
-├── tests_new_features_complete.py  # Token-Zählung, Async, Config Tests
-├── test_integration.py             # End-to-End Integration Tests
-└── README.md                       # Detaillierte Test-Dokumentation
-```
-
-### Code-Qualität prüfen
-
-```bash
-# Code formatieren
-black .
-
-# Linting
-ruff check .
-
-# Auto-fix
-ruff check --fix .
-
-# Type checking
-mypy llm_client
-```
+Siehe [TESTING.md](docs/TESTING.md).
 
 ---
 
@@ -910,48 +855,7 @@ MIT License - siehe [LICENSE](LICENSE)
 
 ## 📝 Changelog
 
-### Version 0.3.0 (Aktuell)
-
-**New Features:**
-- ✨ **Token Counting**: Accurate counting with tiktoken
-- ⚡ **Async Support**: Full async/await for all operations
-- 📁 **Configuration Files**: YAML/JSON support for easy management
-
-**Improvements:**
-- 🧪 Enhanced test suite (>92% coverage)
-- 📚 Improved documentation
-- 🔧 Better error handling
-- 🎯 Type hints for all public APIs
-
-**Dependencies:**
-- ➕ Added `tiktoken` for token counting
-- ➕ Added `pyyaml` for configuration files
-- ➕ Added `asyncio` for async support
-
-### Version 0.2.0
-
-**Neue Features:**
-- ✨ **Dynamischer Provider-Wechsel**: `switch_provider()` Methode für Laufzeit-Wechsel
-- 🏗️ **Refactoring**: Strategy Pattern mit Provider-Klassen
-- 🏭 **Factory Pattern**: Zentrale Provider-Verwaltung
-- 📦 **Bessere Struktur**: Klare Trennung von Verantwortlichkeiten
-
-**Verbesserungen:**
-- 🧪 Erweiterte Test-Suite (>92% Coverage)
-- 📚 Verbesserte Dokumentation
-- 🔧 Bessere Fehlerbehandlung
-- 🎯 Type Hints für alle öffentlichen APIs
-
-**Bug Fixes:**
-- 🐛 Korrektes Handling von fehlenden API-Keys
-- 🔄 Konsistentes Verhalten bei Provider-Wechsel
-
-### Version 0.1.0
-
-- 🎉 Initiales Release
-- ✅ Support für OpenAI, Groq, Gemini, Ollama
-- 🔐 Google Colab Integration
-- 🧩 llama-index Adapter
+Siehe [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
