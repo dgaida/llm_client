@@ -41,16 +41,6 @@ A universal Python client for accessing various Large Language Models (LLMs) via
 * 🔐 **Google Colab Support** - Automatic loading of secrets from userdata
 * 📦 **Zero-Config** - Works out-of-the-box with Ollama
 
-### New in v0.3.0
-* 📊 **Token Counting** - Accurate token counting with tiktoken
-* ⚡ **Async Support** - Full async/await for chat completions
-* 📁 **Configuration Files** - Load settings from YAML/JSON files
-
-### Since v0.2.0
-* 🌊 **Response Streaming** - Stream tokens as they arrive in real-time
-* 🔄 **Automatic Retry** - Exponential backoff for transient failures
-* 🚨 **Custom Exceptions** - Detailed error context and actionable messages
-
 ### Architecture
 * 🏗️ **Strategy Pattern** - Clean architecture with provider classes
 * 🏭 **Factory Pattern** - Centralized provider creation and management
@@ -841,52 +831,7 @@ To add a new provider:
 
 ## 🧪 Running Tests
 
-```bash
-# All tests
-pytest
-
-# With coverage report
-pytest --cov=llm_client --cov-report=html
-
-# Specific tests
-pytest tests/test_llm_client.py -v
-
-# Tests for new features
-pytest tests/test_new_features.py -v
-pytest tests/tests_new_features_complete.py -v
-```
-
-### Test Structure
-
-```
-tests/
-├── test_llm_client.py              # Comprehensive tests for all providers
-├── test_switch_provider.py         # Dynamic provider switching tests
-├── test_adapter.py                 # llama-index integration tests
-├── test_base_provider.py           # Abstract base class tests
-├── test_providers.py               # Provider implementation tests
-├── test_provider_factory.py        # Factory pattern tests
-├── test_new_features.py            # Streaming and retry logic tests
-├── tests_new_features_complete.py  # Token counting, async, config tests
-├── test_integration.py             # End-to-end integration tests
-└── README.md                       # Detailed test documentation
-```
-
-### Code Quality Checks
-
-```bash
-# Format code
-black .
-
-# Lint
-ruff check .
-
-# Auto-fix
-ruff check --fix .
-
-# Type checking
-mypy llm_client
-```
+See [TESTING.md](docs/TESTING.md).
 
 ---
 
@@ -970,7 +915,7 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 MIT License - see [LICENSE](LICENSE)
 
-© 2025 Daniel Gaida, Technical University of Cologne
+© 2025 Daniel Gaida, Cologne University of Applied Sciences
 
 ---
 
@@ -988,45 +933,7 @@ MIT License - see [LICENSE](LICENSE)
 
 ## 📝 Version History
 
-### Version 0.3.0 (Current)
-
-**New Features:**
-- ✨ **Token Counting**: Accurate counting with tiktoken
-- ⚡ **Async Support**: Full async/await for all operations
-- 📁 **Configuration Files**: YAML/JSON support for easy management
-
-**Improvements:**
-- 🧪 Enhanced test suite (>92% coverage)
-- 📚 Improved documentation
-- 🔧 Better error handling
-- 🎯 Type hints for all public APIs
-
-**Dependencies:**
-- ➕ Added `tiktoken` for token counting
-- ➕ Added `pyyaml` for configuration files
-- ➕ Added `asyncio` for async support
-
-### Version 0.2.0
-
-**New Features:**
-- ✨ **Response Streaming**: Real-time token streaming for all providers
-- 🔄 **Automatic Retry**: Exponential backoff for transient failures
-- 🚨 **Custom Exceptions**: Detailed error context and messages
-
-**Improvements:**
-- 🏗️ Refactoring: Strategy Pattern with provider classes
-- 🏭 Factory Pattern: Centralized provider management
-- 🧪 Extended test suite (>92% coverage)
-
-**Dependencies:**
-- ➕ Added `tenacity` for retry logic
-
-### Version 0.1.0
-
-- 🎉 Initial release
-- ✅ Support for OpenAI, Groq, Gemini, Ollama
-- 🔐 Google Colab integration
-- 🧩 llama-index adapter
+See [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -1043,6 +950,5 @@ Questions? Open an [Issue](https://github.com/dgaida/llm_client/issues).
 This project was inspired by:
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [llama-index](https://github.com/run-llama/llama_index)
-- [Andrew Ng's AISuite](https://github.com/andrewyng/aisuite)
 
 Special thanks to all contributors and users of this library!
