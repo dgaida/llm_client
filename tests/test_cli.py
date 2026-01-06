@@ -176,11 +176,11 @@ class TestTokensCommand:
     """Tests for the tokens command."""
 
     @patch("llm_client.cli.TokenCounter")
-    def test_count_tokens(self, mock_counter, runner):
+    def test_count_tokens(self, mock_counter_class, runner):
         """Test token counting."""
         mock_instance = Mock()
         mock_instance.count_string_tokens.return_value = 42
-        mock_counter.return_value = mock_instance
+        mock_counter_class.return_value = mock_instance
 
         result = runner.invoke(cli, ["tokens", "Hello world"])
 
@@ -188,11 +188,11 @@ class TestTokensCommand:
         assert "42" in result.output
 
     @patch("llm_client.cli.TokenCounter")
-    def test_count_tokens_with_model(self, mock_counter, runner):
+    def test_count_tokens_with_model(self, mock_counter_class, runner):
         """Test token counting with specific model."""
         mock_instance = Mock()
         mock_instance.count_string_tokens.return_value = 42
-        mock_counter.return_value = mock_instance
+        mock_counter_class.return_value = mock_instance
 
         result = runner.invoke(cli, ["tokens", "Hello", "--model", "gpt-4o"])
 
@@ -227,6 +227,8 @@ class TestConfigCommands:
 
         mock_config = Mock()
         mock_config.validate.return_value = (True, [])
+        mock_config.default_provider = "openai"
+        mock_config.list_providers.return_value = ["openai"]
         mock_from_file.return_value = mock_config
 
         result = runner.invoke(cli, ["config", "validate", str(config_file)])
