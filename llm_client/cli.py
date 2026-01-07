@@ -24,6 +24,8 @@ import click
 
 from .config import LLMConfig, generate_config_template
 from .llm_client import LLMClient
+from .provider_factory import ProviderFactory
+from .token_counter import TokenCounter
 
 # Optional rich support for better formatting
 try:
@@ -367,8 +369,6 @@ def tokens(text: str, model: str) -> None:
         llm-client tokens "Long text..." --model gpt-4o
     """
     try:
-        from .token_counter import TokenCounter
-
         counter = TokenCounter()
         count = counter.count_string_tokens(text, model=model)
 
@@ -535,8 +535,6 @@ def providers() -> None:
         llm-client providers
     """
     try:
-        from .provider_factory import ProviderFactory
-
         all_providers = ["openai", "groq", "gemini", "ollama"]
         available = ProviderFactory.get_available_providers()
 

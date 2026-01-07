@@ -380,7 +380,9 @@ class LLMClient:
         """
         logger.debug(f"Executing chat completion with {len(messages)} messages")
         response = self.provider.chat_completion(messages)
-        logger.debug(f"Chat completion successful, response length: {len(response)}")
+
+        if response is not None:
+            logger.debug(f"Chat completion successful, response length: {len(response)}")
         return response
 
     def chat_completion_with_tools(
