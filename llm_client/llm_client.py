@@ -449,6 +449,85 @@ class LLMClient:
             logger.debug(f"Tools called: {[tc['function']['name'] for tc in result['tool_calls']]}")
         return result
 
+    def chat_completion_with_files(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with file uploads.
+
+        This method allows uploading files (images, PDFs, etc.) along with chat messages.
+        File support varies by provider:
+        - OpenAI: Images (PNG, JPEG, WEBP, GIF), PDFs (GPT-4o and newer)
+        - Gemini: Images, PDFs, Videos, Audio files
+        - Groq: Images only (vision models)
+        - Ollama: Images only (requires vision models like llava)
+
+        Args:
+            messages: List of message dicts with 'role' and 'content' keys.
+            files: List of file paths to upload. If None, works like regular chat_completion.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            FileUploadNotSupportedError: If provider doesn't support file uploads.
+            FileNotFoundError: If a specified file doesn't exist.
+            ValueError: If file type is not supported by the provider.
+            ChatCompletionError: If the API call fails.
+
+        Examples:
+            >>> # Single image
+            >>> messages = [{"role": "user", "content": "What's in this image?"}]
+            >>> response = client.chat_completion_with_files(
+            ...     messages,
+            ...     files=["vacation_photo.jpg"]
+            ... )
+
+            >>> # Multiple files
+            >>> messages = [{"role": "user", "content": "Analyze these documents"}]
+            >>> response = client.chat_completion_with_files(
+            ...     messages,
+            ...     files=["report.pdf", "chart.png", "data.jpg"]
+            ... )
+
+            >>> # Image analysis with Gemini
+            >>> client = LLMClient(api_choice="gemini")
+            >>> messages = [{"role": "user", "content": "Describe this image in detail"}]
+            >>> response = client.chat_completion_with_files(
+            ...     messages,
+            ...     files=["complex_diagram.png"]
+            ... )
+
+            >>> # PDF analysis with OpenAI
+            >>> client = LLMClient(api_choice="openai", llm="gpt-4o")
+            >>> messages = [{"role": "user", "content": "Summarize this document"}]
+            >>> response = client.chat_completion_with_files(
+            ...     messages,
+            ...     files=["research_paper.pdf"]
+            ... )
+        """
+        logger.debug(
+            f"Executing chat completion with files: {len(messages)} messages, "
+            f"{len(files) if files else 0} files"
+        )
+
+        if files:
+            # Validate files exist
+            from pathlib import Path
+
+            for file_path in files:
+                if not Path(file_path).exists():
+                    raise FileNotFoundError(f"File not found: {file_path}")
+
+            logger.debug(f"Files to upload: {files}")
+
+        response = self.provider.chat_completion_with_files(messages, files)
+
+        if response is not None:
+            logger.debug(f"Chat completion with files successful, response length: {len(response)}")
+        return response
+
     def chat_completion_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream response tokens as they arrive from the LLM.
 
@@ -532,6 +611,54 @@ class LLMClient:
             logger.error(error_msg)
             raise RuntimeError(error_msg)
         return await self.provider.achat_completion_with_tools(messages, tools, tool_choice)
+
+    async def achat_completion_with_files(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute async chat completion with file uploads.
+
+        Args:
+            messages: List of message dicts.
+            files: List of file paths to upload.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            RuntimeError: If provider doesn't support async file uploads.
+            FileUploadNotSupportedError: If provider doesn't support file uploads.
+
+        Examples:
+            >>> response = await client.achat_completion_with_files(
+            ...     messages,
+            ...     files=["image.jpg"]
+            ... )
+        """
+        logger.debug(
+            f"Executing async chat completion with files: {len(messages)} messages, "
+            f"{len(files) if files else 0} files"
+        )
+
+        if not hasattr(self.provider, "achat_completion_with_files"):
+            error_msg = (
+                f"{self.provider.__class__.__name__} does not support async file uploads. "
+                f"Create client with use_async=True"
+            )
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
+
+        if files:
+            from pathlib import Path
+
+            for file_path in files:
+                if not Path(file_path).exists():
+                    raise FileNotFoundError(f"File not found: {file_path}")
+
+        response = await self.provider.achat_completion_with_files(messages, files)
+        logger.debug("Async chat completion with files successful")
+        return response
 
     async def achat_completion_stream(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
         """Stream response tokens asynchronously.

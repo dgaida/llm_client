@@ -90,6 +90,63 @@ class OpenAIProvider(BaseProvider):
         logger.debug(f"OpenAI response received: {len(content)} characters")
         return content
 
+    def _chat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with files using OpenAI.
+
+        Args:
+            messages: List of message dictionaries.
+            files: List of file paths to upload.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        from .file_utils import prepare_files_for_provider
+
+        logger.debug(f"Calling OpenAI API with {len(files or [])} files")
+
+        # Prepare messages with files
+        enhanced_messages = messages.copy()
+
+        if files:
+            # Prepare file data
+            file_data = prepare_files_for_provider(files, "openai")
+
+            # Add files to the last user message or create new message
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                # Convert content to list format if it's a string
+                last_msg = enhanced_messages[-1]
+                if isinstance(last_msg["content"], str):
+                    text_content = last_msg["content"]
+                    last_msg["content"] = [{"type": "text", "text": text_content}]
+
+                # Add files
+                last_msg["content"].extend(file_data)
+            else:
+                # Create new user message with files
+                enhanced_messages.append({"role": "user", "content": file_data})
+
+        response = self.client.chat.completions.create(
+            model=self.llm,
+            messages=enhanced_messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        content = response.choices[0].message.content
+        if content:
+            logger.debug(f"OpenAI response with files: {len(content)} characters")
+        return content
+
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with OpenAI.
 
@@ -296,6 +353,67 @@ class GroqProvider(BaseProvider):
             ),
         }
 
+    def _chat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with files using Groq.
+
+        Note: Groq has limited vision support. Only certain models support images.
+
+        Args:
+            messages: List of message dictionaries.
+            files: List of file paths (images only).
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+            ValueError: If non-image files are provided.
+        """
+        if not self.client:
+            raise RuntimeError("Groq client not initialized")
+
+        from .file_utils import detect_file_type, prepare_files_for_provider
+
+        logger.debug(f"Calling Groq API with {len(files or [])} files")
+
+        # Validate files (Groq only supports images for vision models)
+        if files:
+            for file_path in files:
+                if detect_file_type(file_path) != "image":
+                    raise ValueError("Groq only supports image files for vision models")
+
+        # Prepare messages with files
+        enhanced_messages = messages.copy()
+
+        if files:
+            file_data = prepare_files_for_provider(files, "groq")
+
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                if isinstance(last_msg["content"], str):
+                    text_content = last_msg["content"]
+                    last_msg["content"] = [{"type": "text", "text": text_content}]
+
+                last_msg["content"].extend(file_data)
+            else:
+                enhanced_messages.append({"role": "user", "content": file_data})
+
+        response = self.client.chat.completions.create(
+            model=self.llm,
+            messages=enhanced_messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        content = response.choices[0].message.content
+        if content:
+            logger.debug(f"Groq response with files: {len(content)} characters")
+        return content
+
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with Groq.
 
@@ -451,6 +569,60 @@ class GeminiProvider(BaseProvider):
                 else None
             ),
         }
+
+    def _chat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with files using Gemini.
+
+        Args:
+            messages: List of message dictionaries.
+            files: List of file paths to upload.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("Gemini client not initialized")
+
+        from .file_utils import prepare_files_for_provider
+
+        logger.debug(f"Calling Gemini API with {len(files or [])} files")
+
+        # Prepare messages with files
+        enhanced_messages = messages.copy()
+
+        if files:
+            # Prepare file data
+            file_data = prepare_files_for_provider(files, "gemini")
+
+            # Add files to the last user message
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                if isinstance(last_msg["content"], str):
+                    text_content = last_msg["content"]
+                    last_msg["content"] = [{"type": "text", "text": text_content}]
+
+                last_msg["content"].extend(file_data)
+            else:
+                enhanced_messages.append({"role": "user", "content": file_data})
+
+        response = self.client.chat.completions.create(
+            model=self.llm,
+            messages=enhanced_messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        content = response.choices[0].message.content
+        if content:
+            logger.debug(f"Gemini response with files: {len(content)} characters")
+        return content
 
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with Gemini.
@@ -658,6 +830,77 @@ class OllamaProvider(BaseProvider):
             "Tool calling support in Ollama is experimental. "
             "Please check Ollama documentation for current status."
         )
+
+    def _chat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with files using Ollama.
+
+        Note: Requires a vision-capable model like llava or bakllava.
+
+        Args:
+            messages: List of message dictionaries.
+            files: List of file paths (images only).
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            ProviderNotAvailableError: If ollama package is not available.
+            ValueError: If non-image files are provided.
+        """
+        if not self.is_available():
+            raise ProviderNotAvailableError("ollama", "ollama")
+
+        from .file_utils import detect_file_type, encode_file_base64
+
+        logger.debug(f"Calling Ollama with {len(files or [])} files")
+
+        # Validate files (Ollama vision models only support images)
+        if files:
+            for file_path in files:
+                if detect_file_type(file_path) != "image":
+                    raise ValueError("Ollama vision models only support image files")
+
+        # Prepare messages with files
+        enhanced_messages = messages.copy()
+
+        if files:
+            # Ollama uses base64 encoded images in a different format
+            images = [encode_file_base64(f) for f in files]
+
+            # Find last user message
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                # Ollama expects images as a separate field
+                last_msg["images"] = images
+            else:
+                enhanced_messages.append({"role": "user", "content": "", "images": images})
+
+        options = {
+            "temperature": self.temperature,
+            "num_predict": self.max_tokens,
+        }
+
+        if not self.use_cloud:
+            options.update({"repeat_penalty": 1.2, "top_k": 10, "top_p": 0.5})
+
+        kwargs = {
+            "model": self.llm,
+            "messages": enhanced_messages,
+            "stream": False,
+            "options": options,
+        }
+
+        if not self.use_cloud:
+            kwargs["keep_alive"] = self.keep_alive
+
+        response = self.client.chat(**kwargs)
+        content = response["message"]["content"]
+        logger.debug(f"Ollama response with files: {len(content)} characters")
+        return content
 
     def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream chat completion with Ollama (local or cloud).

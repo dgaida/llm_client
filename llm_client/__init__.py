@@ -49,6 +49,7 @@ from .config import LLMConfig, create_default_config, generate_config_template
 from .exceptions import (
     APIKeyNotFoundError,
     ChatCompletionError,
+    FileUploadNotSupportedError,
     InvalidProviderError,
     LLMClientError,
     ProviderNotAvailableError,
@@ -78,6 +79,7 @@ __all__ = [
     "ProviderNotAvailableError",
     "InvalidProviderError",
     "ChatCompletionError",
+    "FileUploadNotSupportedError",
     "StreamingNotSupportedError",
     # Config utilities
     "create_default_config",

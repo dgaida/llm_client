@@ -171,6 +171,77 @@ class BaseProvider(ABC):
         """
         raise NotImplementedError("Tool calling not implemented for this provider")
 
+    def chat_completion_with_files(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with file uploads.
+
+        This method allows sending files (images, PDFs) along with the chat messages.
+        File support varies by provider:
+        - OpenAI: Images (PNG, JPEG, WEBP, GIF), PDFs
+        - Gemini: Images, PDFs, Videos, Audio
+        - Groq: Limited vision support
+        - Ollama: Vision models only
+
+        Args:
+            messages: List of message dictionaries with 'role' and 'content' keys.
+            files: List of file paths to upload. Supported formats depend on provider.
+
+        Returns:
+            The generated text response.
+
+        Raises:
+            FileUploadNotSupportedError: If provider doesn't support file uploads.
+            FileNotFoundError: If a specified file doesn't exist.
+            ChatCompletionError: If the API call fails.
+
+        Examples:
+            >>> messages = [{"role": "user", "content": "Describe this image"}]
+            >>> response = provider.chat_completion_with_files(
+            ...     messages,
+            ...     files=["image.jpg"]
+            ... )
+
+            >>> # Multiple files
+            >>> response = provider.chat_completion_with_files(
+            ...     messages,
+            ...     files=["document.pdf", "chart.png"]
+            ... )
+        """
+        try:
+            return self._chat_completion_with_files_impl(messages, files)
+        except NotImplementedError as err:
+            from .exceptions import FileUploadNotSupportedError
+
+            raise FileUploadNotSupportedError(
+                self.__class__.__name__, "Provider does not support file uploads"
+            ) from err
+        except Exception as e:
+            raise ChatCompletionError(self.__class__.__name__, e) from e
+
+    def _chat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Internal implementation of file upload chat completion.
+
+        Should be overridden by providers that support file uploads.
+
+        Args:
+            messages: List of message dictionaries.
+            files: List of file paths.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            NotImplementedError: If provider doesn't support file uploads.
+        """
+        raise NotImplementedError("File upload not implemented for this provider")
+
     def chat_completion_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
         """Stream response tokens as they arrive.
 

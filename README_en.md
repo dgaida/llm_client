@@ -686,6 +686,97 @@ else:
 
 ---
 
+### 📁 File Upload Support
+
+Upload and analyze files (images, PDFs, videos) with your prompts:
+
+```python
+from llm_client import LLMClient
+
+# Create client
+client = LLMClient(api_choice="openai", llm="gpt-4o")
+
+# Analyze an image
+messages = [{"role": "user", "content": "What do you see in this image?"}]
+response = client.chat_completion_with_files(
+    messages,
+    files=["vacation_photo.jpg"]
+)
+
+# Analyze a PDF document
+messages = [{"role": "user", "content": "Summarize this research paper"}]
+response = client.chat_completion_with_files(
+    messages,
+    files=["research_paper.pdf"]
+)
+
+# Multiple files at once
+messages = [{"role": "user", "content": "Compare these images"}]
+response = client.chat_completion_with_files(
+    messages,
+    files=["image1.jpg", "image2.png", "chart.pdf"]
+)
+```
+
+**Supported File Types by Provider:**
+
+| Provider | Images | PDFs | Videos | Audio |
+|----------|--------|------|--------|-------|
+| OpenAI   | ✅ (GPT-4o+) | ✅ (GPT-4o+) | ❌ | ❌ |
+| Gemini   | ✅     | ✅   | ✅     | ✅    |
+| Groq     | ✅ (vision models) | ❌ | ❌ | ❌ |
+| Ollama   | ✅ (llava, bakllava) | ❌ | ❌ | ❌ |
+
+**Image Formats:** PNG, JPEG, WEBP, GIF  
+**Document Formats:** PDF  
+**Video Formats:** MP4, MOV, AVI (Gemini only)  
+**Audio Formats:** MP3, WAV (Gemini only)
+
+**Async File Upload:**
+
+```python
+from llm_client import LLMClient
+
+# Create async client
+client = LLMClient(api_choice="gemini", use_async=True)
+
+messages = [{"role": "user", "content": "Analyze this video"}]
+response = await client.achat_completion_with_files(
+    messages,
+    files=["demo_video.mp4"]
+)
+```
+
+**File Validation:**
+
+```python
+from llm_client.file_utils import validate_file_for_provider
+
+# Check if file is supported before uploading
+is_valid, error = validate_file_for_provider("document.pdf", "openai")
+if is_valid:
+    print("File is supported!")
+else:
+    print(f"Error: {error}")
+```
+
+**Vision Models with Ollama:**
+
+```python
+# Use local vision model
+client = LLMClient(api_choice="ollama", llm="llava:7b")
+
+messages = [{"role": "user", "content": "Describe this image"}]
+response = client.chat_completion_with_files(
+    messages,
+    files=["photo.jpg"]
+)
+```
+
+See `examples/file_upload_examples.py` for comprehensive examples.
+
+---
+
 ### 🔧 Advanced Usage
 
 **Choose Specific Model:**

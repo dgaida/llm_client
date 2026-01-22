@@ -171,3 +171,34 @@ class StreamingNotSupportedError(LLMClientError):
         if reason:
             message += f": {reason}"
         super().__init__(message)
+
+
+class FileUploadNotSupportedError(LLMClientError):
+    """Raised when file upload is requested but not supported.
+
+    This exception is raised when attempting to upload files to a provider
+    that doesn't support file/multimodal inputs.
+
+    Attributes:
+        provider: Name of the provider.
+        file_type: Type of file that was attempted to upload.
+
+    Examples:
+        >>> raise FileUploadNotSupportedError("groq", "pdf")
+        FileUploadNotSupportedError: File upload not supported for groq provider.
+        Supported file type: pdf
+    """
+
+    def __init__(self, provider: str, file_type: str | None = None):
+        """Initialize the exception.
+
+        Args:
+            provider: Name of the provider.
+            file_type: Optional file type that was attempted.
+        """
+        self.provider = provider
+        self.file_type = file_type
+        message = f"File upload not supported for {provider} provider"
+        if file_type:
+            message += f" (file type: {file_type})"
+        super().__init__(message)

@@ -88,6 +88,29 @@ class AsyncProviderMixin:
         """Internal async implementation of tool calling."""
         raise NotImplementedError("Async tool calling not implemented")
 
+    async def achat_completion_with_files(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute async chat completion with files."""
+        try:
+            return await self._achat_completion_with_files_impl(messages, files)
+        except NotImplementedError as err:
+            raise NotImplementedError(
+                f"{self.__class__.__name__} does not support file uploads"
+            ) from err
+        except Exception as e:
+            raise ChatCompletionError(self.__class__.__name__, e) from e
+
+    async def _achat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Internal async implementation of file upload."""
+        raise NotImplementedError("Async file upload not implemented")
+
     async def achat_completion_stream(self, messages: list[dict[str, str]]) -> AsyncIterator[str]:
         """Stream response tokens asynchronously.
 
@@ -207,6 +230,41 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
             ),
         }
 
+    async def _achat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute async chat completion with files using OpenAI."""
+        if not self.client:
+            raise RuntimeError("OpenAI client not initialized")
+
+        from .file_utils import prepare_files_for_provider
+
+        enhanced_messages = messages.copy()
+
+        if files:
+            file_data = prepare_files_for_provider(files, "openai")
+
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                if isinstance(last_msg["content"], str):
+                    text_content = last_msg["content"]
+                    last_msg["content"] = [{"type": "text", "text": text_content}]
+
+                last_msg["content"].extend(file_data)
+            else:
+                enhanced_messages.append({"role": "user", "content": file_data})
+
+        response = await self.client.chat.completions.create(
+            model=self.llm,
+            messages=enhanced_messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        return response.choices[0].message.content
+
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
     ) -> AsyncIterator[str]:
@@ -309,6 +367,46 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
                 else None
             ),
         }
+
+    async def _achat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute async chat completion with files using Groq."""
+        if not self.client:
+            raise RuntimeError("Groq client not initialized")
+
+        from .file_utils import detect_file_type, prepare_files_for_provider
+
+        if files:
+            for file_path in files:
+                if detect_file_type(file_path) != "image":
+                    raise ValueError("Groq only supports image files for vision models")
+
+        enhanced_messages = messages.copy()
+
+        if files:
+            file_data = prepare_files_for_provider(files, "groq")
+
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                if isinstance(last_msg["content"], str):
+                    text_content = last_msg["content"]
+                    last_msg["content"] = [{"type": "text", "text": text_content}]
+
+                last_msg["content"].extend(file_data)
+            else:
+                enhanced_messages.append({"role": "user", "content": file_data})
+
+        response = await self.client.chat.completions.create(
+            model=self.llm,
+            messages=enhanced_messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        return response.choices[0].message.content
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
@@ -415,6 +513,41 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
                 else None
             ),
         }
+
+    async def _achat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute async chat completion with files using Gemini."""
+        if not self.client:
+            raise RuntimeError("Gemini client not initialized")
+
+        from .file_utils import prepare_files_for_provider
+
+        enhanced_messages = messages.copy()
+
+        if files:
+            file_data = prepare_files_for_provider(files, "gemini")
+
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                if isinstance(last_msg["content"], str):
+                    text_content = last_msg["content"]
+                    last_msg["content"] = [{"type": "text", "text": text_content}]
+
+                last_msg["content"].extend(file_data)
+            else:
+                enhanced_messages.append({"role": "user", "content": file_data})
+
+        response = await self.client.chat.completions.create(
+            model=self.llm,
+            messages=enhanced_messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        return response.choices[0].message.content
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
