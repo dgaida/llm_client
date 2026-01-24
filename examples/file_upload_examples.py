@@ -57,13 +57,12 @@ def example_multiple_images():
 
 
 def example_pdf_analysis():
-    """Example: Analyze PDF document with OpenAI GPT-4o."""
+    """Example: Analyze PDF document with Gemini."""
     print("=" * 60)
     print("Example 3: PDF Document Analysis")
     print("=" * 60)
 
-    # GPT-4o and newer models support PDFs
-    client = LLMClient(api_choice="openai", llm="gpt-4o")
+    client = LLMClient(api_choice="gemini")
 
     messages = [
         {
