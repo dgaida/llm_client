@@ -76,6 +76,12 @@ def example_pdf_analysis():
         print(f"\nSummary:\n{response}\n")
     except FileNotFoundError:
         print("Note: Please provide a 'research_paper.pdf' file to run this example")
+    except Exception as e:
+        if "429" in str(e) or "quota" in str(e).lower():
+            print("Note: Rate limit reached. Please wait a moment and try again.")
+            print("Tip: Use a smaller file or try OpenAI for file uploads.")
+        else:
+            raise
 
 
 def example_mixed_files():

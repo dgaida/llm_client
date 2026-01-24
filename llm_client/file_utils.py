@@ -172,6 +172,9 @@ def prepare_file_for_openai(file_path: str | Path) -> dict:
 def prepare_file_for_gemini(file_path: str | Path) -> dict:
     """Prepare a file for Gemini API format (via OpenAI compatibility).
 
+    Gemini nutzt die OpenAI-Kompatibilitätsschicht, unterstützt aber PDFs
+    nur im image_url Format, nicht im file Format.
+
     Args:
         file_path: Path to the file.
 
@@ -183,8 +186,12 @@ def prepare_file_for_gemini(file_path: str | Path) -> dict:
         >>> "type" in file_data
         True
     """
-    # Gemini uses OpenAI compatibility mode
-    return prepare_file_for_openai(file_path)
+    # file_type = detect_file_type(file_path)
+    mime_type = get_mime_type(file_path)
+    base64_data = encode_file_base64(file_path)
+
+    # Gemini verwendet für alle unterstützten Dateitypen das image_url Format
+    return {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{base64_data}"}}
 
 
 def prepare_files_for_provider(
@@ -218,8 +225,10 @@ def prepare_files_for_provider(
             raise ValueError(error)
 
         # Prepare based on provider
-        if provider.lower() in ["openai", "gemini"]:
+        if provider.lower() == "openai":
             prepared_files.append(prepare_file_for_openai(file_path))
+        elif provider.lower() == "gemini":
+            prepared_files.append(prepare_file_for_gemini(file_path))
         elif provider.lower() in ["groq", "ollama"]:
             # Same format as OpenAI
             prepared_files.append(prepare_file_for_openai(file_path))
