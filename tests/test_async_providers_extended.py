@@ -29,7 +29,7 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             messages = [{"role": "user", "content": "Analyze this"}]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch("llm_client.file_utils.prepare_files_for_provider") as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -60,7 +60,7 @@ class TestAsyncOpenAIProviderExtended:
                 {"role": "assistant", "content": "Hi there!"},
             ]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch("llm_client.file_utils.prepare_files_for_provider") as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -94,7 +94,7 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             messages = [{"role": "user", "content": "Analyze image"}]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch("llm_client.file_utils.prepare_files_for_provider") as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -115,7 +115,7 @@ class TestAsyncOpenAIProviderExtended:
                 assert last_message_content[0]["text"] == "Analyze image"
 
     async def test_achat_completion_with_files_client_not_initialized(self):
-        """Test: Raises RuntimeError if client not initialized."""
+        """Test: Raises ChatCompletionError if client not initialized."""
         with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
             from llm_client.async_providers import AsyncOpenAIProvider
 
@@ -124,7 +124,9 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             provider.client = None
 
-            with pytest.raises(RuntimeError, match="OpenAI client not initialized"):
+            with pytest.raises(
+                ChatCompletionError, match="RuntimeError: OpenAI client not initialized"
+            ):
                 await provider.achat_completion_with_files([], files=["test.jpg"])
 
     async def test_achat_completion_with_tools_without_tool_choice(self):
@@ -176,9 +178,9 @@ class TestAsyncGroqProviderExtended:
             provider = AsyncGroqProvider(llm="llava-v1.5-7b-4096-preview", api_key="gsk-test")
             messages = [{"role": "user", "content": "Describe image"}]
 
-            with patch("llm_client.async_providers.detect_file_type") as mock_detect:
+            with patch("llm_client.file_utils.detect_file_type") as mock_detect:
                 mock_detect.return_value = "image"
-                with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+                with patch("llm_client.file_utils.prepare_files_for_provider") as mock_prepare:
                     mock_prepare.return_value = [
                         {
                             "type": "image_url",
@@ -203,14 +205,16 @@ class TestAsyncGroqProviderExtended:
             provider = AsyncGroqProvider(llm="llava-v1.5-7b-4096-preview", api_key="gsk-test")
             messages = [{"role": "user", "content": "Analyze"}]
 
-            with patch("llm_client.async_providers.detect_file_type") as mock_detect:
+            with patch("llm_client.file_utils.detect_file_type") as mock_detect:
                 mock_detect.return_value = "pdf"
 
-                with pytest.raises(ValueError, match="Groq only supports image files"):
+                with pytest.raises(
+                    ChatCompletionError, match="ValueError: Groq only supports image files"
+                ):
                     await provider.achat_completion_with_files(messages, files=["test.pdf"])
 
     async def test_achat_completion_with_files_client_not_initialized(self):
-        """Test: Groq raises RuntimeError if client not initialized."""
+        """Test: Groq raises ChatCompletionError if client not initialized."""
         with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
             from llm_client.async_providers import AsyncGroqProvider
 
@@ -219,7 +223,9 @@ class TestAsyncGroqProviderExtended:
             provider = AsyncGroqProvider(llm="llava-v1.5-7b-4096-preview", api_key="gsk-test")
             provider.client = None
 
-            with pytest.raises(RuntimeError, match="Groq client not initialized"):
+            with pytest.raises(
+                ChatCompletionError, match="RuntimeError: Groq client not initialized"
+            ):
                 await provider.achat_completion_with_files([], files=["test.jpg"])
 
     async def test_achat_completion_client_not_initialized(self):
@@ -281,7 +287,7 @@ class TestAsyncGeminiProviderExtended:
             provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
             messages = [{"role": "user", "content": "Analyze"}]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch("llm_client.file_utils.prepare_files_for_provider") as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -295,7 +301,7 @@ class TestAsyncGeminiProviderExtended:
                 mock_prepare.assert_called_once_with(["test.jpg"], "gemini")
 
     async def test_achat_completion_with_files_client_not_initialized(self):
-        """Test: Gemini raises RuntimeError if client not initialized."""
+        """Test: Gemini raises ChatCompletionError if client not initialized."""
         with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
             from llm_client.async_providers import AsyncGeminiProvider
 
@@ -304,7 +310,9 @@ class TestAsyncGeminiProviderExtended:
             provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
             provider.client = None
 
-            with pytest.raises(RuntimeError, match="Gemini client not initialized"):
+            with pytest.raises(
+                ChatCompletionError, match="RuntimeError: Gemini client not initialized"
+            ):
                 await provider.achat_completion_with_files([], files=["test.jpg"])
 
     async def test_achat_completion_client_not_initialized(self):
@@ -379,7 +387,7 @@ class TestAsyncProviderMixinExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
             with (
-                patch("llm_client.async_providers.prepare_files_for_provider"),
+                patch("llm_client.file_utils.prepare_files_for_provider"),
                 pytest.raises(ChatCompletionError),
             ):
                 await provider.achat_completion_with_files([], files=["test.jpg"])
