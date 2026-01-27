@@ -43,12 +43,22 @@ class TestFileUtils:
         assert detect_file_type(mock_pdf_file) == "pdf"
 
     def test_detect_file_type_unsupported(self, tmp_path):
-        """Test detection of unsupported file type."""
+        """Test detection of unsupported file type (could not determine MIME type)."""
+        file_path = tmp_path / "test.unknown"
+        file_path.write_text("test")
+
+        with patch("mimetypes.guess_type", return_value=(None, None)):
+            with pytest.raises(ValueError, match="Could not determine file type"):
+                detect_file_type(file_path)
+
+    def test_detect_file_type_unsupported_mime(self, tmp_path):
+        """Test detection of unsupported file type (MIME type determined but not supported)."""
         file_path = tmp_path / "test.xyz"
         file_path.write_text("test")
 
-        with pytest.raises(ValueError, match="Could not determine file type"):
-            detect_file_type(file_path)
+        with patch("mimetypes.guess_type", return_value=("chemical/x-xyz", None)):
+            with pytest.raises(ValueError, match="Unsupported file type"):
+                detect_file_type(file_path)
 
     def test_get_mime_type_image(self, mock_image_file):
         """Test getting MIME type for image."""
