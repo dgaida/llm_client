@@ -10,6 +10,7 @@ from .exceptions import (
     ProviderNotAvailableError,
     StreamingNotSupportedError,
 )
+from .file_utils import detect_file_type, prepare_files_for_provider
 
 # Optional imports
 try:
@@ -239,8 +240,6 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
         if not self.client:
             raise RuntimeError("OpenAI client not initialized")
 
-        from .file_utils import prepare_files_for_provider
-
         enhanced_messages = messages.copy()
 
         if files:
@@ -376,8 +375,6 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
         """Execute async chat completion with files using Groq."""
         if not self.client:
             raise RuntimeError("Groq client not initialized")
-
-        from .file_utils import detect_file_type, prepare_files_for_provider
 
         if files:
             for file_path in files:
@@ -522,8 +519,6 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
         """Execute async chat completion with files using Gemini."""
         if not self.client:
             raise RuntimeError("Gemini client not initialized")
-
-        from .file_utils import prepare_files_for_provider
 
         enhanced_messages = messages.copy()
 
