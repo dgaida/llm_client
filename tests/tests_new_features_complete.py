@@ -139,15 +139,13 @@ class TestConfigFileSupport:
         pytest.importorskip("yaml")
 
         config_path = tmp_path / "test_config.yaml"
-        config_path.write_text(
-            """
+        config_path.write_text("""
 default_provider: groq
 providers:
   groq:
     model: llama-3.3-70b-versatile
     temperature: 0.5
-"""
-        )
+""")
 
         config = LLMConfig.from_file(config_path)
         assert config.default_provider == "groq"

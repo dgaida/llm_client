@@ -147,8 +147,8 @@ def safe_query_engine_call(query_engine: Any, query: str) -> str:
 # TTS generation using Kokoro's KPipeline
 def generate_tts_audio(tts, text):
     # Get audio waveform (numpy array) and sample rate
-    audio_generator = tts(text, voice='af_heart', speed=1)
-    result = next(audio_generator)      # Extract the first (and usually only) item
+    audio_generator = tts(text, voice="af_heart", speed=1)
+    result = next(audio_generator)  # Extract the first (and usually only) item
     waveform = result.output.audio.cpu().numpy()  # Convert to NumPy
     sample_rate = 22050
 

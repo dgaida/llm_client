@@ -121,14 +121,12 @@ class TestLLMClientFromConfig:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         config_path = tmp_path / "invalid.yaml"
-        config_path.write_text(
-            """
+        config_path.write_text("""
 default_provider: nonexistent
 providers:
   openai:
     model: gpt-4o
-"""
-        )
+""")
 
         with pytest.raises(ValueError, match="Invalid configuration"):
             LLMClient.from_config(config_path)
@@ -155,15 +153,13 @@ providers:
         pytest.importorskip("yaml")
 
         config_path = tmp_path / "config.yaml"
-        config_path.write_text(
-            """
+        config_path.write_text("""
 default_provider: ollama
 providers:
   ollama:
     model: llama3.2:1b
     keep_alive: 15m
-"""
-        )
+""")
         mock_response = {"message": {"content": "test"}}
 
         with patch("llm_client.providers.Client") as mock_client:
