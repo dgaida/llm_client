@@ -76,7 +76,7 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]  # Allow assert in tests
-"notebooks/*" = ["F401", "F821", "I001"]  # Ignore notebook issues
+"notebooks/*" = ["F401", "F821", "I001", "B905"]  # Ignore notebook issues
 "llm_client/__init__.py" = ["F401"]  # Allow re-exports
 
 [tool.black]
