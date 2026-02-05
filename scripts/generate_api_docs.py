@@ -50,5 +50,6 @@ def generate_api_docs():
 
     print(f"Generated {len(generated_files)} API documentation files in {api_dir}")
 
+
 if __name__ == "__main__":
     generate_api_docs()

@@ -29,7 +29,9 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             messages = [{"role": "user", "content": "Analyze this"}]
 
-            with patch("llm_client.providers.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -60,7 +62,9 @@ class TestAsyncOpenAIProviderExtended:
                 {"role": "assistant", "content": "Hi there!"},
             ]
 
-            with patch("llm_client.providers.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -94,7 +98,9 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             messages = [{"role": "user", "content": "Analyze image"}]
 
-            with patch("llm_client.providers.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -180,7 +186,9 @@ class TestAsyncGroqProviderExtended:
 
             with patch("llm_client.providers.async_providers.detect_file_type") as mock_detect:
                 mock_detect.return_value = "image"
-                with patch("llm_client.providers.async_providers.prepare_files_for_provider") as mock_prepare:
+                with patch(
+                    "llm_client.providers.async_providers.prepare_files_for_provider"
+                ) as mock_prepare:
                     mock_prepare.return_value = [
                         {
                             "type": "image_url",
@@ -287,7 +295,9 @@ class TestAsyncGeminiProviderExtended:
             provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
             messages = [{"role": "user", "content": "Analyze"}]
 
-            with patch("llm_client.providers.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
