@@ -32,7 +32,7 @@ A universal Python client for accessing various Large Language Models through Op
 
     Complete API documentation
 
-    [:octicons-arrow-right-24: API Docs](api_reference.md)
+    [:octicons-arrow-right-24: API Docs](api/llm_client.md)
 
 -   :material-package-variant:{ .lg .middle } __Examples__
 
@@ -133,15 +133,15 @@ print(response)
 ### Getting Started
 - [Installation & Setup](getting_started.md)
 - [Basic Usage](examples/basic-usage.md)
-- [Configuration](features/configuration.md)
+- [Configuration](features_overview.md#configuration-files)
 
 ### Features
 - [Token Counting](features/token_counting.md) - Manage costs and limits
-- [Async Support](features/async_support.md) - Non-blocking operations
-- [Streaming](features/streaming.md) - Real-time responses
-- [Provider Switching](features/provider_switching.md) - Runtime flexibility
-- [Tool Calling](features/tool_calling.md) - Function calling support
-- [File Upload](features/file_upload.md) - Multimodal inputs
+- [Async Support](features_overview.md#async-support) - Non-blocking operations
+- [Streaming](features_overview.md#response-streaming) - Real-time responses
+- [Provider Switching](features_overview.md#dynamic-provider-switching) - Runtime flexibility
+- [Tool Calling](features_overview.md#tool-calling) - Function calling support
+- [File Upload](features_overview.md#file-upload) - Multimodal inputs
 
 ### Provider Guides
 - [OpenAI Setup](providers/openai.md)
@@ -151,7 +151,7 @@ print(response)
 - [Ollama Cloud](providers/ollama_cloud.md)
 
 ### Reference
-- [API Reference](api_reference.md) - Complete API documentation
+- [API Reference](api/llm_client.md) - Complete API documentation
 - [CLI Reference](cli.md) - Command-line interface
 - [Troubleshooting](troubleshooting.md) - Common issues
 

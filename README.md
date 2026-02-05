@@ -156,7 +156,7 @@ print(f"Nachrichten enthalten {token_count} Tokens")
 
 ### ⚡ Async-Unterstützung
 
-Nutze async/await für nicht-blockierende Operationen. [→ Details](docs/features/async_support.md)
+Nutze async/await für nicht-blockierende Operationen. [→ Details](docs/features_overview_DE.md#async-unterstützung)
 
 ```python
 async_client = LLMClient(use_async=True)
@@ -167,7 +167,7 @@ response = await async_client.achat_completion(messages)
 
 ### 📁 Konfigurationsdateien
 
-Verwalte mehrere Provider-Konfigurationen einfach via YAML/JSON. [→ Details](docs/features/configuration.md)
+Verwalte mehrere Provider-Konfigurationen einfach via YAML/JSON. [→ Details](docs/features_overview_DE.md#konfigurationsdateien)
 
 ```python
 client = LLMClient.from_config("llm_config.yaml")
@@ -177,7 +177,7 @@ client = LLMClient.from_config("llm_config.yaml")
 
 ### 🌊 Response-Streaming
 
-Streame Antworten in Echtzeit für bessere UX. [→ Details](docs/features/streaming.md)
+Streame Antworten in Echtzeit für bessere UX. [→ Details](docs/features_overview_DE.md#response-streaming)
 
 ```python
 for chunk in client.chat_completion_stream(messages):
@@ -188,7 +188,7 @@ for chunk in client.chat_completion_stream(messages):
 
 ### 🔄 Provider-Wechsel
 
-Wechsle zwischen APIs zur Laufzeit. [→ Details](docs/features/provider_switching.md)
+Wechsle zwischen APIs zur Laufzeit. [→ Details](docs/features_overview_DE.md#dynamischer-provider-wechsel)
 
 ```python
 client.switch_provider("gemini", llm="gemini-2.5-flash")
@@ -198,7 +198,7 @@ client.switch_provider("gemini", llm="gemini-2.5-flash")
 
 ### 🧰 Tool-Calling
 
-Nutze Function/Tool Calling für alle Provider. [→ Details](docs/features/tool_calling.md)
+Nutze Function/Tool Calling für alle Provider. [→ Details](docs/features_overview_DE.md#tool-calling-function-calling)
 
 ```python
 result = client.chat_completion_with_tools(messages, tools)
@@ -208,7 +208,7 @@ result = client.chat_completion_with_tools(messages, tools)
 
 ### 📎 Datei-Upload
 
-Sende Bilder, PDFs und andere Dateien mit Chat-Anfragen. [→ Details](docs/features/file_upload.md)
+Sende Bilder, PDFs und andere Dateien mit Chat-Anfragen. [→ Details](docs/features_overview_DE.md#datei-upload)
 
 ```python
 response = client.chat_completion_with_files(
@@ -258,16 +258,16 @@ ollama pull llama3.2:1b
 ### Getting Started
 - [Installation & Setup](docs/getting_started.md)
 - [Schnellstart-Guide](docs/getting_started.md#basic-setup)
-- [API-Referenz](docs/api_reference.md)
+- [API-Referenz](docs/api/llm_client.md)
 
 ### Features
 - [Token-Zählung](docs/features/token_counting.md)
-- [Async-Unterstützung](docs/features/async_support.md)
-- [Konfigurationsdateien](docs/features/configuration.md)
-- [Response-Streaming](docs/features/streaming.md)
-- [Provider-Wechsel](docs/features/provider_switching.md)
-- [Tool-Calling](docs/features/tool_calling.md)
-- [Datei-Upload](docs/features/file_upload.md)
+- [Async-Unterstützung](docs/features_overview_DE.md#async-unterstützung)
+- [Konfigurationsdateien](docs/features_overview_DE.md#konfigurationsdateien)
+- [Response-Streaming](docs/features_overview_DE.md#response-streaming)
+- [Provider-Wechsel](docs/features_overview_DE.md#dynamischer-provider-wechsel)
+- [Tool-Calling](docs/features_overview_DE.md#tool-calling-function-calling)
+- [Datei-Upload](docs/features_overview_DE.md#datei-upload)
 
 ### Provider-Guides
 - [OpenAI](docs/providers/openai.md)

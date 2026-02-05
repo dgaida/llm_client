@@ -88,7 +88,7 @@ async for chunk in async_client.achat_completion_stream(messages):
     print(chunk, end="", flush=True)
 ```
 
-[:octicons-arrow-right-24: Async Guide](features/async_support.md)
+[:octicons-arrow-right-24: Async Guide](#async-support)
 
 ---
 
@@ -118,7 +118,7 @@ providers:
     temperature: 0.5
 ```
 
-[:octicons-arrow-right-24: Configuration Guide](features/configuration.md)
+[:octicons-arrow-right-24: Configuration Guide](#configuration-files)
 
 ---
 
@@ -135,7 +135,7 @@ for chunk in client.chat_completion_stream(messages):
 print()
 ```
 
-[:octicons-arrow-right-24: Streaming Guide](features/streaming.md)
+[:octicons-arrow-right-24: Streaming Guide](#response-streaming)
 
 ---
 
@@ -163,7 +163,7 @@ response3 = client.chat_completion(messages)
 - A/B testing
 - Quality vs. speed trade-offs
 
-[:octicons-arrow-right-24: Provider Switching Guide](features/provider_switching.md)
+[:octicons-arrow-right-24: Provider Switching Guide](#dynamic-provider-switching)
 
 ---
 
@@ -193,7 +193,7 @@ if result['tool_calls']:
         print(f"Calling: {call['function']['name']}")
 ```
 
-[:octicons-arrow-right-24: Tool Calling Guide](features/tool_calling.md)
+[:octicons-arrow-right-24: Tool Calling Guide](#tool-calling)
 
 ---
 
@@ -226,7 +226,7 @@ response = client.chat_completion_with_files(
 | Groq     | ✅     | ❌   | ❌     | ❌    |
 | Ollama   | ✅     | ❌   | ❌     | ❌    |
 
-[:octicons-arrow-right-24: File Upload Guide](features/file_upload.md)
+[:octicons-arrow-right-24: File Upload Guide](#file-upload)
 
 ---
 
@@ -296,7 +296,7 @@ except ChatCompletionError as e:
     print(f"API error: {e}")
 ```
 
-[:octicons-arrow-right-24: Exception Reference](api_reference.md#exceptions)
+[:octicons-arrow-right-24: Exception Reference](api/exceptions.md)
 
 ---
 
@@ -406,7 +406,7 @@ Features planned for future releases:
 ## 📚 Learn More
 
 - [Getting Started](getting_started.md) - Installation and setup
-- [API Reference](api_reference.md) - Complete API documentation
+- [API Reference](api/llm_client.md) - Complete API documentation
 - [Examples](examples/basic-usage.md) - Real-world examples
 - [Troubleshooting](troubleshooting.md) - Common issues
 

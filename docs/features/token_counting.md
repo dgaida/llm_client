@@ -374,6 +374,6 @@ available = counter.is_tiktoken_available()
 
 ## Related
 
-- [API Reference](../api_reference.md) - Complete API documentation
+- [API Reference](../api/llm_client.md) - Complete API documentation
 - [Cost Optimization](../examples/provider_switching.md#cost-optimization) - Strategies for reducing costs
-- [Troubleshooting](../troubleshooting.md#token-counting) - Common token counting issues
+- [Troubleshooting](../troubleshooting.md) - Common token counting issues
