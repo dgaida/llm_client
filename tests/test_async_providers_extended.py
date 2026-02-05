@@ -16,8 +16,8 @@ class TestAsyncOpenAIProviderExtended:
 
     async def test_achat_completion_with_files(self):
         """Test: Async chat completion with files for OpenAI."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Image analysis result"
@@ -29,7 +29,9 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             messages = [{"role": "user", "content": "Analyze this"}]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -44,8 +46,8 @@ class TestAsyncOpenAIProviderExtended:
 
     async def test_achat_completion_with_files_creates_new_message(self):
         """Test: File upload creates new message if last message is not user."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Analysis result"
@@ -60,7 +62,9 @@ class TestAsyncOpenAIProviderExtended:
                 {"role": "assistant", "content": "Hi there!"},
             ]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -81,8 +85,8 @@ class TestAsyncOpenAIProviderExtended:
 
     async def test_achat_completion_with_files_converts_string_content(self):
         """Test: Converts string content to list format when adding files."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Result"
@@ -94,7 +98,9 @@ class TestAsyncOpenAIProviderExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
             messages = [{"role": "user", "content": "Analyze image"}]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -116,8 +122,8 @@ class TestAsyncOpenAIProviderExtended:
 
     async def test_achat_completion_with_files_client_not_initialized(self):
         """Test: Raises ChatCompletionError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -131,8 +137,8 @@ class TestAsyncOpenAIProviderExtended:
 
     async def test_achat_completion_with_tools_without_tool_choice(self):
         """Test: Tool calling without explicit tool_choice parameter."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_123"
@@ -165,8 +171,8 @@ class TestAsyncGroqProviderExtended:
 
     async def test_achat_completion_with_files(self):
         """Test: Async chat completion with files for Groq."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Groq image analysis"
@@ -178,9 +184,11 @@ class TestAsyncGroqProviderExtended:
             provider = AsyncGroqProvider(llm="llava-v1.5-7b-4096-preview", api_key="gsk-test")
             messages = [{"role": "user", "content": "Describe image"}]
 
-            with patch("llm_client.async_providers.detect_file_type") as mock_detect:
+            with patch("llm_client.providers.async_providers.detect_file_type") as mock_detect:
                 mock_detect.return_value = "image"
-                with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+                with patch(
+                    "llm_client.providers.async_providers.prepare_files_for_provider"
+                ) as mock_prepare:
                     mock_prepare.return_value = [
                         {
                             "type": "image_url",
@@ -197,15 +205,15 @@ class TestAsyncGroqProviderExtended:
 
     async def test_achat_completion_with_files_non_image_raises_error(self):
         """Test: Groq raises ValueError for non-image files."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_async_groq.return_value = MagicMock()
 
             provider = AsyncGroqProvider(llm="llava-v1.5-7b-4096-preview", api_key="gsk-test")
             messages = [{"role": "user", "content": "Analyze"}]
 
-            with patch("llm_client.async_providers.detect_file_type") as mock_detect:
+            with patch("llm_client.providers.async_providers.detect_file_type") as mock_detect:
                 mock_detect.return_value = "pdf"
 
                 with pytest.raises(
@@ -215,8 +223,8 @@ class TestAsyncGroqProviderExtended:
 
     async def test_achat_completion_with_files_client_not_initialized(self):
         """Test: Groq raises ChatCompletionError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_async_groq.return_value = MagicMock()
 
@@ -230,8 +238,8 @@ class TestAsyncGroqProviderExtended:
 
     async def test_achat_completion_client_not_initialized(self):
         """Test: achat_completion raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_async_groq.return_value = MagicMock()
 
@@ -243,8 +251,8 @@ class TestAsyncGroqProviderExtended:
 
     async def test_achat_completion_stream_client_not_initialized(self):
         """Test: Streaming raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_async_groq.return_value = MagicMock()
 
@@ -257,8 +265,8 @@ class TestAsyncGroqProviderExtended:
 
     async def test_achat_completion_with_tools_client_not_initialized(self):
         """Test: Tool calling raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_async_groq.return_value = MagicMock()
 
@@ -274,8 +282,8 @@ class TestAsyncGeminiProviderExtended:
 
     async def test_achat_completion_with_files(self):
         """Test: Async chat completion with files for Gemini."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Gemini file analysis"
@@ -287,7 +295,9 @@ class TestAsyncGeminiProviderExtended:
             provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
             messages = [{"role": "user", "content": "Analyze"}]
 
-            with patch("llm_client.async_providers.prepare_files_for_provider") as mock_prepare:
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider"
+            ) as mock_prepare:
                 mock_prepare.return_value = [
                     {
                         "type": "image_url",
@@ -302,8 +312,8 @@ class TestAsyncGeminiProviderExtended:
 
     async def test_achat_completion_with_files_client_not_initialized(self):
         """Test: Gemini raises ChatCompletionError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -317,8 +327,8 @@ class TestAsyncGeminiProviderExtended:
 
     async def test_achat_completion_client_not_initialized(self):
         """Test: achat_completion raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -330,8 +340,8 @@ class TestAsyncGeminiProviderExtended:
 
     async def test_achat_completion_stream_client_not_initialized(self):
         """Test: Streaming raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -344,8 +354,8 @@ class TestAsyncGeminiProviderExtended:
 
     async def test_achat_completion_with_tools_client_not_initialized(self):
         """Test: Tool calling raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -361,10 +371,10 @@ class TestAsyncProviderMixinExtended:
 
     async def test_achat_completion_with_files_not_implemented(self):
         """Test: File upload raises NotImplementedError if not supported."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
-            from llm_client.async_providers import AsyncProviderMixin
+            from llm_client.providers.async_providers import AsyncProviderMixin
 
             class TestProvider(AsyncProviderMixin):
                 def __init__(self):
@@ -377,8 +387,8 @@ class TestAsyncProviderMixinExtended:
 
     async def test_achat_completion_with_files_wraps_errors(self):
         """Test: File upload wraps errors in ChatCompletionError."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_client = MagicMock()
             mock_client.chat.completions.create = AsyncMock(side_effect=Exception("API Error"))
@@ -387,15 +397,15 @@ class TestAsyncProviderMixinExtended:
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
             with (
-                patch("llm_client.async_providers.prepare_files_for_provider"),
+                patch("llm_client.providers.async_providers.prepare_files_for_provider"),
                 pytest.raises(ChatCompletionError),
             ):
                 await provider.achat_completion_with_files([], files=["test.jpg"])
 
     async def test_achat_completion_with_tools_wraps_errors(self):
         """Test: Tool calling wraps errors in ChatCompletionError."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_client = MagicMock()
             mock_client.chat.completions.create = AsyncMock(side_effect=Exception("API Error"))
@@ -408,8 +418,8 @@ class TestAsyncProviderMixinExtended:
 
     async def test_streaming_not_implemented_error(self):
         """Test: Streaming raises correct error when not implemented."""
-        from llm_client.async_providers import AsyncProviderMixin
         from llm_client.exceptions import StreamingNotSupportedError
+        from llm_client.providers.async_providers import AsyncProviderMixin
 
         class TestProvider(AsyncProviderMixin):
             def __init__(self):
@@ -427,8 +437,8 @@ class TestAsyncOpenAIProviderRuntimeErrors:
 
     async def test_achat_completion_stream_client_not_initialized(self):
         """Test: Streaming raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -441,8 +451,8 @@ class TestAsyncOpenAIProviderRuntimeErrors:
 
     async def test_achat_completion_client_not_initialized(self):
         """Test: achat_completion raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -454,8 +464,8 @@ class TestAsyncOpenAIProviderRuntimeErrors:
 
     async def test_achat_completion_with_tools_client_not_initialized(self):
         """Test: Tool calling raises RuntimeError if client not initialized."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_async_openai.return_value = MagicMock()
 
@@ -471,8 +481,8 @@ class TestToolCallsWithoutContent:
 
     async def test_openai_tool_calls_without_content(self):
         """Test: OpenAI tool calls when content is None."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_abc"
@@ -499,8 +509,8 @@ class TestToolCallsWithoutContent:
 
     async def test_groq_tool_calls_without_content(self):
         """Test: Groq tool calls when content is None."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_xyz"
@@ -526,8 +536,8 @@ class TestToolCallsWithoutContent:
 
     async def test_gemini_tool_calls_without_content(self):
         """Test: Gemini tool calls when content is None."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_123"

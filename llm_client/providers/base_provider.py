@@ -6,7 +6,7 @@ from typing import Any
 
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from .exceptions import ChatCompletionError
+from ..exceptions import ChatCompletionError
 
 
 class BaseProvider(ABC):
@@ -213,7 +213,7 @@ class BaseProvider(ABC):
         try:
             return self._chat_completion_with_files_impl(messages, files)
         except NotImplementedError as err:
-            from .exceptions import FileUploadNotSupportedError
+            from ..exceptions import FileUploadNotSupportedError
 
             raise FileUploadNotSupportedError(
                 self.__class__.__name__, "Provider does not support file uploads"
@@ -266,7 +266,7 @@ class BaseProvider(ABC):
         try:
             return self._chat_completion_stream_impl(messages)
         except NotImplementedError as err:
-            from .exceptions import StreamingNotSupportedError
+            from ..exceptions import StreamingNotSupportedError
 
             raise StreamingNotSupportedError(
                 self.__class__.__name__, "Provider does not implement streaming"

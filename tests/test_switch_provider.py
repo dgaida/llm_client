@@ -17,7 +17,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -41,8 +41,8 @@ class TestSwitchProvider:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.Groq") as mock_groq,
-            patch("llm_client.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
         ):
             mock_groq_client = MagicMock()
             mock_openai_client = MagicMock()
@@ -64,7 +64,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -82,8 +82,8 @@ class TestSwitchProvider:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -101,7 +101,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", max_tokens=512)
@@ -117,7 +117,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(
@@ -139,8 +139,8 @@ class TestSwitchProvider:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Client") as mock_ollama_client,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Client") as mock_ollama_client,
         ):
             mock_openai.return_value = MagicMock()
             mock_ollama_instance = MagicMock()
@@ -161,7 +161,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -175,7 +175,7 @@ class TestSwitchProvider:
         monkeypatch.delenv("GROQ_API_KEY", raising=False)
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -190,8 +190,8 @@ class TestSwitchProvider:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -211,7 +211,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -238,7 +238,7 @@ class TestSwitchProvider:
         mock_gemini_response.choices[0].message.content = "Gemini response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -265,8 +265,8 @@ class TestSwitchProvider:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -292,7 +292,7 @@ class TestSwitchProvider:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             # Start mit benutzerdefiniertem Modell
@@ -315,8 +315,8 @@ class TestSwitchProvider:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()

@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from llm_client.base_provider import BaseProvider
+from llm_client.providers.base_provider import BaseProvider
 
 
 class ConcreteProvider(BaseProvider):

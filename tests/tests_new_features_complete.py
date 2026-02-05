@@ -7,7 +7,7 @@ import pytest
 
 from llm_client import LLMClient
 from llm_client.config import LLMConfig, create_default_config, generate_config_template
-from llm_client.token_counter import TokenCounter
+from llm_client.utils.token_counter import TokenCounter
 
 
 class TestTokenCounting:
@@ -69,7 +69,7 @@ class TestTokenCounting:
         """Test: LLMClient.count_tokens method."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -83,7 +83,7 @@ class TestTokenCounting:
         """Test: LLMClient.count_string_tokens method."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -102,7 +102,7 @@ class TestTokenCounting:
         """Test: Token counting with custom model name."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", llm="gpt-4o")
@@ -272,7 +272,7 @@ providers:
         config_path = tmp_path / "test.yaml"
         generate_config_template(config_path)
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             # Load from config
@@ -289,7 +289,7 @@ providers:
         config_path = tmp_path / "test.yaml"
         generate_config_template(config_path)
 
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_groq.return_value = MagicMock()
 
             client = LLMClient.from_config(config_path, provider="groq")
@@ -321,7 +321,7 @@ class TestAsyncSupport:
         """Test: Create async LLMClient."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", use_async=True)
@@ -337,7 +337,7 @@ class TestAsyncSupport:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Async response"
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create = MagicMock(return_value=mock_response)
             mock_async_openai.return_value = mock_client
@@ -358,7 +358,7 @@ class TestAsyncSupport:
         """Test: Sync client raises error for async methods."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", use_async=False)
@@ -381,7 +381,7 @@ class TestIntegrationNewFeatures:
         config_path = tmp_path / "config.yaml"
         generate_config_template(config_path)
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient.from_config(config_path)
@@ -400,7 +400,7 @@ class TestIntegrationNewFeatures:
         config_path = tmp_path / "config.yaml"
         generate_config_template(config_path)
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
             client = LLMClient.from_config(config_path, use_async=True)
@@ -418,8 +418,8 @@ class TestIntegrationNewFeatures:
         generate_config_template(config_path)
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()

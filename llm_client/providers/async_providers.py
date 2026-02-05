@@ -3,14 +3,14 @@
 from collections.abc import AsyncIterator
 from typing import Any
 
-from .base_provider import BaseProvider
-from .exceptions import (
+from ..exceptions import (
     APIKeyNotFoundError,
     ChatCompletionError,
     ProviderNotAvailableError,
     StreamingNotSupportedError,
 )
-from .file_utils import detect_file_type, prepare_files_for_provider
+from ..utils.file_utils import detect_file_type, prepare_files_for_provider
+from .base_provider import BaseProvider
 
 # Optional imports
 try:

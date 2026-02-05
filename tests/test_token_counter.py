@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from llm_client.token_counter import TokenCounter
+from llm_client.utils.token_counter import TokenCounter
 
 
 class TestTokenCounterAvailability:
@@ -12,12 +12,12 @@ class TestTokenCounterAvailability:
 
     def test_is_tiktoken_available_when_installed(self):
         """Test: is_tiktoken_available returns True when tiktoken is installed."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True):
             assert TokenCounter.is_tiktoken_available() is True
 
     def test_is_tiktoken_available_when_not_installed(self):
         """Test: is_tiktoken_available returns False when tiktoken is not installed."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             assert TokenCounter.is_tiktoken_available() is False
 
 
@@ -28,14 +28,14 @@ class TestTokenCountingWithTiktoken:
     def mock_tiktoken(self):
         """Mock tiktoken module."""
         # Import the module to ensure tiktoken attribute exists
-        import llm_client.token_counter as token_counter_module
+        import llm_client.utils.token_counter as token_counter_module
 
         # Create mock tiktoken if it doesn't exist
         if not hasattr(token_counter_module, "tiktoken"):
             token_counter_module.tiktoken = MagicMock()
 
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
             patch.object(token_counter_module, "tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
@@ -124,8 +124,8 @@ class TestTokenCountingWithTiktoken:
     def test_get_encoding_from_mapping(self, mock_tiktoken):
         """Test: Get encoding from MODEL_ENCODINGS mapping."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.get_encoding.return_value = mock_encoding
@@ -138,8 +138,8 @@ class TestTokenCountingWithTiktoken:
     def test_get_encoding_direct(self, mock_tiktoken):
         """Test: Get encoding directly for model not in mapping."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.encoding_for_model.return_value = mock_encoding
@@ -169,7 +169,7 @@ class TestTokenCountingFallback:
 
     def test_count_tokens_without_tiktoken_with_fallback(self):
         """Test: Fallback estimation when tiktoken unavailable."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             messages = [
                 {"role": "system", "content": "You are helpful."},
                 {"role": "user", "content": "Hello world!"},
@@ -182,7 +182,7 @@ class TestTokenCountingFallback:
 
     def test_count_tokens_without_tiktoken_no_fallback(self):
         """Test: Raises ImportError without fallback."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             messages = [{"role": "user", "content": "Test"}]
 
             with pytest.raises(ImportError, match="tiktoken is required"):
@@ -218,7 +218,7 @@ class TestTokenCountingFallback:
 
     def test_count_string_tokens_without_tiktoken(self):
         """Test: Count string tokens without tiktoken."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             text = "Hello, how are you doing today?"
 
             count = TokenCounter.count_string_tokens(text, model="gpt-4o")
@@ -233,8 +233,8 @@ class TestTokenCountingEdgeCases:
     def test_count_tokens_with_exception_and_fallback(self):
         """Test: Falls back to estimation on exception."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_tk.get_encoding.side_effect = Exception("Encoding error")
 
@@ -249,8 +249,8 @@ class TestTokenCountingEdgeCases:
     # def test_count_tokens_with_exception_no_fallback(self):
     #     """Test: Raises exception when fallback disabled."""
     #     with (
-    #         patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-    #         patch("llm_client.token_counter.tiktoken") as mock_tk,
+    #         patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+    #         patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
     #     ):
     #         mock_tk.get_encoding.side_effect = Exception("Encoding error")
     #
@@ -261,7 +261,7 @@ class TestTokenCountingEdgeCases:
 
     def test_count_tokens_missing_content(self):
         """Test: Handle messages with missing content."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             messages = [
                 {"role": "user"},  # Missing content
                 {"role": "system", "content": "System"},
@@ -273,7 +273,7 @@ class TestTokenCountingEdgeCases:
 
     def test_count_string_tokens_empty_string(self):
         """Test: Count tokens in empty string."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             count = TokenCounter.count_string_tokens("", model="gpt-4o")
 
             assert isinstance(count, int)
@@ -281,7 +281,7 @@ class TestTokenCountingEdgeCases:
 
     def test_count_tokens_special_characters(self):
         """Test: Count tokens with special characters."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             messages = [{"role": "user", "content": "Hello! 你好 🌍"}]
 
             count = TokenCounter.count_tokens(messages, fallback=True)
@@ -291,7 +291,7 @@ class TestTokenCountingEdgeCases:
 
     def test_count_tokens_very_long_message(self):
         """Test: Count tokens in very long message."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             messages = [{"role": "user", "content": "x" * 10000}]
 
             count = TokenCounter.count_tokens(messages, fallback=True)
@@ -306,8 +306,8 @@ class TestModelEncodingMapping:
     def test_gpt4o_uses_o200k_base(self):
         """Test: GPT-4o uses o200k_base encoding."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.get_encoding.return_value = mock_encoding
@@ -319,8 +319,8 @@ class TestModelEncodingMapping:
     def test_gpt4o_mini_uses_o200k_base(self):
         """Test: GPT-4o-mini uses o200k_base encoding."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.get_encoding.return_value = mock_encoding
@@ -332,8 +332,8 @@ class TestModelEncodingMapping:
     def test_gpt4_uses_cl100k_base(self):
         """Test: GPT-4 uses cl100k_base encoding."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.get_encoding.return_value = mock_encoding
@@ -345,8 +345,8 @@ class TestModelEncodingMapping:
     def test_gpt35_turbo_uses_cl100k_base(self):
         """Test: GPT-3.5-turbo uses cl100k_base encoding."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.get_encoding.return_value = mock_encoding
@@ -358,8 +358,8 @@ class TestModelEncodingMapping:
     def test_ada_uses_cl100k_base(self):
         """Test: text-embedding-ada-002 uses cl100k_base encoding."""
         with (
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", True),
-            patch("llm_client.token_counter.tiktoken") as mock_tk,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
         ):
             mock_encoding = MagicMock()
             mock_tk.get_encoding.return_value = mock_encoding
@@ -374,7 +374,7 @@ class TestTokenCounterIntegration:
 
     def test_multiple_models_consistency(self):
         """Test: Token counts are consistent across models."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             messages = [{"role": "user", "content": "Test message"}]
 
             count1 = TokenCounter.count_tokens(messages, model="gpt-4o", fallback=True)
@@ -387,7 +387,7 @@ class TestTokenCounterIntegration:
 
     def test_count_increases_with_content_length(self):
         """Test: Token count increases with content length."""
-        with patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False):
+        with patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False):
             short_messages = [{"role": "user", "content": "Hi"}]
             long_messages = [{"role": "user", "content": "Hi " * 100}]
 

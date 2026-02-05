@@ -387,7 +387,7 @@ Manage multiple provider configurations easily:
 **Creating a Config File:**
 
 ```python
-from llm_client.config import generate_config_template
+from llm_client import generate_config_template
 
 # Generate template
 generate_config_template("llm_config.yaml", format="yaml")
@@ -445,7 +445,7 @@ async_client = LLMClient.from_config("llm_config.yaml", use_async=True)
 **Programmatic Configuration:**
 
 ```python
-from llm_client.config import LLMConfig
+from llm_client import LLMConfig
 
 config_dict = {
     "default_provider": "groq",
@@ -488,7 +488,7 @@ print()
 **Streaming with Error Handling:**
 
 ```python
-from llm_client.exceptions import StreamingNotSupportedError, ChatCompletionError
+from llm_client import StreamingNotSupportedError, ChatCompletionError
 
 try:
     for chunk in client.chat_completion_stream(messages):
@@ -531,7 +531,7 @@ response4 = client.chat_completion([{"role": "user", "content": "Hello"}])
 
 ```python
 from llm_client import LLMClient
-from llm_client.exceptions import ChatCompletionError
+from llm_client import ChatCompletionError
 
 client = LLMClient(api_choice="openai")
 
@@ -750,7 +750,7 @@ response = await client.achat_completion_with_files(
 **File Validation:**
 
 ```python
-from llm_client.file_utils import validate_file_for_provider
+from llm_client import validate_file_for_provider
 
 # Check if file is supported before uploading
 is_valid, error = validate_file_for_provider("document.pdf", "openai")

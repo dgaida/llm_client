@@ -9,7 +9,7 @@ from llm_client.exceptions import (
     ChatCompletionError,
     ProviderNotAvailableError,
 )
-from llm_client.providers import (
+from llm_client.providers.providers import (
     GeminiProvider,
     GroqProvider,
     OllamaProvider,
@@ -22,7 +22,7 @@ class TestOpenAIProvider:
 
     def test_initialization_success(self):
         """Test: OpenAI provider initializes correctly with valid API key."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -47,7 +47,7 @@ class TestOpenAIProvider:
     def test_initialization_when_package_not_available(self):
         """Test: RuntimeError when OpenAI package is not installed."""
         with (
-            patch("llm_client.providers.OpenAI", None),
+            patch("llm_client.providers.providers.OpenAI", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="openai provider not available. Install with: pip install openai",
@@ -60,7 +60,7 @@ class TestOpenAIProvider:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Test response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -76,7 +76,7 @@ class TestOpenAIProvider:
 
     def test_chat_completion_without_client_raises_error(self):
         """Test: RuntimeError when client is not initialized."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
@@ -94,17 +94,17 @@ class TestOpenAIProvider:
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when package is installed."""
-        with patch("llm_client.providers.OpenAI", MagicMock()):
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
             assert OpenAIProvider.is_available() is True
 
     def test_is_available_when_not_installed(self):
         """Test: is_available returns False when package is not installed."""
-        with patch("llm_client.providers.OpenAI", None):
+        with patch("llm_client.providers.providers.OpenAI", None):
             assert OpenAIProvider.is_available() is False
 
     def test_repr(self):
         """Test: __repr__ returns correct string representation."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = OpenAIProvider(
@@ -118,7 +118,7 @@ class TestOpenAIProvider:
 
     def test_custom_parameters(self):
         """Test: Custom parameters are stored correctly."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = OpenAIProvider(
@@ -135,7 +135,7 @@ class TestGroqProvider:
 
     def test_initialization_success(self):
         """Test: Groq provider initializes correctly with valid API key."""
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_client = MagicMock()
             mock_groq.return_value = mock_client
 
@@ -157,7 +157,7 @@ class TestGroqProvider:
     def test_initialization_when_package_not_available(self):
         """Test: ProviderNotAvailableError when Groq package is not installed."""
         with (
-            patch("llm_client.providers.Groq", None),
+            patch("llm_client.providers.providers.Groq", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="groq provider not available. Install with: pip install groq",
@@ -170,7 +170,7 @@ class TestGroqProvider:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Groq response"
 
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_groq.return_value = mock_client
@@ -184,7 +184,7 @@ class TestGroqProvider:
 
     def test_chat_completion_without_client_raises_error(self):
         """Test: RuntimeError when client is not initialized."""
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_groq.return_value = MagicMock()
 
             provider = GroqProvider(llm="llama-3.3-70b-versatile", api_key="gsk-test")
@@ -202,12 +202,12 @@ class TestGroqProvider:
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when package is installed."""
-        with patch("llm_client.providers.Groq", MagicMock()):
+        with patch("llm_client.providers.providers.Groq", MagicMock()):
             assert GroqProvider.is_available() is True
 
     def test_is_available_when_not_installed(self):
         """Test: is_available returns False when package is not installed."""
-        with patch("llm_client.providers.Groq", None):
+        with patch("llm_client.providers.providers.Groq", None):
             assert GroqProvider.is_available() is False
 
 
@@ -216,7 +216,7 @@ class TestGeminiProvider:
 
     def test_initialization_success(self):
         """Test: Gemini provider initializes correctly with valid API key."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -243,7 +243,7 @@ class TestGeminiProvider:
     def test_initialization_when_package_not_available(self):
         """Test: ProviderNotAvailableError when OpenAI package (needed for Gemini) is not installed."""
         with (
-            patch("llm_client.providers.OpenAI", None),
+            patch("llm_client.providers.providers.OpenAI", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="gemini provider not available. Install with: pip install openai",
@@ -256,7 +256,7 @@ class TestGeminiProvider:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Gemini response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -272,7 +272,7 @@ class TestGeminiProvider:
 
     def test_chat_completion_without_client_raises_error(self):
         """Test: RuntimeError when client is not initialized."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = GeminiProvider(llm="gemini-2.5-flash", api_key="AIzaSy-test")
@@ -290,17 +290,17 @@ class TestGeminiProvider:
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when OpenAI package is installed."""
-        with patch("llm_client.providers.OpenAI", MagicMock()):
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
             assert GeminiProvider.is_available() is True
 
     def test_is_available_when_not_installed(self):
         """Test: is_available returns False when OpenAI package is not installed."""
-        with patch("llm_client.providers.OpenAI", None):
+        with patch("llm_client.providers.providers.OpenAI", None):
             assert GeminiProvider.is_available() is False
 
     def test_uses_correct_base_url(self):
         """Test: Gemini uses correct API base URL."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             GeminiProvider(llm="gemini-2.5-flash", api_key="AIzaSy-test")
 
             call_kwargs = mock_openai.call_args[1]
@@ -315,7 +315,7 @@ class TestOllamaProvider:
 
     def test_initialization_success(self):
         """Test: Ollama provider initializes correctly."""
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_client.return_value = mock_instance
 
@@ -333,8 +333,8 @@ class TestOllamaProvider:
     def test_initialization_when_package_not_available(self):
         """Test: ProviderNotAvailableError when ollama package is not installed."""
         with (
-            patch("llm_client.providers.Client", None),
-            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
+            patch("llm_client.providers.providers.Client", None),
+            patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="ollama provider not available. Install with: pip install ollama",
@@ -346,7 +346,7 @@ class TestOllamaProvider:
         """Test: Chat completion returns correct response."""
         mock_response = {"message": {"content": "Ollama response"}}
 
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_instance.chat.return_value = mock_response
             mock_client.return_value = mock_instance
@@ -372,12 +372,12 @@ class TestOllamaProvider:
 
     def test_chat_completion_when_package_not_available(self):
         """Test: ProviderNotAvailableError when ollama package is not available during chat."""
-        with patch("llm_client.providers.Client", MagicMock()):
+        with patch("llm_client.providers.providers.Client", MagicMock()):
             provider = OllamaProvider(llm="llama3.2:1b")
 
         with (
-            patch("llm_client.providers.Client", None),
-            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
+            patch("llm_client.providers.providers.Client", None),
+            patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
             pytest.raises(
                 ChatCompletionError,
                 match="Chat completion failed for OllamaProvider provider: ProviderNotAvailableError: ollama provider not available. Install with: pip install ollama",
@@ -391,20 +391,20 @@ class TestOllamaProvider:
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when package is installed."""
-        with patch("llm_client.providers.Client", MagicMock()):
+        with patch("llm_client.providers.providers.Client", MagicMock()):
             assert OllamaProvider.is_available() is True
 
     def test_is_available_when_not_installed(self):
         """Test: is_available returns False when package is not installed."""
         with (
-            patch("llm_client.providers.Client", None),
-            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
+            patch("llm_client.providers.providers.Client", None),
+            patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
         ):
             assert OllamaProvider.is_available() is False
 
     def test_custom_keep_alive_parameter(self):
         """Test: Custom keep_alive parameter is stored correctly."""
-        with patch("llm_client.providers.Client", MagicMock()):
+        with patch("llm_client.providers.providers.Client", MagicMock()):
             provider = OllamaProvider(llm="llama3.2:1b", keep_alive="15m")
             assert provider.keep_alive == "15m"
 
@@ -412,7 +412,7 @@ class TestOllamaProvider:
         """Test: Custom parameters are passed correctly to ollama.chat."""
         mock_response = {"message": {"content": "Response"}}
 
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_instance.chat.return_value = mock_response
             mock_client.return_value = mock_instance
@@ -430,7 +430,7 @@ class TestProviderEdgeCases:
 
     def test_extreme_temperature_values(self):
         """Test: Providers handle extreme temperature values."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             # Very low temperature
@@ -443,7 +443,7 @@ class TestProviderEdgeCases:
 
     def test_extreme_max_tokens_values(self):
         """Test: Providers handle extreme max_tokens values."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             # Very small
@@ -459,7 +459,7 @@ class TestProviderEdgeCases:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -474,7 +474,7 @@ class TestProviderEdgeCases:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Final response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client

@@ -13,7 +13,7 @@ from llm_client.exceptions import (
     ProviderNotAvailableError,
     StreamingNotSupportedError,
 )
-from llm_client.providers import OpenAIProvider
+from llm_client.providers.providers import OpenAIProvider
 
 
 class TestCustomExceptions:
@@ -80,7 +80,7 @@ class TestProviderExceptionHandling:
     def test_openai_missing_api_key_raises_custom_error(self):
         """Test: OpenAI provider raises APIKeyNotFoundError."""
         with (
-            patch("llm_client.providers.OpenAI", MagicMock()),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
             pytest.raises(APIKeyNotFoundError) as exc_info,
         ):
             OpenAIProvider(llm="gpt-4o")
@@ -91,7 +91,7 @@ class TestProviderExceptionHandling:
     def test_openai_package_not_available_raises_custom_error(self):
         """Test: OpenAI provider raises ProviderNotAvailableError."""
         with (
-            patch("llm_client.providers.OpenAI", None),
+            patch("llm_client.providers.providers.OpenAI", None),
             pytest.raises(ProviderNotAvailableError) as exc_info,
         ):
             OpenAIProvider(llm="gpt-4o", api_key="sk-test")
@@ -115,7 +115,7 @@ class TestLLMClientExceptionHandling:
         """Test: Switching to invalid provider raises InvalidProviderError."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
             client = LLMClient(api_choice="openai")
 
@@ -148,7 +148,7 @@ class TestStreamingSupport:
             MagicMock(choices=[MagicMock(delta=MagicMock(content="!"))]),
         ]
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = iter(mock_chunks)
             mock_openai.return_value = mock_client
@@ -172,7 +172,7 @@ class TestStreamingSupport:
             MagicMock(choices=[MagicMock(delta=MagicMock(content=" chunk"))]),
         ]
 
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = iter(mock_chunks)
             mock_groq.return_value = mock_client
@@ -193,7 +193,7 @@ class TestStreamingSupport:
             MagicMock(choices=[MagicMock(delta=MagicMock(content=" response"))]),
         ]
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = iter(mock_chunks)
             mock_openai.return_value = mock_client
@@ -212,7 +212,7 @@ class TestStreamingSupport:
             {"message": {"content": " response"}},
         ]
 
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_instance.chat.return_value = iter(mock_chunks)
             mock_client.return_value = mock_instance
@@ -234,7 +234,7 @@ class TestStreamingSupport:
             MagicMock(choices=[MagicMock(delta=MagicMock(content="world"))]),
         ]
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = iter(mock_chunks)
             mock_openai.return_value = mock_client
@@ -257,7 +257,7 @@ class TestRetryLogic:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Success"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -277,7 +277,7 @@ class TestRetryLogic:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Success after retry"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             # Fail twice, succeed on third try
             mock_client.chat.completions.create.side_effect = [
@@ -299,7 +299,7 @@ class TestRetryLogic:
         """Test: Raises ChatCompletionError after all retries exhausted."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             # Always fail
             mock_client.chat.completions.create.side_effect = Exception("Persistent error")
@@ -320,7 +320,7 @@ class TestRetryLogic:
         """Test: Streaming errors are wrapped in ChatCompletionError."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             # Create a generator that raises an exception
@@ -357,8 +357,8 @@ class TestProviderSwitchingWithNewFeatures:
         ]
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai_client = MagicMock()
             mock_openai_client.chat.completions.create.return_value = iter(openai_chunks)

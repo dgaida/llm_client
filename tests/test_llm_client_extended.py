@@ -29,7 +29,7 @@ class TestGoogleColabIntegration:
 
         with (
             patch.dict("sys.modules", {"google.colab": mock_colab}),
-            patch("llm_client.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
         ):
             mock_openai.return_value = MagicMock()
 
@@ -49,7 +49,7 @@ class TestGoogleColabIntegration:
 
         with (
             patch.dict("sys.modules", {"google.colab": mock_colab}),
-            patch("llm_client.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
         ):
             mock_openai.return_value = MagicMock()
 
@@ -98,8 +98,8 @@ class TestGoogleColabIntegration:
 
         with (
             patch.dict("sys.modules", {"google.colab": mock_colab}),
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -141,7 +141,7 @@ providers:
         config_path = tmp_path / "config.yaml"
         generate_config_template(config_path)
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient.from_config(Path(config_path))
@@ -162,7 +162,7 @@ providers:
 """)
         mock_response = {"message": {"content": "test"}}
 
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_instance.chat.return_value = mock_response
             mock_client.return_value = mock_instance
@@ -181,7 +181,7 @@ providers:
         config_path = tmp_path / "config.yaml"
         generate_config_template(config_path)
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
             client = LLMClient.from_config(config_path, use_async=True)
@@ -196,7 +196,7 @@ class TestLLMClientProperties:
         """Test: llm property returns current model."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", llm="gpt-4o")
@@ -207,7 +207,7 @@ class TestLLMClientProperties:
         """Test: client property for backward compatibility."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -219,7 +219,7 @@ class TestLLMClientProperties:
         """Test: repr includes async suffix."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", use_async=True)
@@ -235,7 +235,7 @@ class TestLLMClientAsyncMethods:
         """Test: Sync provider raises error for async methods."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", use_async=False)
@@ -249,7 +249,7 @@ class TestLLMClientAsyncMethods:
         """Test: Sync provider raises error for async tool calling."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", use_async=False)
@@ -263,7 +263,7 @@ class TestLLMClientAsyncMethods:
         """Test: Sync provider raises error for async streaming."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", use_async=False)
@@ -288,7 +288,7 @@ class TestLLMClientInitializationEdgeCases:
 
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(secrets_path=str(secrets_file))
@@ -305,7 +305,7 @@ class TestLLMClientInitializationEdgeCases:
         """Test: _get_api_choice_from_provider method."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -317,7 +317,7 @@ class TestLLMClientInitializationEdgeCases:
         """Test: Initialize with all parameters."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(
@@ -345,8 +345,8 @@ class TestLLMClientTokenCounting:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False),
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False),
         ):
             mock_openai.return_value = MagicMock()
 
@@ -364,8 +364,8 @@ class TestLLMClientTokenCounting:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False),
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False),
         ):
             mock_openai.return_value = MagicMock()
 
@@ -381,8 +381,8 @@ class TestLLMClientTokenCounting:
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.token_counter.TIKTOKEN_AVAILABLE", False),
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", False),
         ):
             mock_openai.return_value = MagicMock()
 
@@ -410,7 +410,7 @@ class TestLLMClientChatCompletionWithTools:
         mock_response.choices[0].message.content = None
         mock_response.choices[0].message.tool_calls = [mock_tool_call]
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -433,7 +433,7 @@ class TestLLMClientChatCompletionWithTools:
         mock_response.choices[0].message.content = "Response"
         mock_response.choices[0].message.tool_calls = None
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -461,7 +461,7 @@ class TestLLMClientStreamingMethods:
             MagicMock(choices=[MagicMock(delta=MagicMock(content=" world"))]),
         ]
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = iter(mock_chunks)
             mock_openai.return_value = mock_client

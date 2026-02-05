@@ -17,7 +17,7 @@ class TestRateLimiting:
         """Test: Handle rate limit errors from API."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             # Simulate rate limit error
@@ -40,7 +40,7 @@ class TestRateLimiting:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Success after rate limit"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             # First two attempts fail with rate limit, third succeeds
@@ -63,7 +63,7 @@ class TestRateLimiting:
         """Test: Handle rate limits during streaming."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             def rate_limit_generator():
@@ -85,7 +85,7 @@ class TestRateLimiting:
         """Test: Async client handles rate limits."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create = AsyncMock(
                 side_effect=Exception("Rate limit: 429")
@@ -109,7 +109,7 @@ class TestConcurrentRequests:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Concurrent response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -138,7 +138,7 @@ class TestConcurrentRequests:
             mock_resp.choices[0].message.content = resp
             mock_responses.append(mock_resp)
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = mock_responses
             mock_openai.return_value = mock_client
@@ -159,7 +159,7 @@ class TestConcurrentRequests:
         """Test: Async concurrent requests."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             call_count = 0
 
             async def mock_create(*args, **kwargs):
@@ -198,7 +198,7 @@ class TestConcurrentRequests:
             ]
             return iter(chunks)
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             stream_counter = [0]
@@ -230,7 +230,7 @@ class TestMalformedResponses:
         """Test: Handle response with missing content field."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             # Response missing content
@@ -250,7 +250,7 @@ class TestMalformedResponses:
         """Test: Handle response with empty choices array."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             # Empty choices array
@@ -280,7 +280,7 @@ class TestMalformedResponses:
             # Third chunk is valid again
             yield MagicMock(choices=[MagicMock(delta=MagicMock(content="Valid"))])
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = malformed_generator()
             mock_openai.return_value = mock_client
@@ -298,7 +298,7 @@ class TestMalformedResponses:
         """Test: Handle invalid JSON in tool call arguments."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             mock_tool_call = MagicMock()
@@ -325,7 +325,7 @@ class TestMalformedResponses:
         """Test: Handle completely unexpected response structure."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
 
             # Return string instead of proper response object
@@ -340,7 +340,7 @@ class TestMalformedResponses:
 
     def test_ollama_malformed_response(self):
         """Test: Handle malformed Ollama response."""
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
 
             # Missing 'message' key
@@ -361,7 +361,7 @@ class TestNetworkFailures:
         """Test: Handle connection timeout."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = TimeoutError("Connection timeout")
             mock_openai.return_value = mock_client
@@ -378,7 +378,7 @@ class TestNetworkFailures:
         """Test: Handle connection refused error."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = ConnectionRefusedError(
                 "Connection refused"
@@ -395,7 +395,7 @@ class TestNetworkFailures:
         """Test: Handle network unreachable error."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = OSError("Network unreachable")
             mock_openai.return_value = mock_client
@@ -410,7 +410,7 @@ class TestNetworkFailures:
         """Test: Handle SSL certificate verification failure."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.side_effect = Exception(
                 "SSL: CERTIFICATE_VERIFY_FAILED"
@@ -432,7 +432,7 @@ class TestNetworkFailures:
             yield MagicMock(choices=[MagicMock(delta=MagicMock(content=" middle"))])
             raise ConnectionError("Stream interrupted")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = interrupted_generator()
             mock_openai.return_value = mock_client
@@ -453,7 +453,7 @@ class TestNetworkFailures:
         """Test: Async request timeout."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create = AsyncMock(
                 side_effect=asyncio.TimeoutError("Async timeout")
@@ -477,7 +477,7 @@ class TestEdgeCaseInputs:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Response to long message"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -498,7 +498,7 @@ class TestEdgeCaseInputs:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Response with 特殊字符"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -517,7 +517,7 @@ class TestEdgeCaseInputs:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -532,7 +532,7 @@ class TestEdgeCaseInputs:
         """Test: Handle None values in message fields."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -557,8 +557,8 @@ class TestProviderSwitchingEdgeCases:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -581,8 +581,8 @@ class TestProviderSwitchingEdgeCases:
         mock_response.choices[0].message.content = "OpenAI response"
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai_client = MagicMock()
             mock_openai_client.chat.completions.create.return_value = mock_response
@@ -609,7 +609,7 @@ class TestTokenCountingEdgeCases:
         """Test: Count tokens in very long message."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -625,7 +625,7 @@ class TestTokenCountingEdgeCases:
         """Test: Count tokens with mixed languages."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")

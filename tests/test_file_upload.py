@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 
 from llm_client import LLMClient
-from llm_client.file_utils import (
+from llm_client.utils.file_utils import (
     detect_file_type,
     encode_file_base64,
     get_mime_type,
@@ -195,10 +195,10 @@ class TestLLMClientFileUpload:
 class TestProviderFileUpload:
     """Tests for provider-specific file upload implementations."""
 
-    @patch("llm_client.providers.OpenAI")
+    @patch("llm_client.providers.providers.OpenAI")
     def test_openai_provider_with_files(self, mock_openai_class, mock_image_file):
         """Test OpenAI provider file upload."""
-        from llm_client.providers import OpenAIProvider
+        from llm_client.providers.providers import OpenAIProvider
 
         # Mock OpenAI client
         mock_client = MagicMock()
@@ -217,10 +217,10 @@ class TestProviderFileUpload:
         assert response == "Image description"
         mock_client.chat.completions.create.assert_called_once()
 
-    @patch("llm_client.providers.OpenAI")
+    @patch("llm_client.providers.providers.OpenAI")
     def test_gemini_provider_with_files(self, mock_openai_class, mock_image_file):
         """Test Gemini provider file upload."""
-        from llm_client.providers import GeminiProvider
+        from llm_client.providers.providers import GeminiProvider
 
         # Mock client
         mock_client = MagicMock()
@@ -238,10 +238,10 @@ class TestProviderFileUpload:
 
         assert response == "Gemini analysis"
 
-    @patch("llm_client.providers.Client")
+    @patch("llm_client.providers.providers.Client")
     def test_ollama_provider_with_files(self, mock_client_class, mock_image_file):
         """Test Ollama provider file upload (vision model)."""
-        from llm_client.providers import OllamaProvider
+        from llm_client.providers.providers import OllamaProvider
 
         # Mock Ollama client
         mock_client = MagicMock()

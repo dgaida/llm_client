@@ -173,7 +173,7 @@ class TestLLMClientAdapterWithoutLlamaIndex:
             # Modul neu laden um Import-Fehler zu simulieren
             import importlib
 
-            from llm_client import adapter
+            from llm_client.providers import adapter
 
             importlib.reload(adapter)
 

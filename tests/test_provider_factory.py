@@ -9,8 +9,8 @@ from llm_client.exceptions import (
     APIKeyNotFoundError,
     InvalidProviderError,
 )
-from llm_client.provider_factory import ProviderFactory
-from llm_client.providers import (
+from llm_client.providers.provider_factory import ProviderFactory
+from llm_client.providers.providers import (
     GeminiProvider,
     GroqProvider,
     OllamaProvider,
@@ -23,7 +23,7 @@ class TestProviderFactoryCreation:
 
     def test_create_openai_provider_explicit(self):
         """Test: Create OpenAI provider explicitly."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -41,7 +41,7 @@ class TestProviderFactoryCreation:
 
     def test_create_groq_provider_explicit(self):
         """Test: Create Groq provider explicitly."""
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_groq.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -57,7 +57,7 @@ class TestProviderFactoryCreation:
 
     def test_create_gemini_provider_explicit(self):
         """Test: Create Gemini provider explicitly."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -74,7 +74,7 @@ class TestProviderFactoryCreation:
 
     def test_create_ollama_provider_explicit(self):
         """Test: Create Ollama provider explicitly."""
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_client.return_value = mock_instance
 
@@ -92,7 +92,7 @@ class TestProviderFactoryCreation:
 
     def test_create_provider_with_default_model(self):
         """Test: Provider uses default model when llm is None."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -112,7 +112,7 @@ class TestProviderFactoryCreation:
 
     def test_case_insensitive_api_choice(self):
         """Test: api_choice is case-insensitive."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -127,7 +127,7 @@ class TestAutoSelectAPI:
 
     def test_auto_select_openai(self):
         """Test: Auto-selects OpenAI when key is available."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -138,7 +138,7 @@ class TestAutoSelectAPI:
 
     def test_auto_select_groq(self):
         """Test: Auto-selects Groq when OpenAI key is not available."""
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_groq.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -149,7 +149,7 @@ class TestAutoSelectAPI:
 
     def test_auto_select_gemini(self):
         """Test: Auto-selects Gemini when OpenAI and Groq keys are not available."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -168,7 +168,7 @@ class TestAutoSelectAPI:
         if "google.colab" in sys.modules:
             del sys.modules["google.colab"]
 
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_client.return_value = mock_instance
 
@@ -181,8 +181,8 @@ class TestAutoSelectAPI:
     def test_auto_select_priority_order(self):
         """Test: Priority is OpenAI > Groq > Gemini > Ollama."""
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -217,9 +217,9 @@ class TestProviderAvailability:
     def test_get_available_providers_all_installed(self):
         """Test: Returns all providers when packages are installed."""
         with (
-            patch("llm_client.providers.OpenAI", MagicMock()),
-            patch("llm_client.providers.Groq", MagicMock()),
-            patch("llm_client.providers.Client", MagicMock()),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+            patch("llm_client.providers.providers.Groq", MagicMock()),
+            patch("llm_client.providers.providers.Client", MagicMock()),
         ):
             available = ProviderFactory.get_available_providers()
 
@@ -231,9 +231,9 @@ class TestProviderAvailability:
     def test_get_available_providers_partial(self):
         """Test: Returns only available providers."""
         with (
-            patch("llm_client.providers.OpenAI", MagicMock()),
-            patch("llm_client.providers.Groq", None),
-            patch("llm_client.providers.Client", MagicMock()),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+            patch("llm_client.providers.providers.Groq", None),
+            patch("llm_client.providers.providers.Client", MagicMock()),
         ):
             available = ProviderFactory.get_available_providers()
 
@@ -244,13 +244,13 @@ class TestProviderAvailability:
 
     def test_is_provider_available_installed(self):
         """Test: is_provider_available returns True for installed package."""
-        with patch("llm_client.providers.OpenAI", MagicMock()):
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
             assert ProviderFactory.is_provider_available("openai") is True
             assert ProviderFactory.is_provider_available("gemini") is True
 
     def test_is_provider_available_not_installed(self):
         """Test: is_provider_available returns False for missing package."""
-        with patch("llm_client.providers.Groq", None):
+        with patch("llm_client.providers.providers.Groq", None):
             assert ProviderFactory.is_provider_available("groq") is False
 
     def test_is_provider_available_invalid_name(self):
@@ -259,7 +259,7 @@ class TestProviderAvailability:
 
     def test_is_provider_available_case_insensitive(self):
         """Test: is_provider_available is case-insensitive."""
-        with patch("llm_client.providers.OpenAI", MagicMock()):
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
             assert ProviderFactory.is_provider_available("OPENAI") is True
             assert ProviderFactory.is_provider_available("OpenAI") is True
             assert ProviderFactory.is_provider_available("openai") is True
@@ -270,7 +270,7 @@ class TestProviderFactoryParameters:
 
     def test_default_parameters(self):
         """Test: Default parameters are applied correctly."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -283,7 +283,7 @@ class TestProviderFactoryParameters:
 
     def test_custom_temperature(self):
         """Test: Custom temperature is passed correctly."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -294,7 +294,7 @@ class TestProviderFactoryParameters:
 
     def test_custom_max_tokens(self):
         """Test: Custom max_tokens is passed correctly."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -305,7 +305,7 @@ class TestProviderFactoryParameters:
 
     def test_ollama_keep_alive_parameter(self):
         """Test: keep_alive parameter is passed to Ollama provider."""
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_client.return_value = mock_instance
 
@@ -315,7 +315,7 @@ class TestProviderFactoryParameters:
 
     def test_multiple_custom_parameters(self):
         """Test: Multiple custom parameters work together."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -336,7 +336,7 @@ class TestProviderFactoryEdgeCases:
 
     def test_empty_api_key_strings(self):
         """Test: Empty string API keys are treated as None."""
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_client.return_value = mock_instance
 
@@ -350,7 +350,7 @@ class TestProviderFactoryEdgeCases:
 
     def test_extreme_parameter_values(self):
         """Test: Extreme parameter values are accepted."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider = ProviderFactory.create_provider(
@@ -372,7 +372,7 @@ class TestProviderFactoryEdgeCases:
 
     def test_factory_creates_new_instance_each_time(self):
         """Test: Factory creates new instance for each call."""
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             provider1 = ProviderFactory.create_provider(
@@ -395,7 +395,7 @@ class TestProviderFactoryIntegration:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Test response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -412,8 +412,8 @@ class TestProviderFactoryIntegration:
     def test_switching_between_providers(self):
         """Test: Can create different providers sequentially."""
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -429,8 +429,8 @@ class TestProviderFactoryIntegration:
     def test_auto_select_respects_package_availability(self):
         """Test: Auto-select only chooses from available packages."""
         with (
-            patch("llm_client.providers.OpenAI", None),
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI", None),
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_groq.return_value = MagicMock()
 

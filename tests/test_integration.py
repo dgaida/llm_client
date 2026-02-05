@@ -13,7 +13,7 @@ from llm_client.exceptions import (
     InvalidProviderError,
     ProviderNotAvailableError,
 )
-from llm_client.providers import (
+from llm_client.providers.providers import (
     GeminiProvider,
     GroqProvider,
     OllamaProvider,
@@ -31,7 +31,7 @@ class TestEndToEndWorkflow:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Hello! How can I help?"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -60,7 +60,7 @@ class TestEndToEndWorkflow:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Groq response here"
 
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_groq.return_value = mock_client
@@ -78,7 +78,7 @@ class TestEndToEndWorkflow:
         mock_response = MagicMock()
         mock_response.choices[0].message.content = "Gemini response"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -93,7 +93,7 @@ class TestEndToEndWorkflow:
         """Test: Complete workflow with Ollama provider."""
         mock_response = {"message": {"content": "Ollama local response"}}
 
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_instance.chat.return_value = mock_response
             mock_client.return_value = mock_instance
@@ -119,7 +119,7 @@ class TestProviderSwitching:
         gemini_response = MagicMock()
         gemini_response.choices[0].message.content = "Gemini says hello"
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -146,8 +146,8 @@ class TestProviderSwitching:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -175,7 +175,7 @@ class TestFactoryAndClientIntegration:
         """Test: LLMClient uses ProviderFactory correctly."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -186,9 +186,9 @@ class TestFactoryAndClientIntegration:
     def test_factory_default_models_match_providers(self):
         """Test: Factory uses correct default models from providers."""
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
-            patch("llm_client.providers.Client") as mock_client,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.Client") as mock_client,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -230,8 +230,8 @@ class TestMultiProviderScenarios:
         groq_response.choices[0].message.content = "Groq"
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             openai_client_mock = MagicMock()
             openai_client_mock.chat.completions.create.return_value = openai_response
@@ -260,8 +260,8 @@ class TestMultiProviderScenarios:
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -302,7 +302,7 @@ class TestErrorHandlingIntegration:
         """Test: Invalid provider switch error propagates correctly."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai")
@@ -318,7 +318,7 @@ class TestErrorHandlingIntegration:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.Groq", None),
+            patch("llm_client.providers.providers.Groq", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="groq provider not available. Install with: pip install groq",
@@ -336,8 +336,8 @@ class TestRealWorldScenarios:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai_client = MagicMock()
             mock_groq_client = MagicMock()
@@ -371,8 +371,8 @@ class TestRealWorldScenarios:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             openai_mock = MagicMock()
             groq_mock = MagicMock()
@@ -408,8 +408,8 @@ class TestRealWorldScenarios:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -438,7 +438,7 @@ class TestProviderPropertiesIntegration:
         """Test: llm property is consistent across client and provider."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_openai.return_value = MagicMock()
 
             client = LLMClient(api_choice="openai", llm="gpt-4o")
@@ -453,8 +453,8 @@ class TestProviderPropertiesIntegration:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
 
         with (
-            patch("llm_client.providers.OpenAI") as mock_openai,
-            patch("llm_client.providers.Groq") as mock_groq,
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+            patch("llm_client.providers.providers.Groq") as mock_groq,
         ):
             mock_openai.return_value = MagicMock()
             mock_groq.return_value = MagicMock()
@@ -474,7 +474,7 @@ class TestProviderPropertiesIntegration:
         """Test: client property provides backward compatibility."""
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
 
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
