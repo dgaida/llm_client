@@ -1,549 +1,419 @@
-# Features-Übersicht
+# Features Overview
 
-Detaillierte Dokumentation aller Features von LLM Client v0.3.0.
-
-## Inhaltsverzeichnis
-
-- [Token-Zählung](#token-zählung)
-- [Async-Unterstützung](#async-unterstützung)
-- [Konfigurationsdateien](#konfigurationsdateien)
-- [Response-Streaming](#response-streaming)
-- [Dynamischer Provider-Wechsel](#dynamischer-provider-wechsel)
-- [Tool-Calling](#tool-calling-function-calling)
-- [Datei-Upload](#datei-upload)
+LLM Client provides a comprehensive set of features for working with multiple LLM providers. This page gives you an overview of all available features.
 
 ---
 
-## Token-Zählung
+## 🎯 Core Features
 
-Präzise Token-Zählung hilft, API-Kosten und Kontext-Limits zu verwalten.
+### Automatic API Detection
 
-### Grundlegende Verwendung
+LLM Client automatically detects which LLM provider to use based on available API keys:
 
 ```python
 from llm_client import LLMClient
 
+# Automatically selects first available provider:
+# 1. OpenAI (if OPENAI_API_KEY set)
+# 2. Groq (if GROQ_API_KEY set)
+# 3. Gemini (if GEMINI_API_KEY set)
+# 4. Ollama (local fallback, no key needed)
 client = LLMClient()
 
-# Tokens in Nachrichten zählen
-messages = [
-    {"role": "system", "content": "Du bist hilfsbereit."},
-    {"role": "user", "content": "Was ist Quantencomputing?"}
-]
-
-token_count = client.count_tokens(messages)
-print(f"Nachrichten enthalten {token_count} Tokens")
-
-# Tokens in einem String zählen
-text = "Hallo, wie geht es dir heute?"
-string_tokens = client.count_string_tokens(text)
-print(f"String hat {string_tokens} Tokens")
+print(f"Using: {client.api_choice}")  # e.g., "openai"
 ```
 
-### Budget-Verwaltung
+[:octicons-arrow-right-24: Learn more](getting_started.md#automatic-api-selection)
+
+---
+
+### Unified Interface
+
+One consistent API for all providers - no need to learn different APIs:
 
 ```python
-# Prüfen, ob im Budget
-max_tokens = 4096
-reserved_for_response = 500
-token_count = client.count_tokens(messages)
-available = max_tokens - token_count - reserved_for_response
+# Same code works with any provider
+messages = [{"role": "user", "content": "Hello!"}]
 
-if available > 0:
-    print(f"✓ {available} Tokens verfügbar für Antwort")
+# Works with OpenAI
+openai_client = LLMClient(api_choice="openai")
+response1 = openai_client.chat_completion(messages)
+
+# Works with Groq
+groq_client = LLMClient(api_choice="groq")
+response2 = groq_client.chat_completion(messages)
+
+# Works with Gemini
+gemini_client = LLMClient(api_choice="gemini")
+response3 = gemini_client.chat_completion(messages)
+```
+
+[:octicons-arrow-right-24: See examples](examples/basic-usage.md)
+
+---
+
+## ✨ Advanced Features (v0.3.0)
+
+### 📊 Token Counting
+
+Accurate token counting with tiktoken for cost management:
+
+```python
+# Count tokens before sending
+token_count = client.count_tokens(messages)
+print(f"This will use ~{token_count} tokens")
+
+# Check budget
+if token_count < 4000:
     response = client.chat_completion(messages)
-else:
-    print("✗ Nachricht zu lang!")
 ```
 
-### Features
-
-- Nutzt tiktoken für präzise Zählung
-- Unterstützt alle GPT-Modelle (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)
-- Fallback auf Schätzung wenn tiktoken nicht verfügbar
-- Funktioniert mit jedem Provider
-
-### Weitere Informationen
-
-- [API-Referenz: count_tokens()](api_reference.md#count_tokens)
-- [API-Referenz: count_string_tokens()](api_reference.md#count_string_tokens)
+[:octicons-arrow-right-24: Token Counting Guide](features/token_counting.md)
 
 ---
 
-## Async-Unterstützung
+### ⚡ Async Support
 
-Vollständige async/await-Unterstützung für nicht-blockierende Operationen.
-
-### Grundlegende Verwendung
+Full async/await support for non-blocking operations:
 
 ```python
-from llm_client import LLMClient
-import asyncio
+# Create async client
+async_client = LLMClient(use_async=True)
 
-async def main():
-    # Async-Client erstellen
-    client = LLMClient(use_async=True)
+# Async completion
+response = await async_client.achat_completion(messages)
 
-    messages = [{"role": "user", "content": "Was ist asynchrone Programmierung?"}]
-
-    # Async Chat-Completion
-    response = await client.achat_completion(messages)
-    print(response)
-
-    # Async Streaming
-    print("\nStreaming-Antwort:")
-    async for chunk in client.achat_completion_stream(messages):
-        print(chunk, end="", flush=True)
-    print()
-
-asyncio.run(main())
+# Async streaming
+async for chunk in async_client.achat_completion_stream(messages):
+    print(chunk, end="", flush=True)
 ```
 
-### Gleichzeitige Anfragen
-
-```python
-async def process_many_questions():
-    client = LLMClient(use_async=True)
-
-    questions = [
-        "Was ist Python?",
-        "Was ist JavaScript?",
-        "Was ist Rust?"
-    ]
-
-    # Alle Fragen gleichzeitig verarbeiten
-    tasks = [
-        client.achat_completion([{"role": "user", "content": q}])
-        for q in questions
-    ]
-
-    responses = await asyncio.gather(*tasks)
-
-    for q, r in zip(questions, responses):
-        print(f"F: {q}")
-        print(f"A: {r[:100]}...\n")
-
-asyncio.run(process_many_questions())
-```
-
-### Async Tool-Calling
-
-```python
-async def main():
-    client = LLMClient(use_async=True)
-
-    tools = [{
-        "type": "function",
-        "function": {
-            "name": "get_weather",
-            "description": "Wetter für einen Ort abrufen",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "location": {"type": "string"}
-                }
-            }
-        }
-    }]
-
-    messages = [{"role": "user", "content": "Wie ist das Wetter in Berlin?"}]
-    result = await client.achat_completion_with_tools(messages, tools)
-    print(result)
-
-asyncio.run(main())
-```
-
-### Verfügbare Async-Methoden
-
-- `achat_completion()` - Async Chat-Completion
-- `achat_completion_stream()` - Async Streaming
-- `achat_completion_with_tools()` - Async Tool-Calling
-- `achat_completion_with_files()` - Async Datei-Upload
-
-### Weitere Informationen
-
-- [API-Referenz: Async Methods](api_reference.md#async-methods)
+[:octicons-arrow-right-24: Async Guide](features/async_support.md)
 
 ---
 
-## Konfigurationsdateien
+### 📁 Configuration Files
 
-Verwalte mehrere Provider-Konfigurationen einfach via YAML oder JSON.
-
-### Config-Datei erstellen
+Manage multiple provider configurations with YAML/JSON:
 
 ```python
-from llm_client.config import generate_config_template
+# Load from config file
+client = LLMClient.from_config("llm_config.yaml")
 
-# Template generieren
-generate_config_template("llm_config.yaml", format="yaml")
+# Use specific provider
+client = LLMClient.from_config("llm_config.yaml", provider="groq")
 ```
 
-### Beispiel-Konfiguration
-
+Example `llm_config.yaml`:
 ```yaml
-# llm_config.yaml
 default_provider: openai
-
-global_settings:
-  temperature: 0.7
-  max_tokens: 512
 
 providers:
   openai:
     model: gpt-4o-mini
     temperature: 0.7
-    max_tokens: 512
 
   groq:
     model: llama-3.3-70b-versatile
     temperature: 0.5
-    max_tokens: 1024
-
-  gemini:
-    model: gemini-2.0-flash-exp
-    temperature: 0.8
-    max_tokens: 2048
-
-  ollama:
-    model: llama3.2:1b
-    temperature: 0.7
-    keep_alive: 5m
 ```
 
-### Aus Config laden
-
-```python
-from llm_client import LLMClient
-
-# Standard-Provider laden
-client = LLMClient.from_config("llm_config.yaml")
-print(f"Verwendet: {client.api_choice} - {client.llm}")
-
-# Spezifischen Provider laden
-groq_client = LLMClient.from_config("llm_config.yaml", provider="groq")
-print(f"Verwendet: {groq_client.api_choice} - {groq_client.llm}")
-
-# Async-Client aus Config laden
-async_client = LLMClient.from_config("llm_config.yaml", use_async=True)
-```
-
-### Programmatische Konfiguration
-
-```python
-from llm_client.config import LLMConfig
-
-config_dict = {
-    "default_provider": "groq",
-    "providers": {
-        "groq": {
-            "model": "llama-3.3-70b-versatile",
-            "temperature": 0.5
-        }
-    }
-}
-
-config = LLMConfig.from_dict(config_dict)
-
-# Konfiguration validieren
-is_valid, errors = config.validate()
-if is_valid:
-    print("✓ Konfiguration ist gültig")
-else:
-    print(f"✗ Fehler: {errors}")
-```
-
-### Weitere Informationen
-
-- [API-Referenz: LLMConfig](api_reference.md#llmconfig)
-- [API-Referenz: from_config()](api_reference.md#from_config)
+[:octicons-arrow-right-24: Configuration Guide](features/configuration.md)
 
 ---
 
-## Response-Streaming
+### 🌊 Response Streaming
 
-Streame Antworten in Echtzeit für bessere Benutzererfahrung.
-
-### Grundlegende Verwendung
+Stream responses in real-time for better UX:
 
 ```python
-from llm_client import LLMClient
+messages = [{"role": "user", "content": "Tell me a story"}]
 
-client = LLMClient()
-messages = [{"role": "user", "content": "Erzähle mir eine Geschichte über KI"}]
-
-print("Streaming-Antwort:")
+print("Response: ", end="")
 for chunk in client.chat_completion_stream(messages):
     print(chunk, end="", flush=True)
 print()
 ```
 
-### Streaming mit Fehlerbehandlung
-
-```python
-from llm_client.exceptions import StreamingNotSupportedError, ChatCompletionError
-
-try:
-    for chunk in client.chat_completion_stream(messages):
-        print(chunk, end="", flush=True)
-except StreamingNotSupportedError:
-    print("Streaming nicht unterstützt, verwende normale Completion")
-    response = client.chat_completion(messages)
-    print(response)
-except ChatCompletionError as e:
-    print(f"Fehler: {e}")
-```
-
-### Async Streaming
-
-```python
-import asyncio
-
-async def stream_response():
-    client = LLMClient(use_async=True)
-    messages = [{"role": "user", "content": "Erzähle eine Geschichte"}]
-
-    async for chunk in client.achat_completion_stream(messages):
-        print(chunk, end="", flush=True)
-    print()
-
-asyncio.run(stream_response())
-```
-
-### Provider-Unterstützung
-
-| Provider | Streaming |
-|----------|-----------|
-| OpenAI   | ✅        |
-| Groq     | ✅        |
-| Gemini   | ✅        |
-| Ollama   | ✅        |
-
-### Weitere Informationen
-
-- [API-Referenz: chat_completion_stream()](api_reference.md#chat_completion_stream)
+[:octicons-arrow-right-24: Streaming Guide](features/streaming.md)
 
 ---
 
-## Dynamischer Provider-Wechsel
+### 🔄 Dynamic Provider Switching
 
-Wechsle zwischen Providern zur Laufzeit ohne neue Objekte zu erstellen.
-
-### Grundlegende Verwendung
+Switch between providers at runtime:
 
 ```python
-from llm_client import LLMClient
-
-# Starte mit OpenAI
-client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
-response1 = client.chat_completion([{"role": "user", "content": "Hallo"}])
-
-# Wechsel zu Gemini
-client.switch_provider("gemini", llm="gemini-2.0-flash-exp")
-response2 = client.chat_completion([{"role": "user", "content": "Hallo"}])
-
-# Wechsel zu Groq mit angepasster Temperatur
-client.switch_provider("groq", temperature=0.3)
-response3 = client.chat_completion([{"role": "user", "content": "Hallo"}])
-```
-
-### Fallback-Strategie
-
-```python
-from llm_client import LLMClient
-from llm_client.exceptions import ChatCompletionError
-
+# Start with OpenAI
 client = LLMClient(api_choice="openai")
+response1 = client.chat_completion(messages)
 
-try:
-    response = client.chat_completion(messages)
-except ChatCompletionError as e:
-    print(f"OpenAI fehlgeschlagen: {e}")
-    # Fallback zu Groq
-    client.switch_provider("groq")
-    response = client.chat_completion(messages)
+# Switch to Groq
+client.switch_provider("groq")
+response2 = client.chat_completion(messages)
+
+# Switch to Gemini with new parameters
+client.switch_provider("gemini", temperature=0.8)
+response3 = client.chat_completion(messages)
 ```
 
-### Kostenoptimierung
+**Use Cases:**
+- Cost optimization
+- Fallback strategies
+- A/B testing
+- Quality vs. speed trade-offs
 
-```python
-client = LLMClient()
-
-# Günstigeres Modell für einfache Aufgaben
-client.switch_provider("groq", llm="llama-3.3-70b-versatile")
-simple_response = client.chat_completion(simple_messages)
-
-# Leistungsstärkeres Modell für komplexe Aufgaben
-client.switch_provider("openai", llm="gpt-4o")
-complex_response = client.chat_completion(complex_messages)
-```
-
-### Weitere Informationen
-
-- [API-Referenz: switch_provider()](api_reference.md#switch_provider)
+[:octicons-arrow-right-24: Provider Switching Guide](features/provider_switching.md)
 
 ---
 
-## Tool-Calling (Function Calling)
+### 🧰 Tool Calling
 
-Alle Provider unterstützen OpenAI-kompatibles Tool-Calling.
-
-### Grundlegende Verwendung
+OpenAI-compatible function/tool calling for all providers:
 
 ```python
-from llm_client import LLMClient
-
-client = LLMClient()
-
-# Tools definieren
 tools = [{
     "type": "function",
     "function": {
-        "name": "get_current_weather",
-        "description": "Aktuelles Wetter an einem Ort abrufen",
+        "name": "get_weather",
+        "description": "Get weather for a location",
         "parameters": {
             "type": "object",
             "properties": {
-                "location": {
-                    "type": "string",
-                    "description": "Stadt und Land, z.B. Berlin, Deutschland"
-                },
-                "unit": {
-                    "type": "string",
-                    "enum": ["celsius", "fahrenheit"]
-                }
-            },
-            "required": ["location"]
+                "location": {"type": "string"}
+            }
         }
     }
 }]
 
-messages = [{"role": "user", "content": "Wie ist das Wetter in Berlin?"}]
-
-# Tool-Calling-Anfrage stellen
 result = client.chat_completion_with_tools(messages, tools)
 
-# Prüfen, ob Tools aufgerufen wurden
 if result['tool_calls']:
-    for tool_call in result['tool_calls']:
-        print(f"Aufrufen: {tool_call['function']['name']}")
-        print(f"Argumente: {tool_call['function']['arguments']}")
-else:
-    print(f"Antwort: {result['content']}")
+    for call in result['tool_calls']:
+        print(f"Calling: {call['function']['name']}")
 ```
 
-### Tool-Choice kontrollieren
-
-```python
-# Automatisch (Standard) - LLM entscheidet
-result = client.chat_completion_with_tools(messages, tools, tool_choice="auto")
-
-# Keine Tools verwenden
-result = client.chat_completion_with_tools(messages, tools, tool_choice="none")
-
-# Spezifisches Tool erzwingen
-result = client.chat_completion_with_tools(
-    messages,
-    tools,
-    tool_choice={"type": "function", "function": {"name": "get_weather"}}
-)
-```
-
-### Provider-Unterstützung
-
-| Provider | Tool-Calling |
-|----------|--------------|
-| OpenAI   | ✅           |
-| Groq     | ✅           |
-| Gemini   | ✅           |
-| Ollama   | ⚠️ Experimentell |
-
-### Weitere Informationen
-
-- [API-Referenz: chat_completion_with_tools()](api_reference.md#chat_completion_with_tools)
+[:octicons-arrow-right-24: Tool Calling Guide](features/tool_calling.md)
 
 ---
 
-## Datei-Upload
+### 📎 File Upload
 
-Sende Bilder, PDFs und andere Dateien mit Chat-Anfragen.
+Upload images, PDFs, videos, and audio with your messages:
 
-### Grundlegende Verwendung
+```python
+# Analyze an image
+messages = [{"role": "user", "content": "What's in this image?"}]
+response = client.chat_completion_with_files(
+    messages,
+    files=["photo.jpg"]
+)
+
+# Analyze a PDF
+messages = [{"role": "user", "content": "Summarize this document"}]
+response = client.chat_completion_with_files(
+    messages,
+    files=["report.pdf"]
+)
+```
+
+**Supported Formats by Provider:**
+
+| Provider | Images | PDFs | Videos | Audio |
+|----------|--------|------|--------|-------|
+| OpenAI   | ✅     | ✅   | ❌     | ❌    |
+| Gemini   | ✅     | ✅   | ✅     | ✅    |
+| Groq     | ✅     | ❌   | ❌     | ❌    |
+| Ollama   | ✅     | ❌   | ❌     | ❌    |
+
+[:octicons-arrow-right-24: File Upload Guide](features/file_upload.md)
+
+---
+
+### ☁️ Ollama Cloud
+
+Access powerful cloud models without local GPU:
+
+```python
+# Automatic cloud detection
+client = LLMClient(llm="gpt-oss:120b-cloud")
+
+# Or explicit cloud mode
+client = LLMClient(
+    api_choice="ollama",
+    llm="gpt-oss:120b-cloud",
+    use_ollama_cloud=True
+)
+```
+
+**Benefits:**
+- No local GPU needed
+- Access to large models (120B+)
+- Fast inference
+- Easy switching between local and cloud
+
+[:octicons-arrow-right-24: Ollama Cloud Guide](providers/ollama_cloud.md)
+
+---
+
+## 🛠️ Developer Features
+
+### Comprehensive Logging
+
+Built-in logging for debugging and monitoring:
+
+```python
+from llm_client import setup_logging
+
+# Enable debug logging
+setup_logging(level="DEBUG")
+
+# Your code here
+client = LLMClient()
+```
+
+[:octicons-arrow-right-24: Logging Guide](LOGGING.md)
+
+---
+
+### Custom Exceptions
+
+Detailed exception hierarchy for better error handling:
+
+```python
+from llm_client.exceptions import (
+    APIKeyNotFoundError,
+    ChatCompletionError,
+    InvalidProviderError
+)
+
+try:
+    client = LLMClient(api_choice="openai")
+    response = client.chat_completion(messages)
+except APIKeyNotFoundError as e:
+    print(f"Missing API key: {e.key_name}")
+except ChatCompletionError as e:
+    print(f"API error: {e}")
+```
+
+[:octicons-arrow-right-24: Exception Reference](api_reference.md#exceptions)
+
+---
+
+### Retry Logic
+
+Automatic retry with exponential backoff:
+
+```python
+# Automatically retries up to 3 times
+# with delays: 4s, 8s, 10s
+response = client.chat_completion(messages)
+```
+
+---
+
+### Type Hints
+
+Full type hints for better IDE support:
 
 ```python
 from llm_client import LLMClient
+from typing import List, Dict
 
+def process_conversation(
+    client: LLMClient,
+    messages: List[Dict[str, str]]
+) -> str:
+    return client.chat_completion(messages)
+```
+
+---
+
+## 📦 Integration Features
+
+### Google Colab Support
+
+Automatic secret loading in Google Colab:
+
+```python
+# Add keys to Colab Secrets (🔑 icon)
+# Keys: OPENAI_API_KEY, GROQ_API_KEY, etc.
+
+from llm_client import LLMClient
+
+# Automatically loads from Colab secrets
 client = LLMClient()
-
-# Einzelne Datei
-messages = [{"role": "user", "content": "Was ist in diesem Bild?"}]
-response = client.chat_completion_with_files(
-    messages,
-    files=["vacation_photo.jpg"]
-)
-
-# Mehrere Dateien
-messages = [{"role": "user", "content": "Analysiere diese Dokumente"}]
-response = client.chat_completion_with_files(
-    messages,
-    files=["report.pdf", "chart.png", "data.jpg"]
-)
 ```
 
-### Bildanalyse mit Gemini
+---
+
+### llama-index Integration
+
+Seamless integration with llama-index:
 
 ```python
-client = LLMClient(api_choice="gemini")
+from llm_client import LLMClientAdapter, LLMClient
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 
-messages = [{"role": "user", "content": "Beschreibe dieses Bild im Detail"}]
-response = client.chat_completion_with_files(
-    messages,
-    files=["complex_diagram.png"]
-)
-print(response)
+# Create adapter
+llm_adapter = LLMClientAdapter(client=LLMClient())
+
+# Use in llama-index
+documents = SimpleDirectoryReader("data").load_data()
+index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 ```
 
-### PDF-Analyse mit OpenAI
+---
 
-```python
-client = LLMClient(api_choice="openai", llm="gpt-4o")
+## 🎯 Comparison with Other Libraries
 
-messages = [{"role": "user", "content": "Fasse dieses Dokument zusammen"}]
-response = client.chat_completion_with_files(
-    messages,
-    files=["research_paper.pdf"]
-)
-print(response)
-```
+### vs. OpenAI SDK
 
-### Provider-Unterstützung
+| Feature | LLM Client | OpenAI SDK |
+|---------|-----------|------------|
+| Multi-provider | ✅ | ❌ |
+| Auto-detection | ✅ | ❌ |
+| Token counting | ✅ | ❌ |
+| Provider switching | ✅ | ❌ |
+| Unified interface | ✅ | ❌ |
+| Streaming | ✅ | ✅ |
 
-| Provider | Unterstützte Dateitypen |
-|----------|------------------------|
-| OpenAI   | Bilder (PNG, JPEG, WEBP, GIF), PDFs |
-| Gemini   | Bilder, PDFs, Videos, Audio |
-| Groq     | Bilder (nur Vision-Modelle) |
-| Ollama   | Bilder (nur Vision-Modelle) |
+### vs. LangChain
 
-### Async Datei-Upload
+| Feature | LLM Client | LangChain |
+|---------|-----------|-----------|
+| Simplicity | ✅ Simple | ⚠️ Complex |
+| Multi-provider | ✅ | ✅ |
+| Async support | ✅ | ✅ |
+| File upload | ✅ | ⚠️ Limited |
+| Learning curve | Low | High |
 
-```python
-import asyncio
+---
 
-async def analyze_files():
-    client = LLMClient(use_async=True)
+## 🚀 Coming Soon
 
-    messages = [{"role": "user", "content": "Analysiere diese Dateien"}]
-    response = await client.achat_completion_with_files(
-        messages,
-        files=["image1.jpg", "document.pdf"]
-    )
-    print(response)
+Features planned for future releases:
 
-asyncio.run(analyze_files())
-```
+- [ ] Embedding support
+- [ ] Batch processing
+- [ ] Caching layer
+- [ ] Prompt templates
+- [ ] More providers (Anthropic, Cohere)
+- [ ] Advanced RAG utilities
 
-### Weitere Informationen
+---
 
-- [API-Referenz: chat_completion_with_files()](api_reference.md#chat_completion_with_files)
-- [Datei-Upload-Utilities](api_reference.md#file-utilities)
+## 📚 Learn More
+
+- [Getting Started](getting_started.md) - Installation and setup
+- [API Reference](api_reference.md) - Complete API documentation
+- [Examples](examples/basic-usage.md) - Real-world examples
+- [Troubleshooting](troubleshooting.md) - Common issues
+
+---
+
+## 💡 Need Help?
+
+- 📖 [Documentation](getting_started.md)
+- 🐛 [Report Issues](https://github.com/dgaida/llm_client/issues)
+- 💬 [Discussions](https://github.com/dgaida/llm_client/discussions)
