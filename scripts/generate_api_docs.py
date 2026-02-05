@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 def generate_api_docs():
     """Programmatically generate Markdown files for API documentation."""
     api_dir = Path("docs/api")
@@ -26,19 +27,16 @@ def generate_api_docs():
 
     generated_files = []
 
-    for root, dirs, files in os.walk(package_dir):
+    for root, _, files in os.walk(package_dir):
         for file in files:
             if file.endswith(".py") and file != "__init__.py":
                 # Construct module path
                 rel_path = Path(root) / file
                 module_path = rel_path.with_suffix("").as_posix().replace("/", ".")
 
-                title = titles.get(module_path, module_path.split(".")[-1].replace("_", " ").title())
-
-                # Create a unique filename for the doc file
-                # Use the relative path to avoid collisions (e.g., utils.logging vs providers.logging)
-                doc_rel_path = rel_path.relative_to(package_dir.parent).with_suffix(".md")
-                doc_path = api_dir.parent / "reference" / doc_rel_path.relative_to("llm_client")
+                title = titles.get(
+                    module_path, module_path.split(".")[-1].replace("_", " ").title()
+                )
 
                 # Or just put them all in docs/api/ with names reflecting their structure
                 safe_name = module_path.replace("llm_client.", "").replace(".", "_") + ".md"

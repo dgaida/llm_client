@@ -408,8 +408,8 @@ class TestAsyncProviderMixinExtended:
 
     async def test_streaming_not_implemented_error(self):
         """Test: Streaming raises correct error when not implemented."""
-        from llm_client.providers.async_providers import AsyncProviderMixin
         from llm_client.exceptions import StreamingNotSupportedError
+        from llm_client.providers.async_providers import AsyncProviderMixin
 
         class TestProvider(AsyncProviderMixin):
             def __init__(self):
