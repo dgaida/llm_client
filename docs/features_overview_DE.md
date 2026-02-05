@@ -65,8 +65,8 @@ else:
 
 ### Weitere Informationen
 
-- [API-Referenz: count_tokens()](api_reference.md#count_tokens)
-- [API-Referenz: count_string_tokens()](api_reference.md#count_string_tokens)
+- [API-Referenz: count_tokens()](api/llm_client.md#llm_client.llm_client.LLMClient.count_tokens)
+- [API-Referenz: count_string_tokens()](api/llm_client.md#llm_client.llm_client.LLMClient.count_string_tokens)
 
 ---
 
@@ -162,7 +162,7 @@ asyncio.run(main())
 
 ### Weitere Informationen
 
-- [API-Referenz: Async Methods](api_reference.md#async-methods)
+- [API-Referenz: Async-Methoden](api/llm_client.md)
 
 ---
 
@@ -255,8 +255,8 @@ else:
 
 ### Weitere Informationen
 
-- [API-Referenz: LLMConfig](api_reference.md#llmconfig)
-- [API-Referenz: from_config()](api_reference.md#from_config)
+- [API-Referenz: LLMConfig](api/config.md)
+- [API-Referenz: from_config()](api/llm_client.md#llm_client.llm_client.LLMClient.from_config)
 
 ---
 
@@ -321,7 +321,7 @@ asyncio.run(stream_response())
 
 ### Weitere Informationen
 
-- [API-Referenz: chat_completion_stream()](api_reference.md#chat_completion_stream)
+- [API-Referenz: chat_completion_stream()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_stream)
 
 ---
 
@@ -380,7 +380,7 @@ complex_response = client.chat_completion(complex_messages)
 
 ### Weitere Informationen
 
-- [API-Referenz: switch_provider()](api_reference.md#switch_provider)
+- [API-Referenz: switch_provider()](api/llm_client.md#llm_client.llm_client.LLMClient.switch_provider)
 
 ---
 
@@ -460,7 +460,7 @@ result = client.chat_completion_with_tools(
 
 ### Weitere Informationen
 
-- [API-Referenz: chat_completion_with_tools()](api_reference.md#chat_completion_with_tools)
+- [API-Referenz: chat_completion_with_tools()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_tools)
 
 ---
 
@@ -545,5 +545,5 @@ asyncio.run(analyze_files())
 
 ### Weitere Informationen
 
-- [API-Referenz: chat_completion_with_files()](api_reference.md#chat_completion_with_files)
-- [Datei-Upload-Utilities](api_reference.md#file-utilities)
+- [API-Referenz: chat_completion_with_files()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_files)
+- [Datei-Upload-Utilities](api/utils_file_utils.md)

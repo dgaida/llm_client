@@ -70,15 +70,10 @@ nav:
   - Home: index.md
   - Getting Started:
       - Installation: getting_started.md
-      - Quick Start: getting_started.md#basic-setup
+      - Quick Start: getting_started.md
   - Features:
+      - Overview: features_overview.md
       - Token Counting: features/token_counting.md
-      - Async Support: features/async_support.md
-      - Configuration Files: features/configuration.md
-      - Response Streaming: features/streaming.md
-      - Provider Switching: features/provider_switching.md
-      - Tool Calling: features/tool_calling.md
-      - File Upload: features/file_upload.md
   - Providers:
       - OpenAI: providers/openai.md
       - Groq: providers/groq.md
@@ -89,7 +84,6 @@ nav:
       - Basic Usage: examples/basic-usage.md
       - Provider Switching: examples/provider_switching.md
   - Reference:
-      - Overview: api_reference.md
       - API Reference:
           - LLMClient: api/llm_client.md
           - Configuration: api/config.md

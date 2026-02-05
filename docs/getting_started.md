@@ -264,13 +264,13 @@ client = LLMClient()
 
 ## Next Steps
 
-- [API Reference](api-reference.md) - Detailed API documentation
-- [Provider Guides](providers/) - Provider-specific features
+- [API Reference](api/llm_client.md) - Detailed API documentation
+- [Provider Guides](providers/openai.md) - Provider-specific features
 - [Examples](examples/) - More usage examples
 - [GitHub Repository](https://github.com/dgaida/llm_client)
 
 ## Getting Help
 
 - Open an [Issue](https://github.com/dgaida/llm_client/issues)
-- Check the [README](../README.md)
-- Review [test examples](../tests/)
+- Check the [Home Page](index.md)
+- Review [test examples](https://github.com/dgaida/llm_client/tree/master/tests)
