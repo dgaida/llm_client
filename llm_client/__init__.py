@@ -44,7 +44,6 @@ New in v0.3.0:
 - Comprehensive logging
 """
 
-from .base_provider import BaseProvider
 from .config import LLMConfig, create_default_config, generate_config_template
 from .exceptions import (
     APIKeyNotFoundError,
@@ -56,10 +55,12 @@ from .exceptions import (
     StreamingNotSupportedError,
 )
 from .llm_client import LLMClient
-from .logging_config import disable_logging, enable_logging, setup_logging
-from .provider_factory import ProviderFactory
-from .providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
-from .token_counter import TokenCounter
+from .providers.base_provider import BaseProvider
+from .providers.provider_factory import ProviderFactory
+from .providers.providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
+from .utils.file_utils import detect_file_type, validate_file_for_provider
+from .utils.logging_config import disable_logging, enable_logging, setup_logging
+from .utils.token_counter import TokenCounter
 
 __all__ = [
     # Main classes
@@ -84,6 +85,9 @@ __all__ = [
     # Config utilities
     "create_default_config",
     "generate_config_template",
+    # Utils
+    "detect_file_type",
+    "validate_file_for_provider",
     # Logging
     "setup_logging",
     "enable_logging",
@@ -92,7 +96,7 @@ __all__ = [
 
 # Optional async providers
 try:
-    from .async_providers import (
+    from .providers.async_providers import (
         AsyncGeminiProvider,
         AsyncGroqProvider,
         AsyncOpenAIProvider,
@@ -105,7 +109,7 @@ except ImportError:
 
 # Optional llama-index adapter
 try:
-    from .adapter import LLMClientAdapter
+    from .providers.adapter import LLMClientAdapter
 
     __all__.append("LLMClientAdapter")
 except ImportError:

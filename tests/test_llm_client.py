@@ -112,7 +112,7 @@ class TestLLMClientInitialization:
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test-key")
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_openai.return_value = mock_client
 
@@ -154,7 +154,7 @@ class TestLLMClientChatCompletion:
         mock_response.choices[0].message.content = "Gemini response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -175,7 +175,7 @@ class TestLLMClientChatCompletion:
         mock_response.choices[0].message.content = "OpenAI response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -196,7 +196,7 @@ class TestLLMClientChatCompletion:
         mock_response.choices[0].message.content = "Groq response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.Groq") as mock_groq:
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_groq.return_value = mock_client
@@ -213,7 +213,7 @@ class TestLLMClientChatCompletion:
         mock_response = {"message": {"content": "Ollama response"}}
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.Client") as mock_client:
+        with patch("llm_client.providers.providers.Client") as mock_client:
             mock_instance = MagicMock()
             mock_instance.chat.return_value = mock_response
             mock_client.return_value = mock_instance
@@ -231,7 +231,7 @@ class TestLLMClientChatCompletion:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.OpenAI", None),
+            patch("llm_client.providers.providers.OpenAI", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="gemini provider not available. Install with: pip install openai",
@@ -245,7 +245,7 @@ class TestLLMClientChatCompletion:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.OpenAI", None),
+            patch("llm_client.providers.providers.OpenAI", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="openai provider not available. Install with: pip install openai",
@@ -259,7 +259,7 @@ class TestLLMClientChatCompletion:
 
         # Patch at the correct location - in providers.py
         with (
-            patch("llm_client.providers.Groq", None),
+            patch("llm_client.providers.providers.Groq", None),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="groq provider not available. Install with: pip install groq",
@@ -272,8 +272,8 @@ class TestLLMClientChatCompletion:
         # Patch at the correct location - in providers.py
         # Need to patch BOTH the import check AND prevent initialization
         with (
-            patch("llm_client.providers.Client", None),
-            patch("llm_client.providers.OLLAMA_AVAILABLE", False),
+            patch("llm_client.providers.providers.Client", None),
+            patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
             pytest.raises(
                 ProviderNotAvailableError,
                 match="ollama provider not available",
@@ -290,7 +290,7 @@ class TestLLMClientChatCompletion:
         mock_response.choices[0].message.content = "Response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -315,7 +315,7 @@ class TestLLMClientChatCompletion:
         mock_response.choices[0].message.content = "Response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -342,7 +342,7 @@ class TestLLMClientEdgeCases:
         mock_response.choices[0].message.content = "Response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -360,7 +360,7 @@ class TestLLMClientEdgeCases:
         mock_response.choices[0].message.content = "Final response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
@@ -487,7 +487,7 @@ class TestLLMClientTypeHints:
         mock_response.choices[0].message.content = "Test response"
 
         # Patch at the correct location - in providers.py
-        with patch("llm_client.providers.OpenAI") as mock_openai:
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client

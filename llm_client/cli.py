@@ -24,8 +24,8 @@ import click
 
 from .config import LLMConfig, generate_config_template
 from .llm_client import LLMClient
-from .provider_factory import ProviderFactory
-from .token_counter import TokenCounter
+from .providers.provider_factory import ProviderFactory
+from .utils.token_counter import TokenCounter
 
 # Optional rich support for better formatting
 try:

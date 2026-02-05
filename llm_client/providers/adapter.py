@@ -7,7 +7,7 @@ from typing import Any
 
 from pydantic import Field
 
-from .llm_client import LLMClient
+from ..llm_client import LLMClient
 
 try:
     from llama_index.core.llms import (

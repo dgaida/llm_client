@@ -19,11 +19,11 @@ class TestAsyncOpenAIProvider:
 
     async def test_async_openai_initialization(self):
         """Test: AsyncOpenAIProvider initializes correctly."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_client = MagicMock()
             mock_async_openai.return_value = mock_client
 
-            from llm_client.async_providers import AsyncOpenAIProvider
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             provider = AsyncOpenAIProvider(
                 llm="gpt-4o", temperature=0.7, max_tokens=512, api_key="sk-test"
@@ -34,16 +34,16 @@ class TestAsyncOpenAIProvider:
 
     async def test_async_openai_missing_api_key(self):
         """Test: Raises error when API key missing."""
-        with patch("llm_client.async_providers.AsyncOpenAI", MagicMock()):
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             with pytest.raises(APIKeyNotFoundError):
                 AsyncOpenAIProvider(llm="gpt-4o")
 
     async def test_async_openai_chat_completion(self):
         """Test: Async chat completion works."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Async response"
@@ -61,8 +61,8 @@ class TestAsyncOpenAIProvider:
 
     async def test_async_openai_streaming(self):
         """Test: Async streaming works."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             async def async_generator():
                 chunks = [
@@ -87,8 +87,8 @@ class TestAsyncOpenAIProvider:
 
     async def test_async_openai_with_tools(self):
         """Test: Async tool calling works."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_123"
@@ -116,10 +116,10 @@ class TestAsyncOpenAIProvider:
 
     async def test_sync_method_raises_runtime_error(self):
         """Test: Sync method raises RuntimeError wrapped in ChatCompletionError."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
-            from llm_client.async_providers import AsyncOpenAIProvider
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
@@ -128,19 +128,19 @@ class TestAsyncOpenAIProvider:
 
     async def test_get_default_model(self):
         """Test: Get default model."""
-        from llm_client.async_providers import AsyncOpenAIProvider
+        from llm_client.providers.async_providers import AsyncOpenAIProvider
 
         assert AsyncOpenAIProvider.get_default_model() == "gpt-4o-mini"
 
     async def test_is_available(self):
         """Test: Check if AsyncOpenAI is available."""
-        with patch("llm_client.async_providers.AsyncOpenAI", MagicMock()):
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             assert AsyncOpenAIProvider.is_available() is True
 
-        with patch("llm_client.async_providers.AsyncOpenAI", None):
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", None):
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             assert AsyncOpenAIProvider.is_available() is False
 
@@ -150,11 +150,11 @@ class TestAsyncGroqProvider:
 
     async def test_async_groq_initialization(self):
         """Test: AsyncGroqProvider initializes correctly."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
             mock_client = MagicMock()
             mock_async_groq.return_value = mock_client
 
-            from llm_client.async_providers import AsyncGroqProvider
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             provider = AsyncGroqProvider(llm="llama-3.3-70b-versatile", api_key="gsk-test")
 
@@ -163,8 +163,8 @@ class TestAsyncGroqProvider:
 
     async def test_async_groq_chat_completion(self):
         """Test: Async chat completion for Groq."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Groq response"
@@ -182,8 +182,8 @@ class TestAsyncGroqProvider:
 
     async def test_async_groq_streaming(self):
         """Test: Async streaming for Groq."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             async def async_generator():
                 chunks = [
@@ -208,8 +208,8 @@ class TestAsyncGroqProvider:
 
     async def test_async_groq_with_tools(self):
         """Test: Async tool calling for Groq."""
-        with patch("llm_client.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_456"
@@ -235,7 +235,7 @@ class TestAsyncGroqProvider:
 
     async def test_get_default_model_groq(self):
         """Test: Get default Groq model."""
-        from llm_client.async_providers import AsyncGroqProvider
+        from llm_client.providers.async_providers import AsyncGroqProvider
 
         assert AsyncGroqProvider.get_default_model() == "moonshotai/kimi-k2-instruct-0905"
 
@@ -245,11 +245,11 @@ class TestAsyncGeminiProvider:
 
     async def test_async_gemini_initialization(self):
         """Test: AsyncGeminiProvider initializes correctly."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_client = MagicMock()
             mock_async_openai.return_value = mock_client
 
-            from llm_client.async_providers import AsyncGeminiProvider
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             provider = AsyncGeminiProvider(llm="gemini-2.5-flash", api_key="AIzaSy-test")
 
@@ -264,8 +264,8 @@ class TestAsyncGeminiProvider:
 
     async def test_async_gemini_chat_completion(self):
         """Test: Async chat completion for Gemini."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             mock_response = MagicMock()
             mock_response.choices[0].message.content = "Gemini response"
@@ -283,8 +283,8 @@ class TestAsyncGeminiProvider:
 
     async def test_async_gemini_streaming(self):
         """Test: Async streaming for Gemini."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncGeminiProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncGeminiProvider
 
             async def async_generator():
                 chunks = [
@@ -309,7 +309,7 @@ class TestAsyncGeminiProvider:
 
     async def test_get_default_model_gemini(self):
         """Test: Get default Gemini model."""
-        from llm_client.async_providers import AsyncGeminiProvider
+        from llm_client.providers.async_providers import AsyncGeminiProvider
 
         assert AsyncGeminiProvider.get_default_model() == "gemini-2.0-flash-exp"
 
@@ -319,8 +319,8 @@ class TestAsyncProviderMixin:
 
     async def test_achat_completion_wraps_errors(self):
         """Test: achat_completion wraps errors in ChatCompletionError."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             mock_client = MagicMock()
             mock_client.chat.completions.create = AsyncMock(side_effect=Exception("API Error"))
@@ -333,10 +333,10 @@ class TestAsyncProviderMixin:
 
     async def test_achat_completion_with_tools_not_implemented(self):
         """Test: Tool calling raises NotImplementedError if not supported."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_async_openai.return_value = MagicMock()
 
-            from llm_client.async_providers import AsyncProviderMixin
+            from llm_client.providers.async_providers import AsyncProviderMixin
 
             class TestProvider(AsyncProviderMixin):
                 def __init__(self):
@@ -349,8 +349,8 @@ class TestAsyncProviderMixin:
 
     async def test_streaming_wraps_errors(self):
         """Test: Streaming wraps errors in ChatCompletionError."""
-        with patch("llm_client.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             async def failing_generator():
                 raise Exception("Stream error")
@@ -372,16 +372,16 @@ class TestAsyncProviderAvailability:
 
     async def test_async_openai_not_available(self):
         """Test: Raises error when AsyncOpenAI not available."""
-        with patch("llm_client.async_providers.AsyncOpenAI", None):
-            from llm_client.async_providers import AsyncOpenAIProvider
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", None):
+            from llm_client.providers.async_providers import AsyncOpenAIProvider
 
             with pytest.raises(ProviderNotAvailableError):
                 AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
     async def test_async_groq_not_available(self):
         """Test: Raises error when AsyncGroq not available."""
-        with patch("llm_client.async_providers.AsyncGroq", None):
-            from llm_client.async_providers import AsyncGroqProvider
+        with patch("llm_client.providers.async_providers.AsyncGroq", None):
+            from llm_client.providers.async_providers import AsyncGroqProvider
 
             with pytest.raises(ProviderNotAvailableError):
                 AsyncGroqProvider(llm="llama-3.3-70b-versatile", api_key="gsk-test")

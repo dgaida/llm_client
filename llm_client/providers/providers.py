@@ -3,9 +3,9 @@
 from collections.abc import Iterator
 from typing import Any
 
+from ..exceptions import APIKeyNotFoundError, ProviderNotAvailableError
+from ..utils.logging_config import get_logger
 from .base_provider import BaseProvider
-from .exceptions import APIKeyNotFoundError, ProviderNotAvailableError
-from .logging_config import get_logger
 
 logger = get_logger(__name__)
 
@@ -110,7 +110,7 @@ class OpenAIProvider(BaseProvider):
         if not self.client:
             raise RuntimeError("OpenAI client not initialized")
 
-        from .file_utils import prepare_files_for_provider
+        from ..utils.file_utils import prepare_files_for_provider
 
         logger.debug(f"Calling OpenAI API with {len(files or [])} files")
 
@@ -376,7 +376,7 @@ class GroqProvider(BaseProvider):
         if not self.client:
             raise RuntimeError("Groq client not initialized")
 
-        from .file_utils import detect_file_type, prepare_files_for_provider
+        from ..utils.file_utils import detect_file_type, prepare_files_for_provider
 
         logger.debug(f"Calling Groq API with {len(files or [])} files")
 
@@ -590,7 +590,7 @@ class GeminiProvider(BaseProvider):
         if not self.client:
             raise RuntimeError("Gemini client not initialized")
 
-        from .file_utils import prepare_files_for_provider
+        from ..utils.file_utils import prepare_files_for_provider
 
         logger.debug(f"Calling Gemini API with {len(files or [])} files")
 
@@ -854,7 +854,7 @@ class OllamaProvider(BaseProvider):
         if not self.is_available():
             raise ProviderNotAvailableError("ollama", "ollama")
 
-        from .file_utils import detect_file_type, encode_file_base64
+        from ..utils.file_utils import detect_file_type, encode_file_base64
 
         logger.debug(f"Calling Ollama with {len(files or [])} files")
 

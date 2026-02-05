@@ -39,6 +39,13 @@ theme:
 plugins:
   - search
   - autorefs
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -82,8 +89,23 @@ nav:
       - Basic Usage: examples/basic-usage.md
       - Provider Switching: examples/provider_switching.md
   - Reference:
-      - API Reference: api_reference.md
-      - CLI Reference: cli.md
+      - Overview: api_reference.md
+      - API Reference:
+          - LLMClient: api/llm_client.md
+          - Configuration: api/config.md
+          - Providers:
+              - Base Provider: api/providers_base_provider.md
+              - Sync Providers: api/providers_providers.md
+              - Async Providers: api/providers_async_providers.md
+              - Provider Factory: api/providers_provider_factory.md
+          - Utils:
+              - Token Counter: api/utils_token_counter.md
+              - File Utilities: api/utils_file_utils.md
+              - Logging: api/utils_logging_config.md
+          - Integrations:
+              - LlamaIndex: api/providers_adapter.md
+          - Exceptions: api/exceptions.md
+      - CLI Reference: api/cli.md
       - Testing: TESTING.md
       - Logging: LOGGING.md
   - Troubleshooting: troubleshooting.md
