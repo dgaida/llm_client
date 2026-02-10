@@ -6,6 +6,85 @@ LLM Client provides a comprehensive set of features for working with multiple LL
 
 ## 🎯 Core Features
 
+```mermaid
+graph TB
+    subgraph "👤 Entwickler"
+        DEV[Ihr Code]
+        SIMPLE["Einfache API:<br/>client.chat_completion(messages)"]
+    end
+
+    subgraph "🎯 LLM Client - Universeller Python Client"
+        CLIENT[🧠 LLMClient<br/>Einheitliche Schnittstelle]
+
+        subgraph "✨ Kernfeatures"
+            AUTO[🔍 Auto-Detection<br/>Automatische Provider-Auswahl]
+            SWITCH[🔄 Dynamic Switching<br/>Provider wechseln zur Laufzeit]
+            TOKENS[📊 Token Counting<br/>Kostenkontrolle mit tiktoken]
+            ASYNC[⚡ Async Support<br/>Nicht-blockierende Operationen]
+            STREAM[🌊 Streaming<br/>Echtzeit-Antworten]
+            CONFIG[📁 Config Files<br/>YAML/JSON Konfiguration]
+        end
+
+        FACTORY[🏭 ProviderFactory<br/>Strategie-Muster]
+    end
+
+    subgraph "🌐 LLM Provider"
+        OPENAI[OpenAI<br/>gpt-4o, gpt-4o-mini<br/>💰 Kostenpflichtig]
+        GROQ[Groq<br/>llama-3.3-70b<br/>⚡ Ultra-schnell]
+        GEMINI[Google Gemini<br/>gemini-2.5-pro/flash<br/>🌍 Lange Kontexte]
+        OLLAMA_LOCAL[Ollama Lokal<br/>llama3.2:1b/3b<br/>🔒 Privat & Offline]
+        OLLAMA_CLOUD[Ollama Cloud<br/>gpt-oss:120b-cloud<br/>☁️ Ohne lokale GPU]
+    end
+
+    subgraph "💡 Anwendungsfälle"
+        UC1[💰 Kostenoptimierung<br/>Günstiger Provider für<br/>einfache Aufgaben]
+        UC2[🔄 Fallback-Strategie<br/>Automatischer Wechsel<br/>bei Ausfall]
+        UC3[🎯 Qualität vs. Speed<br/>Balance zwischen<br/>Geschwindigkeit & Qualität]
+        UC4[🔒 Privacy First<br/>Lokale Modelle für<br/>sensible Daten]
+    end
+
+    %% Verbindungen vom Entwickler
+    DEV --> SIMPLE
+    SIMPLE --> CLIENT
+
+    %% Client zu Features
+    CLIENT -.-> AUTO
+    CLIENT -.-> SWITCH
+    CLIENT -.-> TOKENS
+    CLIENT -.-> ASYNC
+    CLIENT -.-> STREAM
+    CLIENT -.-> CONFIG
+
+    %% Client zu Factory
+    CLIENT --> FACTORY
+
+    %% Factory zu Providern
+    FACTORY --> OPENAI
+    FACTORY --> GROQ
+    FACTORY --> GEMINI
+    FACTORY --> OLLAMA_LOCAL
+    FACTORY --> OLLAMA_CLOUD
+
+    %% Use Cases
+    SWITCH -.-> UC1
+    SWITCH -.-> UC2
+    SWITCH -.-> UC3
+    OLLAMA_LOCAL -.-> UC4
+
+    %% Styling
+    classDef userClass fill:#e1f5ff,stroke:#01579b,stroke-width:3px,color:#000
+    classDef clientClass fill:#fff3e0,stroke:#e65100,stroke-width:3px,color:#000
+    classDef featureClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef providerClass fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef usecaseClass fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+
+    class DEV,SIMPLE userClass
+    class CLIENT,FACTORY clientClass
+    class AUTO,SWITCH,TOKENS,ASYNC,STREAM,CONFIG featureClass
+    class OPENAI,GROQ,GEMINI,OLLAMA_LOCAL,OLLAMA_CLOUD providerClass
+    class UC1,UC2,UC3,UC4 usecaseClass
+```
+
 ### Automatic API Detection
 
 LLM Client automatically detects which LLM provider to use based on available API keys:

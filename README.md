@@ -44,6 +44,49 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 
 ---
 
+```mermaid
+graph TD
+    subgraph "Ein Code"
+        CODE["client = LLMClient()<br/>response = client.chat_completion(messages)"]
+    end
+
+    subgraph "Vier APIs"
+        OPENAI[OpenAI]
+        GROQ[Groq]
+        GEMINI[Gemini]
+        OLLAMA[Ollama<br/>Lokal/Cloud]
+    end
+
+    subgraph "Viele Möglichkeiten"
+        SWITCH[🔄 Provider wechseln]
+        TOKENS[📊 Kosten überwachen]
+        ASYNC[⚡ Async/Await]
+        STREAM[🌊 Streaming]
+        FILES[📎 Dateien senden]
+    end
+
+    CODE --> OPENAI
+    CODE --> GROQ
+    CODE --> GEMINI
+    CODE --> OLLAMA
+
+    GEMINI -.-> ASYNC
+    GEMINI -.-> SWITCH
+    GEMINI -.-> TOKENS
+    GEMINI -.-> STREAM
+    GEMINI -.-> FILES
+
+    classDef codeClass fill:#e1f5ff,stroke:#01579b,stroke-width:3px,color:#000
+    classDef apiClass fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef featureClass fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+
+    class CODE codeClass
+    class OPENAI,GROQ,GEMINI,OLLAMA apiClass
+    class SWITCH,TOKENS,ASYNC,STREAM,FILES featureClass
+```
+
+---
+
 ## ✨ Neu in v0.3.0
 
 Version 0.3.0 bringt vier große neue Features:
