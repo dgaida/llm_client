@@ -108,57 +108,6 @@ messages = [
 
 ---
 
-```mermaid
-graph TD
-    START([🧠 LLM Client])
-
-    subgraph CORE["🎯 Kern-Konzept"]
-        CONCEPT["Ein Interface<br/>Alle Provider<br/>Null Komplexität"]
-    end
-
-    subgraph PROVIDERS["🌐 Unterstützte Provider"]
-        P1[OpenAI<br/>✅ API Key erforderlich<br/>🚀 Beste Qualität]
-        P2[Groq<br/>✅ API Key erforderlich<br/>⚡ Ultra-schnell]
-        P3[Gemini<br/>✅ API Key erforderlich<br/>📚 Lange Kontexte 1M-2M]
-        P4[Ollama<br/>❌ Kein API Key<br/>🔒 100% Privat & Lokal]
-    end
-
-    subgraph FEATURES["✨ Features v0.3.0"]
-        F1[📊 Token Counting<br/>Kosten im Blick]
-        F2[⚡ Async/Await<br/>Nicht-blockierend]
-        F3[📁 Config Files<br/>YAML/JSON]
-        F4[🌊 Streaming<br/>Echtzeit]
-        F5[🔄 Dynamic Switching<br/>Zur Laufzeit]
-        F6[📎 File Upload<br/>Bilder, PDFs, Videos]
-    end
-
-    subgraph BENEFITS["💡 Vorteile"]
-        B1[💰 Kosten sparen<br/>Günstigster Provider<br/>für jede Aufgabe]
-        B2[🛡️ Ausfallsicher<br/>Automatischer Fallback<br/>bei API-Ausfall]
-        B3[🔒 Datenschutz<br/>Lokale Modelle für<br/>sensible Daten]
-        B4[⚖️ Flexibel<br/>Speed vs. Quality<br/>je nach Bedarf]
-    end
-
-    START --> CORE
-    CORE --> PROVIDERS
-    PROVIDERS --> FEATURES
-    FEATURES --> BENEFITS
-
-    classDef startClass fill:#e1f5ff,stroke:#01579b,stroke-width:4px,color:#000
-    classDef conceptClass fill:#fff3e0,stroke:#e65100,stroke-width:3px,color:#000
-    classDef providerClass fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000
-    classDef featureClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
-    classDef benefitClass fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
-
-    class START startClass
-    class CONCEPT conceptClass
-    class P1,P2,P3,P4 providerClass
-    class F1,F2,F3,F4,F5,F6 featureClass
-    class B1,B2,B3,B4 benefitClass
-```
-
----
-
 ## Core Features
 
 ### 1. Chat Completion

@@ -1,49 +1,5 @@
 # 🧠 LLM Client
 
-Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs) über **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung, dynamischem Provider-Wechsel, Token-Zählung, Async-Unterstützung und Konfigurationsdatei-Verwaltung.
-
----
-
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-[![codecov](https://codecov.io/gh/dgaida/llm_client/branch/master/graph/badge.svg)](https://codecov.io/gh/dgaida/llm_client)
-[![Tests](https://github.com/dgaida/llm_client/actions/workflows/tests.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/tests.yml)
-[![Code Quality](https://github.com/dgaida/llm_client/actions/workflows/lint.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/lint.yml)
-[![CodeQL](https://github.com/dgaida/llm_client/actions/workflows/codeql.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/codeql.yml)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-
-## 📑 Inhaltsverzeichnis
-
-- [Features](#-features)
-- [Neu in v0.3.0](#-neu-in-v030)
-- [Installation](#%EF%B8%8F-installation)
-- [Schnellstart](#-schnellstart)
-- [Verwendung](#-verwendung)
-- [Unterstützte APIs](#-unterstützte-apis--default-modelle)
-- [Dokumentation](#-dokumentation)
-- [Tests](#-tests-ausführen)
-- [Contributing](#-contributing)
-- [Lizenz](#-lizenz)
-
-## 🚀 Features
-
-### Kern-Features
-* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
-* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
-* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt
-* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
-* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
-* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
-
-### Architektur
-* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
-* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
-* 🧪 **Vollständige Tests** - Pytest-basiert mit >92% Code-Coverage
-* 🌟 **Google Gemini Support** - Nutzung via OpenAI-Kompatibilitätsmodus
-
----
-
 ```mermaid
 graph TD
     subgraph "Ein Code"
@@ -85,7 +41,96 @@ graph TD
     class SWITCH,TOKENS,ASYNC,STREAM,FILES featureClass
 ```
 
+Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs) über **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung, dynamischem Provider-Wechsel, Token-Zählung, Async-Unterstützung und Konfigurationsdatei-Verwaltung.
+
 ---
+
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![codecov](https://codecov.io/gh/dgaida/llm_client/branch/master/graph/badge.svg)](https://codecov.io/gh/dgaida/llm_client)
+[![Tests](https://github.com/dgaida/llm_client/actions/workflows/tests.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/tests.yml)
+[![Code Quality](https://github.com/dgaida/llm_client/actions/workflows/lint.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/lint.yml)
+[![CodeQL](https://github.com/dgaida/llm_client/actions/workflows/codeql.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/codeql.yml)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+## 📑 Inhaltsverzeichnis
+
+- [Features](#-features)
+- [Neu in v0.3.0](#-neu-in-v030)
+- [Installation](#%EF%B8%8F-installation)
+- [Schnellstart](#-schnellstart)
+- [Verwendung](#-verwendung)
+- [Unterstützte APIs](#-unterstützte-apis--default-modelle)
+- [Dokumentation](#-dokumentation)
+- [Tests](#-tests-ausführen)
+- [Contributing](#-contributing)
+- [Lizenz](#-lizenz)
+
+## 🚀 Features
+
+```mermaid
+graph TD
+    START([🧠 LLM Client])
+
+    subgraph CORE["🎯 Kern-Konzept"]
+        CONCEPT["Ein Interface<br/>Alle Provider<br/>Null Komplexität"]
+    end
+
+    subgraph PROVIDERS["🌐 Unterstützte Provider"]
+        P1[OpenAI<br/>✅ API Key erforderlich<br/>🚀 Beste Qualität]
+        P2[Groq<br/>✅ API Key erforderlich<br/>⚡ Ultra-schnell]
+        P3[Gemini<br/>✅ API Key erforderlich<br/>📚 Lange Kontexte 1M-2M]
+        P4[Ollama<br/>❌ Kein API Key<br/>🔒 100% Privat & Lokal]
+    end
+
+    subgraph FEATURES["✨ Features v0.3.0"]
+        F1[📊 Token Counting<br/>Kosten im Blick]
+        F2[⚡ Async/Await<br/>Nicht-blockierend]
+        F3[📁 Config Files<br/>YAML/JSON]
+        F4[🌊 Streaming<br/>Echtzeit]
+        F5[🔄 Dynamic Switching<br/>Zur Laufzeit]
+        F6[📎 File Upload<br/>Bilder, PDFs, Videos]
+    end
+
+    subgraph BENEFITS["💡 Vorteile"]
+        B1[💰 Kosten sparen<br/>Günstigster Provider<br/>für jede Aufgabe]
+        B2[🛡️ Ausfallsicher<br/>Automatischer Fallback<br/>bei API-Ausfall]
+        B3[🔒 Datenschutz<br/>Lokale Modelle für<br/>sensible Daten]
+        B4[⚖️ Flexibel<br/>Speed vs. Quality<br/>je nach Bedarf]
+    end
+
+    START --> CORE
+    CORE --> PROVIDERS
+    PROVIDERS --> FEATURES
+    FEATURES --> BENEFITS
+
+    classDef startClass fill:#e1f5ff,stroke:#01579b,stroke-width:4px,color:#000
+    classDef conceptClass fill:#fff3e0,stroke:#e65100,stroke-width:3px,color:#000
+    classDef providerClass fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef featureClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef benefitClass fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+
+    class START startClass
+    class CONCEPT conceptClass
+    class P1,P2,P3,P4 providerClass
+    class F1,F2,F3,F4,F5,F6 featureClass
+    class B1,B2,B3,B4 benefitClass
+```
+
+### Kern-Features
+* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
+* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
+* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt
+* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
+* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
+* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
+
+### Architektur
+* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
+* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
+* 🧪 **Vollständige Tests** - Pytest-basiert mit >92% Code-Coverage
+* 🌟 **Google Gemini Support** - Nutzung via OpenAI-Kompatibilitätsmodus
 
 ## ✨ Neu in v0.3.0
 
