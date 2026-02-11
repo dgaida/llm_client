@@ -3,7 +3,7 @@ name: Tests
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ master, develop ]
     paths-ignore:
       - '**.md'
       - 'LICENSE'
@@ -15,7 +15,7 @@ on:
       - '.github/workflows/codeql.yml'
       - '.github/workflows/lint.yml'
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [ master, develop ]
   workflow_dispatch:
     inputs:
       full_test:
