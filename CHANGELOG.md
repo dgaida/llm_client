@@ -210,3 +210,18 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on contributing to this pr
 ## License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+
+## v0.4.0 (2026-02-11)
+
+### Feat
+
+- add automatic versioning and changelog updates
+
+### Fix
+
+- update branch references from main to master
+- enable emoji and icon support in documentation
+- resolve async provider test failures and CI issues
+- resolve async provider test failures and CI issues
+- **tests**: resolve failing async provider tests
+- **tests**: make test_detect_file_type_unsupported deterministic
