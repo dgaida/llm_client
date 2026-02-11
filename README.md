@@ -1,5 +1,7 @@
 # 🧠 LLM Client
 
+![Infografik](docs/infografik.png)
+
 ```mermaid
 graph TD
     subgraph "Ein Code"
