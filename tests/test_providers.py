@@ -784,9 +784,13 @@ class TestProviderFeatures:
         with patch("llm_client.providers.providers.Groq", MagicMock()):
             provider = GroqProvider(llm="llama-3.2-11b-vision-preview", api_key="gsk-test")
 
-            with patch("llm_client.utils.file_utils.detect_file_type", return_value="pdf"):
-                with pytest.raises(ChatCompletionError, match="Groq only supports image files"):
-                    provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["doc.pdf"])
+            with (
+                patch("llm_client.utils.file_utils.detect_file_type", return_value="pdf"),
+                pytest.raises(ChatCompletionError, match="Groq only supports image files"),
+            ):
+                provider.chat_completion_with_files(
+                    [{"role": "user", "content": "see"}], files=["doc.pdf"]
+                )
 
     def test_gemini_with_files(self):
         """Test: Gemini provider with files."""
@@ -809,9 +813,15 @@ class TestProviderFeatures:
         with patch("llm_client.providers.providers.Client", MagicMock()):
             provider = OllamaProvider(llm="llava")
 
-            with patch("llm_client.utils.file_utils.detect_file_type", return_value="pdf"):
-                with pytest.raises(ChatCompletionError, match="Ollama vision models only support image files"):
-                    provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["doc.pdf"])
+            with (
+                patch("llm_client.utils.file_utils.detect_file_type", return_value="pdf"),
+                pytest.raises(
+                    ChatCompletionError, match="Ollama vision models only support image files"
+                ),
+            ):
+                provider.chat_completion_with_files(
+                    [{"role": "user", "content": "see"}], files=["doc.pdf"]
+                )
 
     def test_ollama_tools_not_implemented(self):
         """Test: Ollama tools raise NotImplementedError."""

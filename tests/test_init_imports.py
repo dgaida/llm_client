@@ -4,8 +4,6 @@ import importlib
 import sys
 from unittest.mock import patch
 
-import pytest
-
 
 def test_init_async_import_error():
     """Test: Handle ImportError for async providers in __init__."""

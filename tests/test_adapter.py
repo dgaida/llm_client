@@ -1,6 +1,5 @@
 """Tests für den LLMClientAdapter."""
 
-import sys
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -34,7 +33,7 @@ def mock_llm_client():
 def is_llama_index_installed():
     """Check if llama-index is available."""
     try:
-        from llama_index.core.llms import LLM
+        import llama_index.core.llms  # noqa: F401
         return True
     except ImportError:
         return False
@@ -196,9 +195,11 @@ class TestLLMClientAdapterWithoutLlamaIndex:
         """Test: ImportError wenn llama-index nicht installiert ist."""
         from llm_client.providers import adapter
 
-        with patch("llm_client.providers.adapter.LLAMA_INDEX_AVAILABLE", False):
-            with pytest.raises(ImportError, match="llama-index-core is required"):
-                adapter.LLMClientAdapter(client=mock_llm_client)
+        with (
+            patch("llm_client.providers.adapter.LLAMA_INDEX_AVAILABLE", False),
+            pytest.raises(ImportError, match="llama-index-core is required"),
+        ):
+            adapter.LLMClientAdapter(client=mock_llm_client)
 
 
 class TestLLMClientAdapterIntegration:

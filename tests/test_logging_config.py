@@ -2,10 +2,7 @@
 
 import logging
 import os
-import sys
 from unittest.mock import patch
-
-import pytest
 
 from llm_client.utils.logging_config import (
     disable_logging,
@@ -47,14 +44,16 @@ def test_setup_logging_custom_level():
 
 def test_setup_logging_env_var():
     """Test: setup_logging uses environment variable."""
-    with patch.dict(os.environ, {"LLM_CLIENT_LOG_LEVEL": "INFO"}):
-        with patch("logging.getLogger") as mock_get_logger:
-            mock_logger = mock_get_logger.return_value
-            mock_logger.handlers = []
+    with (
+        patch.dict(os.environ, {"LLM_CLIENT_LOG_LEVEL": "INFO"}),
+        patch("logging.getLogger") as mock_get_logger,
+    ):
+        mock_logger = mock_get_logger.return_value
+        mock_logger.handlers = []
 
-            setup_logging()
+        setup_logging()
 
-            mock_logger.setLevel.assert_called_with(logging.INFO)
+        mock_logger.setLevel.assert_called_with(logging.INFO)
 
 
 def test_setup_logging_force():
