@@ -6,11 +6,15 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from llm_client import LLMClient
+from llm_client import LLMClient, setup_logging
 
 
 class TestGoogleColabIntegration:
     """Tests for Google Colab integration."""
+
+    def setup_method(self):
+        """Set logging to DEBUG for better coverage."""
+        setup_logging(level="DEBUG", force=True)
 
     def test_load_colab_secrets_when_in_colab(self, monkeypatch):
         """Test: Load secrets from Colab userdata."""
@@ -40,6 +44,7 @@ class TestGoogleColabIntegration:
     def test_load_colab_secrets_specific_provider(self, monkeypatch):
         """Test: Load only specific provider key from Colab."""
         monkeypatch.setenv("COLAB_GPU", "1")
+        monkeypatch.delenv("GEMINI_API_KEY", raising=False)
 
         mock_userdata = MagicMock()
         mock_userdata.get.return_value = "AIzaSy-colab-key"
@@ -89,6 +94,7 @@ class TestGoogleColabIntegration:
         """Test: Switching provider in Colab loads new key."""
         monkeypatch.setenv("COLAB_GPU", "1")
         monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        monkeypatch.delenv("GROQ_API_KEY", raising=False)
 
         mock_userdata = MagicMock()
         mock_userdata.get.return_value = "gsk-colab-key"
@@ -110,6 +116,28 @@ class TestGoogleColabIntegration:
             client.switch_provider("groq")
 
             assert client.groq_api_key == "gsk-colab-key"
+
+    def test_colab_secrets_auto_selection(self, monkeypatch):
+        """Test: Load all available keys from Colab for auto-selection."""
+        monkeypatch.setenv("COLAB_GPU", "1")
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        monkeypatch.delenv("GROQ_API_KEY", raising=False)
+
+        mock_userdata = MagicMock()
+        mock_userdata.get.side_effect = lambda key: "key-for-" + key
+
+        mock_colab = MagicMock()
+        mock_colab.userdata = mock_userdata
+
+        with (
+            patch.dict("sys.modules", {"google.colab": mock_colab}),
+            patch("llm_client.providers.providers.OpenAI") as mock_openai,
+        ):
+            mock_openai.return_value = MagicMock()
+            # api_choice is None for auto-selection
+            client = LLMClient(api_choice=None)
+            assert client.openai_api_key == "key-for-OPENAI_API_KEY"
+            assert client.groq_api_key == "key-for-GROQ_API_KEY"
 
 
 class TestLLMClientFromConfig:
@@ -472,3 +500,181 @@ class TestLLMClientStreamingMethods:
             chunks = list(client.chat_completion_stream(messages))
 
             assert chunks == ["Hello", " world"]
+
+
+class TestLLMClientAdditionalCoverage:
+    """Extra tests to reach 95%+."""
+
+    def test_llm_client_init_key_logs(self, monkeypatch):
+        """Test: All API key logging branches in __init__."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
+        monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
+        monkeypatch.setenv("OLLAMA_API_KEY", "ollama-test")
+
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            client = LLMClient()
+            assert client.openai_api_key == "sk-test"
+            assert client.groq_api_key == "gsk-test"
+            assert client.gemini_api_key == "AIzaSy-test"
+            assert client.ollama_api_key == "ollama-test"
+
+    def test_get_api_choice_from_provider_branches(self, monkeypatch):
+        """Test: All branches of _get_api_choice_from_provider."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk")
+        monkeypatch.setenv("GROQ_API_KEY", "gsk")
+        monkeypatch.setenv("GEMINI_API_KEY", "AIza")
+
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            # Groq
+            with patch("llm_client.providers.providers.Groq", MagicMock()):
+                client = LLMClient(api_choice="groq")
+                assert client._get_api_choice_from_provider() == "groq"
+
+            # Gemini
+            client = LLMClient(api_choice="gemini")
+            assert client._get_api_choice_from_provider() == "gemini"
+
+            # Ollama
+            with patch("llm_client.providers.providers.Client", MagicMock()):
+                client = LLMClient(api_choice="ollama")
+                assert client._get_api_choice_from_provider() == "ollama"
+
+            # Unknown
+            client = LLMClient(api_choice="openai")
+            client.provider = MagicMock()
+            client.provider.__class__.__name__ = "UnknownProvider"
+            assert client._get_api_choice_from_provider() == "unknown"
+
+    @pytest.mark.asyncio
+    async def test_achat_completion_stream(self, monkeypatch):
+        """Test: achat_completion_stream method."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+
+        async def mock_stream_gen(msgs):
+            yield "chunk1"
+            yield "chunk2"
+
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_client = MagicMock()
+            mock_client.achat_completion_stream.return_value = mock_stream_gen([])
+            mock_async_openai.return_value = mock_client
+
+            client = LLMClient(api_choice="openai", use_async=True)
+            client.provider = mock_client
+
+            chunks = []
+            async for chunk in client.achat_completion_stream([]):
+                chunks.append(chunk)
+
+            assert chunks == ["chunk1", "chunk2"]
+
+    def test_count_string_tokens_direct(self, monkeypatch):
+        """Test: count_string_tokens implementation."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            client = LLMClient(api_choice="openai")
+            count = client.count_string_tokens("hello")
+            assert count > 0
+
+    def test_chat_completion_with_files_validation_error(self, monkeypatch):
+        """Test: File not found error in chat_completion_with_files."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            client = LLMClient(api_choice="openai")
+            with pytest.raises(FileNotFoundError, match="File not found: nonexistent.jpg"):
+                client.chat_completion_with_files([], files=["nonexistent.jpg"])
+
+    def test_logging_chat_completion_with_files(self, monkeypatch, tmp_path):
+        """Test: Logging branches in chat_completion_with_files."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        test_file = tmp_path / "test.jpg"
+        test_file.write_text("fake image data")
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value.choices[0].message.content = "Response"
+            mock_openai.return_value = mock_client
+
+            client = LLMClient(api_choice="openai")
+            client.chat_completion_with_files(
+                [{"role": "user", "content": "hi"}], files=[str(test_file)]
+            )
+
+    @pytest.mark.asyncio
+    async def test_achat_completion_with_files_no_async_support(self, monkeypatch):
+        """Test: Error when async provider doesn't support files."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            client = LLMClient(api_choice="openai", use_async=True)
+            # Replace provider with one that doesn't have the method
+            client.provider = MagicMock(spec=object)
+
+            with pytest.raises(RuntimeError, match="does not support async file uploads"):
+                await client.achat_completion_with_files([], files=None)
+
+    @pytest.mark.asyncio
+    async def test_achat_completion_no_async_support(self, monkeypatch):
+        """Test: Error when async provider doesn't support achat_completion."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            client = LLMClient(api_choice="openai", use_async=False)
+            client.provider = MagicMock(spec=object)
+            with pytest.raises(RuntimeError, match="does not support async"):
+                await client.achat_completion([])
+
+    @pytest.mark.asyncio
+    async def test_achat_completion_with_tools_no_async_support(self, monkeypatch):
+        """Test: Error when async provider doesn't support tools."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            client = LLMClient(api_choice="openai", use_async=False)
+            client.provider = MagicMock(spec=object)
+            with pytest.raises(RuntimeError, match="does not support async tools"):
+                await client.achat_completion_with_tools([], [])
+
+    def test_switch_provider_params_logging(self, monkeypatch):
+        """Test: switch_provider parameter branches."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk")
+        monkeypatch.setenv("GROQ_API_KEY", "gsk")
+        with (
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+            patch("llm_client.providers.providers.Groq", MagicMock()),
+        ):
+            client = LLMClient(api_choice="openai")
+            client.switch_provider("groq", temperature=0.1, max_tokens=100, use_ollama_cloud=True)
+            assert client.temperature == 0.1
+            assert client.max_tokens == 100
+            assert client.use_ollama_cloud is True
+
+    def test_load_colab_secrets_unfilled_only(self, monkeypatch):
+        """Test: colab secrets only fill empty keys."""
+        monkeypatch.setenv("COLAB_GPU", "1")
+        mock_userdata = MagicMock()
+        mock_userdata.get.return_value = "colab-key"
+        with (
+            patch.dict("sys.modules", {"google.colab": MagicMock(userdata=mock_userdata)}),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+        ):
+            client = LLMClient(api_choice="openai")
+            # Force keys to be None
+            client.openai_api_key = None
+            client.groq_api_key = None
+            client._load_colab_secrets()
+            assert client.openai_api_key == "colab-key"
+            assert client.groq_api_key == "colab-key"
+
+    def test_load_colab_secrets_exception_auto(self, monkeypatch):
+        """Test: colab secrets handles exception during auto-selection."""
+        monkeypatch.setenv("COLAB_GPU", "1")
+        mock_userdata = MagicMock()
+        mock_userdata.get.side_effect = Exception("Colab error")
+        with (
+            patch.dict("sys.modules", {"google.colab": MagicMock(userdata=mock_userdata)}),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+        ):
+            client = LLMClient(api_choice="openai")
+            client.openai_api_key = None
+            # This should hit the except branch in the loop
+            client._load_colab_secrets()
+            assert client.openai_api_key is None

@@ -12,6 +12,7 @@ class ConcreteProvider(BaseProvider):
 
     def _initialize_client(self, **kwargs):
         """Initialize a mock client."""
+        super()._initialize_client(**kwargs)
         self.client = MagicMock()
         self.init_kwargs = kwargs
 
@@ -376,3 +377,53 @@ class TestStreamingSupport:
             list(provider.chat_completion_stream(messages))
 
         assert "Stream error" in str(exc_info.value)
+
+
+class TestToolCallingSupport:
+    """Tests for tool calling functionality."""
+
+    def test_tool_calling_not_implemented_by_default(self):
+        """Test: Tool calling raises NotImplementedError by default."""
+        provider = ConcreteProvider(llm="test-model")
+        with pytest.raises(
+            NotImplementedError, match="ConcreteProvider does not support tool calling"
+        ):
+            provider.chat_completion_with_tools([], [])
+
+    def test_tool_calling_wraps_other_errors(self):
+        """Test: Tool calling wraps other errors in ChatCompletionError."""
+        from llm_client.exceptions import ChatCompletionError
+
+        class ErrorToolProvider(ConcreteProvider):
+            def _chat_completion_with_tools_impl(self, messages, tools, tool_choice=None):
+                raise RuntimeError("Tool error")
+
+        provider = ErrorToolProvider(llm="test-model")
+        with pytest.raises(ChatCompletionError, match="Tool error"):
+            provider.chat_completion_with_tools([], [])
+
+
+class TestFileUploadSupport:
+    """Tests for file upload functionality."""
+
+    def test_file_upload_not_implemented_by_default(self):
+        """Test: File upload raises FileUploadNotSupportedError by default."""
+        from llm_client.exceptions import FileUploadNotSupportedError
+
+        provider = ConcreteProvider(llm="test-model")
+        with pytest.raises(
+            FileUploadNotSupportedError, match="Provider does not support file uploads"
+        ):
+            provider.chat_completion_with_files([], ["test.jpg"])
+
+    def test_file_upload_wraps_other_errors(self):
+        """Test: File upload wraps other errors in ChatCompletionError."""
+        from llm_client.exceptions import ChatCompletionError
+
+        class ErrorFileProvider(ConcreteProvider):
+            def _chat_completion_with_files_impl(self, messages, files=None):
+                raise RuntimeError("File error")
+
+        provider = ErrorFileProvider(llm="test-model")
+        with pytest.raises(ChatCompletionError, match="File error"):
+            provider.chat_completion_with_files([], ["test.jpg"])

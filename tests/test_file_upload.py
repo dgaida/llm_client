@@ -42,6 +42,16 @@ class TestFileUtils:
         """Test detecting PDF file type."""
         assert detect_file_type(mock_pdf_file) == "pdf"
 
+    def test_detect_file_type_audio_video(self, tmp_path):
+        """Test detecting audio and video file types."""
+        audio = tmp_path / "test.mp3"
+        audio.write_text("fake audio")
+        assert detect_file_type(str(audio)) == "audio"
+
+        video = tmp_path / "test.mp4"
+        video.write_text("fake video")
+        assert detect_file_type(str(video)) == "video"
+
     def test_detect_file_type_unsupported(self, tmp_path):
         """Test detection of unsupported file type (could not determine MIME type)."""
         file_path = tmp_path / "test.unknown"
@@ -116,6 +126,55 @@ class TestFileUtils:
         """Test preparing unsupported file for provider."""
         with pytest.raises(ValueError, match="does not support"):
             prepare_files_for_provider([mock_pdf_file], "groq")
+
+    def test_prepare_files_for_provider_gemini(self, mock_image_file, tmp_path):
+        """Test preparing various files for Gemini."""
+        audio = tmp_path / "test.wav"
+        audio.write_bytes(b"wav data")
+
+        prepared = prepare_files_for_provider([mock_image_file, str(audio)], "gemini")
+        assert len(prepared) == 2
+        assert prepared[0]["type"] == "image_url"
+        assert prepared[1]["type"] == "image_url"
+
+    def test_prepare_files_for_provider_ollama(self, mock_image_file):
+        """Test preparing files for Ollama."""
+        prepared = prepare_files_for_provider([mock_image_file], "ollama")
+        assert len(prepared) == 1
+        assert prepared[0]["type"] == "image_url"
+
+    def test_get_mime_type_error(self, tmp_path):
+        """Test MIME type error."""
+        file_path = tmp_path / "test.unknown"
+        file_path.write_text("test")
+        with (
+            patch("mimetypes.guess_type", return_value=(None, None)),
+            pytest.raises(ValueError, match="Could not determine MIME type"),
+        ):
+            get_mime_type(file_path)
+
+    def test_validate_file_invalid_type(self):
+        """Test validation with invalid file type."""
+        with patch(
+            "llm_client.utils.file_utils.detect_file_type", side_effect=ValueError("Invalid")
+        ):
+            is_valid, error = validate_file_for_provider("test.txt", "openai")
+            assert is_valid is False
+            assert error == "Invalid"
+
+    def test_prepare_file_for_openai_pdf(self, mock_pdf_file):
+        """Test preparing PDF for OpenAI."""
+        from llm_client.utils.file_utils import prepare_file_for_openai
+
+        prepared = prepare_file_for_openai(mock_pdf_file)
+        assert prepared["type"] == "file"
+        assert "file" in prepared
+
+    def test_detect_file_type_document(self, tmp_path):
+        """Test detecting document file type."""
+        doc = tmp_path / "test.txt"
+        doc.write_text("plain text")
+        assert detect_file_type(str(doc)) == "document"
 
 
 class TestLLMClientFileUpload:

@@ -445,3 +445,31 @@ class TestProviderFactoryIntegration:
 
             # Groq should be selected since OpenAI is unavailable
             assert isinstance(provider, GroqProvider)
+
+
+class TestProviderFactoryAdvanced:
+    """Extra tests for reaching 95%+ coverage."""
+
+    def test_auto_detect_ollama_cloud_from_model(self):
+        """Test: Auto-detect cloud model from name."""
+        with patch("llm_client.providers.providers.Client", MagicMock()):
+            # Ends with -cloud
+            provider = ProviderFactory.create_provider(
+                api_choice=None, llm="some-model-cloud", ollama_api_key="key"
+            )
+            assert isinstance(provider, OllamaProvider)
+            assert provider.use_cloud is True
+
+    def test_ollama_host_parameter(self):
+        """Test: Pass ollama_host to provider."""
+        with patch("llm_client.providers.providers.Client") as mock_client:
+            ProviderFactory.create_provider(api_choice="ollama", ollama_host="http://custom-host")
+            mock_client.assert_called_with(host="http://custom-host")
+
+    def test_auto_select_ollama_cloud(self):
+        """Test: Auto-select Ollama Cloud if key provided and requested."""
+        with patch("llm_client.providers.providers.Client", MagicMock()):
+            provider_name = ProviderFactory._auto_select_api(
+                None, None, None, ollama_api_key="key", use_ollama_cloud=True
+            )
+            assert provider_name == "ollama"
