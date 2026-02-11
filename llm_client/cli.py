@@ -22,6 +22,7 @@ from pathlib import Path
 
 import click
 
+from . import __version__
 from .config import LLMConfig, generate_config_template
 from .llm_client import LLMClient
 from .providers.provider_factory import ProviderFactory
@@ -74,7 +75,7 @@ def echo_success(message: str) -> None:
 
 
 @click.group()
-@click.version_option(version="0.3.0", prog_name="llm-client")
+@click.version_option(version=__version__, prog_name="llm-client")
 def cli() -> None:
     """Universal CLI for LLM access with multiple providers.
 

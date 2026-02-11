@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 from click.testing import CliRunner
 
+from llm_client import __version__
 from llm_client.cli import cli, echo, echo_error, echo_success
 
 
@@ -348,7 +349,7 @@ class TestCLIVersion:
         """Test --version flag."""
         result = runner.invoke(cli, ["--version"])
         assert result.exit_code == 0
-        assert "0.3.0" in result.output
+        assert __version__ in result.output
 
     def test_help_option(self, runner):
         """Test --help flag."""
