@@ -230,7 +230,9 @@ class TestInteractiveCommand:
 
     @patch("llm_client.cli.LLMClient.from_config")
     @patch("llm_client.cli.Prompt.ask")
-    def test_interactive_from_config(self, mock_ask, mock_from_config, runner, mock_client, tmp_path):
+    def test_interactive_from_config(
+        self, mock_ask, mock_from_config, runner, mock_client, tmp_path
+    ):
         """Test interactive mode from config file."""
         config_file = tmp_path / "config.yaml"
         config_file.write_text("default_provider: openai")
@@ -374,7 +376,9 @@ class TestConfigCommands:
         mock_config = Mock()
         mock_config.list_providers.return_value = ["openai", "groq"]
         mock_config.default_provider = "openai"
-        mock_config.get_provider_config.side_effect = lambda p: {"model": "gpt-4o"} if p == "openai" else {"model": "llama3"}
+        mock_config.get_provider_config.side_effect = lambda p: (
+            {"model": "gpt-4o"} if p == "openai" else {"model": "llama3"}
+        )
         mock_from_file.return_value = mock_config
 
         result = runner.invoke(cli, ["config", "show", str(config_file)])
@@ -597,6 +601,7 @@ class TestCLIVersion:
     def test_main_entry_point(self):
         """Test main entry point."""
         from llm_client.cli import main
+
         with patch("llm_client.cli.cli") as mock_cli:
             main()
             mock_cli.assert_called_once()

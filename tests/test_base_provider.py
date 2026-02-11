@@ -378,13 +378,16 @@ class TestStreamingSupport:
 
         assert "Stream error" in str(exc_info.value)
 
+
 class TestToolCallingSupport:
     """Tests for tool calling functionality."""
 
     def test_tool_calling_not_implemented_by_default(self):
         """Test: Tool calling raises NotImplementedError by default."""
         provider = ConcreteProvider(llm="test-model")
-        with pytest.raises(NotImplementedError, match="ConcreteProvider does not support tool calling"):
+        with pytest.raises(
+            NotImplementedError, match="ConcreteProvider does not support tool calling"
+        ):
             provider.chat_completion_with_tools([], [])
 
     def test_tool_calling_wraps_other_errors(self):
@@ -399,14 +402,18 @@ class TestToolCallingSupport:
         with pytest.raises(ChatCompletionError, match="Tool error"):
             provider.chat_completion_with_tools([], [])
 
+
 class TestFileUploadSupport:
     """Tests for file upload functionality."""
 
     def test_file_upload_not_implemented_by_default(self):
         """Test: File upload raises FileUploadNotSupportedError by default."""
         from llm_client.exceptions import FileUploadNotSupportedError
+
         provider = ConcreteProvider(llm="test-model")
-        with pytest.raises(FileUploadNotSupportedError, match="Provider does not support file uploads"):
+        with pytest.raises(
+            FileUploadNotSupportedError, match="Provider does not support file uploads"
+        ):
             provider.chat_completion_with_files([], ["test.jpg"])
 
     def test_file_upload_wraps_other_errors(self):

@@ -149,13 +149,15 @@ class TestFileUtils:
         file_path.write_text("test")
         with (
             patch("mimetypes.guess_type", return_value=(None, None)),
-            pytest.raises(ValueError, match="Could not determine MIME type")
+            pytest.raises(ValueError, match="Could not determine MIME type"),
         ):
             get_mime_type(file_path)
 
     def test_validate_file_invalid_type(self):
         """Test validation with invalid file type."""
-        with patch("llm_client.utils.file_utils.detect_file_type", side_effect=ValueError("Invalid")):
+        with patch(
+            "llm_client.utils.file_utils.detect_file_type", side_effect=ValueError("Invalid")
+        ):
             is_valid, error = validate_file_for_provider("test.txt", "openai")
             assert is_valid is False
             assert error == "Invalid"
@@ -163,6 +165,7 @@ class TestFileUtils:
     def test_prepare_file_for_openai_pdf(self, mock_pdf_file):
         """Test preparing PDF for OpenAI."""
         from llm_client.utils.file_utils import prepare_file_for_openai
+
         prepared = prepare_file_for_openai(mock_pdf_file)
         assert prepared["type"] == "file"
         assert "file" in prepared

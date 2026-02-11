@@ -34,6 +34,7 @@ def is_llama_index_installed():
     """Check if llama-index is available."""
     try:
         import llama_index.core.llms  # noqa: F401
+
         return True
     except ImportError:
         return False
@@ -176,6 +177,7 @@ class TestLLMClientAdapterWithLlamaIndex:
     def test_metadata_without_client_raises_error(self):
         """Test: metadata property raises error without client."""
         from llm_client import LLMClientAdapter
+
         adapter = LLMClientAdapter(client=None)
         with pytest.raises(ValueError, match="LLMClient instance must be provided"):
             _ = adapter.metadata
@@ -183,6 +185,7 @@ class TestLLMClientAdapterWithLlamaIndex:
     def test_chat_without_client_raises_error(self):
         """Test: chat method raises error without client."""
         from llm_client import LLMClientAdapter
+
         adapter = LLMClientAdapter(client=None)
         with pytest.raises(ValueError, match="LLMClient instance must be provided"):
             adapter.chat([])

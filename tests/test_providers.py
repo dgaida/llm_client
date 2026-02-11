@@ -492,6 +492,7 @@ class TestProviderEdgeCases:
             call_args = mock_client.chat.completions.create.call_args
             assert len(call_args[1]["messages"]) == 4
 
+
 class TestProviderFeatures:
     """Tests for advanced provider features."""
 
@@ -508,7 +509,9 @@ class TestProviderFeatures:
             provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
 
             with patch("llm_client.utils.file_utils.prepare_files_for_provider") as mock_prepare:
-                mock_prepare.return_value = [{"type": "image_url", "image_url": {"url": "data:image/jpeg;base64,..."}}]
+                mock_prepare.return_value = [
+                    {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64,..."}}
+                ]
 
                 messages = [{"role": "user", "content": "Analyze this"}]
                 response = provider.chat_completion_with_files(messages, files=["test.jpg"])
@@ -554,14 +557,13 @@ class TestProviderFeatures:
                 llm="gpt-oss:120b-cloud",
                 api_key="cloud-key",
                 use_cloud=True,
-                host="https://custom.ollama.com"
+                host="https://custom.ollama.com",
             )
 
             assert provider.use_cloud is True
             assert provider.host == "https://custom.ollama.com"
             mock_client.assert_called_once_with(
-                host="https://custom.ollama.com",
-                headers={"Authorization": "Bearer cloud-key"}
+                host="https://custom.ollama.com", headers={"Authorization": "Bearer cloud-key"}
             )
 
     def test_ollama_with_files(self):
@@ -577,11 +579,10 @@ class TestProviderFeatures:
 
             with (
                 patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
-                patch("llm_client.utils.file_utils.encode_file_base64", return_value="base64data")
+                patch("llm_client.utils.file_utils.encode_file_base64", return_value="base64data"),
             ):
                 response = provider.chat_completion_with_files(
-                    [{"role": "user", "content": "What is this?"}],
-                    files=["image.png"]
+                    [{"role": "user", "content": "What is this?"}], files=["image.png"]
                 )
 
                 assert response == "Ollama vision response"
@@ -644,7 +645,7 @@ class TestProviderFeatures:
                 temperature=0.7,
                 max_tokens=512,
                 tools=tools,
-                tool_choice="auto"
+                tool_choice="auto",
             )
 
     def test_ollama_auto_cloud_mode(self):
@@ -674,7 +675,7 @@ class TestProviderFeatures:
                 temperature=0.7,
                 max_tokens=512,
                 tools=tools,
-                tool_choice="required"
+                tool_choice="required",
             )
 
     def test_groq_with_tools_choice(self):
@@ -698,7 +699,7 @@ class TestProviderFeatures:
                 temperature=0.7,
                 max_tokens=512,
                 tools=tools,
-                tool_choice="none"
+                tool_choice="none",
             )
 
     def test_openai_streaming(self):
@@ -774,9 +775,14 @@ class TestProviderFeatures:
 
             with (
                 patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
-                patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}])
+                patch(
+                    "llm_client.utils.file_utils.prepare_files_for_provider",
+                    return_value=[{"type": "image_url", "image_url": {"url": "..."}}],
+                ),
             ):
-                response = provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["img.jpg"])
+                response = provider.chat_completion_with_files(
+                    [{"role": "user", "content": "see"}], files=["img.jpg"]
+                )
                 assert response == "Groq vision"
 
     def test_groq_with_invalid_file_type_raises_error(self):
@@ -804,8 +810,13 @@ class TestProviderFeatures:
 
             provider = GeminiProvider(llm="gemini-1.5-pro", api_key="AIzaSy-test")
 
-            with patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}]):
-                response = provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["img.jpg"])
+            with patch(
+                "llm_client.utils.file_utils.prepare_files_for_provider",
+                return_value=[{"type": "image_url", "image_url": {"url": "..."}}],
+            ):
+                response = provider.chat_completion_with_files(
+                    [{"role": "user", "content": "see"}], files=["img.jpg"]
+                )
                 assert response == "Gemini vision"
 
     def test_ollama_with_invalid_file_type_raises_error(self):
@@ -827,7 +838,9 @@ class TestProviderFeatures:
         """Test: Ollama tools raise NotImplementedError."""
         with patch("llm_client.providers.providers.Client", MagicMock()):
             provider = OllamaProvider(llm="llama3")
-            with pytest.raises(NotImplementedError, match="OllamaProvider does not support tool calling"):
+            with pytest.raises(
+                NotImplementedError, match="OllamaProvider does not support tool calling"
+            ):
                 provider.chat_completion_with_tools([], [])
 
     def test_openai_none_content(self):
@@ -869,7 +882,10 @@ class TestProviderFeatures:
 
             with (
                 patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
-                patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}])
+                patch(
+                    "llm_client.utils.file_utils.prepare_files_for_provider",
+                    return_value=[{"type": "image_url", "image_url": {"url": "..."}}],
+                ),
             ):
                 # No messages provided
                 response = provider.chat_completion_with_files([], files=["img.jpg"])
@@ -887,7 +903,10 @@ class TestProviderFeatures:
 
             provider = GeminiProvider(llm="gemini-1.5-pro", api_key="AIzaSy-test")
 
-            with patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}]):
+            with patch(
+                "llm_client.utils.file_utils.prepare_files_for_provider",
+                return_value=[{"type": "image_url", "image_url": {"url": "..."}}],
+            ):
                 response = provider.chat_completion_with_files([], files=["img.jpg"])
                 assert response == "Gemini vision"
 
@@ -991,7 +1010,10 @@ class TestProviderFeatures:
                 mock_prepare.return_value = [{"type": "image_url", "image_url": {"url": "..."}}]
 
                 # Last message is assistant
-                messages = [{"role": "user", "content": "hi"}, {"role": "assistant", "content": "hello"}]
+                messages = [
+                    {"role": "user", "content": "hi"},
+                    {"role": "assistant", "content": "hello"},
+                ]
                 provider.chat_completion_with_files(messages, files=["test.jpg"])
 
                 call_args = mock_client.chat.completions.create.call_args[1]

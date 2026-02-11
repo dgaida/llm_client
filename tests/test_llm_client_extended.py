@@ -597,7 +597,9 @@ class TestLLMClientAdditionalCoverage:
             mock_openai.return_value = mock_client
 
             client = LLMClient(api_choice="openai")
-            client.chat_completion_with_files([{"role": "user", "content": "hi"}], files=[str(test_file)])
+            client.chat_completion_with_files(
+                [{"role": "user", "content": "hi"}], files=[str(test_file)]
+            )
 
     @pytest.mark.asyncio
     async def test_achat_completion_with_files_no_async_support(self, monkeypatch):
@@ -637,7 +639,7 @@ class TestLLMClientAdditionalCoverage:
         monkeypatch.setenv("GROQ_API_KEY", "gsk")
         with (
             patch("llm_client.providers.providers.OpenAI", MagicMock()),
-            patch("llm_client.providers.providers.Groq", MagicMock())
+            patch("llm_client.providers.providers.Groq", MagicMock()),
         ):
             client = LLMClient(api_choice="openai")
             client.switch_provider("groq", temperature=0.1, max_tokens=100, use_ollama_cloud=True)
@@ -652,7 +654,7 @@ class TestLLMClientAdditionalCoverage:
         mock_userdata.get.return_value = "colab-key"
         with (
             patch.dict("sys.modules", {"google.colab": MagicMock(userdata=mock_userdata)}),
-            patch("llm_client.providers.providers.OpenAI", MagicMock())
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
         ):
             client = LLMClient(api_choice="openai")
             # Force keys to be None
@@ -669,7 +671,7 @@ class TestLLMClientAdditionalCoverage:
         mock_userdata.get.side_effect = Exception("Colab error")
         with (
             patch.dict("sys.modules", {"google.colab": MagicMock(userdata=mock_userdata)}),
-            patch("llm_client.providers.providers.OpenAI", MagicMock())
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
         ):
             client = LLMClient(api_choice="openai")
             client.openai_api_key = None
