@@ -4,7 +4,6 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - main
       - master
 
 jobs:
@@ -47,5 +46,5 @@ jobs:
 
       - name: Push changes
         run: |
-          # Push the commit and the new tag back to main
-          git push origin main --tags
+          # Push the commit and the new tag back to master
+          git push origin master --tags

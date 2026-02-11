@@ -695,4 +695,4 @@ Wenn das Problem weiterhin besteht:
 
 - [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests
 - [GitHub Discussions](https://github.com/dgaida/llm_client/discussions) - Fragen & Diskussionen
-- [Dokumentation](https://github.com/dgaida/llm_client/tree/main/docs) - Vollständige Dokumentation
+- [Dokumentation](https://github.com/dgaida/llm_client/tree/master/docs) - Vollständige Dokumentation
