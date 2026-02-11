@@ -491,3 +491,499 @@ class TestProviderEdgeCases:
             assert response == "Final response"
             call_args = mock_client.chat.completions.create.call_args
             assert len(call_args[1]["messages"]) == 4
+
+class TestProviderFeatures:
+    """Tests for advanced provider features."""
+
+    def test_openai_with_files(self):
+        """Test: OpenAI provider handles file uploads."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "File response"
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+
+            with patch("llm_client.utils.file_utils.prepare_files_for_provider") as mock_prepare:
+                mock_prepare.return_value = [{"type": "image_url", "image_url": {"url": "data:image/jpeg;base64,..."}}]
+
+                messages = [{"role": "user", "content": "Analyze this"}]
+                response = provider.chat_completion_with_files(messages, files=["test.jpg"])
+
+                assert response == "File response"
+                mock_client.chat.completions.create.assert_called_once()
+                call_args = mock_client.chat.completions.create.call_args[1]
+                assert isinstance(call_args["messages"][0]["content"], list)
+
+    def test_openai_with_tools(self):
+        """Test: OpenAI provider handles tool calls."""
+        mock_response = MagicMock()
+        mock_tool_call = MagicMock()
+        mock_tool_call.id = "call_123"
+        mock_tool_call.type = "function"
+        mock_tool_call.function.name = "get_weather"
+        mock_tool_call.function.arguments = '{"location": "Berlin"}'
+
+        mock_response.choices[0].message.content = "Thinking..."
+        mock_response.choices[0].message.tool_calls = [mock_tool_call]
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            tools = [{"type": "function", "function": {"name": "get_weather"}}]
+
+            result = provider.chat_completion_with_tools([], tools)
+
+            assert result["content"] == "Thinking..."
+            assert len(result["tool_calls"]) == 1
+            assert result["tool_calls"][0]["function"]["name"] == "get_weather"
+
+    def test_ollama_cloud_mode(self):
+        """Test: OllamaProvider in cloud mode."""
+        with patch("llm_client.providers.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_client.return_value = mock_instance
+
+            provider = OllamaProvider(
+                llm="gpt-oss:120b-cloud",
+                api_key="cloud-key",
+                use_cloud=True,
+                host="https://custom.ollama.com"
+            )
+
+            assert provider.use_cloud is True
+            assert provider.host == "https://custom.ollama.com"
+            mock_client.assert_called_once_with(
+                host="https://custom.ollama.com",
+                headers={"Authorization": "Bearer cloud-key"}
+            )
+
+    def test_ollama_with_files(self):
+        """Test: OllamaProvider handles file uploads."""
+        mock_response = {"message": {"content": "Ollama vision response"}}
+
+        with patch("llm_client.providers.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_response
+            mock_client.return_value = mock_instance
+
+            provider = OllamaProvider(llm="llava")
+
+            with (
+                patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
+                patch("llm_client.utils.file_utils.encode_file_base64", return_value="base64data")
+            ):
+                response = provider.chat_completion_with_files(
+                    [{"role": "user", "content": "What is this?"}],
+                    files=["image.png"]
+                )
+
+                assert response == "Ollama vision response"
+                mock_instance.chat.assert_called_once()
+                call_kwargs = mock_instance.chat.call_args[1]
+                assert "images" in call_kwargs["messages"][0]
+
+    def test_groq_with_tools(self):
+        """Test: GroqProvider handles tool calls."""
+        mock_response = MagicMock()
+        mock_tool_call = MagicMock()
+        mock_tool_call.id = "call_456"
+        mock_tool_call.type = "function"
+        mock_tool_call.function.name = "calculate"
+        mock_tool_call.function.arguments = '{"expr": "2+2"}'
+
+        mock_response.choices[0].message.content = None
+        mock_response.choices[0].message.tool_calls = [mock_tool_call]
+
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_groq.return_value = mock_client
+
+            provider = GroqProvider(llm="llama3-groq-70b-8192-tool-use-preview", api_key="gsk-test")
+            tools = [{"type": "function", "function": {"name": "calculate"}}]
+
+            result = provider.chat_completion_with_tools([], tools)
+
+            assert result["content"] is None
+            assert result["tool_calls"][0]["function"]["name"] == "calculate"
+
+    def test_gemini_with_tools(self):
+        """Test: GeminiProvider handles tool calls."""
+        mock_response = MagicMock()
+        mock_tool_call = MagicMock()
+        mock_tool_call.id = "call_789"
+        mock_tool_call.type = "function"
+        mock_tool_call.function.name = "search"
+        mock_tool_call.function.arguments = '{"query": "news"}'
+
+        mock_response.choices[0].message.content = "Searching..."
+        mock_response.choices[0].message.tool_calls = [mock_tool_call]
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = GeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            tools = [{"type": "function", "function": {"name": "search"}}]
+
+            result = provider.chat_completion_with_tools([], tools, tool_choice="auto")
+
+            assert result["content"] == "Searching..."
+            assert result["tool_calls"][0]["function"]["name"] == "search"
+            mock_client.chat.completions.create.assert_called_with(
+                model="gemini-2.0-flash-exp",
+                messages=[],
+                temperature=0.7,
+                max_tokens=512,
+                tools=tools,
+                tool_choice="auto"
+            )
+
+    def test_ollama_auto_cloud_mode(self):
+        """Test: Ollama auto-detects cloud mode from model name."""
+        with patch("llm_client.providers.providers.Client", MagicMock()):
+            provider = OllamaProvider(llm="some-model-cloud", api_key="sk-key")
+            assert provider.use_cloud is True
+
+    def test_openai_with_tools_choice(self):
+        """Test: OpenAI provider handles tool_choice."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Thinking..."
+        mock_response.choices[0].message.tool_calls = None
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            tools = [{"type": "function", "function": {"name": "get_weather"}}]
+
+            provider.chat_completion_with_tools([], tools, tool_choice="required")
+            mock_client.chat.completions.create.assert_called_with(
+                model="gpt-4o",
+                messages=[],
+                temperature=0.7,
+                max_tokens=512,
+                tools=tools,
+                tool_choice="required"
+            )
+
+    def test_groq_with_tools_choice(self):
+        """Test: Groq provider handles tool_choice."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Thinking..."
+        mock_response.choices[0].message.tool_calls = None
+
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_groq.return_value = mock_client
+
+            provider = GroqProvider(llm="llama3", api_key="gsk-test")
+            tools = [{"type": "function", "function": {"name": "get_weather"}}]
+
+            provider.chat_completion_with_tools([], tools, tool_choice="none")
+            mock_client.chat.completions.create.assert_called_with(
+                model="llama3",
+                messages=[],
+                temperature=0.7,
+                max_tokens=512,
+                tools=tools,
+                tool_choice="none"
+            )
+
+    def test_openai_streaming(self):
+        """Test: OpenAI provider streaming."""
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "Test chunk"
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = [mock_chunk]
+            mock_openai.return_value = mock_client
+
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            chunks = list(provider.chat_completion_stream([{"role": "user", "content": "hi"}]))
+
+            assert chunks == ["Test chunk"]
+
+    def test_groq_streaming(self):
+        """Test: Groq provider streaming."""
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "Groq chunk"
+
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = [mock_chunk]
+            mock_groq.return_value = mock_client
+
+            provider = GroqProvider(llm="llama3-8b", api_key="gsk-test")
+            chunks = list(provider.chat_completion_stream([{"role": "user", "content": "hi"}]))
+
+            assert chunks == ["Groq chunk"]
+
+    def test_gemini_streaming(self):
+        """Test: Gemini provider streaming."""
+        mock_chunk = MagicMock()
+        mock_chunk.choices[0].delta.content = "Gemini chunk"
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = [mock_chunk]
+            mock_openai.return_value = mock_client
+
+            provider = GeminiProvider(llm="gemini-2.0-flash", api_key="AIzaSy-test")
+            chunks = list(provider.chat_completion_stream([{"role": "user", "content": "hi"}]))
+
+            assert chunks == ["Gemini chunk"]
+
+    def test_ollama_streaming(self):
+        """Test: Ollama provider streaming."""
+        mock_stream = [{"message": {"content": "O"}}, {"message": {"content": "k"}}]
+
+        with patch("llm_client.providers.providers.Client") as mock_client:
+            mock_instance = MagicMock()
+            mock_instance.chat.return_value = mock_stream
+            mock_client.return_value = mock_instance
+
+            provider = OllamaProvider(llm="llama3")
+            chunks = list(provider.chat_completion_stream([{"role": "user", "content": "hi"}]))
+
+            assert chunks == ["O", "k"]
+
+    def test_groq_with_files(self):
+        """Test: Groq provider with files (images)."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Groq vision"
+
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_groq.return_value = mock_client
+
+            provider = GroqProvider(llm="llama-3.2-11b-vision-preview", api_key="gsk-test")
+
+            with (
+                patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
+                patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}])
+            ):
+                response = provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["img.jpg"])
+                assert response == "Groq vision"
+
+    def test_groq_with_invalid_file_type_raises_error(self):
+        """Test: Groq raises error for non-image files."""
+        with patch("llm_client.providers.providers.Groq", MagicMock()):
+            provider = GroqProvider(llm="llama-3.2-11b-vision-preview", api_key="gsk-test")
+
+            with patch("llm_client.utils.file_utils.detect_file_type", return_value="pdf"):
+                with pytest.raises(ChatCompletionError, match="Groq only supports image files"):
+                    provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["doc.pdf"])
+
+    def test_gemini_with_files(self):
+        """Test: Gemini provider with files."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Gemini vision"
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = GeminiProvider(llm="gemini-1.5-pro", api_key="AIzaSy-test")
+
+            with patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}]):
+                response = provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["img.jpg"])
+                assert response == "Gemini vision"
+
+    def test_ollama_with_invalid_file_type_raises_error(self):
+        """Test: Ollama raises error for non-image files."""
+        with patch("llm_client.providers.providers.Client", MagicMock()):
+            provider = OllamaProvider(llm="llava")
+
+            with patch("llm_client.utils.file_utils.detect_file_type", return_value="pdf"):
+                with pytest.raises(ChatCompletionError, match="Ollama vision models only support image files"):
+                    provider.chat_completion_with_files([{"role": "user", "content": "see"}], files=["doc.pdf"])
+
+    def test_ollama_tools_not_implemented(self):
+        """Test: Ollama tools raise NotImplementedError."""
+        with patch("llm_client.providers.providers.Client", MagicMock()):
+            provider = OllamaProvider(llm="llama3")
+            with pytest.raises(NotImplementedError, match="OllamaProvider does not support tool calling"):
+                provider.chat_completion_with_tools([], [])
+
+    def test_openai_none_content(self):
+        """Test: OpenAI handles None content."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = None
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            response = provider.chat_completion([])
+            assert response is None
+
+    def test_openai_stream_no_client(self):
+        """Test: OpenAI stream raises error if no client."""
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            provider.client = None
+            # Since _chat_completion_stream_impl is a generator, the error
+            # is raised during iteration, not when calling the method.
+            # And it's not wrapped by BaseProvider because it's already returned.
+            with pytest.raises(RuntimeError, match="OpenAI client not initialized"):
+                list(provider.chat_completion_stream([]))
+
+    def test_groq_with_files_no_user_msg(self):
+        """Test: Groq with files when no user message exists."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Groq vision"
+
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_groq.return_value = mock_client
+
+            provider = GroqProvider(llm="llama-3.2-11b-vision-preview", api_key="gsk-test")
+
+            with (
+                patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
+                patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}])
+            ):
+                # No messages provided
+                response = provider.chat_completion_with_files([], files=["img.jpg"])
+                assert response == "Groq vision"
+
+    def test_gemini_with_files_no_user_msg(self):
+        """Test: Gemini with files when no user message exists."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Gemini vision"
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = GeminiProvider(llm="gemini-1.5-pro", api_key="AIzaSy-test")
+
+            with patch("llm_client.utils.file_utils.prepare_files_for_provider", return_value=[{"type": "image_url", "image_url": {"url": "..."}}]):
+                response = provider.chat_completion_with_files([], files=["img.jpg"])
+                assert response == "Gemini vision"
+
+    def test_all_providers_no_client_errors(self):
+        """Test: All providers raise error when client is not initialized."""
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            openai = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            openai.client = None
+            with pytest.raises(ChatCompletionError):
+                openai.chat_completion_with_files([], [])
+            with pytest.raises(ChatCompletionError):
+                openai.chat_completion_with_tools([], [])
+
+        with patch("llm_client.providers.providers.Groq", MagicMock()):
+            groq = GroqProvider(llm="llama3", api_key="gsk-test")
+            groq.client = None
+            with pytest.raises(ChatCompletionError):
+                groq.chat_completion([])
+            with pytest.raises(ChatCompletionError):
+                groq.chat_completion_with_files([], [])
+            with pytest.raises(ChatCompletionError):
+                groq.chat_completion_with_tools([], [])
+            with pytest.raises(RuntimeError):
+                list(groq.chat_completion_stream([]))
+
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            gemini = GeminiProvider(llm="gemini", api_key="AIzaSy")
+            gemini.client = None
+            with pytest.raises(ChatCompletionError):
+                gemini.chat_completion([])
+            with pytest.raises(ChatCompletionError):
+                gemini.chat_completion_with_files([], [])
+            with pytest.raises(ChatCompletionError):
+                gemini.chat_completion_with_tools([], [])
+            with pytest.raises(RuntimeError):
+                list(gemini.chat_completion_stream([]))
+
+    def test_all_providers_none_content(self):
+        """Test: Providers handle None content."""
+        # Groq
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = None
+        with patch("llm_client.providers.providers.Groq") as mock_groq:
+            mock_groq.return_value.chat.completions.create.return_value = mock_response
+            groq = GroqProvider(llm="llama3", api_key="gsk-test")
+            assert groq.chat_completion([]) is None
+
+        # Gemini
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_openai.return_value.chat.completions.create.return_value = mock_response
+            gemini = GeminiProvider(llm="gemini", api_key="AIzaSy")
+            assert gemini.chat_completion([]) is None
+
+    def test_ollama_none_content(self):
+        """Test: Ollama handles None content (though unlikely from API)."""
+        mock_response = {"message": {"content": None}}
+        with patch("llm_client.providers.providers.Client") as mock_client:
+            mock_client.return_value.chat.return_value = mock_response
+            provider = OllamaProvider(llm="llama3")
+            # This might actually raise TypeError in the current implementation
+            # if it tries len(None). Let's see.
+            with pytest.raises(ChatCompletionError):
+                provider.chat_completion([])
+
+    def test_additional_error_logging_branches(self):
+        """Test: Additional error branches for logging."""
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            openai = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            openai.client = None
+            # Covered by test_all_providers_no_client_errors but making sure
+            with pytest.raises(ChatCompletionError):
+                openai.chat_completion_with_files([], [])
+            with pytest.raises(ChatCompletionError):
+                openai.chat_completion_with_tools([], [])
+
+        with patch("llm_client.providers.providers.Groq", MagicMock()):
+            groq = GroqProvider(llm="llama3", api_key="gsk-test")
+            groq.client = None
+            with pytest.raises(ChatCompletionError):
+                groq.chat_completion_with_files([], [])
+
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            gemini = GeminiProvider(llm="gemini", api_key="AIzaSy")
+            gemini.client = None
+            with pytest.raises(ChatCompletionError):
+                gemini.chat_completion_with_files([], [])
+
+    def test_openai_with_files_new_message(self):
+        """Test: OpenAI provider adds new message if last message is not user."""
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "Response"
+
+        with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create.return_value = mock_response
+            mock_openai.return_value = mock_client
+
+            provider = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+
+            with patch("llm_client.utils.file_utils.prepare_files_for_provider") as mock_prepare:
+                mock_prepare.return_value = [{"type": "image_url", "image_url": {"url": "..."}}]
+
+                # Last message is assistant
+                messages = [{"role": "user", "content": "hi"}, {"role": "assistant", "content": "hello"}]
+                provider.chat_completion_with_files(messages, files=["test.jpg"])
+
+                call_args = mock_client.chat.completions.create.call_args[1]
+                assert len(call_args["messages"]) == 3
+                assert call_args["messages"][2]["role"] == "user"

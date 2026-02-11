@@ -31,7 +31,16 @@ def mock_llm_client():
     return client
 
 
-@pytest.mark.skipif(not LLAMA_INDEX_INSTALLED, reason="llama-index-core not installed")
+def is_llama_index_installed():
+    """Check if llama-index is available."""
+    try:
+        from llama_index.core.llms import LLM
+        return True
+    except ImportError:
+        return False
+
+
+@pytest.mark.skipif(not is_llama_index_installed(), reason="llama-index-core not installed")
 class TestLLMClientAdapterWithLlamaIndex:
     """Tests für LLMClientAdapter wenn llama-index installiert ist."""
 
@@ -162,32 +171,40 @@ class TestLLMClientAdapterWithLlamaIndex:
         assert "LLMClientAdapter" in repr_str
         assert "client=" in repr_str
 
+        adapter_no_client = LLMClientAdapter(client=None)
+        assert "client=None" in repr(adapter_no_client)
+
+    def test_metadata_without_client_raises_error(self):
+        """Test: metadata property raises error without client."""
+        from llm_client import LLMClientAdapter
+        adapter = LLMClientAdapter(client=None)
+        with pytest.raises(ValueError, match="LLMClient instance must be provided"):
+            _ = adapter.metadata
+
+    def test_chat_without_client_raises_error(self):
+        """Test: chat method raises error without client."""
+        from llm_client import LLMClientAdapter
+        adapter = LLMClientAdapter(client=None)
+        with pytest.raises(ValueError, match="LLMClient instance must be provided"):
+            adapter.chat([])
+
 
 class TestLLMClientAdapterWithoutLlamaIndex:
     """Tests für LLMClientAdapter wenn llama-index NICHT installiert ist."""
 
     def test_import_error_without_llama_index(self, mock_llm_client):
         """Test: ImportError wenn llama-index nicht installiert ist."""
-        # Mock die llama_index imports
-        with patch.dict(sys.modules, {"llama_index.core.llms": None}):
-            # Modul neu laden um Import-Fehler zu simulieren
-            import importlib
+        from llm_client.providers import adapter
 
-            from llm_client.providers import adapter
-
-            importlib.reload(adapter)
-
+        with patch("llm_client.providers.adapter.LLAMA_INDEX_AVAILABLE", False):
             with pytest.raises(ImportError, match="llama-index-core is required"):
                 adapter.LLMClientAdapter(client=mock_llm_client)
-
-            # Modul wieder normal laden
-            importlib.reload(adapter)
 
 
 class TestLLMClientAdapterIntegration:
     """Integrationstests für den Adapter (falls llama-index verfügbar)."""
 
-    @pytest.mark.skipif(not LLAMA_INDEX_INSTALLED, reason="llama-index-core not installed")
+    @pytest.mark.skipif(not is_llama_index_installed(), reason="llama-index-core not installed")
     def test_integration_with_real_client(self, monkeypatch):
         """Test: Integration mit echtem LLMClient (gemockt)."""
         from llm_client import LLMClient, LLMClientAdapter
@@ -206,7 +223,7 @@ class TestLLMClientAdapterIntegration:
             assert response.message.content == "Mocked response"
             assert response.message.role == "assistant"
 
-    @pytest.mark.skipif(not LLAMA_INDEX_INSTALLED, reason="llama-index-core not installed")
+    @pytest.mark.skipif(not is_llama_index_installed(), reason="llama-index-core not installed")
     def test_empty_messages_handling(self, mock_llm_client):
         """Test: Handling von leeren Nachrichten."""
         from llm_client import LLMClientAdapter
@@ -219,7 +236,7 @@ class TestLLMClientAdapterIntegration:
         mock_llm_client.chat_completion.assert_called_once_with([])
         assert isinstance(response, ChatResponse)
 
-    @pytest.mark.skipif(not LLAMA_INDEX_INSTALLED, reason="llama-index-core not installed")
+    @pytest.mark.skipif(not is_llama_index_installed(), reason="llama-index-core not installed")
     def test_multiple_message_types(self, mock_llm_client):
         """Test: Verschiedene Message-Typen werden korrekt konvertiert."""
         from llm_client import LLMClientAdapter
