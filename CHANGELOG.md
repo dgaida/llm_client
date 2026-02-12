@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 <!-- commitizen-marker -->
 
+## v0.4.1 (2026-02-12)
+
 ## v0.4.0 (2026-02-11)
 
 ### Feat
