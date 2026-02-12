@@ -42,7 +42,8 @@ jobs:
         run: |
           # cz bump handles version bumping in pyproject.toml and llm_client/__init__.py,
           # updates CHANGELOG.md, and creates a git commit and tag.
-          cz bump --yes
+          # Force patch increment as per user request.
+          cz bump --yes --increment PATCH
 
       - name: Push changes
         run: |
