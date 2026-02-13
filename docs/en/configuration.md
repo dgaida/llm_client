@@ -102,7 +102,7 @@ client = LLMClient()
 print(f"Using: {client.api_choice}")  # e.g., "openai"
 ```
 
-[:octicons-arrow-right-24: Learn more](getting_started.md#automatic-api-selection)
+[:octicons-arrow-right-24: Learn more](getting-started.md#automatic-api-selection)
 
 ---
 
@@ -127,7 +127,7 @@ gemini_client = LLMClient(api_choice="gemini")
 response3 = gemini_client.chat_completion(messages)
 ```
 
-[:octicons-arrow-right-24: See examples](examples/basic-usage.md)
+[:octicons-arrow-right-24: See examples](usage/basic-usage.md)
 
 ---
 
@@ -147,7 +147,7 @@ if token_count < 4000:
     response = client.chat_completion(messages)
 ```
 
-[:octicons-arrow-right-24: Token Counting Guide](features/token_counting.md)
+[:octicons-arrow-right-24: Token Counting Guide](usage/token-counting.md)
 
 ---
 
@@ -331,7 +331,7 @@ client = LLMClient(
 - Fast inference
 - Easy switching between local and cloud
 
-[:octicons-arrow-right-24: Ollama Cloud Guide](providers/ollama_cloud.md)
+[:octicons-arrow-right-24: Ollama Cloud Guide](usage/providers/ollama_cloud.md)
 
 ---
 
@@ -351,7 +351,7 @@ setup_logging(level="DEBUG")
 client = LLMClient()
 ```
 
-[:octicons-arrow-right-24: Logging Guide](LOGGING.md)
+[:octicons-arrow-right-24: Logging Guide](development/logging.md)
 
 ---
 
@@ -484,15 +484,15 @@ Features planned for future releases:
 
 ## 📚 Learn More
 
-- [Getting Started](getting_started.md) - Installation and setup
+- [Getting Started](getting-started.md) - Installation and setup
 - [API Reference](api/llm_client.md) - Complete API documentation
-- [Examples](examples/basic-usage.md) - Real-world examples
+- [Examples](usage/basic-usage.md) - Real-world examples
 - [Troubleshooting](troubleshooting.md) - Common issues
 
 ---
 
 ## 💡 Need Help?
 
-- 📖 [Documentation](getting_started.md)
+- 📖 [Documentation](getting-started.md)
 - 🐛 [Report Issues](https://github.com/dgaida/llm_client/issues)
 - 💬 [Discussions](https://github.com/dgaida/llm_client/discussions)

@@ -42,7 +42,7 @@ def generate_api_docs():
         "en": {"dir": Path("docs/en/api"), "titles": titles_en, "heading": "API Reference"},
     }
 
-    for lang, config in langs.items():
+    for config in langs.values():
         api_dir = config["dir"]
         api_dir.mkdir(parents=True, exist_ok=True)
         titles = config["titles"]

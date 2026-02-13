@@ -177,7 +177,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 - Comprehensive README with examples
-- Contribution guidelines (CONTRIBUTING.md)
+- Contribution guidelines (development/contributing.md)
 - Test documentation (tests/README.md)
 - Notebook tutorials for RAG applications
 
@@ -225,7 +225,7 @@ No breaking changes. New features work automatically:
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on contributing to this project.
+See [development/contributing.md](development/contributing.md) for guidelines on contributing to this project.
 
 ## License
 

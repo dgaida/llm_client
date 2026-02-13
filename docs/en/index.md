@@ -1,102 +1,69 @@
-# LLM Client Documentation
+# 🧠 LLM Client
 
-Welcome to the LLM Client documentation!
+![Infographic](infografik.png)
 
-A universal Python client for accessing various Large Language Models through OpenAI, Groq, Google Gemini, or Ollama – with automatic API detection, dynamic provider switching, token counting, async support, and configuration file management.
+```mermaid
+graph TD
+    subgraph "One Code"
+        CODE["client = LLMClient()<br/>response = client.chat_completion(messages)"]
+    end
+
+    subgraph "Four APIs"
+        OPENAI[OpenAI]
+        GROQ[Groq]
+        GEMINI[Gemini]
+        OLLAMA[Ollama<br/>Local/Cloud]
+    end
+
+    subgraph "Many Possibilities"
+        SWITCH[🔄 Switch Provider]
+        TOKENS[📊 Monitor Costs]
+        ASYNC[⚡ Async/Await]
+        STREAM[🌊 Streaming]
+        FILES[📎 Send Files]
+    end
+
+    CODE --> OPENAI
+    CODE --> GROQ
+    CODE --> GEMINI
+    CODE --> OLLAMA
+
+    GEMINI -.-> ASYNC
+    GEMINI -.-> SWITCH
+    GEMINI -.-> TOKENS
+    GEMINI -.-> STREAM
+    GEMINI -.-> FILES
+
+    classDef codeClass fill:#e1f5ff,stroke:#01579b,stroke-width:3px,color:#000
+    classDef apiClass fill:#e8f5e green,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef featureClass fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+
+    class CODE codeClass
+    class OPENAI,GROQ,GEMINI,OLLAMA apiClass
+    class SWITCH,TOKENS,ASYNC,STREAM,FILES featureClass
+```
+
+A universal Python client for accessing various Large Language Models (LLMs) via **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) or [**Ollama**](https://ollama.com/) – with automatic API detection, dynamic provider switching, token counting, async support, and configuration file management.
 
 ---
 
-## 🎯 Quick Links
-
-<div class="grid cards" markdown>
-
--   :material-clock-fast:{ .lg .middle } __Quick Start__
-
-    ---
-
-    Get started in minutes with our installation guide
-
-    [:octicons-arrow-right-24: Installation](getting_started.md)
-
--   :material-book-open-variant:{ .lg .middle } __Features__
-
-    ---
-
-    Explore all features of LLM Client
-
-    [:octicons-arrow-right-24: Features Overview](features_overview.md)
-
--   :material-code-braces:{ .lg .middle } __API Reference__
-
-    ---
-
-    Complete API documentation
-
-    [:octicons-arrow-right-24: API Docs](api/llm_client.md)
-
--   :material-package-variant:{ .lg .middle } __Examples__
-
-    ---
-
-    Real-world examples and use cases
-
-    [:octicons-arrow-right-24: Examples](examples/basic-usage.md)
-
-</div>
-
----
-
-## ✨ Features
+## 🚀 Features
 
 ### Core Features
 * 🔍 **Automatic API Detection** - Uses available API keys or falls back to Ollama
 * ⚙️ **Unified Interface** - One method for all LLM backends
-* 🔄 **Dynamic Provider Switching** - Switch between APIs at runtime without creating new objects
+* 🔄 **Dynamic Provider Switching** - Switch between APIs at runtime without creating a new object
 * 🧩 **Flexible Configuration** - Model, temperature, tokens freely adjustable
 * 🔐 **Google Colab Support** - Automatic loading of secrets from userdata
 * 📦 **Zero-Config** - Works out-of-the-box with Ollama
 
-### Advanced Features (v0.3.0)
-* 📊 **Token Counting** - Accurate token counting with tiktoken
-* ⚡ **Async Support** - Full async/await support for non-blocking operations
-* 📁 **Configuration Files** - YAML/JSON config for multi-provider setups
-* 🌊 **Response Streaming** - Stream tokens in real-time
-* 🧰 **Tool Calling** - OpenAI-compatible function calling
-* 📎 **File Upload** - Send images, PDFs, videos with messages
-* ☁️ **Ollama Cloud** - Access cloud models without local GPU
-
 ### Architecture
 * 🏗️ **Strategy Pattern** - Clean architecture with provider classes
-* 🏭 **Factory Pattern** - Centralized provider creation and management
-* 🧪 **Full Test Coverage** - pytest-based with >92% code coverage
+* 🏭 **Factory Pattern** - Central provider creation and management
+* 🧪 **Full Tests** - Pytest-based with >92% code coverage
+* 🌟 **Google Gemini Support** - Use via OpenAI compatibility mode
 
----
-
-## 📦 Installation
-
-=== "Quick Install"
-
-    ```bash
-    pip install git+https://github.com/dgaida/llm_client.git
-    ```
-
-=== "Development Install"
-
-    ```bash
-    git clone https://github.com/dgaida/llm_client.git
-    cd llm_client
-    pip install -e ".[dev]"
-    ```
-
-=== "With All Features"
-
-    ```bash
-    pip install -e ".[all]"
-    ```
-
----
-
-## 🚀 Quick Start
+## 🚦 Quick Start
 
 ```python
 from llm_client import LLMClient
@@ -115,147 +82,19 @@ print(response)
 
 ---
 
-## 🔧 Supported Providers
-
-| Provider | Default Model | Context Window | Strengths |
-|----------|---------------|----------------|-----------|
-| **OpenAI** | `gpt-4o-mini` | 128K tokens | Reliable, high quality |
-| **Groq** | `moonshotai/kimi-k2-instruct-0905` | 128K tokens | Ultra-fast inference |
-| **Gemini** | `gemini-2.0-flash-exp` | 1M-2M tokens | Long context, multimodal |
-| **Ollama** | `llama3.2:1b` | varies | Local, private, free |
-
-[:octicons-arrow-right-24: Provider Comparison](providers/openai.md)
-
----
-
-## 📚 Documentation Structure
+## 📖 Documentation
 
 ### Getting Started
-- [Installation & Setup](getting_started.md)
-- [Basic Usage](examples/basic-usage.md)
-- [Configuration](features_overview.md#configuration-files)
+- [Installation](installation.md)
+- [Quick Start Guide](getting-started.md)
+- [API Reference](api/index.md)
 
 ### Features
-- [Token Counting](features/token_counting.md) - Manage costs and limits
-- [Async Support](features_overview.md#async-support) - Non-blocking operations
-- [Streaming](features_overview.md#response-streaming) - Real-time responses
-- [Provider Switching](features_overview.md#dynamic-provider-switching) - Runtime flexibility
-- [Tool Calling](features_overview.md#tool-calling) - Function calling support
-- [File Upload](features_overview.md#file-upload) - Multimodal inputs
+- [Token Counting](usage/token-counting.md)
+- [Configuration Files](configuration.md)
 
-### Provider Guides
-- [OpenAI Setup](providers/openai.md)
-- [Groq Setup](providers/groq.md)
-- [Gemini Setup](providers/gemini.md)
-- [Ollama (Local)](providers/ollama.md)
-- [Ollama Cloud](providers/ollama_cloud.md)
-
-### Reference
-- [API Reference](api/llm_client.md) - Complete API documentation
-- [CLI Reference](cli.md) - Command-line interface
-- [Troubleshooting](troubleshooting.md) - Common issues
-
----
-
-## 🎯 Use Cases
-
-### Cost Optimization
-```python
-# Use cheaper model for simple tasks
-client.switch_provider("groq", llm="llama-3.3-70b-versatile")
-simple_response = client.chat_completion(simple_messages)
-
-# Use powerful model for complex tasks
-client.switch_provider("openai", llm="gpt-4o")
-complex_response = client.chat_completion(complex_messages)
-```
-
-### Fallback Strategy
-```python
-from llm_client.exceptions import ChatCompletionError
-
-try:
-    response = client.chat_completion(messages)
-except ChatCompletionError:
-    # Fallback to different provider
-    client.switch_provider("groq")
-    response = client.chat_completion(messages)
-```
-
-### Token Management
-```python
-# Check token count before sending
-token_count = client.count_tokens(messages)
-if token_count < 4000:
-    response = client.chat_completion(messages)
-else:
-    print("Message too long!")
-```
-
----
-
-## 🏗️ Architecture
-
-```
-┌─────────────────┐
-│   LLMClient     │ ◄── Main Interface
-│  (Strategy)     │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ProviderFactory  │ ◄── Factory Pattern
-│   (Creator)     │
-└────────┬────────┘
-         │
-         ├────► OpenAIProvider
-         ├────► GroqProvider
-         ├────► GeminiProvider
-         └────► OllamaProvider
-```
-
-[:octicons-arrow-right-24: Architecture Details](getting_started.md)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! See our [Contributing Guide](CONTRIBUTING.md).
-
-1. Fork the repository
-2. Create a feature branch
-3. Write tests
-4. Submit a pull request
-
-[:octicons-arrow-right-24: Contributing Guidelines](CONTRIBUTING.md)
-
----
-
-## 📝 Version History
-
-See [CHANGELOG.md](CHANGELOG.md) for version history.
-
-**Latest:** v0.3.0 (January 2025)
-- Token counting with tiktoken
-- Full async/await support
-- YAML/JSON configuration files
-- Ollama Cloud support
-
----
-
-## ⭐ Support
-
-If you find this project helpful, please give it a star on GitHub!
-
-- 📖 [Documentation](getting_started.md)
-- 🐛 [Report Issues](https://github.com/dgaida/llm_client/issues)
-- 💬 [Discussions](https://github.com/dgaida/llm_client/discussions)
-- 📧 [Contact](mailto:daniel.gaida@th-koeln.de)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE](https://github.com/dgaida/llm_client/blob/master/LICENSE) for details.
-
-© 2025 Daniel Gaida, Technische Hochschule Köln
+### Further Resources
+- [CLI Usage](usage/cli.md)
+- [Troubleshooting](troubleshooting.md)
+- [Changelog](changelog.md)
+- [Contributing](development/contributing.md)

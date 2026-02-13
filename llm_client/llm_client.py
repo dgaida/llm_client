@@ -4,7 +4,7 @@ import os
 import sys
 from collections.abc import AsyncIterator, Iterator
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from dotenv import load_dotenv
 
@@ -730,11 +730,11 @@ class LLMClient:
         return self.provider.llm
 
     @property
-    def client(self):
+    def client(self) -> Any:
         """Get the underlying API client (for backward compatibility).
 
         Returns:
-            The provider's client instance.
+            Any: The provider's client instance.
         """
         return self.provider.client
 

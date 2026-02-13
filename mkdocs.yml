@@ -103,6 +103,18 @@ nav:
       - Overview: api/index.md
       - LLMClient: api/llm_client.md
       - Configuration: api/config.md
+      - Providers:
+          - Base Provider: api/providers_base_provider.md
+          - Sync Providers: api/providers_providers.md
+          - Async Providers: api/providers_async_providers.md
+          - Provider Factory: api/providers_provider_factory.md
+          - LlamaIndex Adapter: api/providers_adapter.md
+      - Utils:
+          - Token Counter: api/utils_token_counter.md
+          - File Utilities: api/utils_file_utils.md
+          - Logging Configuration: api/utils_logging_config.md
+      - CLI: api/cli.md
+      - Exceptions: api/exceptions.md
   - Architecture: architecture/index.md
   - Development:
       - Testing: development/testing.md

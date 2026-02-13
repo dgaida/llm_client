@@ -123,7 +123,7 @@ Wenn Sie eine neue LLM-API hinzufügen möchten:
 3. **Dokumentation aktualisieren**:
    - `README.md`: API-Tabelle erweitern
    - `README.md`: Beispiel hinzufügen
-   - `CONTRIBUTING.md`: Neue Abhängigkeiten dokumentieren
+   - `development/contributing.md`: Neue Abhängigkeiten dokumentieren
 
 4. **Beispiel**: Siehe Gemini-Integration als Referenz
 
