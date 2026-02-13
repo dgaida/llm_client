@@ -85,20 +85,23 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Getting Started: getting-started.md
   - Installation: installation.md
-  - Configuration: configuration.md
+  - Getting Started: getting-started.md
   - Usage:
+      - Overview: usage/index.md
       - CLI: usage/cli.md
-      - Token Counting: usage/token-counting.md
       - Examples: usage/basic-usage.md
       - Provider Switching: usage/provider_switching.md
       - Providers:
+          - Overview: usage/providers/index.md
           - OpenAI: usage/providers/openai.md
           - Groq: usage/providers/groq.md
           - Gemini: usage/providers/gemini.md
           - Ollama: usage/providers/ollama.md
           - Ollama Cloud: usage/providers/ollama_cloud.md
+  - Features:
+      - Overview: features.md
+      - Token Counting: usage/token-counting.md
   - API Reference:
       - Overview: api/index.md
       - LLMClient: api/llm_client.md

@@ -102,7 +102,7 @@ client = LLMClient()
 print(f"Using: {client.api_choice}")  # e.g., "openai"
 ```
 
-[:octicons-arrow-right-24: Learn more](getting-started.md#automatic-api-selection)
+[:octicons-arrow-right-24: Learn more](getting-started.md#automatic-provider-selection)
 
 ---
 
