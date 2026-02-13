@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 <!-- commitizen-marker -->
 
+## v0.4.2 (2026-02-13)
+
+### Feat
+
+- implement professional bilingual documentation ecosystem
+- implement professional bilingual documentation ecosystem
+
 ## v0.4.1 (2026-02-12)
 
 ## v0.4.0 (2026-02-11)
