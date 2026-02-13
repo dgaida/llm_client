@@ -1,4 +1,4 @@
-# 🖥️ LLM Client CLI Usage Guide
+# LLM Client CLI Usage Guide
 
 Command-line interface for quick LLM access across multiple providers.
 
@@ -21,22 +21,8 @@ After installation, you can use either:
 - `llm-client` (full command)
 - `llm` (shorter alias)
 
-## 📋 Table of Contents
 
-- [Quick Start](#quick-start)
-- [Commands](#commands)
-  - [chat](#chat---one-shot-queries)
-  - [interactive](#interactive---chat-sessions)
-  - [tokens](#tokens---token-counting)
-  - [config](#config---configuration-management)
-  - [providers](#providers---list-providers)
-  - [analyze](#analyze---file-analysis)
-- [Configuration](#configuration)
-- [Examples](#examples)
-
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Simple query
@@ -57,7 +43,7 @@ llm-client tokens "Hello world!"
 
 ---
 
-## 📚 Commands
+## Commands
 
 ### `chat` - One-Shot Queries
 
@@ -152,3 +138,26 @@ llm-client interactive --system "You are an expert software engineer" --provider
 ╰─────────────────────────────────────────╯
 
 You: What is Python?
+
+---
+
+## Configuration
+
+The CLI automatically loads API keys from:
+1. Environment variables
+2. `.env` file in the current directory
+3. `secrets.env` file
+
+You can also specify a custom configuration file using the `--config` option.
+
+## Examples
+
+### Multimodal Query (Image Analysis)
+```bash
+llm-client chat "What is in this image?" --provider gemini --file image.jpg
+```
+
+### Complex System Prompt
+```bash
+llm-client chat "Write a unit test for this function" --system "You are a senior QA engineer"
+```
