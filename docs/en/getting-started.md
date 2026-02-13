@@ -2,11 +2,19 @@
 
 This guide will help you get up and running with the LLM Client quickly.
 
-## Basic Configuration
+## 1. Installation
 
-### 1. Configure API Keys
+The first step is to install the LLM Client. You can do this easily using pip:
 
-Create a `secrets.env` file in your project directory:
+```bash
+pip install llm-client
+```
+
+For more detailed instructions and optional dependencies, see the [Installation Guide](installation.md).
+
+## 2. Configure API Keys
+
+To use most LLM providers, you will need an API key. Create a `secrets.env` file in your project directory with your keys:
 
 ```bash
 # OpenAI
@@ -19,7 +27,9 @@ GROQ_API_KEY=gsk-xxxxxxxx
 GEMINI_API_KEY=AIzaSy-xxxxxxxx
 ```
 
-### 2. First Example
+Detailed instructions on how to obtain keys for each provider can be found in the [Providers Section](usage/providers/index.md).
+
+## 3. First Example
 
 ```python
 from llm_client import LLMClient
@@ -73,6 +83,6 @@ client = LLMClient(
 
 ## Next Steps
 
-- [Configuration](configuration.md) - Configuration details
+- [Features](features.md) - Features overview
 - [API Reference](api/index.md) - Detailed class documentation
 - [Examples](usage/basic-usage.md) - Real-world use cases

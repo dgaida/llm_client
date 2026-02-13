@@ -91,7 +91,7 @@ print(response)
 
 ### Features
 - [Token Counting](usage/token-counting.md)
-- [Configuration Files](configuration.md)
+- [Configuration Files](features.md)
 
 ### Further Resources
 - [CLI Usage](usage/cli.md)
