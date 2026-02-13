@@ -15,11 +15,11 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/changelog/"/>
     </url>
     <url>
-        <loc>https://dgaida.github.io/llm_client/latest/configuration/</loc>
+        <loc>https://dgaida.github.io/llm_client/latest/features/</loc>
         <lastmod>2026-02-13</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/configuration/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/configuration/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/features/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/features/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/getting-started/</loc>
@@ -169,6 +169,13 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/development/testing/"/>
     </url>
     <url>
+        <loc>https://dgaida.github.io/llm_client/latest/usage/</loc>
+        <lastmod>2026-02-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/"/>
+    </url>
+    <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/basic-usage/</loc>
         <lastmod>2026-02-13</lastmod>
         <changefreq>daily</changefreq>
@@ -195,6 +202,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/token-counting/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/token-counting/"/>
+    </url>
+    <url>
+        <loc>https://dgaida.github.io/llm_client/latest/usage/providers/</loc>
+        <lastmod>2026-02-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/gemini/</loc>
@@ -246,11 +260,11 @@
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestchangelog/"/>
     </url>
     <url>
-        <loc>https://dgaida.github.io/llm_client/latest/en/configuration/</loc>
+        <loc>https://dgaida.github.io/llm_client/latest/en/features/</loc>
         <lastmod>2026-02-13</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/configuration/"/>
-        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestconfiguration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/features/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestfeatures/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/getting-started/</loc>
@@ -400,6 +414,13 @@
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestdevelopment/testing/"/>
     </url>
     <url>
+        <loc>https://dgaida.github.io/llm_client/latest/en/usage/</loc>
+        <lastmod>2026-02-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/"/>
+    </url>
+    <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/basic-usage/</loc>
         <lastmod>2026-02-13</lastmod>
         <changefreq>daily</changefreq>
@@ -426,6 +447,13 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/token-counting/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/token-counting/"/>
+    </url>
+    <url>
+        <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/</loc>
+        <lastmod>2026-02-13</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/gemini/</loc>

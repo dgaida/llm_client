@@ -8,7 +8,7 @@
 <meta content="Universal Python client for LLM access with multi-provider support, streaming, async, and token counting" name="description"/>
 <meta content="Daniel Gaida" name="author"/>
 <link href="https://dgaida.github.io/llm_client/latest/en/" rel="canonical"/>
-<link href="getting-started/" rel="next"/>
+<link href="installation/" rel="next"/>
 <link href="/llm_client/latest/" hreflang="de" rel="alternate"/>
 <link href="/llm_client/latest/en/" hreflang="en" rel="alternate"/>
 <link href="../assets/images/favicon.png" rel="icon"/>
@@ -149,17 +149,6 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="getting-started/">
-        
-  
-  
-    
-  
-  Getting Started
-
-      </a>
-</li>
-<li class="md-tabs__item">
 <a class="md-tabs__link" href="installation/">
         
   
@@ -171,24 +160,35 @@
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="configuration/">
+<a class="md-tabs__link" href="getting-started/">
         
   
   
     
   
-  Configuration
+  Getting Started
 
       </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="usage/cli/">
+<a class="md-tabs__link" href="usage/">
           
   
   
     
   
   Usage
+
+        </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="features/">
+          
+  
+  
+    
+  
+  Features
 
         </a>
 </li>
@@ -397,18 +397,6 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="getting-started/">
-<span class="md-ellipsis">
-    
-  
-    Getting Started
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="installation/">
 <span class="md-ellipsis">
     
@@ -421,11 +409,11 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="configuration/">
+<a class="md-nav__link" href="getting-started/">
 <span class="md-ellipsis">
     
   
-    Configuration
+    Getting Started
   
 
     
@@ -433,8 +421,9 @@
 </a>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="usage/">
 <span class="md-ellipsis">
     
   
@@ -443,10 +432,13 @@
 
     
   </span>
+</a>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_5">
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -461,18 +453,6 @@
     
   
     CLI
-  
-
-    
-  </span>
-</a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="usage/token-counting/">
-<span class="md-ellipsis">
-    
-  
-    Token Counting
   
 
     
@@ -504,8 +484,9 @@
 </a>
 </li>
 <li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5_5" type="checkbox"/>
-<label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_4_5" type="checkbox"/>
+<div class="md-nav__link md-nav__container">
+<a class="md-nav__link" href="usage/providers/">
 <span class="md-ellipsis">
     
   
@@ -514,10 +495,13 @@
 
     
   </span>
+</a>
+<label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
 <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-expanded="false" aria-labelledby="__nav_5_5_label" class="md-nav" data-md-level="2">
-<label class="md-nav__title" for="__nav_5_5">
+</div>
+<nav aria-expanded="false" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_5">
 <span class="md-nav__icon md-icon"></span>
             
   
@@ -588,6 +572,56 @@
 </li>
 </ul>
 </nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle md-toggle--indeterminate" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="features/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="usage/token-counting/">
+<span class="md-ellipsis">
+    
+  
+    Token Counting
+  
+
+    
+  </span>
+</a>
 </li>
 </ul>
 </nav>
@@ -1114,7 +1148,7 @@
 <h3 id="features_1">Features<a class="headerlink" href="#features_1" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="usage/token-counting/">Token Counting</a></li>
-<li><a href="configuration/">Configuration Files</a></li>
+<li><a href="features/">Configuration Files</a></li>
 </ul>
 <h3 id="further-resources">Further Resources<a class="headerlink" href="#further-resources" title="Permanent link">¶</a></h3>
 <ul>
