@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llm-client"
-version = "0.4.2"
+version = "0.4.3"
 description = "Ein universeller LLM-Client für OpenAI, Groq, Gemini und Ollama."
 authors = [
   { name = "Daniel Gaida", email = "daniel.gaida@th-koeln.de" }
@@ -116,7 +116,7 @@ omit-covered-files = false
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.4.2"
+version = "0.4.3"
 version_files = [
     "pyproject.toml:version",
     "llm_client/__init__.py:__version__"
