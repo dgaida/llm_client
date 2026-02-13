@@ -1,36 +1,66 @@
-name: Deploy Documentation
+name: Documentation
 
 on:
   push:
     branches:
       - master
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'llm_client/**/*.py'
-      - '.github/workflows/docs.yml'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - master
 
 permissions:
   contents: write
 
 jobs:
-  deploy:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
-          pip install .
-          pip install mkdocs mkdocs-material pymdown-extensions mkdocs-autorefs mkdocstrings[python]
+          pip install -e ".[all]"
+          pip install interrogate mkdocs-static-i18n mike mkdocs-mermaid2-plugin mkdocstrings[python] mkdocs-material
+
+      - name: Run Tests
+        run: python -m pytest --cov=llm_client tests/
+
+      - name: Check API Documentation Coverage
+        run: interrogate llm_client
 
       - name: Generate API Documentation
         run: python scripts/generate_api_docs.py
 
-      - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+      - name: Update Metrics Dashboard
+        run: python scripts/update_metrics.py
+
+      - name: Check Documentation Quality
+        run: mkdocs build --strict
+
+      - name: Configure Git for Mike
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages --depth=1 || true
+
+      - name: Deploy Versioned Documentation (Latest)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          mike deploy --push --update-aliases latest
+          mike set-default --push latest
+
+      - name: Deploy Versioned Documentation (Tags)
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          mike deploy --push ${GITHUB_REF_NAME}

@@ -67,15 +67,15 @@ class LLMClient:
         """Initialize the LLM Client.
 
         Args:
-            llm: Model name. If None, uses provider's default.
-            temperature: Sampling temperature (0.0 to 2.0).
-            max_tokens: Maximum tokens to generate.
-            api_choice: Explicit API choice. If None, auto-selects.
-            secrets_path: Path to secrets.env file.
-            keep_alive: Ollama-specific keep-alive duration.
-            use_async: If True, use async providers.
-            use_ollama_cloud: If True, use Ollama Cloud API.
-            ollama_host: Custom Ollama host URL.
+            llm (str | None): Model name. If None, uses provider's default.
+            temperature (float): Sampling temperature (0.0 to 2.0).
+            max_tokens (int): Maximum tokens to generate.
+            api_choice (str | None): Explicit API choice. If None, auto-selects.
+            secrets_path (str): Path to secrets.env file.
+            keep_alive (str): Ollama-specific keep-alive duration.
+            use_async (bool): If True, use async providers.
+            use_ollama_cloud (bool): If True, use Ollama Cloud API.
+            ollama_host (str | None): Custom Ollama host URL.
 
         Examples:
             >>> client = LLMClient(llm="gpt-4o", temperature=0.5)
@@ -161,13 +161,13 @@ class LLMClient:
         """Create LLMClient from configuration file.
 
         Args:
-            config_path: Path to YAML or JSON configuration file.
-            provider: Provider to use. If None, uses default from config.
-            secrets_path: Path to secrets.env file.
-            use_async: If True, use async providers.
+            config_path (str | Path): Path to YAML or JSON configuration file.
+            provider (str | None): Provider to use. If None, uses default from config.
+            secrets_path (str): Path to secrets.env file.
+            use_async (bool): If True, use async providers.
 
         Returns:
-            Configured LLMClient instance.
+            LLMClient: Configured LLMClient instance.
 
         Raises:
             FileNotFoundError: If config file doesn't exist.
@@ -227,7 +227,7 @@ class LLMClient:
         """Load API keys from Google Colab userdata if available.
 
         Args:
-            api_choice: If specified, only load the key for this provider.
+            api_choice (str | None): If specified, only load the key for this provider.
                        If None, load all available keys for auto-selection.
         """
         if "google.colab" not in sys.modules and "COLAB_GPU" not in os.environ:
@@ -304,11 +304,11 @@ class LLMClient:
         Useful for fallback strategies, cost optimization, or A/B testing.
 
         Args:
-            api_choice: Target API to switch to.
-            llm: Optional new model name.
-            temperature: Optional new temperature.
-            max_tokens: Optional new max_tokens.
-            use_ollama_cloud: Optional cloud mode setting.
+            api_choice (str): Target API to switch to.
+            llm (str | None): Optional new model name.
+            temperature (float | None): Optional new temperature.
+            max_tokens (int | None): Optional new max_tokens.
+            use_ollama_cloud (bool | None): Optional cloud mode setting.
 
         Raises:
             InvalidProviderError: If api_choice is invalid.
@@ -366,10 +366,10 @@ class LLMClient:
         to handle transient API failures.
 
         Args:
-            messages: List of message dicts with 'role' and 'content' keys.
+            messages (list[dict[str, str]]): List of message dicts with 'role' and 'content' keys.
 
         Returns:
-            Generated text response.
+            str: Generated text response.
 
         Raises:
             ChatCompletionError: If the provider call fails after retries.
@@ -397,15 +397,15 @@ class LLMClient:
         generation. The LLM can decide which tools to call based on the context.
 
         Args:
-            messages: List of message dicts with 'role' and 'content' keys.
-            tools: List of tool definitions in OpenAI format.
-            tool_choice: Controls tool selection:
+            messages (list[dict[str, str]]): List of message dicts with 'role' and 'content' keys.
+            tools (list[dict]): List of tool definitions in OpenAI format.
+            tool_choice (str | dict | None): Controls tool selection:
                 - "auto" (default): LLM decides whether to call tools
                 - "none": LLM will not call any tools
                 - {"type": "function", "function": {"name": "..."}}: Force specific tool
 
         Returns:
-            Dictionary containing:
+            dict: Dictionary containing:
                 - 'content': Generated text (str or None if tool called)
                 - 'tool_calls': List of tool calls (or None if no tools called)
                     Each tool call has: id, type, function (with name and arguments)
@@ -464,11 +464,11 @@ class LLMClient:
         - Ollama: Images only (requires vision models like llava)
 
         Args:
-            messages: List of message dicts with 'role' and 'content' keys.
-            files: List of file paths to upload. If None, works like regular chat_completion.
+            messages (list[dict[str, str]]): List of message dicts with 'role' and 'content' keys.
+            files (list[str] | None): List of file paths to upload. If None, works like regular chat_completion.
 
         Returns:
-            Generated text response.
+            str: Generated text response.
 
         Raises:
             FileUploadNotSupportedError: If provider doesn't support file uploads.
@@ -535,10 +535,10 @@ class LLMClient:
         enabling progressive display of the response.
 
         Args:
-            messages: List of message dicts with 'role' and 'content' keys.
+            messages (list[dict[str, str]]): List of message dicts with 'role' and 'content' keys.
 
         Yields:
-            Individual tokens or chunks of the response text.
+            str: Individual tokens or chunks of the response text.
 
         Raises:
             StreamingNotSupportedError: If streaming is not supported.
@@ -557,10 +557,10 @@ class LLMClient:
         """Execute async chat completion.
 
         Args:
-            messages: List of message dicts.
+            messages (list[dict[str, str]]): List of message dicts.
 
         Returns:
-            Generated text response.
+            str: Generated text response.
 
         Raises:
             RuntimeError: If provider doesn't support async.
@@ -589,12 +589,12 @@ class LLMClient:
         """Execute async chat completion with tools.
 
         Args:
-            messages: List of message dicts.
-            tools: List of tool definitions.
-            tool_choice: Tool selection control.
+            messages (list[dict[str, str]]): List of message dicts.
+            tools (list[dict]): List of tool definitions.
+            tool_choice (str | dict | None): Tool selection control.
 
         Returns:
-            Dict with 'content' and 'tool_calls' keys.
+            dict: Dict with 'content' and 'tool_calls' keys.
 
         Raises:
             RuntimeError: If provider doesn't support async tools.
@@ -620,11 +620,11 @@ class LLMClient:
         """Execute async chat completion with file uploads.
 
         Args:
-            messages: List of message dicts.
-            files: List of file paths to upload.
+            messages (list[dict[str, str]]): List of message dicts.
+            files (list[str] | None): List of file paths to upload.
 
         Returns:
-            Generated text response.
+            str: Generated text response.
 
         Raises:
             RuntimeError: If provider doesn't support async file uploads.
@@ -664,10 +664,10 @@ class LLMClient:
         """Stream response tokens asynchronously.
 
         Args:
-            messages: List of message dicts.
+            messages (list[dict[str, str]]): List of message dicts.
 
         Yields:
-            Individual tokens or chunks.
+            str: Individual tokens or chunks.
 
         Raises:
             RuntimeError: If provider doesn't support async streaming.
@@ -688,11 +688,11 @@ class LLMClient:
         """Count tokens in messages using tiktoken.
 
         Args:
-            messages: List of message dicts to count tokens for.
-            model: Model name for encoding. If None, uses current model.
+            messages (list[dict[str, str]]): List of message dicts to count tokens for.
+            model (str | None): Model name for encoding. If None, uses current model.
 
         Returns:
-            Total token count.
+            int: Total token count.
 
         Examples:
             >>> messages = [{"role": "user", "content": "Hello world"}]
@@ -708,11 +708,11 @@ class LLMClient:
         """Count tokens in a string.
 
         Args:
-            text: Text to count tokens for.
-            model: Model name. If None, uses current model.
+            text (str): Text to count tokens for.
+            model (str | None): Model name. If None, uses current model.
 
         Returns:
-            Token count.
+            int: Token count.
 
         Examples:
             >>> token_count = client.count_string_tokens("Hello world!")

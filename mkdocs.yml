@@ -9,6 +9,7 @@ edit_uri: edit/master/docs/
 
 theme:
   name: material
+  language: de
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
@@ -35,9 +36,18 @@ theme:
     - search.highlight
     - content.code.copy
     - content.code.annotate
+    - navigation.indexes
 
 plugins:
   - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: de
+          name: Deutsch
+          default: true
+        - locale: en
+          name: English
   - autorefs
   - mkdocstrings:
       handlers:
@@ -46,13 +56,20 @@ plugins:
             show_source: true
             show_root_heading: true
             show_category_heading: true
+            docstring_style: google
+  - mermaid2
+  - mike
 
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
   - pymdownx.tabbed:
       alternate_style: true
   - admonition
@@ -68,43 +85,32 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Getting Started:
-      - Installation: getting_started.md
-      - Quick Start: getting_started.md
-  - Features:
-      - Overview: features_overview.md
-      - Token Counting: features/token_counting.md
-  - Providers:
-      - OpenAI: providers/openai.md
-      - Groq: providers/groq.md
-      - Google Gemini: providers/gemini.md
-      - Ollama (Local): providers/ollama.md
-      - Ollama Cloud: providers/ollama_cloud.md
-  - Examples:
-      - Basic Usage: examples/basic-usage.md
-      - Provider Switching: examples/provider_switching.md
-  - Reference:
-      - API Reference:
-          - LLMClient: api/llm_client.md
-          - Configuration: api/config.md
-          - Providers:
-              - Base Provider: api/providers_base_provider.md
-              - Sync Providers: api/providers_providers.md
-              - Async Providers: api/providers_async_providers.md
-              - Provider Factory: api/providers_provider_factory.md
-          - Utils:
-              - Token Counter: api/utils_token_counter.md
-              - File Utilities: api/utils_file_utils.md
-              - Logging: api/utils_logging_config.md
-          - Integrations:
-              - LlamaIndex: api/providers_adapter.md
-          - Exceptions: api/exceptions.md
-      - CLI Reference: api/cli.md
-      - Testing: TESTING.md
-      - Logging: LOGGING.md
+  - Getting Started: getting-started.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Usage:
+      - CLI: usage/cli.md
+      - Token Counting: usage/token-counting.md
+      - Examples: usage/basic-usage.md
+      - Provider Switching: usage/provider_switching.md
+      - Providers:
+          - OpenAI: usage/providers/openai.md
+          - Groq: usage/providers/groq.md
+          - Gemini: usage/providers/gemini.md
+          - Ollama: usage/providers/ollama.md
+          - Ollama Cloud: usage/providers/ollama_cloud.md
+  - API Reference:
+      - Overview: api/index.md
+      - LLMClient: api/llm_client.md
+      - Configuration: api/config.md
+  - Architecture: architecture/index.md
+  - Development:
+      - Testing: development/testing.md
+      - Logging: development/logging.md
+      - Contributing: development/contributing.md
   - Troubleshooting: troubleshooting.md
-  - Contributing: CONTRIBUTING.md
-  - Changelog: CHANGELOG.md
+  - Metrics: metrics.md
+  - Changelog: changelog.md
 
 extra:
   social:

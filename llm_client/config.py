@@ -30,7 +30,7 @@ class LLMConfig:
         """Initialize configuration from dictionary.
 
         Args:
-            config_dict: Configuration dictionary.
+            config_dict (dict[str, Any]): Configuration dictionary.
 
         Raises:
             ValueError: If required fields are missing.
@@ -49,10 +49,10 @@ class LLMConfig:
         """Load configuration from YAML or JSON file.
 
         Args:
-            file_path: Path to configuration file (.yaml, .yml, or .json).
+            file_path (str | Path): Path to configuration file (.yaml, .yml, or .json).
 
         Returns:
-            LLMConfig instance.
+            LLMConfig: LLMConfig instance.
 
         Raises:
             FileNotFoundError: If file doesn't exist.
@@ -91,10 +91,10 @@ class LLMConfig:
         """Create configuration from dictionary.
 
         Args:
-            config_dict: Configuration dictionary.
+            config_dict (dict[str, Any]): Configuration dictionary.
 
         Returns:
-            LLMConfig instance.
+            LLMConfig: LLMConfig instance.
 
         Examples:
             >>> config_dict = {
@@ -111,10 +111,10 @@ class LLMConfig:
         """Get configuration for a specific provider.
 
         Args:
-            provider: Provider name (openai, groq, gemini, ollama).
+            provider (str): Provider name (openai, groq, gemini, ollama).
 
         Returns:
-            Provider configuration dictionary.
+            dict[str, Any]: Provider configuration dictionary.
 
         Raises:
             KeyError: If provider not found in configuration.
@@ -134,7 +134,7 @@ class LLMConfig:
         """Get configuration for the default provider.
 
         Returns:
-            Default provider configuration.
+            dict[str, Any]: Default provider configuration.
 
         Examples:
             >>> config.get_default_config()
@@ -146,7 +146,7 @@ class LLMConfig:
         """List all configured providers.
 
         Returns:
-            List of provider names.
+            list[str]: List of provider names.
 
         Examples:
             >>> config.list_providers()
@@ -158,7 +158,7 @@ class LLMConfig:
         """Export configuration as dictionary.
 
         Returns:
-            Configuration dictionary.
+            dict[str, Any]: Configuration dictionary.
 
         Examples:
             >>> config_dict = config.to_dict()
@@ -173,7 +173,7 @@ class LLMConfig:
         """Save configuration to file.
 
         Args:
-            file_path: Path to save configuration (.yaml or .json).
+            file_path (str | Path): Path to save configuration (.yaml or .json).
 
         Raises:
             ValueError: If file format is unsupported.
@@ -206,10 +206,10 @@ class LLMConfig:
         """Merge provider config with default values.
 
         Args:
-            defaults: Default configuration values.
+            defaults (dict[str, Any]): Default configuration values.
 
         Returns:
-            Merged configuration dictionary.
+            dict[str, Any]: Merged configuration dictionary.
 
         Examples:
             >>> defaults = {"temperature": 0.7, "max_tokens": 512}
@@ -233,7 +233,7 @@ class LLMConfig:
         """Validate configuration.
 
         Returns:
-            Tuple of (is_valid, error_messages).
+            tuple[bool, list[str]]: Tuple of (is_valid, error_messages).
 
         Examples:
             >>> is_valid, errors = config.validate()
@@ -272,7 +272,7 @@ def create_default_config() -> dict[str, Any]:
     """Create a default configuration dictionary.
 
     Returns:
-        Default configuration dictionary.
+        dict[str, Any]: Default configuration dictionary.
 
     Examples:
         >>> config_dict = create_default_config()
@@ -314,8 +314,8 @@ def generate_config_template(output_path: str | Path, format: str = "yaml") -> N
     """Generate a template configuration file.
 
     Args:
-        output_path: Path to save template.
-        format: File format ('yaml' or 'json').
+        output_path (str | Path): Path to save template.
+        format (str): File format ('yaml' or 'json').
 
     Examples:
         >>> generate_config_template("llm_config.yaml")

@@ -39,12 +39,12 @@ class TokenCounter:
         """Count tokens in a list of messages.
 
         Args:
-            messages: List of message dicts with 'role' and 'content' keys.
-            model: Model name to use for encoding selection.
-            fallback: If True, use rough estimation when tiktoken unavailable.
+            messages (list[dict[str, str]]): List of message dicts with 'role' and 'content' keys.
+            model (str): Model name to use for encoding selection.
+            fallback (bool): If True, use rough estimation when tiktoken unavailable.
 
         Returns:
-            Total token count.
+            int: Total token count.
 
         Raises:
             ImportError: If tiktoken not installed and fallback=False.
@@ -78,10 +78,10 @@ class TokenCounter:
         """Get tiktoken encoding for a model.
 
         Args:
-            model: Model name.
+            model (str): Model name.
 
         Returns:
-            Tiktoken encoding instance.
+            tiktoken.Encoding: Tiktoken encoding instance.
         """
         # Try to get encoding from model name mapping
         encoding_name = TokenCounter.MODEL_ENCODINGS.get(model)
@@ -108,12 +108,12 @@ class TokenCounter:
         https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
 
         Args:
-            messages: List of message dictionaries.
-            encoding: Tiktoken encoding instance.
-            model: Model name.
+            messages (list[dict[str, str]]): List of message dictionaries.
+            encoding (tiktoken.Encoding): Tiktoken encoding instance.
+            model (str): Model name.
 
         Returns:
-            Total token count.
+            int: Total token count.
         """
         # Tokens per message and per name (varies by model)
         if model.startswith("gpt-4o") or model.startswith("gpt-4") or model.startswith("gpt-3.5"):
@@ -144,10 +144,10 @@ class TokenCounter:
         Uses approximation: 1 token ≈ 4 characters.
 
         Args:
-            messages: List of message dictionaries.
+            messages (list[dict[str, str]]): List of message dictionaries.
 
         Returns:
-            Estimated token count.
+            int: Estimated token count.
         """
         total_chars = sum(
             len(str(msg.get("role", ""))) + len(str(msg.get("content", ""))) for msg in messages
@@ -160,11 +160,11 @@ class TokenCounter:
         """Count tokens in a single string.
 
         Args:
-            text: Text to count tokens for.
-            model: Model name for encoding selection.
+            text (str): Text to count tokens for.
+            model (str): Model name for encoding selection.
 
         Returns:
-            Token count.
+            int: Token count.
 
         Examples:
             >>> TokenCounter.count_string_tokens("Hello world!", "gpt-4o")
@@ -182,6 +182,6 @@ class TokenCounter:
         """Check if tiktoken is available.
 
         Returns:
-            True if tiktoken is installed.
+            bool: True if tiktoken is installed.
         """
         return TIKTOKEN_AVAILABLE
