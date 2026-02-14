@@ -28,7 +28,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#llm-client">
+<a class="md-skip" href="#features">
           Skip to content
         </a>
 </div>
@@ -1063,8 +1063,12 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="llm-client">🧠 LLM Client<a class="headerlink" href="#llm-client" title="Permanent link">¶</a></h1>
-<p><img alt="Infographic" src="../../assets/infografik.png"/></p>
+<h1>Home</h1>
+<p align="center">
+<img alt="LLM Client Logo" src="../../assets/logo4.png" width="250"/>
+</p>
+<p><img alt="Infografik" src="../../assets/infografik.png"/></p>
+<p>The <strong>LLM Client</strong> is a versatile Python tool that provides a <strong>unified interface</strong> for accessing various AI providers such as <a href="https://openai.com/de-DE/api/"><strong>OpenAI</strong></a>, <a href="https://groq.com/"><strong>Groq</strong></a>, [<strong>Google Gemini</strong>] (https://ai.google.dev/gemini-api), and <a href="https://ollama.com/"><strong>Ollama</strong></a>. The software features <strong>automatic API detection</strong>, which flexibly falls back to a local Ollama instance if keys are missing. Technical highlights include precise <strong>token counting</strong>, full <strong>async support</strong>, and the ability to switch dynamically between different providers during runtime. Thanks to a clean architecture based on design patterns, the library also enables advanced <strong>tool calling</strong> and the upload of a wide variety of file formats. The library is <strong>easy to use</strong> compared to more complex frameworks and offers seamless integration into environments such as Google Colab.</p>
 <div class="mermaid">graph TD
     subgraph "One Code"
         CODE["client = LLMClient()<br/>response = client.chat_completion(messages)"]
@@ -1104,7 +1108,6 @@
     class OPENAI,GROQ,GEMINI,OLLAMA apiClass
     class SWITCH,TOKENS,ASYNC,STREAM,FILES featureClass
 </div>
-<p>A universal Python client for accessing various Large Language Models (LLMs) via <strong>OpenAI</strong>, <a href="https://groq.com/"><strong>Groq</strong></a>, <a href="https://ai.google.dev/gemini-api"><strong>Google Gemini</strong></a> or <a href="https://ollama.com/"><strong>Ollama</strong></a> – with automatic API detection, dynamic provider switching, token counting, async support, and configuration file management.</p>
 <hr/>
 <h2 id="features">🚀 Features<a class="headerlink" href="#features" title="Permanent link">¶</a></h2>
 <h3 id="core-features">Core Features<a class="headerlink" href="#core-features" title="Permanent link">¶</a></h3>
@@ -1115,13 +1118,14 @@
 <li>🧩 <strong>Flexible Configuration</strong> - Model, temperature, tokens freely adjustable</li>
 <li>🔐 <strong>Google Colab Support</strong> - Automatic loading of secrets from userdata</li>
 <li>📦 <strong>Zero-Config</strong> - Works out-of-the-box with Ollama</li>
+<li>📊 <strong>Token counting with tiktoken</strong> - Precise token counting for cost management</li>
+<li>⚡ <strong>Full async support</strong> - Async/await for all providers</li>
+<li>📁 <strong>Configuration files</strong> - YAML/JSON configuration for multi-provider setups</li>
 </ul>
 <h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h3>
 <ul>
 <li>🏗️ <strong>Strategy Pattern</strong> - Clean architecture with provider classes</li>
 <li>🏭 <strong>Factory Pattern</strong> - Central provider creation and management</li>
-<li>🧪 <strong>Full Tests</strong> - Pytest-based with &gt;92% code coverage</li>
-<li>🌟 <strong>Google Gemini Support</strong> - Use via OpenAI compatibility mode</li>
 </ul>
 <h2 id="quick-start">🚦 Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
