@@ -1,6 +1,10 @@
-# 🧠 LLM Client
+<p align="center">
+  <img src="../../assets/logo4.png" width="250" alt="LLM Client Logo">
+</p>
 
-![Infographic](../../assets/infografik.png)
+![Infografik](../../assets/infografik.png)
+
+The **LLM Client** is a versatile Python tool that provides a **unified interface** for accessing various AI providers such as [**OpenAI**](https://openai.com/de-DE/api/), [**Groq**](https://groq.com/), [**Google Gemini**] (https://ai.google.dev/gemini-api), and [**Ollama**](https://ollama.com/). The software features **automatic API detection**, which flexibly falls back to a local Ollama instance if keys are missing. Technical highlights include precise **token counting**, full **async support**, and the ability to switch dynamically between different providers during runtime. Thanks to a clean architecture based on design patterns, the library also enables advanced **tool calling** and the upload of a wide variety of file formats. The library is **easy to use** compared to more complex frameworks and offers seamless integration into environments such as Google Colab.
 
 ```mermaid
 graph TD
@@ -43,8 +47,6 @@ graph TD
     class SWITCH,TOKENS,ASYNC,STREAM,FILES featureClass
 ```
 
-A universal Python client for accessing various Large Language Models (LLMs) via **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) or [**Ollama**](https://ollama.com/) – with automatic API detection, dynamic provider switching, token counting, async support, and configuration file management.
-
 ---
 
 ## 🚀 Features
@@ -56,12 +58,13 @@ A universal Python client for accessing various Large Language Models (LLMs) via
 * 🧩 **Flexible Configuration** - Model, temperature, tokens freely adjustable
 * 🔐 **Google Colab Support** - Automatic loading of secrets from userdata
 * 📦 **Zero-Config** - Works out-of-the-box with Ollama
+* 📊 **Token counting with tiktoken** - Precise token counting for cost management
+* ⚡ **Full async support** - Async/await for all providers
+* 📁 **Configuration files** - YAML/JSON configuration for multi-provider setups
 
 ### Architecture
 * 🏗️ **Strategy Pattern** - Clean architecture with provider classes
 * 🏭 **Factory Pattern** - Central provider creation and management
-* 🧪 **Full Tests** - Pytest-based with >92% code coverage
-* 🌟 **Google Gemini Support** - Use via OpenAI compatibility mode
 
 ## 🚦 Quick Start
 

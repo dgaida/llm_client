@@ -1,12 +1,12 @@
 <p align="center">
   <a href="https://dgaida.github.io/llm_client/">
-    <img src="assets/logo4.png" width="120" alt="LLM Client Logo">
+    <img src="assets/logo4.png" width="250" alt="LLM Client Logo">
   </a>
 </p>
 
-<h1 align="center">🧠 LLM Client</h1>
-
 ![Infografik](assets/infografik.png)
+
+Der **LLM Client** ist ein vielseitiges Python-Werkzeug, das eine **einheitliche Schnittstelle** für den Zugriff auf diverse KI-Anbieter wie [**OpenAI**](https://openai.com/de-DE/api/), [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) und [**Ollama**](https://ollama.com/) bietet. Die Software zeichnet sich durch eine **automatische API-Erkennung** aus, die bei fehlenden Schlüsseln flexibel auf eine lokale Ollama Instanz zurückgreift. Zu den technischen Highlights gehören präzise **Token-Zählung**, volle **Async-Unterstützung** sowie die Fähigkeit, während der Laufzeit dynamisch zwischen verschiedenen Providern zu wechseln. Dank einer sauberen Architektur auf Basis von Entwurfsmustern ermöglicht die Bibliothek zudem erweitertes **Tool-Calling** und den Upload verschiedenster Dateiformate. Die Bibliothek ermöglicht eine **einfache Handhabung** im Vergleich zu komplexeren Frameworks und bietet eine nahtlose Integration in Umgebungen wie Google Colab.
 
 ```mermaid
 graph TD
@@ -49,8 +49,6 @@ graph TD
     class SWITCH,TOKENS,ASYNC,STREAM,FILES featureClass
 ```
 
-Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (LLMs) über **OpenAI**, [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) oder [**Ollama**](https://ollama.com/) – mit automatischer API-Erkennung, dynamischem Provider-Wechsel, Token-Zählung, Async-Unterstützung und Konfigurationsdatei-Verwaltung.
-
 ---
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
@@ -65,7 +63,6 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 ## 📑 Inhaltsverzeichnis
 
 - [Features](#-features)
-- [Neu in v0.3.0](#-neu-in-v030)
 - [Installation](#%EF%B8%8F-installation)
 - [Schnellstart](#-schnellstart)
 - [Verwendung](#-verwendung)
@@ -84,23 +81,13 @@ Ein universeller Python-Client zur Nutzung verschiedener Large Language Models (
 * 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
 * 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
 * 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
+* 📊 **Token-Zählung mit tiktoken** - Präzise Token-Zählung für Kostenmanagement
+* ⚡ **Vollständige Async-Unterstützung** - Async/await für alle Provider
+* 📁 **Konfigurationsdateien** - YAML/JSON-Konfiguration für Multi-Provider-Setups
 
 ### Architektur
 * 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
 * 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
-* 🧪 **Vollständige Tests** - Pytest-basiert mit >92% Code-Coverage
-* 🌟 **Google Gemini Support** - Nutzung via OpenAI-Kompatibilitätsmodus
-
-## ✨ Neu in v0.3.0
-
-Version 0.3.0 bringt vier große neue Features:
-
-- 📊 **Token-Zählung mit tiktoken** - Präzise Token-Zählung für Kostenmanagement
-- ⚡ **Vollständige Async-Unterstützung** - Async/await für alle Provider
-- 📁 **Konfigurationsdateien** - YAML/JSON-Konfiguration für Multi-Provider-Setups
-- ☁️ **Ollama Cloud-Unterstützung** - Zugriff auf Cloud-Modelle ohne lokale GPU
-
-Siehe [CHANGELOG.md](CHANGELOG.md) für Details.
 
 ---
 
@@ -386,22 +373,13 @@ Siehe [docs/TESTING.md](docs/TESTING.md) für Details.
 
 Beiträge sind willkommen! Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
 
-### Entwickler-Workflow
-
-1. Fork & Clone
-2. Feature-Branch erstellen: `git checkout -b feature/mein-feature`
-3. Tests schreiben und ausführen
-4. Code formatieren: `black . && ruff check --fix .`
-5. Commit & Push
-6. Pull Request öffnen
-
 ---
 
 ## 📄 Lizenz
 
 MIT License - siehe [LICENSE](LICENSE)
 
-© 2025 Daniel Gaida, Technische Hochschule Köln
+© 2026 Daniel Gaida, Technische Hochschule Köln
 
 ---
 
