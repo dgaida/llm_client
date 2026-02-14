@@ -116,6 +116,6 @@ except ImportError:
     # llama_index not installed - Adapter not available
     pass
 
-__version__ = "0.4.3"
+__version__ = "0.4.4"
 __author__ = "Daniel Gaida"
 __license__ = "MIT"
