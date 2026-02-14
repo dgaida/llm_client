@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="../../assets/logo4.png" width="250" alt="LLM Client Logo">
+  <img src="../assets/logo4.png" width="250" alt="LLM Client Logo">
 </p>
 
-![Infografik](../../assets/infografik.png)
+![Infografik](../assets/infografik.png)
 
 The **LLM Client** is a versatile Python tool that provides a **unified interface** for accessing various AI providers such as [**OpenAI**](https://openai.com/de-DE/api/), [**Groq**](https://groq.com/), [**Google Gemini**] (https://ai.google.dev/gemini-api), and [**Ollama**](https://ollama.com/). The software features **automatic API detection**, which flexibly falls back to a local Ollama instance if keys are missing. Technical highlights include precise **token counting**, full **async support**, and the ability to switch dynamically between different providers during runtime. Thanks to a clean architecture based on design patterns, the library also enables advanced **tool calling** and the upload of a wide variety of file formats. The library is **easy to use** compared to more complex frameworks and offers seamless integration into environments such as Google Colab.
 
