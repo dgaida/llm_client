@@ -1,6 +1,6 @@
 # 🧠 LLM Client
 
-![Infographic](infografik.png)
+![Infographic](../../assets/infografik.png)
 
 ```mermaid
 graph TD

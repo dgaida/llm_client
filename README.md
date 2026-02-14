@@ -1,6 +1,16 @@
-# 🧠 LLM Client
+<p align="center">
+  <a href="https://dgaida.github.io/llm_client/">
+    <img src="assets/logo.png" width="140" alt="LLM Client Logo">
+  </a>
+</p>
 
-![Infografik](docs/infografik.png)
+<h1 align="center">🧠 LLM Client</h1>
+
+<p align="center">
+  <img src="assets/infografik.png" width="720" alt="LLM Client Overview">
+</p>
+
+![Infografik](assets/infografik.png)
 
 ```mermaid
 graph TD
