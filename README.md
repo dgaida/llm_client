@@ -52,6 +52,7 @@ graph TD
 ---
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+[![Version](https://img.shields.io/github/v/tag/dgaida/llm_client?label=version)](https://github.com/dgaida/llm_client/tags)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 [![codecov](https://codecov.io/gh/dgaida/llm_client/branch/master/graph/badge.svg)](https://codecov.io/gh/dgaida/llm_client)
 [![Tests](https://github.com/dgaida/llm_client/actions/workflows/tests.yml/badge.svg)](https://github.com/dgaida/llm_client/actions/workflows/tests.yml)
