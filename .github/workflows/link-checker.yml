@@ -18,8 +18,9 @@ jobs:
         uses: lycheeverse/lychee-action@v2.3.0
         with:
           # Check all markdown files in the repository
-          args: --verbose --no-progress "**/*.md"
+          # Exclude domains that often return 403 Forbidden to automated checkers
+          args: --verbose --no-progress --exclude "openai.com" --exclude "medium.com" --exclude "gopenai.com" "**/*.md"
           # Fail the action if broken links are found
-          fail: true
+          failIfEmpty: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

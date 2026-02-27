@@ -416,7 +416,6 @@ if token_count > model_limit:
 - [OpenAI Compatibility Guide](https://ai.google.dev/gemini-api/docs/openai)
 - [Pricing Information](https://ai.google.dev/pricing)
 - [Model Comparison](https://ai.google.dev/gemini-api/docs/models/gemini)
-- [Best Practices](https://ai.google.dev/gemini-api/docs/best-practices)
 
 ## Example: Complete Workflow
 

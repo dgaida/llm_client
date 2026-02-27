@@ -694,5 +694,4 @@ If the problem persists:
 ### Support Channels
 
 - [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests
-- [GitHub Discussions](https://github.com/dgaida/llm_client/discussions) - Questions & Discussions
 - [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation
