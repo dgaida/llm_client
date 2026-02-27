@@ -26,6 +26,7 @@ A universal Python client for accessing various Large Language Models (LLMs) via
   - [Response Streaming](#-response-streaming)
   - [Dynamic Provider Switching](#-dynamic-provider-switching)
 - [Supported APIs](#-supported-apis--default-models)
+- [Documentation](#-documentation)
 - [Tests](#-running-tests)
 - [Architecture](#-project-architecture)
 - [Contributing](#-contributing)
@@ -634,7 +635,7 @@ enable_logging("INFO")
 - **Testing**: Use `disable_logging()` to keep test output clean
 - **Debugging Issues**: Temporarily enable `DEBUG` level
 
-See [LOGGING.md](docs/LOGGING.md) for complete logging documentation and examples.
+See [LOGGING.md](docs/en/development/logging.md) for complete logging documentation and examples.
 
 ---
 
@@ -920,9 +921,40 @@ To add a new provider:
 
 ---
 
+## 📖 Documentation
+
+### Getting Started
+- [Installation & Setup](docs/en/installation.md)
+- [Quick Start Guide](docs/en/getting-started.md)
+- [API Reference](docs/en/api/llm_client.md)
+
+### Features
+- [Token Counting](docs/en/usage/token-counting.md)
+- [Async Support](docs/en/features.md#async-support)
+- [Configuration Files](docs/en/features.md#configuration-files)
+- [Response Streaming](docs/en/features.md#response-streaming)
+- [Provider Switching](docs/en/features.md#dynamic-provider-switching)
+- [Tool Calling](docs/en/features.md#tool-calling-function-calling)
+- [File Upload](docs/en/features.md#file-upload)
+
+### Provider Guides
+- [OpenAI](docs/en/usage/providers/openai.md)
+- [Groq](docs/en/usage/providers/groq.md)
+- [Google Gemini](docs/en/usage/providers/gemini.md)
+- [Ollama (local)](docs/en/usage/providers/ollama.md)
+- [Ollama Cloud](docs/en/usage/providers/ollama_cloud.md)
+
+### Other Resources
+- [CLI Usage](docs/en/usage/cli.md)
+- [Troubleshooting](docs/en/troubleshooting.md)
+- [CHANGELOG](CHANGELOG.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
+
+---
+
 ## 🧪 Running Tests
 
-See [TESTING.md](docs/TESTING.md).
+See [TESTING.md](docs/en/development/testing.md).
 
 ---
 
@@ -1018,7 +1050,6 @@ MIT License - see [LICENSE](LICENSE)
 * [Google Gemini API](https://ai.google.dev/gemini-api/docs)
 * [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)
 * [llama-index Docs](https://docs.llamaindex.ai/)
-* [Andrew Ng's AISuite](https://github.com/andrewyng/aisuite)
 
 ---
 
