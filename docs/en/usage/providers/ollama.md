@@ -470,7 +470,6 @@ except ChatCompletionError as e:
 - [Ollama GitHub](https://github.com/ollama/ollama)
 - [Model Library](https://ollama.ai/library)
 - [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/README.md)
-- [Performance Guide](https://github.com/ollama/ollama/blob/main/docs/gpu.md)
 
 ## Example: Complete Local RAG System
 

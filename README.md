@@ -180,7 +180,7 @@ client = LLMClient()  # Lädt automatisch aus userdata
 
 ### 📊 Token-Zählung
 
-Zähle Tokens präzise für Kostenmanagement und Context-Limits. [→ Details](docs/features/token_counting.md)
+Zähle Tokens präzise für Kostenmanagement und Context-Limits. [→ Details](docs/de/usage/token-counting.md)
 
 ```python
 token_count = client.count_tokens(messages)
@@ -191,7 +191,7 @@ print(f"Nachrichten enthalten {token_count} Tokens")
 
 ### ⚡ Async-Unterstützung
 
-Nutze async/await für nicht-blockierende Operationen. [→ Details](docs/features_overview_DE.md#async-unterstützung)
+Nutze async/await für nicht-blockierende Operationen. [→ Details](docs/de/features.md#async-unterstützung)
 
 ```python
 async_client = LLMClient(use_async=True)
@@ -202,7 +202,7 @@ response = await async_client.achat_completion(messages)
 
 ### 📁 Konfigurationsdateien
 
-Verwalte mehrere Provider-Konfigurationen einfach via YAML/JSON. [→ Details](docs/features_overview_DE.md#konfigurationsdateien)
+Verwalte mehrere Provider-Konfigurationen einfach via YAML/JSON. [→ Details](docs/de/features.md#konfigurationsdateien)
 
 ```python
 client = LLMClient.from_config("llm_config.yaml")
@@ -212,7 +212,7 @@ client = LLMClient.from_config("llm_config.yaml")
 
 ### 🌊 Response-Streaming
 
-Streame Antworten in Echtzeit für bessere UX. [→ Details](docs/features_overview_DE.md#response-streaming)
+Streame Antworten in Echtzeit für bessere UX. [→ Details](docs/de/features.md#response-streaming)
 
 ```python
 for chunk in client.chat_completion_stream(messages):
@@ -223,7 +223,7 @@ for chunk in client.chat_completion_stream(messages):
 
 ### 🔄 Provider-Wechsel
 
-Wechsle zwischen APIs zur Laufzeit. [→ Details](docs/features_overview_DE.md#dynamischer-provider-wechsel)
+Wechsle zwischen APIs zur Laufzeit. [→ Details](docs/de/features.md#dynamischer-provider-wechsel)
 
 ```python
 client.switch_provider("gemini", llm="gemini-2.5-flash")
@@ -233,7 +233,7 @@ client.switch_provider("gemini", llm="gemini-2.5-flash")
 
 ### 🧰 Tool-Calling
 
-Nutze Function/Tool Calling für alle Provider. [→ Details](docs/features_overview_DE.md#tool-calling-function-calling)
+Nutze Function/Tool Calling für alle Provider. [→ Details](docs/de/features.md#tool-calling-function-calling)
 
 ```python
 result = client.chat_completion_with_tools(messages, tools)
@@ -243,7 +243,7 @@ result = client.chat_completion_with_tools(messages, tools)
 
 ### 📎 Datei-Upload
 
-Sende Bilder, PDFs und andere Dateien mit Chat-Anfragen. [→ Details](docs/features_overview_DE.md#datei-upload)
+Sende Bilder, PDFs und andere Dateien mit Chat-Anfragen. [→ Details](docs/de/features.md#datei-upload)
 
 ```python
 response = client.chat_completion_with_files(
@@ -256,7 +256,7 @@ response = client.chat_completion_with_files(
 
 ### ☁️ Ollama Cloud
 
-Nutze leistungsstarke Cloud-Modelle ohne lokale GPU. [→ Details](docs/providers/ollama_cloud.md)
+Nutze leistungsstarke Cloud-Modelle ohne lokale GPU. [→ Details](docs/de/usage/providers/ollama_cloud.md)
 
 ```python
 client = LLMClient(llm="gpt-oss:120b-cloud")
@@ -291,29 +291,29 @@ ollama pull llama3.2:1b
 ## 📖 Dokumentation
 
 ### Getting Started
-- [Installation & Setup](docs/getting_started.md)
-- [Schnellstart-Guide](docs/getting_started.md#basic-setup)
-- [API-Referenz](docs/api/llm_client.md)
+- [Installation & Setup](docs/de/installation.md)
+- [Schnellstart-Guide](docs/de/getting-started.md)
+- [API-Referenz](docs/de/api/llm_client.md)
 
 ### Features
-- [Token-Zählung](docs/features/token_counting.md)
-- [Async-Unterstützung](docs/features_overview_DE.md#async-unterstützung)
-- [Konfigurationsdateien](docs/features_overview_DE.md#konfigurationsdateien)
-- [Response-Streaming](docs/features_overview_DE.md#response-streaming)
-- [Provider-Wechsel](docs/features_overview_DE.md#dynamischer-provider-wechsel)
-- [Tool-Calling](docs/features_overview_DE.md#tool-calling-function-calling)
-- [Datei-Upload](docs/features_overview_DE.md#datei-upload)
+- [Token-Zählung](docs/de/usage/token-counting.md)
+- [Async-Unterstützung](docs/de/features.md#async-unterstützung)
+- [Konfigurationsdateien](docs/de/features.md#konfigurationsdateien)
+- [Response-Streaming](docs/de/features.md#response-streaming)
+- [Provider-Wechsel](docs/de/features.md#dynamischer-provider-wechsel)
+- [Tool-Calling](docs/de/features.md#tool-calling-function-calling)
+- [Datei-Upload](docs/de/features.md#datei-upload)
 
 ### Provider-Guides
-- [OpenAI](docs/providers/openai.md)
-- [Groq](docs/providers/groq.md)
-- [Google Gemini](docs/providers/gemini.md)
-- [Ollama (lokal)](docs/providers/ollama.md)
-- [Ollama Cloud](docs/providers/ollama_cloud.md)
+- [OpenAI](docs/de/usage/providers/openai.md)
+- [Groq](docs/de/usage/providers/groq.md)
+- [Google Gemini](docs/de/usage/providers/gemini.md)
+- [Ollama (lokal)](docs/de/usage/providers/ollama.md)
+- [Ollama Cloud](docs/de/usage/providers/ollama_cloud.md)
 
 ### Weitere Ressourcen
-- [CLI-Nutzung](docs/cli.md)
-- [Troubleshooting](docs/troubleshooting.md)
+- [CLI-Nutzung](docs/de/usage/cli.md)
+- [Troubleshooting](docs/de/troubleshooting.md)
 - [CHANGELOG](CHANGELOG.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
 
@@ -366,7 +366,7 @@ pytest --cov=llm_client --cov-report=html
 pytest tests/test_llm_client.py -v
 ```
 
-Siehe [docs/TESTING.md](docs/TESTING.md) für Details.
+Siehe [docs/de/development/testing.md](docs/de/development/testing.md) für Details.
 
 ---
 

@@ -495,4 +495,3 @@ Features planned for future releases:
 
 - 📖 [Documentation](getting-started.md)
 - 🐛 [Report Issues](https://github.com/dgaida/llm_client/issues)
-- 💬 [Discussions](https://github.com/dgaida/llm_client/discussions)
