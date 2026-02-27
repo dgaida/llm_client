@@ -1,6 +1,6 @@
 # Features-Übersicht
 
-Detaillierte Dokumentation aller Features von LLM Client v0.3.0.
+LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit verschiedenen LLM-Anbietern. Diese Seite gibt Ihnen einen Überblick über alle verfügbaren Features.
 
 ## Inhaltsverzeichnis
 

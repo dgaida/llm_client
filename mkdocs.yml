@@ -102,6 +102,12 @@ nav:
   - Features:
       - Overview: features.md
       - Token Counting: usage/token-counting.md
+      - Async Support: features.md#async-support
+      - Configuration Files: features.md#configuration-files
+      - Response Streaming: features.md#response-streaming
+      - Provider Switching: features.md#dynamic-provider-switching
+      - Tool Calling: features.md#tool-calling-function-calling
+      - File Upload: features.md#file-upload
   - API Reference:
       - Overview: api/index.md
       - LLMClient: api/llm_client.md
