@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    - cron: "0 0 * * 1" # Runs every Monday at 00:00
+    - cron: "0 0 1 * *" # Runs on the 1st of every month at 00:00
 
 jobs:
   linkChecker:
@@ -18,8 +18,8 @@ jobs:
         uses: lycheeverse/lychee-action@v2.3.0
         with:
           # Check all markdown files in the repository
-          # Exclude domains that often return 403 Forbidden to automated checkers
-          args: --verbose --no-progress --exclude "openai.com" --exclude "medium.com" --exclude "gopenai.com" "**/*.md"
+          # Exclude domains that often return 429 or 403 Forbidden to automated checkers
+          args: --verbose --no-progress --exclude "openai.com" --exclude "medium.com" --exclude "gopenai.com" --exclude "github.com/ollama/ollama" "**/*.md"
           # Fail the action if broken links are found
           failIfEmpty: false
         env:
