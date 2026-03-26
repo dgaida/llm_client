@@ -1,13 +1,17 @@
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 from groq import APIStatusError
+
 from llm_client.providers.providers import GroqProvider
+
 
 @pytest.fixture
 def mock_groq_client():
     client = MagicMock()
     # Mocking chat.completions.create
     return client
+
 
 def test_groq_fallback_sync(mock_groq_client):
     provider = GroqProvider(llm="moonshotai/kimi-k2-instruct-0905", api_key="fake-key")
@@ -22,7 +26,7 @@ def test_groq_fallback_sync(mock_groq_client):
     error = APIStatusError(
         message=error_message,
         response=error_response,
-        body={'error': {'message': error_message, 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+        body={"error": {"message": error_message, "type": "tokens", "code": "rate_limit_exceeded"}},
     )
     error.__str__ = lambda self: error_message
 
@@ -47,6 +51,7 @@ def test_groq_fallback_sync(mock_groq_client):
     second_call = mock_groq_client.chat.completions.create.call_args_list[1]
     assert second_call.kwargs["model"] == "meta-llama/llama-4-scout-17b-16e-instruct"
 
+
 @pytest.mark.asyncio
 async def test_groq_fallback_async():
     from llm_client.providers.async_providers import AsyncGroqProvider
@@ -62,7 +67,7 @@ async def test_groq_fallback_async():
     error = APIStatusError(
         message=error_message,
         response=error_response,
-        body={'error': {'message': error_message, 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+        body={"error": {"message": error_message, "type": "tokens", "code": "rate_limit_exceeded"}},
     )
     error.__str__ = lambda self: error_message
 
@@ -71,10 +76,14 @@ async def test_groq_fallback_async():
 
     # Using AsyncMock for async methods
     from unittest.mock import AsyncMock
-    mock_async_client.chat.completions.create = AsyncMock(side_effect=[error, mock_response_success])
+
+    mock_async_client.chat.completions.create = AsyncMock(
+        side_effect=[error, mock_response_success]
+    )
 
     messages = [{"role": "user", "content": "Large async request"}]
     from llm_client.providers import async_providers
+
     with patch.object(async_providers, "APIStatusError", APIStatusError):
         response = await provider.achat_completion(messages)
 

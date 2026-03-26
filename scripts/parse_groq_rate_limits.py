@@ -1,16 +1,16 @@
 import asyncio
 import os
 import re
-from bs4 import BeautifulSoup
-from playwright.async_api import async_playwright
 
 URL = "https://console.groq.com/docs/rate-limits#rate-limits"
 OUTPUT_FILE = os.path.join(
-    os.path.dirname(os.path.dirname(__file__)),
-    "llm_client", "providers", "groq_rate_limits.md"
+    os.path.dirname(os.path.dirname(__file__)), "llm_client", "providers", "groq_rate_limits.md"
 )
 
+
 async def parse_groq_limits():
+    from playwright.async_api import async_playwright
+
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
@@ -26,16 +26,18 @@ async def parse_groq_limits():
         content = await page.content()
         await browser.close()
 
-    soup = BeautifulSoup(content, 'html.parser')
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(content, "html.parser")
 
     # Let's try finding the data more robustly
     rows = []
 
     # Attempt 1: Standard Table
     # Sometimes it's inside another tag
-    for table in soup.find_all('table'):
-        for tr in table.find_all('tr'):
-            cols = [td.get_text(strip=True) for td in tr.find_all(['td', 'th'])]
+    for table in soup.find_all("table"):
+        for tr in table.find_all("tr"):
+            cols = [td.get_text(strip=True) for td in tr.find_all(["td", "th"])]
             if len(cols) >= 7:
                 rows.append(cols)
 
@@ -43,25 +45,25 @@ async def parse_groq_limits():
     if len(rows) <= 1:
         print("Standard table not found or too small, trying alternative parsing...")
         # Get all text blocks
-        all_text = soup.get_text(separator='|')
+        all_text = soup.get_text(separator="|")
         # Splitting by common delimiters
-        parts = all_text.split('|')
+        parts = all_text.split("|")
 
         # Look for the header sequence
         header_index = -1
         for i in range(len(parts)):
-            if "MODEL ID" in parts[i] and "RPM" in parts[i+1] and "RPD" in parts[i+2]:
+            if "MODEL ID" in parts[i] and "RPM" in parts[i + 1] and "RPD" in parts[i + 2]:
                 header_index = i
                 break
 
         if header_index != -1:
-            headers = [p.strip() for p in parts[header_index:header_index+7]]
+            headers = [p.strip() for p in parts[header_index : header_index + 7]]
             rows.append(headers)
 
             # Start after headers
             current = header_index + 7
             while current + 6 < len(parts):
-                row = [p.strip() for p in parts[current:current+7]]
+                row = [p.strip() for p in parts[current : current + 7]]
                 # Basic validation: first part is model-like, others are numbers/k/-
                 if row[0] and (any(char.isdigit() for char in row[1]) or row[1] == "-"):
                     rows.append(row)
@@ -72,10 +74,11 @@ async def parse_groq_limits():
     seen_models = set()
     for row in rows:
         # Clean model name (remove "(BUTTON)" or extra spaces)
-        model_id = re.sub(r'\(BUTTON\)', '', row[0]).strip()
-        if not model_id or model_id == "MODEL ID" or model_id in seen_models:
-            if model_id != "MODEL ID":
-                continue
+        model_id = re.sub(r"\(BUTTON\)", "", row[0]).strip()
+        if (not model_id or model_id == "MODEL ID" or model_id in seen_models) and (
+            model_id != "MODEL ID"
+        ):
+            continue
 
         if model_id != "MODEL ID":
             seen_models.add(model_id)
@@ -84,7 +87,9 @@ async def parse_groq_limits():
         cleaned_rows.append(cleaned_row)
 
     if not cleaned_rows or len(cleaned_rows) <= 1:
-        print("Final attempt failed. I will use a HARDCODED version for now to let the user proceed if parsing is truly impossible, but I will try to make it as complete as possible based on the initial view_text_website output.")
+        print(
+            "Final attempt failed. I will use a HARDCODED version for now to let the user proceed if parsing is truly impossible, but I will try to make it as complete as possible based on the initial view_text_website output."
+        )
         # Based on my initial view_text_website:
         cleaned_rows = [
             ["MODEL ID", "RPM", "RPD", "TPM", "TPD", "ASH", "ASD"],
@@ -105,7 +110,7 @@ async def parse_groq_limits():
             ["openai/gpt-oss-safeguard-20b", "30", "1K", "8K", "200K", "-", "-"],
             ["qwen/qwen3-32b", "60", "1K", "6K", "500K", "-", "-"],
             ["whisper-large-v3", "20", "2K", "-", "-", "7.2K", "28.8K"],
-            ["whisper-large-v3-turbo", "20", "2K", "-", "-", "7.2K", "28.8K"]
+            ["whisper-large-v3-turbo", "20", "2K", "-", "-", "7.2K", "28.8K"],
         ]
 
     # Generate Markdown
@@ -119,6 +124,7 @@ async def parse_groq_limits():
     with open(OUTPUT_FILE, "w") as f:
         f.write(md_content)
     print(f"Successfully saved Groq rate limits to {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     asyncio.run(parse_groq_limits())

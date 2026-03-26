@@ -306,14 +306,17 @@ class GroqProvider(BaseProvider):
         except Exception as e:
             error_str = str(e)
             logger.debug(f"Groq API error caught: {error_str}")
-            if (hasattr(e, 'status_code') and e.status_code == 413) or "413" in error_str:
-                if "rate_limit_exceeded" in error_str or "Rate limit exceeded" in error_str:
-                    logger.warning(f"Groq TPM limit exceeded for model {self.llm}. Attempting fallback.")
-                    fallback_model = self._find_fallback_model(error_str)
-                    if fallback_model:
-                        logger.info(f"Retrying with fallback model: {fallback_model}")
-                        self.llm = fallback_model
-                        return self._chat_completion_impl(messages)
+            if ((hasattr(e, "status_code") and e.status_code == 413) or "413" in error_str) and (
+                "rate_limit_exceeded" in error_str or "Rate limit exceeded" in error_str
+            ):
+                logger.warning(
+                    f"Groq TPM limit exceeded for model {self.llm}. Attempting fallback."
+                )
+                fallback_model = self._find_fallback_model(error_str)
+                if fallback_model:
+                    logger.info(f"Retrying with fallback model: {fallback_model}")
+                    self.llm = fallback_model
+                    return self._chat_completion_impl(messages)
             raise
 
         content = response.choices[0].message.content
@@ -357,7 +360,11 @@ class GroqProvider(BaseProvider):
                 lines = f.readlines()
 
             # Skip header lines
-            data_lines = [line for line in lines if "|" in line and "---" not in line and "MODEL ID" not in line]
+            data_lines = [
+                line
+                for line in lines
+                if "|" in line and "---" not in line and "MODEL ID" not in line
+            ]
 
             best_model = None
             highest_tpm = 0
@@ -380,12 +387,11 @@ class GroqProvider(BaseProvider):
                         else:
                             tpm = int(tpm_str.replace(",", ""))
 
-                    if tpm > requested_tokens:
+                    if tpm > requested_tokens and (best_model is None or tpm > highest_tpm):
                         # We found a model that can handle the request.
                         # Prefer models with higher TPM.
-                        if best_model is None or tpm > highest_tpm:
-                            highest_tpm = tpm
-                            best_model = model_id
+                        highest_tpm = tpm
+                        best_model = model_id
 
             return best_model
         except Exception as e:

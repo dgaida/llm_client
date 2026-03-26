@@ -329,14 +329,16 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
             )
         except Exception as e:
             error_str = str(e)
-            if (hasattr(e, 'status_code') and e.status_code == 413) or "413" in error_str:
-                if "rate_limit_exceeded" in error_str or "Rate limit exceeded" in error_str:
-                    from .providers import GroqProvider
-                    # Reuse the fallback logic from the sync provider
-                    fallback_model = GroqProvider._find_fallback_model(None, error_str)
-                    if fallback_model:
-                        self.llm = fallback_model
-                        return await self._achat_completion_impl(messages)
+            if ((hasattr(e, "status_code") and e.status_code == 413) or "413" in error_str) and (
+                "rate_limit_exceeded" in error_str or "Rate limit exceeded" in error_str
+            ):
+                from .providers import GroqProvider
+
+                # Reuse the fallback logic from the sync provider
+                fallback_model = GroqProvider._find_fallback_model(None, error_str)
+                if fallback_model:
+                    self.llm = fallback_model
+                    return await self._achat_completion_impl(messages)
             raise
 
         return response.choices[0].message.content

@@ -1,6 +1,5 @@
 import os
-import pytest
-from scripts.parse_groq_rate_limits import parse_groq_limits
+
 
 def test_parse_groq_limits_creation():
     # Since live scraping depends on internet and playwright,
@@ -10,12 +9,13 @@ def test_parse_groq_limits_creation():
     limits_file = "llm_client/providers/groq_rate_limits.md"
     assert os.path.exists(limits_file)
 
-    with open(limits_file, "r") as f:
+    with open(limits_file) as f:
         content = f.read()
         assert "# Groq Free Plan Rate Limits" in content
         assert "| MODEL ID | RPM | RPD | TPM | TPD | ASH | ASD |" in content
         # Check for at least one known model from the hardcoded fallback or live scrape
         assert "meta-llama/llama-4-scout-17b-16e-instruct" in content
+
 
 def test_tpm_parsing_logic():
     from llm_client.providers.providers import GroqProvider
