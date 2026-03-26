@@ -19,9 +19,10 @@ except ImportError:
     AsyncOpenAI = None  # type: ignore
 
 try:
-    from groq import AsyncGroq
+    from groq import APIStatusError, AsyncGroq
 except ImportError:
     AsyncGroq = None  # type: ignore
+    APIStatusError = None  # type: ignore
 
 
 class AsyncProviderMixin:
@@ -319,12 +320,25 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
         if not self.client:
             raise RuntimeError("Groq client not initialized")
 
-        response = await self.client.chat.completions.create(
-            model=self.llm,
-            messages=messages,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-        )
+        try:
+            response = await self.client.chat.completions.create(
+                model=self.llm,
+                messages=messages,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+            )
+        except Exception as e:
+            error_str = str(e)
+            if (hasattr(e, 'status_code') and e.status_code == 413) or "413" in error_str:
+                if "rate_limit_exceeded" in error_str or "Rate limit exceeded" in error_str:
+                    from .providers import GroqProvider
+                    # Reuse the fallback logic from the sync provider
+                    fallback_model = GroqProvider._find_fallback_model(None, error_str)
+                    if fallback_model:
+                        self.llm = fallback_model
+                        return await self._achat_completion_impl(messages)
+            raise
+
         return response.choices[0].message.content
 
     async def _achat_completion_with_tools_impl(

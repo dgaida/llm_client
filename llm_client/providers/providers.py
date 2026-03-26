@@ -16,9 +16,10 @@ except ImportError:
     OpenAI = None  # type: ignore
 
 try:
-    from groq import Groq
+    from groq import APIStatusError, Groq
 except ImportError:
     Groq = None  # type: ignore
+    APIStatusError = None  # type: ignore
 
 try:
     from ollama import Client
@@ -295,12 +296,25 @@ class GroqProvider(BaseProvider):
 
         logger.debug(f"Calling Groq API: model={self.llm}, messages={len(messages)}")
 
-        response = self.client.chat.completions.create(
-            model=self.llm,
-            messages=messages,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-        )
+        try:
+            response = self.client.chat.completions.create(
+                model=self.llm,
+                messages=messages,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+            )
+        except Exception as e:
+            error_str = str(e)
+            logger.debug(f"Groq API error caught: {error_str}")
+            if (hasattr(e, 'status_code') and e.status_code == 413) or "413" in error_str:
+                if "rate_limit_exceeded" in error_str or "Rate limit exceeded" in error_str:
+                    logger.warning(f"Groq TPM limit exceeded for model {self.llm}. Attempting fallback.")
+                    fallback_model = self._find_fallback_model(error_str)
+                    if fallback_model:
+                        logger.info(f"Retrying with fallback model: {fallback_model}")
+                        self.llm = fallback_model
+                        return self._chat_completion_impl(messages)
+            raise
 
         content = response.choices[0].message.content
 
@@ -310,6 +324,73 @@ class GroqProvider(BaseProvider):
 
         logger.debug(f"Groq response received: {len(content)} characters")
         return content
+
+    def _find_fallback_model(self, error_message: str) -> str | None:
+        """Find a model with higher TPM limit from the saved rate limits.
+
+        Args:
+            error_message: The API error message containing requested tokens.
+
+        Returns:
+            Name of a suitable fallback model or None.
+        """
+        import re
+        from pathlib import Path
+
+        # Extract requested tokens from message e.g. "Requested 21142"
+        match = re.search(r"Requested (\d+)", error_message)
+        if not match:
+            logger.debug("Could not parse requested tokens from error message")
+            return None
+
+        requested_tokens = int(match.group(1))
+        logger.debug(f"Parsed requested tokens: {requested_tokens}")
+
+        # Load rate limits from Markdown file
+        limits_file = Path(__file__).parent / "groq_rate_limits.md"
+        if not limits_file.exists():
+            logger.warning(f"Rate limits file not found at {limits_file}")
+            return None
+
+        try:
+            with open(limits_file) as f:
+                lines = f.readlines()
+
+            # Skip header lines
+            data_lines = [line for line in lines if "|" in line and "---" not in line and "MODEL ID" not in line]
+
+            best_model = None
+            highest_tpm = 0
+
+            for line in data_lines:
+                parts = [p.strip() for p in line.split("|") if p.strip()]
+                if len(parts) >= 4:
+                    model_id = parts[0]
+                    # Skip "groq/compound" models as requested (they are specialized)
+                    if "groq/compound" in model_id:
+                        continue
+
+                    tpm_str = parts[3]
+
+                    # Convert TPM string (e.g. "30K", "1.2K", "6000") to integer
+                    tpm = 0
+                    if tpm_str != "-":
+                        if "K" in tpm_str:
+                            tpm = int(float(tpm_str.replace("K", "")) * 1000)
+                        else:
+                            tpm = int(tpm_str.replace(",", ""))
+
+                    if tpm > requested_tokens:
+                        # We found a model that can handle the request.
+                        # Prefer models with higher TPM.
+                        if best_model is None or tpm > highest_tpm:
+                            highest_tpm = tpm
+                            best_model = model_id
+
+            return best_model
+        except Exception as e:
+            logger.error(f"Error parsing rate limits file: {e}")
+            return None
 
     def _chat_completion_with_tools_impl(
         self,
