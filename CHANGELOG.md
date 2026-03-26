@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 <!-- commitizen-marker -->
 
+## v0.4.7 (2026-03-26)
+
+### Feat
+
+- add Groq rate limit parser and fallback mechanism
+
+### Fix
+
+- resolve CI linting and dependency issues in Groq fallback feature
+
 ## v0.4.6 (2026-03-18)
 
 ## v0.4.5 (2026-02-27)
