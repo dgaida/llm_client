@@ -99,6 +99,9 @@ nav:
           - Gemini: usage/providers/gemini.md
           - Ollama: usage/providers/ollama.md
           - Ollama Cloud: usage/providers/ollama_cloud.md
+  - Tutorials:
+      - Overview: tutorials/index.md
+      - RAG Chatbot: tutorials/rag-chatbot.md
   - Features:
       - Overview: features.md
       - Token Counting: usage/token-counting.md
