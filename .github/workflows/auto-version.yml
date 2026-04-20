@@ -1,4 +1,4 @@
-name: Auto Version Bump
+name: Auto Version and Badges
 
 on:
   pull_request:
@@ -7,45 +7,18 @@ on:
       - master
 
 jobs:
-  bump-version:
+  version-and-badges:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # Note: If you want this push to trigger other workflows (like release.yml),
-          # you should use a Personal Access Token (PAT) instead of GITHUB_TOKEN.
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Auto Version and Badges
+        uses: dgaida/auto-version-action@main
         with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install .[dev]
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Bump version and update changelog
-        run: |
-          # cz bump handles version bumping in pyproject.toml and llm_client/__init__.py,
-          # updates CHANGELOG.md, and creates a git commit and tag.
-          # Force patch increment as per user request.
-          cz bump --yes --increment PATCH
-
-      - name: Push changes
-        run: |
-          # Push the commit and the new tag back to master
-          git push origin master --tags
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-version: true
+          create-badge: true
