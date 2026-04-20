@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 <!-- commitizen-marker -->
 
+## v0.4.8 (2026-04-20)
+
+### Fix
+
+- sync version numbers and workaround auto-version-action bug
+
+
+
 ## v0.4.7 (2026-03-26)
 
 ### Feat

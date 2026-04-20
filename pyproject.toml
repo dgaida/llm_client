@@ -116,7 +116,7 @@ omit-covered-files = false
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.4.7"
+version="0.4.8"
 version_files = [
     "pyproject.toml:version",
     "llm_client/__init__.py:__version__"
