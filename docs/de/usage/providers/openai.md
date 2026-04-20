@@ -6,10 +6,10 @@ The OpenAI provider enables access to OpenAI's GPT models including GPT-4o, GPT-
 
 ### 1. Get API Key
 
-1. Create account at [platform.openai.com](https://platform.openai.com)
-2. Navigate to [API Keys](https://platform.openai.com/account/api-keys)
-3. Click "Create new secret key"
-4. Copy the key (starts with `sk-...`)
+1. Create account at [platform.openai.com](https://platform.openai.com)  
+2. Navigate to [API Keys](https://platform.openai.com/account/api-keys)  
+3. Click "Create new secret key"  
+4. Copy the key (starts with `sk-...`)  
 
 ### 2. Configure
 
@@ -356,7 +356,7 @@ print(f"Estimated cost: ${total_cost:.4f}")
 
 ## Resources
 
-- [OpenAI API Documentation](https://platform.openai.com/docs)
-- [OpenAI Playground](https://platform.openai.com/playground)
-- [Model Pricing](https://openai.com/pricing)
-- [API Status](https://status.openai.com/)
+- [OpenAI API Documentation](https://platform.openai.com/docs)  
+- [OpenAI Playground](https://platform.openai.com/playground)  
+- [Model Pricing](https://openai.com/pricing)  
+- [API Status](https://status.openai.com/)  

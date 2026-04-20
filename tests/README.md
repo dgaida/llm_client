@@ -66,9 +66,9 @@ pytest -k "async" tests/test_adapter.py
 
 ### Aktueller Stand
 
-- `llm_client.py`: ~95% Coverage
-- `adapter.py`: ~90% Coverage
-- Insgesamt: ~92% Coverage
+- `llm_client.py`: ~95% Coverage  
+- `adapter.py`: ~90% Coverage  
+- Insgesamt: ~92% Coverage  
 
 ### Coverage-Report anzeigen
 
@@ -85,28 +85,28 @@ open htmlcov/index.html
 
 ### 1. Unit Tests (`test_llm_client.py`)
 
-Grundlegende Funktionalitätstests:
-- API-Auswahl (automatisch und manuell)
-- Modell-Konfiguration
-- Fehlerhandling
+Grundlegende Funktionalitätstests:  
+- API-Auswahl (automatisch und manuell)  
+- Modell-Konfiguration  
+- Fehlerhandling  
 
 ### 2. Erweiterte Tests (`test_llm_client_extended.py`)
 
-Detaillierte Tests für:
-- Initialisierung mit verschiedenen Parametern
-- Chat-Completion mit allen APIs (gemockt)
-- Edge Cases (leere Nachrichten, extreme Werte)
-- Type Hints Validierung
-- Google Colab Integration
+Detaillierte Tests für:  
+- Initialisierung mit verschiedenen Parametern  
+- Chat-Completion mit allen APIs (gemockt)  
+- Edge Cases (leere Nachrichten, extreme Werte)  
+- Type Hints Validierung  
+- Google Colab Integration  
 
 ### 3. Adapter Tests (`test_adapter.py`)
 
-Tests für llama-index Integration:
-- Adapter-Initialisierung
-- Nachricht-Konvertierung
-- Property-Tests (model, metadata)
-- NotImplementedError für nicht unterstützte Methoden
-- Integration mit echtem LLMClient
+Tests für llama-index Integration:  
+- Adapter-Initialisierung  
+- Nachricht-Konvertierung  
+- Property-Tests (model, metadata)  
+- NotImplementedError für nicht unterstützte Methoden  
+- Integration mit echtem LLMClient  
 
 ## 🔧 Test-Fixtures
 
@@ -157,9 +157,9 @@ pip install llama-index-core
 
 ### Ollama Tests
 
-Tests, die Ollama-Funktionalität prüfen, können fehlschlagen wenn:
-- Ollama nicht installiert ist
-- Ollama-Service nicht läuft
+Tests, die Ollama-Funktionalität prüfen, können fehlschlagen wenn:  
+- Ollama nicht installiert ist  
+- Ollama-Service nicht läuft  
 
 Diese Tests nutzen Mocking und sollten daher normalerweise funktionieren.
 
@@ -257,7 +257,7 @@ pytest -n auto
 
 ## 📚 Weiterführende Ressourcen
 
-- [pytest Dokumentation](https://docs.pytest.org/)
-- [pytest-cov Plugin](https://pytest-cov.readthedocs.io/)
-- [unittest.mock Guide](https://docs.python.org/3/library/unittest.mock.html)
-- [pytest-asyncio](https://pytest-asyncio.readthedocs.io/)
+- [pytest Dokumentation](https://docs.pytest.org/)  
+- [pytest-cov Plugin](https://pytest-cov.readthedocs.io/)  
+- [unittest.mock Guide](https://docs.python.org/3/library/unittest.mock.html)  
+- [pytest-asyncio](https://pytest-asyncio.readthedocs.io/)  

@@ -51,20 +51,20 @@ graph TD
 
 ## 🚀 Features
 
-### Kern-Features
-* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
-* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
-* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt
-* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
-* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
-* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
-* 📊 **Token-Zählung mit tiktoken** - Präzise Token-Zählung für Kostenmanagement
-* ⚡ **Vollständige Async-Unterstützung** - Async/await für alle Provider
-* 📁 **Konfigurationsdateien** - YAML/JSON-Konfiguration für Multi-Provider-Setups
+### Kern-Features  
+* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück  
+* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends  
+* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt  
+* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar  
+* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata  
+* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama  
+* 📊 **Token-Zählung mit tiktoken** - Präzise Token-Zählung für Kostenmanagement  
+* ⚡ **Vollständige Async-Unterstützung** - Async/await für alle Provider  
+* 📁 **Konfigurationsdateien** - YAML/JSON-Konfiguration für Multi-Provider-Setups  
 
-### Architektur
-* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
-* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
+### Architektur  
+* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen  
+* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung  
 
 ## 🚦 Schnellstart
 
@@ -87,17 +87,17 @@ print(response)
 
 ## 📖 Dokumentation
 
-### Erste Schritte
-- [Installation](installation.md)
-- [Schnellstart-Guide](getting-started.md)
-- [API-Referenz](api/index.md)
+### Erste Schritte  
+- [Installation](installation.md)  
+- [Schnellstart-Guide](getting-started.md)  
+- [API-Referenz](api/index.md)  
 
-### Features
-- [Token-Zählung](usage/token-counting.md)
-- [Konfigurationsdateien](features.md)
+### Features  
+- [Token-Zählung](usage/token-counting.md)  
+- [Konfigurationsdateien](features.md)  
 
-### Weitere Ressourcen
-- [CLI-Nutzung](usage/cli.md)
-- [Fehlerbehebung](troubleshooting.md)
-- [Changelog](changelog.md)
-- [Mitwirken](development/contributing.md)
+### Weitere Ressourcen  
+- [CLI-Nutzung](usage/cli.md)  
+- [Fehlerbehebung](troubleshooting.md)  
+- [Changelog](changelog.md)  
+- [Mitwirken](development/contributing.md)  

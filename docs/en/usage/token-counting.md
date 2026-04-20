@@ -8,10 +8,10 @@ Accurate token counting helps you manage API costs and stay within context limit
 
 **Why Token Counting Matters:**
 
-- 💰 **Cost Management** - Know exactly how much each request will cost
-- 📊 **Context Limits** - Ensure messages fit within model limits
-- 🎯 **Optimization** - Identify and reduce unnecessary tokens
-- 📈 **Monitoring** - Track token usage over time
+- 💰 **Cost Management** - Know exactly how much each request will cost  
+- 📊 **Context Limits** - Ensure messages fit within model limits  
+- 🎯 **Optimization** - Identify and reduce unnecessary tokens  
+- 📈 **Monitoring** - Track token usage over time  
 
 ---
 
@@ -374,6 +374,6 @@ available = counter.is_tiktoken_available()
 
 ## Related
 
-- [API Reference](../api/llm_client.md) - Complete API documentation
-- [Cost Optimization](provider_switching.md#cost-optimization) - Strategies for reducing costs
-- [Troubleshooting](../troubleshooting.md) - Common token counting issues
+- [API Reference](../api/llm_client.md) - Complete API documentation  
+- [Cost Optimization](provider_switching.md#cost-optimization) - Strategies for reducing costs  
+- [Troubleshooting](../troubleshooting.md) - Common token counting issues  

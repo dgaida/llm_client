@@ -6,11 +6,11 @@ The Gemini provider enables access to Google's Gemini models through the OpenAI 
 
 ### 1. Get API Key
 
-1. Visit [Google AI Studio](https://aistudio.google.com/apikey)
-2. Sign in with your Google account
-3. Click **"Get API Key"** or **"Create API Key"**
-4. Select or create a Google Cloud project
-5. Copy the generated key (starts with `AIzaSy...`)
+1. Visit [Google AI Studio](https://aistudio.google.com/apikey)  
+2. Sign in with your Google account  
+3. Click **"Get API Key"** or **"Create API Key"**  
+4. Select or create a Google Cloud project  
+5. Copy the generated key (starts with `AIzaSy...`)  
 
 ### 2. Configure
 
@@ -313,10 +313,10 @@ except ChatCompletionError as e:
 
 Google Gemini offers competitive pricing with a generous free tier:
 
-**Free Tier:**
-- 15 requests per minute
-- 1 million tokens per minute
-- 1,500 requests per day
+**Free Tier:**  
+- 15 requests per minute  
+- 1 million tokens per minute  
+- 1,500 requests per day  
 
 **Paid Tier (Pay-as-you-go):**
 
@@ -351,17 +351,17 @@ print(f"Estimated cost: ${total:.4f}")
 
 ## Comparison with Other Providers
 
-**Advantages:**
-- ✅ Very long context windows (up to 2M tokens)
-- ✅ Competitive pricing
-- ✅ Strong multilingual capabilities
-- ✅ Excellent at structured data extraction
-- ✅ Native multimodal support (via Google AI SDK)
+**Advantages:**  
+- ✅ Very long context windows (up to 2M tokens)  
+- ✅ Competitive pricing  
+- ✅ Strong multilingual capabilities  
+- ✅ Excellent at structured data extraction  
+- ✅ Native multimodal support (via Google AI SDK)  
 
-**Considerations:**
-- ⚠️ Newer than GPT-4, ecosystem still developing
-- ⚠️ Some features require Google AI SDK (not OpenAI compatibility)
-- ⚠️ Regional availability may vary
+**Considerations:**  
+- ⚠️ Newer than GPT-4, ecosystem still developing  
+- ⚠️ Some features require Google AI SDK (not OpenAI compatibility)  
+- ⚠️ Regional availability may vary  
 
 ## Troubleshooting
 
@@ -411,11 +411,11 @@ if token_count > model_limit:
 
 ## Resources
 
-- [Google AI Studio](https://aistudio.google.com/)
-- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs)
-- [OpenAI Compatibility Guide](https://ai.google.dev/gemini-api/docs/openai)
-- [Pricing Information](https://ai.google.dev/pricing)
-- [Model Comparison](https://ai.google.dev/gemini-api/docs/models/gemini)
+- [Google AI Studio](https://aistudio.google.com/)  
+- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs)  
+- [OpenAI Compatibility Guide](https://ai.google.dev/gemini-api/docs/openai)  
+- [Pricing Information](https://ai.google.dev/pricing)  
+- [Model Comparison](https://ai.google.dev/gemini-api/docs/models/gemini)  
 
 ## Example: Complete Workflow
 

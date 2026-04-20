@@ -51,20 +51,20 @@ graph TD
 
 ## 🚀 Features
 
-### Core Features
-* 🔍 **Automatic API Detection** - Uses available API keys or falls back to Ollama
-* ⚙️ **Unified Interface** - One method for all LLM backends
-* 🔄 **Dynamic Provider Switching** - Switch between APIs at runtime without creating a new object
-* 🧩 **Flexible Configuration** - Model, temperature, tokens freely adjustable
-* 🔐 **Google Colab Support** - Automatic loading of secrets from userdata
-* 📦 **Zero-Config** - Works out-of-the-box with Ollama
-* 📊 **Token counting with tiktoken** - Precise token counting for cost management
-* ⚡ **Full async support** - Async/await for all providers
-* 📁 **Configuration files** - YAML/JSON configuration for multi-provider setups
+### Core Features  
+* 🔍 **Automatic API Detection** - Uses available API keys or falls back to Ollama  
+* ⚙️ **Unified Interface** - One method for all LLM backends  
+* 🔄 **Dynamic Provider Switching** - Switch between APIs at runtime without creating a new object  
+* 🧩 **Flexible Configuration** - Model, temperature, tokens freely adjustable  
+* 🔐 **Google Colab Support** - Automatic loading of secrets from userdata  
+* 📦 **Zero-Config** - Works out-of-the-box with Ollama  
+* 📊 **Token counting with tiktoken** - Precise token counting for cost management  
+* ⚡ **Full async support** - Async/await for all providers  
+* 📁 **Configuration files** - YAML/JSON configuration for multi-provider setups  
 
-### Architecture
-* 🏗️ **Strategy Pattern** - Clean architecture with provider classes
-* 🏭 **Factory Pattern** - Central provider creation and management
+### Architecture  
+* 🏗️ **Strategy Pattern** - Clean architecture with provider classes  
+* 🏭 **Factory Pattern** - Central provider creation and management  
 
 ## 🚦 Quick Start
 
@@ -87,17 +87,17 @@ print(response)
 
 ## 📖 Documentation
 
-### Getting Started
-- [Installation](installation.md)
-- [Quick Start Guide](getting-started.md)
-- [API Reference](api/index.md)
+### Getting Started  
+- [Installation](installation.md)  
+- [Quick Start Guide](getting-started.md)  
+- [API Reference](api/index.md)  
 
-### Features
-- [Token Counting](usage/token-counting.md)
-- [Configuration Files](features.md)
+### Features  
+- [Token Counting](usage/token-counting.md)  
+- [Configuration Files](features.md)  
 
-### Further Resources
-- [CLI Usage](usage/cli.md)
-- [Troubleshooting](troubleshooting.md)
-- [Changelog](changelog.md)
-- [Contributing](development/contributing.md)
+### Further Resources  
+- [CLI Usage](usage/cli.md)  
+- [Troubleshooting](troubleshooting.md)  
+- [Changelog](changelog.md)  
+- [Contributing](development/contributing.md)  

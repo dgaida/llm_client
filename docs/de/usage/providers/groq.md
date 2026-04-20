@@ -6,10 +6,10 @@ The Groq provider offers ultra-fast inference on open-source models through Groq
 
 ### 1. Get API Key
 
-1. Create account at [console.groq.com](https://console.groq.com)
-2. Navigate to [API Keys](https://console.groq.com/keys)
-3. Click "Create API Key"
-4. Copy the key (starts with `gsk_...`)
+1. Create account at [console.groq.com](https://console.groq.com)  
+2. Navigate to [API Keys](https://console.groq.com/keys)  
+3. Click "Create API Key"  
+4. Copy the key (starts with `gsk_...`)  
 
 ### 2. Configure
 
@@ -197,13 +197,13 @@ results = asyncio.run(process_queries())
 
 Groq offers very competitive pricing for open-source models. Check [groq.com/pricing](https://groq.com/pricing) for current rates.
 
-**Free Tier:**
-- Generous free tier for testing and development
-- Rate limits apply
+**Free Tier:**  
+- Generous free tier for testing and development  
+- Rate limits apply  
 
 ## Resources
 
-- [Groq Documentation](https://console.groq.com/docs)
-- [Available Models](https://console.groq.com/docs/models)
-- [API Reference](https://console.groq.com/docs/api-reference)
-- [Pricing](https://groq.com/pricing)
+- [Groq Documentation](https://console.groq.com/docs)  
+- [Available Models](https://console.groq.com/docs/models)  
+- [API Reference](https://console.groq.com/docs/api-reference)  
+- [Pricing](https://groq.com/pricing)  

@@ -15,38 +15,38 @@ A universal Python client for accessing various Large Language Models (LLMs) via
 
 ## 📑 Table of Contents
 
-- [Features](#-features)
-- [What's New in v0.3.0](#-whats-new-in-v030)
-- [Installation](#%EF%B8%8F-installation)
-- [Quick Start](#-quick-start)
-- [Usage](#-usage)
-  - [Token Counting](#-token-counting)
-  - [Async Support](#-async-support)
-  - [Configuration Files](#-configuration-files)
-  - [Response Streaming](#-response-streaming)
-  - [Dynamic Provider Switching](#-dynamic-provider-switching)
-- [Supported APIs](#-supported-apis--default-models)
-- [Documentation](#-documentation)
-- [Tests](#-running-tests)
-- [Architecture](#-project-architecture)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Features](#-features)  
+- [What's New in v0.3.0](#-whats-new-in-v030)  
+- [Installation](#%EF%B8%8F-installation)  
+- [Quick Start](#-quick-start)  
+- [Usage](#-usage)  
+  - [Token Counting](#-token-counting)  
+  - [Async Support](#-async-support)  
+  - [Configuration Files](#-configuration-files)  
+  - [Response Streaming](#-response-streaming)  
+  - [Dynamic Provider Switching](#-dynamic-provider-switching)  
+- [Supported APIs](#-supported-apis--default-models)  
+- [Documentation](#-documentation)  
+- [Tests](#-running-tests)  
+- [Architecture](#-project-architecture)  
+- [Contributing](#-contributing)  
+- [License](#-license)  
 
 ## 🚀 Features
 
-### Core Features
-* 🔍 **Automatic API Detection** - Uses available API keys or falls back to Ollama
-* ⚙️ **Unified Interface** - One method for all LLM backends
-* 🔄 **Dynamic Provider Switching** - Switch between APIs at runtime without creating new objects
-* 🧩 **Flexible Configuration** - Model, temperature, tokens freely adjustable
-* 🔐 **Google Colab Support** - Automatic loading of secrets from userdata
-* 📦 **Zero-Config** - Works out-of-the-box with Ollama
+### Core Features  
+* 🔍 **Automatic API Detection** - Uses available API keys or falls back to Ollama  
+* ⚙️ **Unified Interface** - One method for all LLM backends  
+* 🔄 **Dynamic Provider Switching** - Switch between APIs at runtime without creating new objects  
+* 🧩 **Flexible Configuration** - Model, temperature, tokens freely adjustable  
+* 🔐 **Google Colab Support** - Automatic loading of secrets from userdata  
+* 📦 **Zero-Config** - Works out-of-the-box with Ollama  
 
-### Architecture
-* 🏗️ **Strategy Pattern** - Clean architecture with provider classes
-* 🏭 **Factory Pattern** - Centralized provider creation and management
-* 🧪 **Full Test Coverage** - pytest-based with >92% code coverage
-* 🌟 **Google Gemini Support** - Via OpenAI compatibility mode
+### Architecture  
+* 🏗️ **Strategy Pattern** - Clean architecture with provider classes  
+* 🏭 **Factory Pattern** - Centralized provider creation and management  
+* 🧪 **Full Test Coverage** - pytest-based with >92% code coverage  
+* 🌟 **Google Gemini Support** - Via OpenAI compatibility mode  
 
 ---
 
@@ -153,9 +153,9 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # Local
 client.switch_provider("ollama", llm="gpt-oss:120b-cloud", use_ollama_cloud=True)  # Cloud
 ```
 
-**Available Cloud Models:**
-- `gpt-oss:120b-cloud` - GPT OSS 120B on Ollama Cloud
-- More models see [Ollama Cloud Documentation](https://ollama.com)
+**Available Cloud Models:**  
+- `gpt-oss:120b-cloud` - GPT OSS 120B on Ollama Cloud  
+- More models see [Ollama Cloud Documentation](https://ollama.com)  
 
 **Hybrid Approach:**
 ```python
@@ -168,11 +168,11 @@ cloud_client = LLMClient(llm="gpt-oss:120b-cloud")
 complex_response = cloud_client.chat_completion(complex_messages)
 ```
 
-**Benefits of Ollama Cloud:**
-- ✅ Access powerful models without local hardware
-- ✅ Faster inference than local execution
-- ✅ Easy switching between local and cloud
-- ✅ Compatible with all existing features (streaming, async, etc.)
+**Benefits of Ollama Cloud:**  
+- ✅ Access powerful models without local hardware  
+- ✅ Faster inference than local execution  
+- ✅ Easy switching between local and cloud  
+- ✅ Compatible with all existing features (streaming, async, etc.)  
 
 See `examples/ollama_cloud_examples.py` for comprehensive examples.
 
@@ -298,11 +298,11 @@ string_tokens = client.count_string_tokens(text)
 print(f"String has {string_tokens} tokens")
 ```
 
-**Features:**
-- Uses tiktoken for accurate counting
-- Supports all GPT models (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)
-- Falls back to estimation if tiktoken not available
-- Works with any provider
+**Features:**  
+- Uses tiktoken for accurate counting  
+- Supports all GPT models (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)  
+- Falls back to estimation if tiktoken not available  
+- Works with any provider  
 
 ---
 
@@ -578,11 +578,11 @@ response = client.chat_completion(messages)
 
 **Log Levels:**
 
-- `DEBUG`: Maximum verbosity - shows all operations, API calls, token counts
-- `INFO`: Moderate verbosity - shows provider initialization, switching, and high-level operations
-- `WARNING`: Default level - shows only warnings and errors
-- `ERROR`: Only errors
-- `CRITICAL`: Only critical errors
+- `DEBUG`: Maximum verbosity - shows all operations, API calls, token counts  
+- `INFO`: Moderate verbosity - shows provider initialization, switching, and high-level operations  
+- `WARNING`: Default level - shows only warnings and errors  
+- `ERROR`: Only errors  
+- `CRITICAL`: Only critical errors  
 
 **Configuration Options:**
 
@@ -621,19 +621,19 @@ enable_logging("INFO")
 
 **What Gets Logged:**
 
-- Provider initialization and switching
-- API key availability (without exposing keys)
-- Model selection and configuration
-- API calls and responses (size, not content)
-- Token counting operations
-- Errors and warnings with context
+- Provider initialization and switching  
+- API key availability (without exposing keys)  
+- Model selection and configuration  
+- API calls and responses (size, not content)  
+- Token counting operations  
+- Errors and warnings with context  
 
 **Best Practices:**
 
-- **Development**: Use `DEBUG` or `INFO` for visibility
-- **Production**: Use `WARNING` or `ERROR` to minimize noise
-- **Testing**: Use `disable_logging()` to keep test output clean
-- **Debugging Issues**: Temporarily enable `DEBUG` level
+- **Development**: Use `DEBUG` or `INFO` for visibility  
+- **Production**: Use `WARNING` or `ERROR` to minimize noise  
+- **Testing**: Use `disable_logging()` to keep test output clean  
+- **Debugging Issues**: Temporarily enable `DEBUG` level  
 
 See [LOGGING.md](docs/en/development/logging.md) for complete logging documentation and examples.
 
@@ -853,15 +853,15 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 
 Based on current Google Gemini API documentation (December 2025):
 
-**Stable Models:**
-- `gemini-2.5-pro` - Highest performance for complex tasks
-- `gemini-2.5-flash` - Optimal balance of speed and intelligence
-- `gemini-2.5-flash-lite` - Optimized for massive scale
-- `gemini-2.0-flash` - Cost-effective general-purpose model
+**Stable Models:**  
+- `gemini-2.5-pro` - Highest performance for complex tasks  
+- `gemini-2.5-flash` - Optimal balance of speed and intelligence  
+- `gemini-2.5-flash-lite` - Optimized for massive scale  
+- `gemini-2.0-flash` - Cost-effective general-purpose model  
 
-**Experimental/Preview Models:**
-- `gemini-3-pro` - Latest model with extended reasoning (Preview)
-- `gemini-2.0-flash-exp` - Experimental Flash model
+**Experimental/Preview Models:**  
+- `gemini-3-pro` - Latest model with extended reasoning (Preview)  
+- `gemini-2.0-flash-exp` - Experimental Flash model  
 
 ### Ollama Installation
 
@@ -904,51 +904,51 @@ llm_client/
 
 ### Design Principles
 
-1. **Strategy Pattern**: Different LLM APIs as interchangeable strategies
-2. **Factory Pattern**: Centralized provider creation and configuration
-3. **Single Responsibility**: Each class has a clearly defined purpose
-4. **Dependency Injection**: Providers are injected into LLMClient
-5. **Extensibility**: New APIs can easily be added
+1. **Strategy Pattern**: Different LLM APIs as interchangeable strategies  
+2. **Factory Pattern**: Centralized provider creation and configuration  
+3. **Single Responsibility**: Each class has a clearly defined purpose  
+4. **Dependency Injection**: Providers are injected into LLMClient  
+5. **Extensibility**: New APIs can easily be added  
 
 ### Adding a New Provider
 
 To add a new provider:
 
-1. Implement `BaseProvider` in `providers.py`
-2. Register the provider in `ProviderFactory._provider_classes`
-3. Add tests in `tests/test_llm_client.py`
-4. Update documentation
+1. Implement `BaseProvider` in `providers.py`  
+2. Register the provider in `ProviderFactory._provider_classes`  
+3. Add tests in `tests/test_llm_client.py`  
+4. Update documentation  
 
 ---
 
 ## 📖 Documentation
 
-### Getting Started
-- [Installation & Setup](docs/en/installation.md)
-- [Quick Start Guide](docs/en/getting-started.md)
-- [API Reference](docs/en/api/llm_client.md)
+### Getting Started  
+- [Installation & Setup](docs/en/installation.md)  
+- [Quick Start Guide](docs/en/getting-started.md)  
+- [API Reference](docs/en/api/llm_client.md)  
 
-### Features
-- [Token Counting](docs/en/usage/token-counting.md)
-- [Async Support](docs/en/features.md#async-support)
-- [Configuration Files](docs/en/features.md#configuration-files)
-- [Response Streaming](docs/en/features.md#response-streaming)
-- [Provider Switching](docs/en/features.md#dynamic-provider-switching)
-- [Tool Calling](docs/en/features.md#tool-calling-function-calling)
-- [File Upload](docs/en/features.md#file-upload)
+### Features  
+- [Token Counting](docs/en/usage/token-counting.md)  
+- [Async Support](docs/en/features.md#async-support)  
+- [Configuration Files](docs/en/features.md#configuration-files)  
+- [Response Streaming](docs/en/features.md#response-streaming)  
+- [Provider Switching](docs/en/features.md#dynamic-provider-switching)  
+- [Tool Calling](docs/en/features.md#tool-calling-function-calling)  
+- [File Upload](docs/en/features.md#file-upload)  
 
-### Provider Guides
-- [OpenAI](docs/en/usage/providers/openai.md)
-- [Groq](docs/en/usage/providers/groq.md)
-- [Google Gemini](docs/en/usage/providers/gemini.md)
-- [Ollama (local)](docs/en/usage/providers/ollama.md)
-- [Ollama Cloud](docs/en/usage/providers/ollama_cloud.md)
+### Provider Guides  
+- [OpenAI](docs/en/usage/providers/openai.md)  
+- [Groq](docs/en/usage/providers/groq.md)  
+- [Google Gemini](docs/en/usage/providers/gemini.md)  
+- [Ollama (local)](docs/en/usage/providers/ollama.md)  
+- [Ollama Cloud](docs/en/usage/providers/ollama_cloud.md)  
 
-### Other Resources
-- [CLI Usage](docs/en/usage/cli.md)
-- [Troubleshooting](docs/en/troubleshooting.md)
-- [CHANGELOG](CHANGELOG.md)
-- [Contributing Guidelines](CONTRIBUTING.md)
+### Other Resources  
+- [CLI Usage](docs/en/usage/cli.md)  
+- [Troubleshooting](docs/en/troubleshooting.md)  
+- [CHANGELOG](CHANGELOG.md)  
+- [Contributing Guidelines](CONTRIBUTING.md)  
 
 ---
 
@@ -1017,20 +1017,20 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ### Developer Workflow
 
-1. Fork & Clone
-2. Create feature branch: `git checkout -b feature/my-feature`
-3. Write and run tests
-4. Format code: `black . && ruff check --fix .`
-5. Commit & Push
-6. Open Pull Request
+1. Fork & Clone  
+2. Create feature branch: `git checkout -b feature/my-feature`  
+3. Write and run tests  
+4. Format code: `black . && ruff check --fix .`  
+5. Commit & Push  
+6. Open Pull Request  
 
 ### Code Style
 
-- **Formatting**: Black (100 characters per line)
-- **Linting**: Ruff
-- **Type Hints**: Complete type annotations
-- **Docstrings**: Google-style
-- **Tests**: pytest with >90% coverage
+- **Formatting**: Black (100 characters per line)  
+- **Linting**: Ruff  
+- **Type Hints**: Complete type annotations  
+- **Docstrings**: Google-style  
+- **Tests**: pytest with >90% coverage  
 
 ---
 
@@ -1044,12 +1044,12 @@ MIT License - see [LICENSE](LICENSE)
 
 ## 🔗 Related Links
 
-* [Ollama Documentation](https://github.com/ollama/ollama)
-* [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
-* [Groq Cloud](https://groq.com/)
-* [Google Gemini API](https://ai.google.dev/gemini-api/docs)
-* [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)
-* [llama-index Docs](https://docs.llamaindex.ai/)
+* [Ollama Documentation](https://github.com/ollama/ollama)  
+* [OpenAI API Reference](https://platform.openai.com/docs/api-reference)  
+* [Groq Cloud](https://groq.com/)  
+* [Google Gemini API](https://ai.google.dev/gemini-api/docs)  
+* [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)  
+* [llama-index Docs](https://docs.llamaindex.ai/)  
 
 ---
 
@@ -1069,8 +1069,8 @@ Questions? Open an [Issue](https://github.com/dgaida/llm_client/issues).
 
 ## 🙏 Acknowledgments
 
-This project was inspired by:
-- [OpenAI Python SDK](https://github.com/openai/openai-python)
-- [llama-index](https://github.com/run-llama/llama_index)
+This project was inspired by:  
+- [OpenAI Python SDK](https://github.com/openai/openai-python)  
+- [llama-index](https://github.com/run-llama/llama_index)  
 
 Special thanks to all contributors and users of this library!

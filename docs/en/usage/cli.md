@@ -17,9 +17,9 @@ cd llm_client
 pip install -e ".[all]"
 ```
 
-After installation, you can use either:
-- `llm-client` (full command)
-- `llm` (shorter alias)
+After installation, you can use either:  
+- `llm-client` (full command)  
+- `llm` (shorter alias)  
 
 
 ## Quick Start
@@ -54,14 +54,14 @@ Execute a single chat completion and exit.
 llm-client chat [OPTIONS] PROMPT
 ```
 
-**Options:**
-- `-p, --provider [auto|openai|groq|gemini|ollama]` - Provider to use (default: auto)
-- `-m, --model TEXT` - Specific model name
-- `-t, --temperature FLOAT` - Sampling temperature (0.0-2.0, default: 0.7)
-- `--max-tokens INTEGER` - Maximum tokens to generate (default: 512)
-- `--stream / --no-stream` - Enable streaming (default: no-stream)
-- `-c, --config PATH` - Load from config file
-- `--markdown / --no-markdown` - Render as markdown (default: markdown)
+**Options:**  
+- `-p, --provider [auto|openai|groq|gemini|ollama]` - Provider to use (default: auto)  
+- `-m, --model TEXT` - Specific model name  
+- `-t, --temperature FLOAT` - Sampling temperature (0.0-2.0, default: 0.7)  
+- `--max-tokens INTEGER` - Maximum tokens to generate (default: 512)  
+- `--stream / --no-stream` - Enable streaming (default: no-stream)  
+- `-c, --config PATH` - Load from config file  
+- `--markdown / --no-markdown` - Render as markdown (default: markdown)  
 
 **Examples:**
 ```bash
@@ -95,18 +95,18 @@ Start an interactive chat session with conversation history.
 llm-client interactive [OPTIONS]
 ```
 
-**Options:**
-- `-p, --provider [auto|openai|groq|gemini|ollama]` - Provider to use
-- `-m, --model TEXT` - Specific model name
-- `-t, --temperature FLOAT` - Sampling temperature (default: 0.7)
-- `-c, --config PATH` - Load from config file
-- `-s, --system TEXT` - System message for context
+**Options:**  
+- `-p, --provider [auto|openai|groq|gemini|ollama]` - Provider to use  
+- `-m, --model TEXT` - Specific model name  
+- `-t, --temperature FLOAT` - Sampling temperature (default: 0.7)  
+- `-c, --config PATH` - Load from config file  
+- `-s, --system TEXT` - System message for context  
 
-**Interactive Commands:**
-- `exit` or `quit` - Exit the session
-- `clear` - Clear conversation history
-- `switch <provider>` - Switch to different provider
-- `Ctrl+C` or `Ctrl+D` - Exit gracefully
+**Interactive Commands:**  
+- `exit` or `quit` - Exit the session  
+- `clear` - Clear conversation history  
+- `switch <provider>` - Switch to different provider  
+- `Ctrl+C` or `Ctrl+D` - Exit gracefully  
 
 **Examples:**
 ```bash

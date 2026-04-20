@@ -52,10 +52,10 @@ print(response)
 
 Der Client wählt automatisch den ersten verfügbaren API-Key aus:
 
-1. **OpenAI** (wenn `OPENAI_API_KEY` gesetzt ist)
-2. **Groq** (wenn `GROQ_API_KEY` gesetzt ist)
-3. **Gemini** (wenn `GEMINI_API_KEY` gesetzt ist)
-4. **Ollama** (Fallback, benötigt lokale Installation)
+1. **OpenAI** (wenn `OPENAI_API_KEY` gesetzt ist)  
+2. **Groq** (wenn `GROQ_API_KEY` gesetzt ist)  
+3. **Gemini** (wenn `GEMINI_API_KEY` gesetzt ist)  
+4. **Ollama** (Fallback, benötigt lokale Installation)  
 
 ### Manuelle Auswahl
 
@@ -74,15 +74,15 @@ client = LLMClient(
 
 ## Wichtige Funktionen
 
-- **Chat Completion**: Standard-Anfragen an LLMs.
-- **Streaming**: Erhalte Antworten in Echtzeit.
-- **Token-Zählung**: Behalte die Kosten im Blick.
-- **Provider-Wechsel**: Wechsle die API zur Laufzeit.
-- **Konfigurationsdateien**: Lade Einstellungen aus YAML oder JSON.
-- **Async-Support**: Nutze `async/await` für performante Anwendungen.
+- **Chat Completion**: Standard-Anfragen an LLMs.  
+- **Streaming**: Erhalte Antworten in Echtzeit.  
+- **Token-Zählung**: Behalte die Kosten im Blick.  
+- **Provider-Wechsel**: Wechsle die API zur Laufzeit.  
+- **Konfigurationsdateien**: Lade Einstellungen aus YAML oder JSON.  
+- **Async-Support**: Nutze `async/await` für performante Anwendungen.  
 
 ## Nächste Schritte
 
-- [Features](features.md) - Übersicht der Funktionen
-- [API-Referenz](api/index.md) - Ausführliche Dokumentation der Klassen
-- [Beispiele](usage/basic-usage.md) - Praxisnahe Anwendungsfälle
+- [Features](features.md) - Übersicht der Funktionen  
+- [API-Referenz](api/index.md) - Ausführliche Dokumentation der Klassen  
+- [Beispiele](usage/basic-usage.md) - Praxisnahe Anwendungsfälle  

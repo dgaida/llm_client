@@ -4,11 +4,11 @@ The LLM Client now supports both local Ollama instances and Ollama Cloud for run
 
 ## Overview
 
-**Ollama Cloud** allows you to run large language models in the cloud without needing powerful local hardware. This is ideal for:
-- Running models that don't fit on your local machine
-- Working on devices without GPUs
-- Quick prototyping without model downloads
-- Accessing cloud-exclusive models
+**Ollama Cloud** allows you to run large language models in the cloud without needing powerful local hardware. This is ideal for:  
+- Running models that don't fit on your local machine  
+- Working on devices without GPUs  
+- Quick prototyping without model downloads  
+- Accessing cloud-exclusive models  
 
 ## Setup
 
@@ -165,32 +165,32 @@ client = LLMClient(
 
 ### Local Ollama
 
-**Pros:**
-- ✅ Complete privacy - data never leaves your machine
-- ✅ No API costs
-- ✅ No rate limits
-- ✅ Works offline
-- ✅ Full control
+**Pros:**  
+- ✅ Complete privacy - data never leaves your machine  
+- ✅ No API costs  
+- ✅ No rate limits  
+- ✅ Works offline  
+- ✅ Full control  
 
-**Cons:**
-- ⚠️ Requires local compute resources
-- ⚠️ Limited by available hardware
-- ⚠️ Need to manage model downloads
+**Cons:**  
+- ⚠️ Requires local compute resources  
+- ⚠️ Limited by available hardware  
+- ⚠️ Need to manage model downloads  
 
 ### Ollama Cloud
 
-**Pros:**
-- ✅ Access to large models (120B+)
-- ✅ No local GPU required
-- ✅ No model downloads
-- ✅ Fast inference
-- ✅ Works on any device
+**Pros:**  
+- ✅ Access to large models (120B+)  
+- ✅ No local GPU required  
+- ✅ No model downloads  
+- ✅ Fast inference  
+- ✅ Works on any device  
 
-**Cons:**
-- ⚠️ Requires API key
-- ⚠️ Data sent to cloud
-- ⚠️ Potential costs (check pricing)
-- ⚠️ Requires internet connection
+**Cons:**  
+- ⚠️ Requires API key  
+- ⚠️ Data sent to cloud  
+- ⚠️ Potential costs (check pricing)  
+- ⚠️ Requires internet connection  
 
 ## Best Practices
 
@@ -390,11 +390,11 @@ client = LLMClient(
 
 ## Additional Resources
 
-- [Ollama Cloud Documentation](https://docs.ollama.com/cloud)
-- [Ollama Cloud Models](https://ollama.com/search?c=cloud)
-- [Create API Keys](https://ollama.com/settings/keys)
-- [Ollama GitHub](https://github.com/ollama/ollama)
-- [LLM Client Documentation](https://github.com/dgaida/llm_client)
+- [Ollama Cloud Documentation](https://docs.ollama.com/cloud)  
+- [Ollama Cloud Models](https://ollama.com/search?c=cloud)  
+- [Create API Keys](https://ollama.com/settings/keys)  
+- [Ollama GitHub](https://github.com/ollama/ollama)  
+- [LLM Client Documentation](https://github.com/dgaida/llm_client)  
 
 ## Example: RAG with Ollama Cloud
 
@@ -430,11 +430,11 @@ print(f"Answer: {response}")
 
 ## Conclusion
 
-Ollama Cloud support in LLM Client provides:
-- Seamless integration with existing code
-- Automatic detection from model names
-- Easy switching between local and cloud
-- Same API for both modes
+Ollama Cloud support in LLM Client provides:  
+- Seamless integration with existing code  
+- Automatic detection from model names  
+- Easy switching between local and cloud  
+- Same API for both modes  
 
 Try it out with:
 ```bash

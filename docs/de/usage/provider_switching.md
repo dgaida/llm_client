@@ -4,14 +4,14 @@ Dynamic provider switching is one of the most powerful features of LLM Client. T
 
 ## Table of Contents
 
-- [Basic Switching](#basic-switching)
-- [Fallback Strategies](#fallback-strategies)
-- [Cost Optimization](#cost-optimization)
-- [Performance Optimization](#performance-optimization)
-- [Quality vs Speed Trade-offs](#quality-vs-speed-trade-offs)
-- [Multi-Provider Workflows](#multi-provider-workflows)
-- [A/B Testing](#ab-testing)
-- [Load Balancing](#load-balancing)
+- [Basic Switching](#basic-switching)  
+- [Fallback Strategies](#fallback-strategies)  
+- [Cost Optimization](#cost-optimization)  
+- [Performance Optimization](#performance-optimization)  
+- [Quality vs Speed Trade-offs](#quality-vs-speed-trade-offs)  
+- [Multi-Provider Workflows](#multi-provider-workflows)  
+- [A/B Testing](#ab-testing)  
+- [Load Balancing](#load-balancing)  
 
 ## Basic Switching
 

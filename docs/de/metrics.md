@@ -12,8 +12,8 @@ pie title API-Dokumentationsabdeckung
     "Nicht dokumentiert" : 0.0
 ```
 
-- **Schwellenwert**: 95%
-- **Aktueller Status**: ✅ 100.0%
+- **Schwellenwert**: 95%  
+- **Aktueller Status**: ✅ 100.0%  
 
 ## Build-Status
 
@@ -33,5 +33,5 @@ pie title API-Dokumentationsabdeckung
 
 ## Changelog-Status
 
-- **Letztes Release**: v0.4.1
-- **Status**: ✅ Aktuell
+- **Letztes Release**: v0.4.1  
+- **Status**: ✅ Aktuell  

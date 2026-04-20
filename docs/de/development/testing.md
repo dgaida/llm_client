@@ -32,10 +32,10 @@ pytest tests/test_llm_client.py -v
 
 ## Test-Struktur
 
-- `tests/test_llm_client.py`: Haupttests für den LLMClient
-- `tests/test_providers.py`: Tests für individuelle Provider
-- `tests/test_token_counter.py`: Tests für die Token-Zählung
-- `tests/test_config.py`: Tests für das Laden von Konfigurationsdateien
+- `tests/test_llm_client.py`: Haupttests für den LLMClient  
+- `tests/test_providers.py`: Tests für individuelle Provider  
+- `tests/test_token_counter.py`: Tests für die Token-Zählung  
+- `tests/test_config.py`: Tests für das Laden von Konfigurationsdateien  
 
 ## Mocking
 

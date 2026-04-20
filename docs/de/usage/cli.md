@@ -40,10 +40,10 @@ llm-client --help
 
 ## Konfiguration
 
-Die CLI lädt API-Keys automatisch aus:
-1. Umgebungsvariablen
-2. `.env`-Datei im aktuellen Verzeichnis
-3. `secrets.env`-Datei
+Die CLI lädt API-Keys automatisch aus:  
+1. Umgebungsvariablen  
+2. `.env`-Datei im aktuellen Verzeichnis  
+3. `secrets.env`-Datei  
 
 ## Beispiele
 

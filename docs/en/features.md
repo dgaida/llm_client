@@ -236,11 +236,11 @@ client.switch_provider("gemini", temperature=0.8)
 response3 = client.chat_completion(messages)
 ```
 
-**Use Cases:**
-- Cost optimization
-- Fallback strategies
-- A/B testing
-- Quality vs. speed trade-offs
+**Use Cases:**  
+- Cost optimization  
+- Fallback strategies  
+- A/B testing  
+- Quality vs. speed trade-offs  
 
 [:octicons-arrow-right-24: Provider Switching Guide](#dynamic-provider-switching)
 
@@ -325,11 +325,11 @@ client = LLMClient(
 )
 ```
 
-**Benefits:**
-- No local GPU needed
-- Access to large models (120B+)
-- Fast inference
-- Easy switching between local and cloud
+**Benefits:**  
+- No local GPU needed  
+- Access to large models (120B+)  
+- Fast inference  
+- Easy switching between local and cloud  
 
 [:octicons-arrow-right-24: Ollama Cloud Guide](usage/providers/ollama_cloud.md)
 
@@ -473,25 +473,25 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 
 Features planned for future releases:
 
-- [ ] Embedding support
-- [ ] Batch processing
-- [ ] Caching layer
-- [ ] Prompt templates
-- [ ] More providers (Anthropic, Cohere)
-- [ ] Advanced RAG utilities
+- [ ] Embedding support  
+- [ ] Batch processing  
+- [ ] Caching layer  
+- [ ] Prompt templates  
+- [ ] More providers (Anthropic, Cohere)  
+- [ ] Advanced RAG utilities  
 
 ---
 
 ## 📚 Learn More
 
-- [Getting Started](getting-started.md) - Installation and setup
-- [API Reference](api/llm_client.md) - Complete API documentation
-- [Examples](usage/basic-usage.md) - Real-world examples
-- [Troubleshooting](troubleshooting.md) - Common issues
+- [Getting Started](getting-started.md) - Installation and setup  
+- [API Reference](api/llm_client.md) - Complete API documentation  
+- [Examples](usage/basic-usage.md) - Real-world examples  
+- [Troubleshooting](troubleshooting.md) - Common issues  
 
 ---
 
 ## 💡 Need Help?
 
-- 📖 [Documentation](getting-started.md)
-- 🐛 [Report Issues](https://github.com/dgaida/llm_client/issues)
+- 📖 [Documentation](getting-started.md)  
+- 🐛 [Report Issues](https://github.com/dgaida/llm_client/issues)  

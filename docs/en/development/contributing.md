@@ -81,11 +81,11 @@ mypy llm_client
 
 ## 📋 Pull Request Richtlinien
 
-1. **Branch erstellen**: `git checkout -b feature/mein-feature`
-2. **Tests schreiben**: Neue Features benötigen Tests
-3. **Code formatieren**: Black & Ruff müssen durchlaufen
-4. **Commit Messages**: Aussagekräftige Commit-Messages verwenden
-5. **Pull Request öffnen**: Mit klarer Beschreibung der Änderungen
+1. **Branch erstellen**: `git checkout -b feature/mein-feature`  
+2. **Tests schreiben**: Neue Features benötigen Tests  
+3. **Code formatieren**: Black & Ruff müssen durchlaufen  
+4. **Commit Messages**: Aussagekräftige Commit-Messages verwenden  
+5. **Pull Request öffnen**: Mit klarer Beschreibung der Änderungen  
 
 ### Commit Message Format
 ```
@@ -98,60 +98,60 @@ Fixes #123
 
 **Types**: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`
 
-**Beispiele**:
-- `feat(gemini): Add Google Gemini API support`
-- `fix(ollama): Handle connection timeout`
-- `docs(readme): Update API comparison table`
-- `test(gemini): Add unit tests for Gemini integration`
+**Beispiele**:  
+- `feat(gemini): Add Google Gemini API support`  
+- `fix(ollama): Handle connection timeout`  
+- `docs(readme): Update API comparison table`  
+- `test(gemini): Add unit tests for Gemini integration`  
 
 ## 🆕 Neue API hinzufügen
 
 Wenn Sie eine neue LLM-API hinzufügen möchten:
 
-1. **`llm_client.py` erweitern**:
-   - API-Key in `__init__` laden
-   - Default-Modell definieren
-   - Client-Initialisierung hinzufügen
-   - `chat_completion` Methode erweitern
+1. **`llm_client.py` erweitern**:  
+   - API-Key in `__init__` laden  
+   - Default-Modell definieren  
+   - Client-Initialisierung hinzufügen  
+   - `chat_completion` Methode erweitern  
 
-2. **Tests schreiben** (`tests/test_llm_client.py`):
-   - Initialisierungstests
-   - Chat-Completion Tests (gemockt)
-   - Error-Handling Tests
-   - Parameter-Validierung
+2. **Tests schreiben** (`tests/test_llm_client.py`):  
+   - Initialisierungstests  
+   - Chat-Completion Tests (gemockt)  
+   - Error-Handling Tests  
+   - Parameter-Validierung  
 
-3. **Dokumentation aktualisieren**:
-   - `README.md`: API-Tabelle erweitern
-   - `README.md`: Beispiel hinzufügen
-   - `development/contributing.md`: Neue Abhängigkeiten dokumentieren
+3. **Dokumentation aktualisieren**:  
+   - `README.md`: API-Tabelle erweitern  
+   - `README.md`: Beispiel hinzufügen  
+   - `development/contributing.md`: Neue Abhängigkeiten dokumentieren  
 
-4. **Beispiel**: Siehe Gemini-Integration als Referenz
+4. **Beispiel**: Siehe Gemini-Integration als Referenz  
 
 ## 🐛 Bugs melden
 
-Bitte nutzen Sie GitHub Issues und geben Sie an:
-- Python Version
-- Betriebssystem
-- Verwendete API (OpenAI, Groq, Gemini, Ollama)
-- Fehlerlog
-- Minimales Reproduktionsbeispiel
+Bitte nutzen Sie GitHub Issues und geben Sie an:  
+- Python Version  
+- Betriebssystem  
+- Verwendete API (OpenAI, Groq, Gemini, Ollama)  
+- Fehlerlog  
+- Minimales Reproduktionsbeispiel  
 
 ## 💡 Feature Requests
 
-Feature-Ideen sind willkommen! Bitte öffnen Sie ein Issue mit:
-- Beschreibung des Features
-- Use Case / Anwendungsfall
-- Mögliche Implementierung (optional)
-- Welche APIs betroffen sind
+Feature-Ideen sind willkommen! Bitte öffnen Sie ein Issue mit:  
+- Beschreibung des Features  
+- Use Case / Anwendungsfall  
+- Mögliche Implementierung (optional)  
+- Welche APIs betroffen sind  
 
 ## 🧩 Code-Struktur
 
 ### Hauptkomponenten
 
-- **`llm_client/llm_client.py`**: Hauptklasse mit API-Logik
-- **`llm_client/adapter.py`**: llama-index Integration
-- **`tests/test_llm_client.py`**: Unit-Tests
-- **`tests/test_adapter.py`**: Adapter-Tests
+- **`llm_client/llm_client.py`**: Hauptklasse mit API-Logik  
+- **`llm_client/adapter.py`**: llama-index Integration  
+- **`tests/test_llm_client.py`**: Unit-Tests  
+- **`tests/test_adapter.py`**: Adapter-Tests  
 
 ### Unterstützte APIs
 
@@ -164,26 +164,26 @@ Feature-Ideen sind willkommen! Bitte öffnen Sie ein Issue mit:
 
 ## 🔒 Sicherheit
 
-- **Keine API-Keys im Code**: Nutzen Sie `secrets.env` oder Umgebungsvariablen
-- **Secrets nicht committen**: `.gitignore` prüfen
-- **Sensible Tests**: Mock-Objekte statt echte API-Calls
+- **Keine API-Keys im Code**: Nutzen Sie `secrets.env` oder Umgebungsvariablen  
+- **Secrets nicht committen**: `.gitignore` prüfen  
+- **Sensible Tests**: Mock-Objekte statt echte API-Calls  
 
 ## 📝 Dokumentations-Standards
 
-- **Docstrings**: Google-Style für alle öffentlichen Methoden
-- **Type Hints**: Vollständige Typ-Annotationen
-- **Beispiele**: Code-Beispiele in Docstrings
-- **README**: Aktuell halten bei neuen Features
+- **Docstrings**: Google-Style für alle öffentlichen Methoden  
+- **Type Hints**: Vollständige Typ-Annotationen  
+- **Beispiele**: Code-Beispiele in Docstrings  
+- **README**: Aktuell halten bei neuen Features  
 
 ## 🤝 Code Review
 
-Pull Requests werden geprüft auf:
-- ✅ Tests laufen durch (pytest)
-- ✅ Code-Style korrekt (black, ruff)
-- ✅ Type-Hints vorhanden (mypy)
-- ✅ Dokumentation aktualisiert
-- ✅ Keine Secrets im Code
-- ✅ Sinnvolle Commit-Messages
+Pull Requests werden geprüft auf:  
+- ✅ Tests laufen durch (pytest)  
+- ✅ Code-Style korrekt (black, ruff)  
+- ✅ Type-Hints vorhanden (mypy)  
+- ✅ Dokumentation aktualisiert  
+- ✅ Keine Secrets im Code  
+- ✅ Sinnvolle Commit-Messages  
 
 ## 📄 Lizenz
 

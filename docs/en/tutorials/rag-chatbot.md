@@ -2,16 +2,16 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
 
-- [Overview of Retrieval-Augmented Generation (RAG)](#overview-of-retrieval-augmented-generation-rag)
-- [Notebook Content](#notebook-content)
-- [Required API Keys](#required-api-keys)
-- [Creating a Hugging Face Access Token](#creating-a-hugging-face-access-token)
-- [Creating a Groq API Key](#creating-a-groq-api-key)
-- [Creating an OpenAI API Key](#creating-an-openai-api-key)
-- [Store API Keys as Secrets in Google Colab](#store-api-keys-as-secrets-in-google-colab)
-- [Using LLMClient in the Notebook](#using-llmclient-in-the-notebook)
-- [Resources for RAG](#resources-for-rag)
-- [License](#license)
+- [Overview of Retrieval-Augmented Generation (RAG)](#overview-of-retrieval-augmented-generation-rag)  
+- [Notebook Content](#notebook-content)  
+- [Required API Keys](#required-api-keys)  
+- [Creating a Hugging Face Access Token](#creating-a-hugging-face-access-token)  
+- [Creating a Groq API Key](#creating-a-groq-api-key)  
+- [Creating an OpenAI API Key](#creating-an-openai-api-key)  
+- [Store API Keys as Secrets in Google Colab](#store-api-keys-as-secrets-in-google-colab)  
+- [Using LLMClient in the Notebook](#using-llmclient-in-the-notebook)  
+- [Resources for RAG](#resources-for-rag)  
+- [License](#license)  
 
 The notebook [`RAGChatbot_groq_API.ipynb`](https://github.com/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb) demonstrates how to create a **Retrieval-Augmented Generation (RAG)** chatbot using the [`LLMClient`](../api/llm_client.md) class, which can be operated via **Groq**, **OpenAI**, or **Ollama**.
 
@@ -59,15 +59,15 @@ Own representation, inspired by course material from ["Retrieval Augmented Gener
 
 The notebook demonstrates:
 
-1. Installation of required packages in **Google Colab**
-2. Using the `LLMClient` class with:
-   - 🧩 **Groq API** *(optional)*
-   - 🔮 **OpenAI API** *(optional)*
-   - 💻 **Ollama (local)** *(Fallback)*
-3. Building a simple **RAG workflow**:
-   - Loading PDF documents with [`UnstructuredReader`](https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader) from [`llamaindex`](https://developers.llamaindex.ai/)
-   - Generating embeddings with an embedding model from [`Hugging Face`](https://huggingface.co/)
-   - Combining answers from LLM + [`ChromaDB`](https://www.trychroma.com/) vector database
+1. Installation of required packages in **Google Colab**  
+2. Using the `LLMClient` class with:  
+   - 🧩 **Groq API** *(optional)*  
+   - 🔮 **OpenAI API** *(optional)*  
+   - 💻 **Ollama (local)** *(Fallback)*  
+3. Building a simple **RAG workflow**:  
+   - Loading PDF documents with [`UnstructuredReader`](https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader) from [`llamaindex`](https://developers.llamaindex.ai/)  
+   - Generating embeddings with an embedding model from [`Hugging Face`](https://huggingface.co/)  
+   - Combining answers from LLM + [`ChromaDB`](https://www.trychroma.com/) vector database  
 
 ---
 
@@ -87,21 +87,21 @@ If neither Groq nor OpenAI key is set, `LLMClient` automatically falls back to *
 
 The Hugging Face Access Token is required to access **embedding models** and other AI models from the Hugging Face Model Hub, which are used to calculate sentence embeddings. These are downloaded from the Model Hub and executed locally.
 
-1. Create a free account at [https://huggingface.co/](https://huggingface.co/) or log in (if necessary).
+1. Create a free account at [https://huggingface.co/](https://huggingface.co/) or log in (if necessary).  
 
-2. Go to [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+2. Go to [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
 
 ![Hugging Face – Settings Menu](../../assets/tutorials/Hugging_Face_settings_menu_access_tokens.png){ width="250" style="display: block; margin: 0 auto" }
 
-3. Click on the **"Create new token"** button
+3. Click on the **"Create new token"** button  
 
 ![Hugging Face – User Access Tokens](../../assets/tutorials/Hugging_Face_User_Access_Tokens.png){ width="850" style="display: block; margin: 0 auto" }
 
-4. Enter a name (e.g., `colab-rag`) and select **Type: Write**
+4. Enter a name (e.g., `colab-rag`) and select **Type: Write**  
 
 ![Hugging Face – Create New Write Token](../../assets/tutorials/Hugging_Face_create_new_write_token.png){ width="850" style="display: block; margin: 0 auto" }
 
-5. Copy the displayed token (usually starts with `hf_...`).
+5. Copy the displayed token (usually starts with `hf_...`).  
 
 ---
 
@@ -109,13 +109,13 @@ The Hugging Face Access Token is required to access **embedding models** and oth
 
 The Groq API Key allows access to publicly available **LLMs** that can be used for particularly fast **text generation and question answering** in the RAG workflow. These LLMs are executed in the GroqCloud.
 
-1. Create a free account at [https://groq.com/](https://groq.com/) or log in (if necessary).
-2. Visit [https://console.groq.com/keys](https://console.groq.com/keys)
-3. Click on **"Create API Key"**
+1. Create a free account at [https://groq.com/](https://groq.com/) or log in (if necessary).  
+2. Visit [https://console.groq.com/keys](https://console.groq.com/keys)  
+3. Click on **"Create API Key"**  
 
 ![Groq API Keys – Create API Key](../../assets/tutorials/groq_API_Keys_Create_API_Key.png)
 
-4. Copy the key (usually starts with `groq_...`).
+4. Copy the key (usually starts with `groq_...`).  
 
 ---
 
@@ -123,24 +123,24 @@ The Groq API Key allows access to publicly available **LLMs** that can be used f
 
 The OpenAI API Key allows the use of **OpenAI models** (e.g., GPT-4 or GPT-4o) to generate **context-related answers** in the Retrieval-Augmented Generation system.
 
-1. Log in to [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+1. Log in to [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)  
 
 ![OpenAI API – API Keys](../../assets/tutorials/OpenAI_API_API_keys.png){ width="175" style="display: block; margin: 0 auto" }
 
-2. Click on "Create new secret key"
+2. Click on "Create new secret key"  
 
 ![OpenAI API – Create New Secret Key](../../assets/tutorials/OpenAI_API_Create_new_secret_key.png){ width="450" style="display: block; margin: 0 auto" }
 
-3. Copy the key (usually starts with `sk-...`).
+3. Copy the key (usually starts with `sk-...`).  
 
 ---
 
 ## Creating a Google Gemini API Key
 
-1. Visit [Google AI Studio](https://aistudio.google.com/apikey)
-2. Click on **"Get API Key"** or **"Create API Key"**
-3. Select a Google Cloud project or create a new one
-4. Copy the generated API key (starts with `AIzaSy...`)
+1. Visit [Google AI Studio](https://aistudio.google.com/apikey)  
+2. Click on **"Get API Key"** or **"Create API Key"**  
+3. Select a Google Cloud project or create a new one  
+4. Copy the generated API key (starts with `AIzaSy...`)  
 
 **Note**: The Gemini API is accessed via the OpenAI compatibility mode, therefore only the `openai` Python package is required.
 
@@ -148,11 +148,11 @@ The OpenAI API Key allows the use of **OpenAI models** (e.g., GPT-4 or GPT-4o) t
 
 ## ☁️ Store API Keys as Secrets in Google Colab
 
-1. Click on the key symbol 🔑 in the menu on the left
+1. Click on the key symbol 🔑 in the menu on the left  
 
 ![Google Colab – Secrets – API Keys](../../assets/tutorials/Google_Colab_secrets_api_keys.png){ width="600" style="display: block; margin: 0 auto" }
 
-2. Create the following secrets:
+2. Create the following secrets:  
 
    | Name | Value |
    |-------|------|

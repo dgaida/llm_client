@@ -34,7 +34,7 @@ pip install -e ".[all]"
 
 ## Systemvoraussetzungen
 
-- **Python**: 3.10 oder höher
-- **Betriebssystem**: Windows, macOS oder Linux
-- **Internetverbindung**: Erforderlich für Cloud-Provider (OpenAI, Groq, Gemini)
-- **Ollama**: Erforderlich für die lokale Modellnutzung
+- **Python**: 3.10 oder höher  
+- **Betriebssystem**: Windows, macOS oder Linux  
+- **Internetverbindung**: Erforderlich für Cloud-Provider (OpenAI, Groq, Gemini)  
+- **Ollama**: Erforderlich für die lokale Modellnutzung  

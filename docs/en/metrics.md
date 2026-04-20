@@ -12,8 +12,8 @@ pie title API Documentation Coverage
     "Undocumented" : 0.0
 ```
 
-- **Threshold**: 95%
-- **Current Status**: ✅ 100.0%
+- **Threshold**: 95%  
+- **Current Status**: ✅ 100.0%  
 
 ## Build Status
 
@@ -33,5 +33,5 @@ pie title API Documentation Coverage
 
 ## Changelog Freshness
 
-- **Last Release**: v0.4.1
-- **Status**: ✅ Up to date
+- **Last Release**: v0.4.1  
+- **Status**: ✅ Up to date  

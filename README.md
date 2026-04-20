@@ -5,6 +5,10 @@
 </p>
 
 ![Infografik](docs/assets/infografik.png)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://dgaida.github.io/llm_client/)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/dgaida/llm_client/graphs/commit-activity)
+![Last commit](https://img.shields.io/github/last-commit/dgaida/llm_client)
 
 Der **LLM Client** ist ein vielseitiges Python-Werkzeug, das eine **einheitliche Schnittstelle** für den Zugriff auf diverse KI-Anbieter wie [**OpenAI**](https://openai.com/de-DE/api/), [**Groq**](https://groq.com/), [**Google Gemini**](https://ai.google.dev/gemini-api) und [**Ollama**](https://ollama.com/) bietet. Die Software zeichnet sich durch eine **automatische API-Erkennung** aus, die bei fehlenden Schlüsseln flexibel auf eine lokale Ollama Instanz zurückgreift. Zu den technischen Highlights gehören präzise **Token-Zählung**, volle **Async-Unterstützung** sowie die Fähigkeit, während der Laufzeit dynamisch zwischen verschiedenen Providern zu wechseln. Dank einer sauberen Architektur auf Basis von Entwurfsmustern ermöglicht die Bibliothek zudem erweitertes **Tool-Calling** und den Upload verschiedenster Dateiformate. Die Bibliothek ermöglicht eine **einfache Handhabung** im Vergleich zu komplexeren Frameworks und bietet eine nahtlose Integration in Umgebungen wie Google Colab.
 
@@ -63,32 +67,32 @@ graph TD
 
 ## 📑 Inhaltsverzeichnis
 
-- [Features](#-features)
-- [Installation](#%EF%B8%8F-installation)
-- [Schnellstart](#-schnellstart)
-- [Verwendung](#-verwendung)
-- [Unterstützte APIs](#-unterstützte-apis--default-modelle)
-- [Dokumentation](#-dokumentation)
-- [Tests](#-tests-ausführen)
-- [Contributing](#-contributing)
-- [Lizenz](#-lizenz)
+- [Features](#-features)  
+- [Installation](#%EF%B8%8F-installation)  
+- [Schnellstart](#-schnellstart)  
+- [Verwendung](#-verwendung)  
+- [Unterstützte APIs](#-unterstützte-apis--default-modelle)  
+- [Dokumentation](#-dokumentation)  
+- [Tests](#-tests-ausführen)  
+- [Contributing](#-contributing)  
+- [Lizenz](#-lizenz)  
 
 ## 🚀 Features
 
-### Kern-Features
-* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück
-* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends
-* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt
-* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar
-* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata
-* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama
-* 📊 **Token-Zählung mit tiktoken** - Präzise Token-Zählung für Kostenmanagement
-* ⚡ **Vollständige Async-Unterstützung** - Async/await für alle Provider
-* 📁 **Konfigurationsdateien** - YAML/JSON-Konfiguration für Multi-Provider-Setups
+### Kern-Features  
+* 🔍 **Automatische API-Erkennung** - Nutzt verfügbare API-Keys oder fällt auf Ollama zurück  
+* ⚙️ **Einheitliches Interface** - Eine Methode für alle LLM-Backends  
+* 🔄 **Dynamischer Provider-Wechsel** - Wechsel zwischen APIs zur Laufzeit ohne neues Objekt  
+* 🧩 **Flexible Konfiguration** - Modell, Temperatur, Tokens frei wählbar  
+* 🔐 **Google Colab Support** - Automatisches Laden von Secrets aus userdata  
+* 📦 **Zero-Config** - Funktioniert out-of-the-box mit Ollama  
+* 📊 **Token-Zählung mit tiktoken** - Präzise Token-Zählung für Kostenmanagement  
+* ⚡ **Vollständige Async-Unterstützung** - Async/await für alle Provider  
+* 📁 **Konfigurationsdateien** - YAML/JSON-Konfiguration für Multi-Provider-Setups  
 
-### Architektur
-* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen
-* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung
+### Architektur  
+* 🏗️ **Strategy Pattern** - Saubere Architektur mit Provider-Klassen  
+* 🏭 **Factory Pattern** - Zentrale Provider-Erstellung und -Verwaltung  
 
 ---
 
@@ -290,32 +294,32 @@ ollama pull llama3.2:1b
 
 ## 📖 Dokumentation
 
-### Getting Started
-- [Installation & Setup](docs/de/installation.md)
-- [Schnellstart-Guide](docs/de/getting-started.md)
-- [API-Referenz](docs/de/api/llm_client.md)
+### Getting Started  
+- [Installation & Setup](docs/de/installation.md)  
+- [Schnellstart-Guide](docs/de/getting-started.md)  
+- [API-Referenz](docs/de/api/llm_client.md)  
 
-### Features
-- [Token-Zählung](docs/de/usage/token-counting.md)
-- [Async-Unterstützung](docs/de/features.md#async-unterstützung)
-- [Konfigurationsdateien](docs/de/features.md#konfigurationsdateien)
-- [Response-Streaming](docs/de/features.md#response-streaming)
-- [Provider-Wechsel](docs/de/features.md#dynamischer-provider-wechsel)
-- [Tool-Calling](docs/de/features.md#tool-calling-function-calling)
-- [Datei-Upload](docs/de/features.md#datei-upload)
+### Features  
+- [Token-Zählung](docs/de/usage/token-counting.md)  
+- [Async-Unterstützung](docs/de/features.md#async-unterstützung)  
+- [Konfigurationsdateien](docs/de/features.md#konfigurationsdateien)  
+- [Response-Streaming](docs/de/features.md#response-streaming)  
+- [Provider-Wechsel](docs/de/features.md#dynamischer-provider-wechsel)  
+- [Tool-Calling](docs/de/features.md#tool-calling-function-calling)  
+- [Datei-Upload](docs/de/features.md#datei-upload)  
 
-### Provider-Guides
-- [OpenAI](docs/de/usage/providers/openai.md)
-- [Groq](docs/de/usage/providers/groq.md)
-- [Google Gemini](docs/de/usage/providers/gemini.md)
-- [Ollama (lokal)](docs/de/usage/providers/ollama.md)
-- [Ollama Cloud](docs/de/usage/providers/ollama_cloud.md)
+### Provider-Guides  
+- [OpenAI](docs/de/usage/providers/openai.md)  
+- [Groq](docs/de/usage/providers/groq.md)  
+- [Google Gemini](docs/de/usage/providers/gemini.md)  
+- [Ollama (lokal)](docs/de/usage/providers/ollama.md)  
+- [Ollama Cloud](docs/de/usage/providers/ollama_cloud.md)  
 
-### Weitere Ressourcen
-- [CLI-Nutzung](docs/de/usage/cli.md)
-- [Troubleshooting](docs/de/troubleshooting.md)
-- [CHANGELOG](CHANGELOG.md)
-- [Contributing Guidelines](CONTRIBUTING.md)
+### Weitere Ressourcen  
+- [CLI-Nutzung](docs/de/usage/cli.md)  
+- [Troubleshooting](docs/de/troubleshooting.md)  
+- [CHANGELOG](CHANGELOG.md)  
+- [Contributing Guidelines](CONTRIBUTING.md)  
 
 ---
 
@@ -345,11 +349,11 @@ llm_client/
 
 ### Design Principles
 
-1. **Strategy Pattern**: Verschiedene LLM-APIs als austauschbare Strategien
-2. **Factory Pattern**: Zentrale Provider-Erstellung und -Konfiguration
-3. **Single Responsibility**: Jede Klasse hat eine klar definierte Aufgabe
-4. **Dependency Injection**: Provider werden in LLMClient injiziert
-5. **Extensibility**: Neue APIs können leicht hinzugefügt werden
+1. **Strategy Pattern**: Verschiedene LLM-APIs als austauschbare Strategien  
+2. **Factory Pattern**: Zentrale Provider-Erstellung und -Konfiguration  
+3. **Single Responsibility**: Jede Klasse hat eine klar definierte Aufgabe  
+4. **Dependency Injection**: Provider werden in LLMClient injiziert  
+5. **Extensibility**: Neue APIs können leicht hinzugefügt werden  
 
 ---
 
@@ -386,13 +390,13 @@ MIT License - siehe [LICENSE](LICENSE)
 
 ## 🔗 Weiterführende Links
 
-* [Ollama Dokumentation](https://github.com/ollama/ollama)
-* [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
-* [Groq Cloud](https://groq.com/)
-* [Google Gemini API](https://ai.google.dev/gemini-api/docs)
-* [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)
-* [llama-index Docs](https://docs.llamaindex.ai/)
-* [Andrew Ng's AISuite](https://github.com/andrewyng/aisuite)
+* [Ollama Dokumentation](https://github.com/ollama/ollama)  
+* [OpenAI API Reference](https://platform.openai.com/docs/api-reference)  
+* [Groq Cloud](https://groq.com/)  
+* [Google Gemini API](https://ai.google.dev/gemini-api/docs)  
+* [Gemini OpenAI Compatibility](https://ai.google.dev/gemini-api/docs/openai)  
+* [llama-index Docs](https://docs.llamaindex.ai/)  
+* [Andrew Ng's AISuite](https://github.com/andrewyng/aisuite)  
 
 ---
 

@@ -451,25 +451,25 @@ except ChatCompletionError as e:
 
 ## Comparison with Cloud APIs
 
-**Advantages:**
-- ✅ Completely private - data never leaves your machine
-- ✅ No API costs
-- ✅ No rate limits
-- ✅ Works offline
-- ✅ Full control over models
+**Advantages:**  
+- ✅ Completely private - data never leaves your machine  
+- ✅ No API costs  
+- ✅ No rate limits  
+- ✅ Works offline  
+- ✅ Full control over models  
 
-**Considerations:**
-- ⚠️ Requires local compute resources
-- ⚠️ Slower than cloud APIs on typical hardware
-- ⚠️ Model quality varies (generally lower than GPT-4)
-- ⚠️ Need to manage model downloads
+**Considerations:**  
+- ⚠️ Requires local compute resources  
+- ⚠️ Slower than cloud APIs on typical hardware  
+- ⚠️ Model quality varies (generally lower than GPT-4)  
+- ⚠️ Need to manage model downloads  
 
 ## Resources
 
-- [Ollama Website](https://ollama.ai/)
-- [Ollama GitHub](https://github.com/ollama/ollama)
-- [Model Library](https://ollama.ai/library)
-- [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/README.md)
+- [Ollama Website](https://ollama.ai/)  
+- [Ollama GitHub](https://github.com/ollama/ollama)  
+- [Model Library](https://ollama.ai/library)  
+- [Ollama Documentation](https://github.com/ollama/ollama/blob/main/docs/README.md)  
 
 ## Example: Complete Local RAG System
 

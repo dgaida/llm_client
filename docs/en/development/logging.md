@@ -82,13 +82,13 @@ disable_logging()
 ## Log Levels
 
 ### DEBUG
-Most verbose. Shows:
-- Provider initialization details
-- API keys found (without exposing values)
-- Model selection process
-- Token counting operations
-- Every API call with parameters
-- Response sizes and chunk counts
+Most verbose. Shows:  
+- Provider initialization details  
+- API keys found (without exposing values)  
+- Model selection process  
+- Token counting operations  
+- Every API call with parameters  
+- Response sizes and chunk counts  
 
 **Use when:** Debugging issues, understanding internal behavior
 
@@ -107,11 +107,11 @@ Example output:
 ```
 
 ### INFO
-Moderate verbosity. Shows:
-- Provider creation and initialization
-- Provider switching
-- Model and API being used
-- High-level operation status
+Moderate verbosity. Shows:  
+- Provider creation and initialization  
+- Provider switching  
+- Model and API being used  
+- High-level operation status  
 
 **Use when:** Monitoring application flow, tracking provider usage
 
@@ -142,32 +142,32 @@ Only critical errors. Almost silent.
 
 ## What Gets Logged
 
-### Client Initialization
-- API key availability (without exposing keys)
-- Provider selection process
-- Model configuration
-- Google Colab secret loading attempts
+### Client Initialization  
+- API key availability (without exposing keys)  
+- Provider selection process  
+- Model configuration  
+- Google Colab secret loading attempts  
 
-### Provider Operations
-- API calls with model name and message count
-- Response sizes
-- Streaming chunk counts
-- Tool calling operations
+### Provider Operations  
+- API calls with model name and message count  
+- Response sizes  
+- Streaming chunk counts  
+- Tool calling operations  
 
-### Provider Switching
-- Old and new provider information
-- Configuration changes
-- Reason for switching
+### Provider Switching  
+- Old and new provider information  
+- Configuration changes  
+- Reason for switching  
 
-### Token Counting
-- Number of tokens counted
-- Model used for counting
-- Number of messages processed
+### Token Counting  
+- Number of tokens counted  
+- Model used for counting  
+- Number of messages processed  
 
-### Errors
-- Missing API keys with helpful messages
-- Provider initialization failures
-- API call failures with context
+### Errors  
+- Missing API keys with helpful messages  
+- Provider initialization failures  
+- API call failures with context  
 
 ## Examples
 
@@ -288,26 +288,26 @@ client = LLMClient()
 
 ### Not Seeing Logs?
 
-1. Check if logging is configured:
+1. Check if logging is configured:  
    ```python
    setup_logging(level="DEBUG")
    ```
 
-2. Check environment variable:
+2. Check environment variable:  
    ```bash
    echo $LLM_CLIENT_LOG_LEVEL
    ```
 
-3. Ensure you're looking at stdout (not stderr)
+3. Ensure you're looking at stdout (not stderr)  
 
 ### Too Many Logs?
 
-1. Increase log level:
+1. Increase log level:  
    ```python
    setup_logging(level="WARNING")
    ```
 
-2. Or disable logging:
+2. Or disable logging:  
    ```python
    from llm_client import disable_logging
    disable_logging()
@@ -322,11 +322,11 @@ setup_logging(level="INFO", format_string="%(message)s", force=True)
 
 ## Best Practices
 
-1. **Development**: Use `DEBUG` or `INFO` level
-2. **Production**: Use `WARNING` or `ERROR` level
-3. **Testing**: Consider disabling logs with `disable_logging()`
-4. **Debugging**: Enable `DEBUG` temporarily when investigating issues
-5. **Performance**: Higher log levels (WARNING, ERROR) have minimal performance impact
+1. **Development**: Use `DEBUG` or `INFO` level  
+2. **Production**: Use `WARNING` or `ERROR` level  
+3. **Testing**: Consider disabling logs with `disable_logging()`  
+4. **Debugging**: Enable `DEBUG` temporarily when investigating issues  
+5. **Performance**: Higher log levels (WARNING, ERROR) have minimal performance impact  
 
 ## Log Messages Reference
 
@@ -349,9 +349,9 @@ setup_logging(level="INFO", format_string="%(message)s", force=True)
 
 All `print()` statements have been replaced with appropriate logging calls:
 
-- `print()` for info → `logger.info()`
-- `print()` for debugging → `logger.debug()`
-- `print()` for errors → `logger.error()`
-- `print()` for warnings → `logger.warning()`
+- `print()` for info → `logger.info()`  
+- `print()` for debugging → `logger.debug()`  
+- `print()` for errors → `logger.error()`  
+- `print()` for warnings → `logger.warning()`  
 
 This provides much better control and flexibility for managing output.

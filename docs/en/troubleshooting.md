@@ -4,16 +4,16 @@ Solutions for common issues with the LLM Client.
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [API Keys](#api-keys)
-- [Provider Issues](#provider-issues)
-- [Ollama](#ollama)
-- [Streaming](#streaming)
-- [Token Counting](#token-counting)
-- [Async Issues](#async-issues)
-- [Configuration Files](#configuration-files)
-- [File Upload](#file-upload)
-- [Performance](#performance)
+- [Installation](#installation)  
+- [API Keys](#api-keys)  
+- [Provider Issues](#provider-issues)  
+- [Ollama](#ollama)  
+- [Streaming](#streaming)  
+- [Token Counting](#token-counting)  
+- [Async Issues](#async-issues)  
+- [Configuration Files](#configuration-files)  
+- [File Upload](#file-upload)  
+- [Performance](#performance)  
 
 ---
 
@@ -136,10 +136,10 @@ from google.colab import userdata
 print(userdata.get("OPENAI_API_KEY"))
 ```
 
-**Possible Causes**:
-- Spaces in the key
-- Incorrect key name (e.g., `OPENAI_KEY` instead of `OPENAI_API_KEY`)
-- Key in incorrect format
+**Possible Causes**:  
+- Spaces in the key  
+- Incorrect key name (e.g., `OPENAI_KEY` instead of `OPENAI_API_KEY`)  
+- Key in incorrect format  
 
 ---
 
@@ -263,11 +263,11 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # ~1.3GB
 client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")  # Smaller
 ```
 
-**Recommendations by RAM**:
-- < 4GB RAM: `llama3.2:1b`
-- 4-8GB RAM: `llama3.2:3b`
-- 8-16GB RAM: `llama3.1:8b`
-- 16GB+ RAM: `llama3.1:70b` or larger
+**Recommendations by RAM**:  
+- < 4GB RAM: `llama3.2:1b`  
+- 4-8GB RAM: `llama3.2:3b`  
+- 8-16GB RAM: `llama3.1:8b`  
+- 16GB+ RAM: `llama3.1:70b` or larger  
 
 ### Ollama Cloud API Key missing
 
@@ -311,10 +311,10 @@ except StreamingNotSupportedError:
 
 **Problem**: Stream stops in the middle of a response.
 
-**Possible Causes**:
-- Network issues
-- Timeout
-- API limit reached
+**Possible Causes**:  
+- Network issues  
+- Timeout  
+- API limit reached  
 
 **Solution**:
 ```python
@@ -360,9 +360,9 @@ print(f"Estimated tokens: {token_count}")
 
 **Problem**: Token count deviates significantly.
 
-**Causes**:
-- Incorrect model for encoding
-- tiktoken not installed (estimation)
+**Causes**:  
+- Incorrect model for encoding  
+- tiktoken not installed (estimation)  
 
 **Solution**:
 ```python
@@ -474,10 +474,10 @@ if not is_valid:
         print(f"  - {error}")
 ```
 
-**Common Errors**:
-- Missing `model` parameter
-- Invalid `default_provider`
-- YAML syntax error
+**Common Errors**:  
+- Missing `model` parameter  
+- Invalid `default_provider`  
+- YAML syntax error  
 
 ### ImportError: pyyaml required
 
@@ -533,11 +533,11 @@ if not is_valid:
     client = LLMClient(api_choice="gemini")
 ```
 
-**Provider File Support**:
-- OpenAI: Images, PDFs
-- Gemini: Images, PDFs, Videos, Audio
-- Groq: Images only (Vision models)
-- Ollama: Images only (Vision models)
+**Provider File Support**:  
+- OpenAI: Images, PDFs  
+- Gemini: Images, PDFs, Videos, Audio  
+- Groq: Images only (Vision models)  
+- Ollama: Images only (Vision models)  
 
 ### FileUploadNotSupportedError
 
@@ -681,17 +681,17 @@ except ChatCompletionError as e:
 
 If the problem persists:
 
-1. Visit [GitHub Issues](https://github.com/dgaida/llm_client/issues)
-2. Check if the problem has already been reported
-3. Create a new issue with:
-   - Python version (`python --version`)
-   - Operating System
-   - LLM Client version
-   - Provider used
-   - Minimal reproduction example
-   - Full error traceback
+1. Visit [GitHub Issues](https://github.com/dgaida/llm_client/issues)  
+2. Check if the problem has already been reported  
+3. Create a new issue with:  
+   - Python version (`python --version`)  
+   - Operating System  
+   - LLM Client version  
+   - Provider used  
+   - Minimal reproduction example  
+   - Full error traceback  
 
 ### Support Channels
 
-- [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests
-- [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation
+- [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests  
+- [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation  

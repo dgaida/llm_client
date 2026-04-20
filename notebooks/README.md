@@ -2,16 +2,16 @@
 
 ## 📑 Inhaltsverzeichnis
 
-- [Überblick über Retrieval-Augmented Generation](#%C3%BCberblick-%C3%BCber-retrieval-augmented-generation-rag)
-- [Inhalt des Notebooks](#-inhalt-des-notebooks)
-- [Erforderliche API Keys](#-erforderliche-api-keys)
-- [Hugging Face Access Token erstellen](#-hugging-face-access-token-erstellen)
-- [Groq API Key erstellen](#%EF%B8%8F-groq-api-key-erstellen)
-- [OpenAI API Key erstellen](#-openai-api-key-erstellen)
-- [API Keys als Secrets in Google Colab hinterlegen](#%EF%B8%8F-api-keys-als-secrets-in-google-colab-hinterlegen)
-- [Nutzung von LLMClient im Notebook](#%EF%B8%8F-nutzung-von-llmclient-im-notebook)
-- [Ressourcen zu RAG](#ressourcen-zu-rag)
-- [Lizenz](#-lizenz)
+- [Überblick über Retrieval-Augmented Generation](#%C3%BCberblick-%C3%BCber-retrieval-augmented-generation-rag)  
+- [Inhalt des Notebooks](#-inhalt-des-notebooks)  
+- [Erforderliche API Keys](#-erforderliche-api-keys)  
+- [Hugging Face Access Token erstellen](#-hugging-face-access-token-erstellen)  
+- [Groq API Key erstellen](#%EF%B8%8F-groq-api-key-erstellen)  
+- [OpenAI API Key erstellen](#-openai-api-key-erstellen)  
+- [API Keys als Secrets in Google Colab hinterlegen](#%EF%B8%8F-api-keys-als-secrets-in-google-colab-hinterlegen)  
+- [Nutzung von LLMClient im Notebook](#%EF%B8%8F-nutzung-von-llmclient-im-notebook)  
+- [Ressourcen zu RAG](#ressourcen-zu-rag)  
+- [Lizenz](#-lizenz)  
 
 Das Notebook [`RAGChatbot_groq_API.ipynb`](RAGChatbot_groq_API.ipynb) zeigt, wie man mit der Klasse [`LLMClient`](../llm_client/llm_client.py) einen **Retrieval-Augmented-Generation (RAG)**-Chatbot erstellt, der wahlweise über **Groq**, **OpenAI** oder **Ollama** betrieben wird.
 
@@ -71,15 +71,15 @@ Eigene Darstellung, inspiriert durch das Kursmaterial aus ["Retrieval Augmented 
 
 Das Notebook demonstriert:
 
-1. Installation der benötigten Packages in **Google Colab**
-2. Nutzung der `LLMClient`-Klasse mit:
-   - 🧩 **Groq API** *(optional)*
-   - 🔮 **OpenAI API** *(optional)*
-   - 💻 **Ollama (local)** *(Fallback)*
-3. Aufbau eines einfachen **RAG-Workflows**:
-   - PDF Dokumente laden mit [`UnstructuredReader`](https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader) von [`llamaindex`](https://developers.llamaindex.ai/)
-   - Embeddings mit einem Embedding-Modell von [`Hugging Face`](https://huggingface.co/) erzeugen
-   - Antworten aus LLM + [`ChromaDB`](https://www.trychroma.com/)-Vektordatenbank kombinieren
+1. Installation der benötigten Packages in **Google Colab**  
+2. Nutzung der `LLMClient`-Klasse mit:  
+   - 🧩 **Groq API** *(optional)*  
+   - 🔮 **OpenAI API** *(optional)*  
+   - 💻 **Ollama (local)** *(Fallback)*  
+3. Aufbau eines einfachen **RAG-Workflows**:  
+   - PDF Dokumente laden mit [`UnstructuredReader`](https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader) von [`llamaindex`](https://developers.llamaindex.ai/)  
+   - Embeddings mit einem Embedding-Modell von [`Hugging Face`](https://huggingface.co/) erzeugen  
+   - Antworten aus LLM + [`ChromaDB`](https://www.trychroma.com/)-Vektordatenbank kombinieren  
 
 ---
 
@@ -99,30 +99,30 @@ Wenn weder Groq- noch OpenAI-Key gesetzt sind, nutzt `LLMClient` automatisch **O
 
 Der Hugging Face Access Token wird benötigt, um auf **Embedding-Modelle** und andere KI-Modelle aus der Hugging Face Model Hub zuzugreifen, die zur Berechnung der Satz-Embeddings verwendet werden. Diese werden von dem Model Hub heruntergeladen und lokal ausgeführt.
 
-1. Erstelle kostenlosen Account bei [https://huggingface.co/](https://huggingface.co/) oder logge dich ein (falls nötig).
+1. Erstelle kostenlosen Account bei [https://huggingface.co/](https://huggingface.co/) oder logge dich ein (falls nötig).  
 
-2. Gehe zu [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
+2. Gehe zu [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
    <p align="center">
    <img src="images/Hugging%20Face%20-%20settings%20menu%20-%20access%20tokens.png"
        alt="Hugging Face – Settings Menu"
        width="250">
    </p>
 
-3. Klicke auf die Schaltfläche **„Create new token“**
+3. Klicke auf die Schaltfläche **„Create new token“**  
    <p align="center">
    <img src="images/Hugging%20Face%20-%20User%20Access%20Tokens.png"
        alt="Hugging Face – User Access Tokens"
        width="850">
    </p>
 
-4. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**
+4. Gib einen Namen ein (z. B. `colab-rag`) und wähle **Type: Write**  
 <p align="center">
    <img src="images/Hugging%20Face%20-%20create%20new%20write%20token.png"
        alt="Hugging Face – Create New Write Token"
        width="850">
    </p>
 
-5. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).
+5. Kopiere den angezeigten Token (beginnt meist mit `hf_...`).  
 
 ---
 
@@ -130,11 +130,11 @@ Der Hugging Face Access Token wird benötigt, um auf **Embedding-Modelle** und a
 
 Der Groq API Key ermöglicht den Zugriff auf öffentlich verfügbare **LLMs**, die für besonders schnelle **Textgenerierung und Beantwortung von Fragen** im RAG-Workflow eingesetzt werden können. Diese LLMs werden in der GroqCloud ausgeführt.
 
-1. Erstelle kostenlosen Account bei [https://groq.com/](https://groq.com/) oder logge dich ein (falls nötig).
-2. Besuche [https://console.groq.com/keys](https://console.groq.com/keys)
-3. Klicke auf **„Create API Key“**
-   ![Groq API Keys – Create API Key](images/groq%20API%20Keys%20-%20Create%20API%20Key.png)
-4. Kopiere den Schlüssel (beginnt meist mit `groq_...`).
+1. Erstelle kostenlosen Account bei [https://groq.com/](https://groq.com/) oder logge dich ein (falls nötig).  
+2. Besuche [https://console.groq.com/keys](https://console.groq.com/keys)  
+3. Klicke auf **„Create API Key“**  
+   ![Groq API Keys – Create API Key](images/groq%20API%20Keys%20-%20Create%20API%20Key.png)  
+4. Kopiere den Schlüssel (beginnt meist mit `groq_...`).  
 
 ---
 
@@ -142,28 +142,28 @@ Der Groq API Key ermöglicht den Zugriff auf öffentlich verfügbare **LLMs**, d
 
 Der OpenAI API Key erlaubt die Nutzung von **OpenAI-Modellen** (z. B. GPT-4 oder GPT-4o), um **kontextbezogene Antworten** im Retrieval-Augmented-Generation-System zu erzeugen.
 
-1. Melde dich bei [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) an
+1. Melde dich bei [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys) an  
    <img src="images/OpenAI%20API%20-%20API%20keys.png"
        alt="OpenAI API – API Keys"
        width="175">
    </p>
 
-2. Klicke auf **„Create new secret key“**
+2. Klicke auf **„Create new secret key“**  
    <img src="images/OpenAI%20API%20-%20Create%20new%20secret%20key.png"
        alt="OpenAI API – Create New Secret Key"
        width="450">
    </p>
 
-3. Kopiere den Key (beginnt meist mit `sk-...`).
+3. Kopiere den Key (beginnt meist mit `sk-...`).  
 
 ---
 
 ## Google Gemini API Key erstellen
 
-1. Besuche [Google AI Studio](https://aistudio.google.com/apikey)
-2. Klicke auf **"Get API Key"** oder **"Create API Key"**
-3. Wähle ein Google Cloud Projekt oder erstelle ein neues
-4. Kopiere den generierten API Key (beginnt mit `AIzaSy...`)
+1. Besuche [Google AI Studio](https://aistudio.google.com/apikey)  
+2. Klicke auf **"Get API Key"** oder **"Create API Key"**  
+3. Wähle ein Google Cloud Projekt oder erstelle ein neues  
+4. Kopiere den generierten API Key (beginnt mit `AIzaSy...`)  
 
 **Hinweis**: Die Gemini API wird über den OpenAI-Kompatibilitätsmodus angesprochen, benötigt deshalb nur das `openai` Python-Package.
 
@@ -171,13 +171,13 @@ Der OpenAI API Key erlaubt die Nutzung von **OpenAI-Modellen** (z. B. GPT-4 oder
 
 ## ☁️ API Keys als Secrets in Google Colab hinterlegen
 
-1. Klicke im Menü links auf das Schlüssel-Symbol 🔑
+1. Klicke im Menü links auf das Schlüssel-Symbol 🔑  
    <img src="images/Google%20Colab%20-%20secrets%20-%20api%20keys.png"
        alt="Google Colab – Secrets – API Keys"
        width="600">
    </p>
 
-2. Lege folgende Secrets an:
+2. Lege folgende Secrets an:  
 
    | Name | Wert |
    |-------|------|

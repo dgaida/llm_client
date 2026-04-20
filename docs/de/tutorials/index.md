@@ -4,7 +4,7 @@ Willkommen in der Tutorial-Sektion! Hier findest du praktische Anleitungen und B
 
 ## Verfügbare Tutorials
 
-*   [**RAG Chatbot mit Groq API**](rag-chatbot.md): Erfahre, wie du einen Retrieval-Augmented-Generation (RAG) Chatbot mit dem `LLM Client`, der Groq API und ChromaDB baust.
+*   [**RAG Chatbot mit Groq API**](rag-chatbot.md): Erfahre, wie du einen Retrieval-Augmented-Generation (RAG) Chatbot mit dem `LLM Client`, der Groq API und ChromaDB baust.  
 
 ---
 

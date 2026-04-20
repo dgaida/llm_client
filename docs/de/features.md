@@ -4,13 +4,13 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 
 ## Inhaltsverzeichnis
 
-- [Token-Zählung](#token-zählung)
-- [Async-Unterstützung](#async-unterstützung)
-- [Konfigurationsdateien](#konfigurationsdateien)
-- [Response-Streaming](#response-streaming)
-- [Dynamischer Provider-Wechsel](#dynamischer-provider-wechsel)
-- [Tool-Calling](#tool-calling-function-calling)
-- [Datei-Upload](#datei-upload)
+- [Token-Zählung](#token-zählung)  
+- [Async-Unterstützung](#async-unterstützung)  
+- [Konfigurationsdateien](#konfigurationsdateien)  
+- [Response-Streaming](#response-streaming)  
+- [Dynamischer Provider-Wechsel](#dynamischer-provider-wechsel)  
+- [Tool-Calling](#tool-calling-function-calling)  
+- [Datei-Upload](#datei-upload)  
 
 ---
 
@@ -58,15 +58,15 @@ else:
 
 ### Features
 
-- Nutzt tiktoken für präzise Zählung
-- Unterstützt alle GPT-Modelle (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)
-- Fallback auf Schätzung wenn tiktoken nicht verfügbar
-- Funktioniert mit jedem Provider
+- Nutzt tiktoken für präzise Zählung  
+- Unterstützt alle GPT-Modelle (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)  
+- Fallback auf Schätzung wenn tiktoken nicht verfügbar  
+- Funktioniert mit jedem Provider  
 
 ### Weitere Informationen
 
-- [API-Referenz: count_tokens()](api/llm_client.md#llm_client.llm_client.LLMClient.count_tokens)
-- [API-Referenz: count_string_tokens()](api/llm_client.md#llm_client.llm_client.LLMClient.count_string_tokens)
+- [API-Referenz: count_tokens()](api/llm_client.md#llm_client.llm_client.LLMClient.count_tokens)  
+- [API-Referenz: count_string_tokens()](api/llm_client.md#llm_client.llm_client.LLMClient.count_string_tokens)  
 
 ---
 
@@ -155,14 +155,14 @@ asyncio.run(main())
 
 ### Verfügbare Async-Methoden
 
-- `achat_completion()` - Async Chat-Completion
-- `achat_completion_stream()` - Async Streaming
-- `achat_completion_with_tools()` - Async Tool-Calling
-- `achat_completion_with_files()` - Async Datei-Upload
+- `achat_completion()` - Async Chat-Completion  
+- `achat_completion_stream()` - Async Streaming  
+- `achat_completion_with_tools()` - Async Tool-Calling  
+- `achat_completion_with_files()` - Async Datei-Upload  
 
 ### Weitere Informationen
 
-- [API-Referenz: Async-Methoden](api/llm_client.md)
+- [API-Referenz: Async-Methoden](api/llm_client.md)  
 
 ---
 
@@ -255,8 +255,8 @@ else:
 
 ### Weitere Informationen
 
-- [API-Referenz: LLMConfig](api/config.md)
-- [API-Referenz: from_config()](api/llm_client.md#llm_client.llm_client.LLMClient.from_config)
+- [API-Referenz: LLMConfig](api/config.md)  
+- [API-Referenz: from_config()](api/llm_client.md#llm_client.llm_client.LLMClient.from_config)  
 
 ---
 
@@ -321,7 +321,7 @@ asyncio.run(stream_response())
 
 ### Weitere Informationen
 
-- [API-Referenz: chat_completion_stream()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_stream)
+- [API-Referenz: chat_completion_stream()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_stream)  
 
 ---
 
@@ -380,7 +380,7 @@ complex_response = client.chat_completion(complex_messages)
 
 ### Weitere Informationen
 
-- [API-Referenz: switch_provider()](api/llm_client.md#llm_client.llm_client.LLMClient.switch_provider)
+- [API-Referenz: switch_provider()](api/llm_client.md#llm_client.llm_client.LLMClient.switch_provider)  
 
 ---
 
@@ -460,7 +460,7 @@ result = client.chat_completion_with_tools(
 
 ### Weitere Informationen
 
-- [API-Referenz: chat_completion_with_tools()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_tools)
+- [API-Referenz: chat_completion_with_tools()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_tools)  
 
 ---
 
@@ -545,5 +545,5 @@ asyncio.run(analyze_files())
 
 ### Weitere Informationen
 
-- [API-Referenz: chat_completion_with_files()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_files)
-- [Datei-Upload-Utilities](api/utils_file_utils.md)
+- [API-Referenz: chat_completion_with_files()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_files)  
+- [Datei-Upload-Utilities](api/utils_file_utils.md)  
