@@ -1,7 +1,10 @@
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/https://github.com/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
-
 # RAG Chatbot with Groq API
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
+
+- [Overview of Retrieval-Augmented Generation (RAG)](#overview-of-retrieval-augmented-generation-rag)
+- [Notebook Content](#notebook-content)
+- [Required API Keys](#required-api-keys)
 - [Creating a Hugging Face Access Token](#creating-a-hugging-face-access-token)
 - [Creating a Groq API Key](#creating-a-groq-api-key)
 - [Creating an OpenAI API Key](#creating-an-openai-api-key)
@@ -12,11 +15,7 @@
 
 The notebook [`RAGChatbot_groq_API.ipynb`](https://github.com/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb) demonstrates how to create a **Retrieval-Augmented Generation (RAG)** chatbot using the [`LLMClient`](../api/llm_client.md) class, which can be operated via **Groq**, **OpenAI**, or **Ollama**.
 
-<p align="center">
-   <img src="../../../assets/tutorials/PDF_RAG_Chatbot.png"
-       alt="RAG-Chatbot GUI"
-       width="750">
-   </p>
+![RAG-Chatbot GUI](../../assets/tutorials/PDF_RAG_Chatbot.png){ width="750" style="display: block; margin: 0 auto" }
 
 ---
 
@@ -42,22 +41,14 @@ So-called **embedding models** (a form of LLM) convert sentences into these nume
 
 The first figure shows three example sentences and their embeddings in a three-dimensional space – two **semantically similar sentences** (in red) and one **thematically independent sentence** (in blue).
 
-<p align="center">
-   <img src="../../../assets/tutorials/vectorspace.png"
-       alt="Sentence Embedding Example"
-       width="650">
-   </p>
+![Sentence Embedding Example](../../assets/tutorials/vectorspace.png){ width="650" style="display: block; margin: 0 auto" }
 
 *Figure: Visualization of semantic similarity of sentence embeddings in a three-dimensional vector space.
 Own representation, inspired by course material from ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) by [DeepLearning.AI](https://www.deeplearning.ai/) on [Coursera](https://www.coursera.org/).*
 
 The second figure extends this example with a **question vector** and demonstrates how semantic similarity can be used to retrieve **relevant information** in a **Retrieval-Augmented Generation** system.
 
-<p align="center">
-   <img src="../../../assets/tutorials/vectorspace_question.png"
-       alt="Sentence Embedding Example with question"
-       width="650">
-   </p>
+![Sentence Embedding Example with question](../../assets/tutorials/vectorspace_question.png){ width="650" style="display: block; margin: 0 auto" }
 
 *Figure: Visualization of semantic similarity of sentence embeddings in a three-dimensional vector space including a question.
 Own representation, inspired by course material from ["Retrieval Augmented Generation (RAG)"](https://www.coursera.org/learn/retrieval-augmented-generation-rag) by [DeepLearning.AI](https://www.deeplearning.ai/) on [Coursera](https://www.coursera.org/).*
@@ -99,25 +90,16 @@ The Hugging Face Access Token is required to access **embedding models** and oth
 1. Create a free account at [https://huggingface.co/](https://huggingface.co/) or log in (if necessary).
 
 2. Go to [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
-   <p align="center">
-   <img src="../../../assets/tutorials/Hugging%20Face%20-%20settings%20menu%20-%20access%20tokens.png"
-       alt="Hugging Face – Settings Menu"
-       width="250">
-   </p>
+
+![Hugging Face – Settings Menu](../../assets/tutorials/Hugging_Face_settings_menu_access_tokens.png){ width="250" style="display: block; margin: 0 auto" }
 
 3. Click on the **"Create new token"** button
-   <p align="center">
-   <img src="../../../assets/tutorials/Hugging%20Face%20-%20User%20Access%20Tokens.png"
-       alt="Hugging Face – User Access Tokens"
-       width="850">
-   </p>
+
+![Hugging Face – User Access Tokens](../../assets/tutorials/Hugging_Face_User_Access_Tokens.png){ width="850" style="display: block; margin: 0 auto" }
 
 4. Enter a name (e.g., `colab-rag`) and select **Type: Write**
-<p align="center">
-   <img src="../../../assets/tutorials/Hugging%20Face%20-%20create%20new%20write%20token.png"
-       alt="Hugging Face – Create New Write Token"
-       width="850">
-   </p>
+
+![Hugging Face – Create New Write Token](../../assets/tutorials/Hugging_Face_create_new_write_token.png){ width="850" style="display: block; margin: 0 auto" }
 
 5. Copy the displayed token (usually starts with `hf_...`).
 
@@ -130,7 +112,9 @@ The Groq API Key allows access to publicly available **LLMs** that can be used f
 1. Create a free account at [https://groq.com/](https://groq.com/) or log in (if necessary).
 2. Visit [https://console.groq.com/keys](https://console.groq.com/keys)
 3. Click on **"Create API Key"**
-   ![Groq API Keys – Create API Key](../../../assets/tutorials/groq%20API%20Keys%20-%20Create%20API%20Key.png)
+
+![Groq API Keys – Create API Key](../../assets/tutorials/groq_API_Keys_Create_API_Key.png)
+
 4. Copy the key (usually starts with `groq_...`).
 
 ---
@@ -140,16 +124,12 @@ The Groq API Key allows access to publicly available **LLMs** that can be used f
 The OpenAI API Key allows the use of **OpenAI models** (e.g., GPT-4 or GPT-4o) to generate **context-related answers** in the Retrieval-Augmented Generation system.
 
 1. Log in to [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
-   <img src="../../../assets/tutorials/OpenAI%20API%20-%20API%20keys.png"
-       alt="OpenAI API – API Keys"
-       width="175">
-   </p>
 
-2. Click on **"Create new secret key"**
-   <img src="../../../assets/tutorials/OpenAI%20API%20-%20Create%20new%20secret%20key.png"
-       alt="OpenAI API – Create New Secret Key"
-       width="450">
-   </p>
+![OpenAI API – API Keys](../../assets/tutorials/OpenAI_API_API_keys.png){ width="175" style="display: block; margin: 0 auto" }
+
+2. Click on "Create new secret key"
+
+![OpenAI API – Create New Secret Key](../../assets/tutorials/OpenAI_API_Create_new_secret_key.png){ width="450" style="display: block; margin: 0 auto" }
 
 3. Copy the key (usually starts with `sk-...`).
 
@@ -169,10 +149,8 @@ The OpenAI API Key allows the use of **OpenAI models** (e.g., GPT-4 or GPT-4o) t
 ## ☁️ Store API Keys as Secrets in Google Colab
 
 1. Click on the key symbol 🔑 in the menu on the left
-   <img src="../../../assets/tutorials/Google%20Colab%20-%20secrets%20-%20api%20keys.png"
-       alt="Google Colab – Secrets – API Keys"
-       width="600">
-   </p>
+
+![Google Colab – Secrets – API Keys](../../assets/tutorials/Google_Colab_secrets_api_keys.png){ width="600" style="display: block; margin: 0 auto" }
 
 2. Create the following secrets:
 
