@@ -537,7 +537,7 @@ class GroqProvider(BaseProvider):
         Returns:
             Default model name.
         """
-        return "moonshotai/kimi-k2-instruct-0905"
+        return "qwen/qwen3-32b"
 
     @staticmethod
     def is_available() -> bool:

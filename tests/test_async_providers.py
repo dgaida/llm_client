@@ -237,7 +237,7 @@ class TestAsyncGroqProvider:
         """Test: Get default Groq model."""
         from llm_client.providers.async_providers import AsyncGroqProvider
 
-        assert AsyncGroqProvider.get_default_model() == "moonshotai/kimi-k2-instruct-0905"
+        assert AsyncGroqProvider.get_default_model() == "qwen/qwen3-32b"
 
 
 class TestAsyncGeminiProvider:

@@ -443,7 +443,7 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
     @staticmethod
     def get_default_model() -> str:
         """Get default Groq model."""
-        return "moonshotai/kimi-k2-instruct-0905"
+        return "qwen/qwen3-32b"
 
     @staticmethod
     def is_available() -> bool:

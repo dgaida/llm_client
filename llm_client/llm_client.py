@@ -94,6 +94,7 @@ class LLMClient:
         self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
         self.ollama_api_key = os.getenv("OLLAMA_API_KEY")
+        self.api_key = os.getenv("API_KEY")
 
         # Log which keys are available (without exposing values)
         available_keys = []
@@ -105,6 +106,8 @@ class LLMClient:
             available_keys.append("Gemini")
         if self.ollama_api_key:
             available_keys.append("Ollama")
+        if self.api_key:
+            available_keys.append("Generic (API_KEY)")
 
         if available_keys:
             logger.debug(f"Found API keys for: {', '.join(available_keys)}")
@@ -140,6 +143,7 @@ class LLMClient:
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             ollama_api_key=self.ollama_api_key,
+            api_key=self.api_key,
             keep_alive=keep_alive,
             use_async=use_async,
             use_ollama_cloud=use_ollama_cloud,
@@ -237,6 +241,14 @@ class LLMClient:
 
         try:
             from google.colab import userdata
+
+            # Try loading generic API_KEY if not already set
+            if not self.api_key:
+                try:
+                    self.api_key = userdata.get("API_KEY")
+                    logger.debug("Loaded API_KEY from Colab userdata")
+                except Exception:
+                    pass
 
             if api_choice:
                 api_choice_lower = api_choice.lower()

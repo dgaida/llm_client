@@ -36,7 +36,7 @@ client = LLMClient(api_choice="groq")
 | `llama-3.3-70b-versatile` | Llama 3.3 70B | 128K | Very Fast |
 | `meta-llama/llama-4-maverick-17b-128e-instruct` | Llama 4 17B | 128K | Ultra Fast |
 | `openai/gpt-oss-120b` | GPT OSS 120B | 128K | Fast |
-| `moonshotai/kimi-k2-instruct-0905` | KIMI K2 (default) | 128K | Fast |
+| `qwen/qwen3-32b` | Qwen 3 (default) | 128K | Fast |
 
 ### Model Selection
 

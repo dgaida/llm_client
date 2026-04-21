@@ -14,7 +14,7 @@ def mock_groq_client():
 
 
 def test_groq_fallback_sync(mock_groq_client):
-    provider = GroqProvider(llm="moonshotai/kimi-k2-instruct-0905", api_key="fake-key")
+    provider = GroqProvider(llm="qwen/qwen3-32b", api_key="fake-key")
     provider.client = mock_groq_client
 
     # Create the error
@@ -46,7 +46,7 @@ def test_groq_fallback_sync(mock_groq_client):
 
     # Verify both calls had correct parameters
     first_call = mock_groq_client.chat.completions.create.call_args_list[0]
-    assert first_call.kwargs["model"] == "moonshotai/kimi-k2-instruct-0905"
+    assert first_call.kwargs["model"] == "qwen/qwen3-32b"
 
     second_call = mock_groq_client.chat.completions.create.call_args_list[1]
     assert second_call.kwargs["model"] == "meta-llama/llama-4-scout-17b-16e-instruct"
@@ -56,7 +56,7 @@ def test_groq_fallback_sync(mock_groq_client):
 async def test_groq_fallback_async():
     from llm_client.providers.async_providers import AsyncGroqProvider
 
-    provider = AsyncGroqProvider(llm="moonshotai/kimi-k2-instruct-0905", api_key="fake-key")
+    provider = AsyncGroqProvider(llm="qwen/qwen3-32b", api_key="fake-key")
     mock_async_client = MagicMock()
     provider.client = mock_async_client
 

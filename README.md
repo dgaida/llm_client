@@ -273,7 +273,7 @@ client = LLMClient(llm="gpt-oss:120b-cloud")
 | API    | Default-Modell                     | Bemerkung                           |
 | ------ |------------------------------------|-------------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
-| Groq   | `moonshotai/kimi-k2-instruct-0905` | Sehr effizient auf GroqCloud        |
+| Groq   | `qwen/qwen3-32b` | Sehr effizient auf GroqCloud        |
 | Gemini | `gemini-2.0-flash-exp`             | Googles neuestes Modell (Dez 2024)  |
 | Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
