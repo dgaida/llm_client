@@ -3125,11 +3125,11 @@
 <h1 id="ollama-cloud-support">Ollama Cloud Support<a class="headerlink" href="#ollama-cloud-support" title="Permanent link">&para;</a></h1>
 <p>The LLM Client now supports both local Ollama instances and Ollama Cloud for running large models without local GPU requirements.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p><strong>Ollama Cloud</strong> allows you to run large language models in the cloud without needing powerful local hardware. This is ideal for:
-- Running models that don't fit on your local machine
-- Working on devices without GPUs
-- Quick prototyping without model downloads
-- Accessing cloud-exclusive models</p>
+<p><strong>Ollama Cloud</strong> allows you to run large language models in the cloud without needing powerful local hardware. This is ideal for:<br />
+- Running models that don't fit on your local machine<br />
+- Working on devices without GPUs<br />
+- Quick prototyping without model downloads<br />
+- Accessing cloud-exclusive models  </p>
 <h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
 <h3 id="1-get-ollama-cloud-api-key">1. Get Ollama Cloud API Key<a class="headerlink" href="#1-get-ollama-cloud-api-key" title="Permanent link">&para;</a></h3>
 <p>First, create an account and get your API key:</p>
@@ -3262,28 +3262,28 @@
 </code></pre></div>
 <h2 id="comparison-local-vs-cloud">Comparison: Local vs Cloud<a class="headerlink" href="#comparison-local-vs-cloud" title="Permanent link">&para;</a></h2>
 <h3 id="local-ollama">Local Ollama<a class="headerlink" href="#local-ollama" title="Permanent link">&para;</a></h3>
-<p><strong>Pros:</strong>
-- ✅ Complete privacy - data never leaves your machine
-- ✅ No API costs
-- ✅ No rate limits
-- ✅ Works offline
-- ✅ Full control</p>
-<p><strong>Cons:</strong>
-- ⚠️ Requires local compute resources
-- ⚠️ Limited by available hardware
-- ⚠️ Need to manage model downloads</p>
+<p><strong>Pros:</strong><br />
+- ✅ Complete privacy - data never leaves your machine<br />
+- ✅ No API costs<br />
+- ✅ No rate limits<br />
+- ✅ Works offline<br />
+- ✅ Full control  </p>
+<p><strong>Cons:</strong><br />
+- ⚠️ Requires local compute resources<br />
+- ⚠️ Limited by available hardware<br />
+- ⚠️ Need to manage model downloads  </p>
 <h3 id="ollama-cloud">Ollama Cloud<a class="headerlink" href="#ollama-cloud" title="Permanent link">&para;</a></h3>
-<p><strong>Pros:</strong>
-- ✅ Access to large models (120B+)
-- ✅ No local GPU required
-- ✅ No model downloads
-- ✅ Fast inference
-- ✅ Works on any device</p>
-<p><strong>Cons:</strong>
-- ⚠️ Requires API key
-- ⚠️ Data sent to cloud
-- ⚠️ Potential costs (check pricing)
-- ⚠️ Requires internet connection</p>
+<p><strong>Pros:</strong><br />
+- ✅ Access to large models (120B+)<br />
+- ✅ No local GPU required<br />
+- ✅ No model downloads<br />
+- ✅ Fast inference<br />
+- ✅ Works on any device  </p>
+<p><strong>Cons:</strong><br />
+- ⚠️ Requires API key<br />
+- ⚠️ Data sent to cloud<br />
+- ⚠️ Potential costs (check pricing)<br />
+- ⚠️ Requires internet connection  </p>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <h3 id="1-hybrid-approach">1. Hybrid Approach<a class="headerlink" href="#1-hybrid-approach" title="Permanent link">&para;</a></h3>
 <p>Use local for small tasks, cloud for complex ones:</p>
@@ -3446,11 +3446,11 @@
 </code></pre></div>
 <h2 id="additional-resources">Additional Resources<a class="headerlink" href="#additional-resources" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://docs.ollama.com/cloud">Ollama Cloud Documentation</a></li>
-<li><a href="https://ollama.com/search?c=cloud">Ollama Cloud Models</a></li>
-<li><a href="https://ollama.com/settings/keys">Create API Keys</a></li>
-<li><a href="https://github.com/ollama/ollama">Ollama GitHub</a></li>
-<li><a href="https://github.com/dgaida/llm_client">LLM Client Documentation</a></li>
+<li><a href="https://docs.ollama.com/cloud">Ollama Cloud Documentation</a>  </li>
+<li><a href="https://ollama.com/search?c=cloud">Ollama Cloud Models</a>  </li>
+<li><a href="https://ollama.com/settings/keys">Create API Keys</a>  </li>
+<li><a href="https://github.com/ollama/ollama">Ollama GitHub</a>  </li>
+<li><a href="https://github.com/dgaida/llm_client">LLM Client Documentation</a>  </li>
 </ul>
 <h2 id="example-rag-with-ollama-cloud">Example: RAG with Ollama Cloud<a class="headerlink" href="#example-rag-with-ollama-cloud" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
@@ -3482,11 +3482,11 @@
 <a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Answer: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
-<p>Ollama Cloud support in LLM Client provides:
-- Seamless integration with existing code
-- Automatic detection from model names
-- Easy switching between local and cloud
-- Same API for both modes</p>
+<p>Ollama Cloud support in LLM Client provides:<br />
+- Seamless integration with existing code<br />
+- Automatic detection from model names<br />
+- Easy switching between local and cloud<br />
+- Same API for both modes  </p>
 <p>Try it out with:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>pip<span class="w"> </span>install<span class="w"> </span>llm_client
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OLLAMA_API_KEY</span><span class="o">=</span>your_key

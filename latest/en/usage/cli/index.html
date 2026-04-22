@@ -2516,9 +2516,9 @@
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nb">cd</span><span class="w"> </span>llm_client
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[all]&quot;</span>
 </code></pre></div>
-<p>After installation, you can use either:
-- <code>llm-client</code> (full command)
-- <code>llm</code> (shorter alias)</p>
+<p>After installation, you can use either:<br />
+- <code>llm-client</code> (full command)<br />
+- <code>llm</code> (shorter alias)  </p>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Simple query</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;What is Python?&quot;</span>
@@ -2542,14 +2542,14 @@
 <p><strong>Usage:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>PROMPT
 </code></pre></div></p>
-<p><strong>Options:</strong>
-- <code>-p, --provider [auto|openai|groq|gemini|ollama]</code> - Provider to use (default: auto)
-- <code>-m, --model TEXT</code> - Specific model name
-- <code>-t, --temperature FLOAT</code> - Sampling temperature (0.0-2.0, default: 0.7)
-- <code>--max-tokens INTEGER</code> - Maximum tokens to generate (default: 512)
-- <code>--stream / --no-stream</code> - Enable streaming (default: no-stream)
-- <code>-c, --config PATH</code> - Load from config file
-- <code>--markdown / --no-markdown</code> - Render as markdown (default: markdown)</p>
+<p><strong>Options:</strong><br />
+- <code>-p, --provider [auto|openai|groq|gemini|ollama]</code> - Provider to use (default: auto)<br />
+- <code>-m, --model TEXT</code> - Specific model name<br />
+- <code>-t, --temperature FLOAT</code> - Sampling temperature (0.0-2.0, default: 0.7)<br />
+- <code>--max-tokens INTEGER</code> - Maximum tokens to generate (default: 512)<br />
+- <code>--stream / --no-stream</code> - Enable streaming (default: no-stream)<br />
+- <code>-c, --config PATH</code> - Load from config file<br />
+- <code>--markdown / --no-markdown</code> - Render as markdown (default: markdown)  </p>
 <p><strong>Examples:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Basic query</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;What is machine learning?&quot;</span>
@@ -2575,17 +2575,17 @@
 <p><strong>Usage:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div></p>
-<p><strong>Options:</strong>
-- <code>-p, --provider [auto|openai|groq|gemini|ollama]</code> - Provider to use
-- <code>-m, --model TEXT</code> - Specific model name
-- <code>-t, --temperature FLOAT</code> - Sampling temperature (default: 0.7)
-- <code>-c, --config PATH</code> - Load from config file
-- <code>-s, --system TEXT</code> - System message for context</p>
-<p><strong>Interactive Commands:</strong>
-- <code>exit</code> or <code>quit</code> - Exit the session
-- <code>clear</code> - Clear conversation history
-- <code>switch &lt;provider&gt;</code> - Switch to different provider
-- <code>Ctrl+C</code> or <code>Ctrl+D</code> - Exit gracefully</p>
+<p><strong>Options:</strong><br />
+- <code>-p, --provider [auto|openai|groq|gemini|ollama]</code> - Provider to use<br />
+- <code>-m, --model TEXT</code> - Specific model name<br />
+- <code>-t, --temperature FLOAT</code> - Sampling temperature (default: 0.7)<br />
+- <code>-c, --config PATH</code> - Load from config file<br />
+- <code>-s, --system TEXT</code> - System message for context  </p>
+<p><strong>Interactive Commands:</strong><br />
+- <code>exit</code> or <code>quit</code> - Exit the session<br />
+- <code>clear</code> - Clear conversation history<br />
+- <code>switch &lt;provider&gt;</code> - Switch to different provider<br />
+- <code>Ctrl+C</code> or <code>Ctrl+D</code> - Exit gracefully  </p>
 <p><strong>Examples:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Start interactive session</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>llm-client<span class="w"> </span>interactive

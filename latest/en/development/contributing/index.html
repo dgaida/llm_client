@@ -2893,11 +2893,11 @@
 </code></pre></div>
 <h2 id="pull-request-richtlinien">📋 Pull Request Richtlinien<a class="headerlink" href="#pull-request-richtlinien" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>Branch erstellen</strong>: <code>git checkout -b feature/mein-feature</code></li>
-<li><strong>Tests schreiben</strong>: Neue Features benötigen Tests</li>
-<li><strong>Code formatieren</strong>: Black &amp; Ruff müssen durchlaufen</li>
-<li><strong>Commit Messages</strong>: Aussagekräftige Commit-Messages verwenden</li>
-<li><strong>Pull Request öffnen</strong>: Mit klarer Beschreibung der Änderungen</li>
+<li><strong>Branch erstellen</strong>: <code>git checkout -b feature/mein-feature</code>  </li>
+<li><strong>Tests schreiben</strong>: Neue Features benötigen Tests  </li>
+<li><strong>Code formatieren</strong>: Black &amp; Ruff müssen durchlaufen  </li>
+<li><strong>Commit Messages</strong>: Aussagekräftige Commit-Messages verwenden  </li>
+<li><strong>Pull Request öffnen</strong>: Mit klarer Beschreibung der Änderungen  </li>
 </ol>
 <h3 id="commit-message-format">Commit Message Format<a class="headerlink" href="#commit-message-format" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>type(scope): kurze Beschreibung
@@ -2907,62 +2907,62 @@
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Fixes #123
 </code></pre></div>
 <p><strong>Types</strong>: <code>feat</code>, <code>fix</code>, <code>docs</code>, <code>test</code>, <code>refactor</code>, <code>chore</code></p>
-<p><strong>Beispiele</strong>:
-- <code>feat(gemini): Add Google Gemini API support</code>
-- <code>fix(ollama): Handle connection timeout</code>
-- <code>docs(readme): Update API comparison table</code>
-- <code>test(gemini): Add unit tests for Gemini integration</code></p>
+<p><strong>Beispiele</strong>:<br />
+- <code>feat(gemini): Add Google Gemini API support</code><br />
+- <code>fix(ollama): Handle connection timeout</code><br />
+- <code>docs(readme): Update API comparison table</code><br />
+- <code>test(gemini): Add unit tests for Gemini integration</code>  </p>
 <h2 id="neue-api-hinzufugen">🆕 Neue API hinzufügen<a class="headerlink" href="#neue-api-hinzufugen" title="Permanent link">&para;</a></h2>
 <p>Wenn Sie eine neue LLM-API hinzufügen möchten:</p>
 <ol>
-<li><strong><code>llm_client.py</code> erweitern</strong>:</li>
-<li>API-Key in <code>__init__</code> laden</li>
-<li>Default-Modell definieren</li>
-<li>Client-Initialisierung hinzufügen</li>
+<li><strong><code>llm_client.py</code> erweitern</strong>:  </li>
+<li>API-Key in <code>__init__</code> laden  </li>
+<li>Default-Modell definieren  </li>
+<li>Client-Initialisierung hinzufügen  </li>
 <li>
-<p><code>chat_completion</code> Methode erweitern</p>
+<p><code>chat_completion</code> Methode erweitern  </p>
 </li>
 <li>
-<p><strong>Tests schreiben</strong> (<code>tests/test_llm_client.py</code>):</p>
+<p><strong>Tests schreiben</strong> (<code>tests/test_llm_client.py</code>):  </p>
 </li>
-<li>Initialisierungstests</li>
-<li>Chat-Completion Tests (gemockt)</li>
-<li>Error-Handling Tests</li>
+<li>Initialisierungstests  </li>
+<li>Chat-Completion Tests (gemockt)  </li>
+<li>Error-Handling Tests  </li>
 <li>
-<p>Parameter-Validierung</p>
-</li>
-<li>
-<p><strong>Dokumentation aktualisieren</strong>:</p>
-</li>
-<li><code>README.md</code>: API-Tabelle erweitern</li>
-<li><code>README.md</code>: Beispiel hinzufügen</li>
-<li>
-<p><code>development/contributing.md</code>: Neue Abhängigkeiten dokumentieren</p>
+<p>Parameter-Validierung  </p>
 </li>
 <li>
-<p><strong>Beispiel</strong>: Siehe Gemini-Integration als Referenz</p>
+<p><strong>Dokumentation aktualisieren</strong>:  </p>
+</li>
+<li><code>README.md</code>: API-Tabelle erweitern  </li>
+<li><code>README.md</code>: Beispiel hinzufügen  </li>
+<li>
+<p><code>development/contributing.md</code>: Neue Abhängigkeiten dokumentieren  </p>
+</li>
+<li>
+<p><strong>Beispiel</strong>: Siehe Gemini-Integration als Referenz  </p>
 </li>
 </ol>
 <h2 id="bugs-melden">🐛 Bugs melden<a class="headerlink" href="#bugs-melden" title="Permanent link">&para;</a></h2>
-<p>Bitte nutzen Sie GitHub Issues und geben Sie an:
-- Python Version
-- Betriebssystem
-- Verwendete API (OpenAI, Groq, Gemini, Ollama)
-- Fehlerlog
-- Minimales Reproduktionsbeispiel</p>
+<p>Bitte nutzen Sie GitHub Issues und geben Sie an:<br />
+- Python Version<br />
+- Betriebssystem<br />
+- Verwendete API (OpenAI, Groq, Gemini, Ollama)<br />
+- Fehlerlog<br />
+- Minimales Reproduktionsbeispiel  </p>
 <h2 id="feature-requests">💡 Feature Requests<a class="headerlink" href="#feature-requests" title="Permanent link">&para;</a></h2>
-<p>Feature-Ideen sind willkommen! Bitte öffnen Sie ein Issue mit:
-- Beschreibung des Features
-- Use Case / Anwendungsfall
-- Mögliche Implementierung (optional)
-- Welche APIs betroffen sind</p>
+<p>Feature-Ideen sind willkommen! Bitte öffnen Sie ein Issue mit:<br />
+- Beschreibung des Features<br />
+- Use Case / Anwendungsfall<br />
+- Mögliche Implementierung (optional)<br />
+- Welche APIs betroffen sind  </p>
 <h2 id="code-struktur">🧩 Code-Struktur<a class="headerlink" href="#code-struktur" title="Permanent link">&para;</a></h2>
 <h3 id="hauptkomponenten">Hauptkomponenten<a class="headerlink" href="#hauptkomponenten" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong><code>llm_client/llm_client.py</code></strong>: Hauptklasse mit API-Logik</li>
-<li><strong><code>llm_client/adapter.py</code></strong>: llama-index Integration</li>
-<li><strong><code>tests/test_llm_client.py</code></strong>: Unit-Tests</li>
-<li><strong><code>tests/test_adapter.py</code></strong>: Adapter-Tests</li>
+<li><strong><code>llm_client/llm_client.py</code></strong>: Hauptklasse mit API-Logik  </li>
+<li><strong><code>llm_client/adapter.py</code></strong>: llama-index Integration  </li>
+<li><strong><code>tests/test_llm_client.py</code></strong>: Unit-Tests  </li>
+<li><strong><code>tests/test_adapter.py</code></strong>: Adapter-Tests  </li>
 </ul>
 <h3 id="unterstutzte-apis">Unterstützte APIs<a class="headerlink" href="#unterstutzte-apis" title="Permanent link">&para;</a></h3>
 <table>
@@ -3003,25 +3003,25 @@
 </table>
 <h2 id="sicherheit">🔒 Sicherheit<a class="headerlink" href="#sicherheit" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Keine API-Keys im Code</strong>: Nutzen Sie <code>secrets.env</code> oder Umgebungsvariablen</li>
-<li><strong>Secrets nicht committen</strong>: <code>.gitignore</code> prüfen</li>
-<li><strong>Sensible Tests</strong>: Mock-Objekte statt echte API-Calls</li>
+<li><strong>Keine API-Keys im Code</strong>: Nutzen Sie <code>secrets.env</code> oder Umgebungsvariablen  </li>
+<li><strong>Secrets nicht committen</strong>: <code>.gitignore</code> prüfen  </li>
+<li><strong>Sensible Tests</strong>: Mock-Objekte statt echte API-Calls  </li>
 </ul>
 <h2 id="dokumentations-standards">📝 Dokumentations-Standards<a class="headerlink" href="#dokumentations-standards" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Docstrings</strong>: Google-Style für alle öffentlichen Methoden</li>
-<li><strong>Type Hints</strong>: Vollständige Typ-Annotationen</li>
-<li><strong>Beispiele</strong>: Code-Beispiele in Docstrings</li>
-<li><strong>README</strong>: Aktuell halten bei neuen Features</li>
+<li><strong>Docstrings</strong>: Google-Style für alle öffentlichen Methoden  </li>
+<li><strong>Type Hints</strong>: Vollständige Typ-Annotationen  </li>
+<li><strong>Beispiele</strong>: Code-Beispiele in Docstrings  </li>
+<li><strong>README</strong>: Aktuell halten bei neuen Features  </li>
 </ul>
 <h2 id="code-review">🤝 Code Review<a class="headerlink" href="#code-review" title="Permanent link">&para;</a></h2>
-<p>Pull Requests werden geprüft auf:
-- ✅ Tests laufen durch (pytest)
-- ✅ Code-Style korrekt (black, ruff)
-- ✅ Type-Hints vorhanden (mypy)
-- ✅ Dokumentation aktualisiert
-- ✅ Keine Secrets im Code
-- ✅ Sinnvolle Commit-Messages</p>
+<p>Pull Requests werden geprüft auf:<br />
+- ✅ Tests laufen durch (pytest)<br />
+- ✅ Code-Style korrekt (black, ruff)<br />
+- ✅ Type-Hints vorhanden (mypy)<br />
+- ✅ Dokumentation aktualisiert<br />
+- ✅ Keine Secrets im Code<br />
+- ✅ Sinnvolle Commit-Messages  </p>
 <h2 id="lizenz">📄 Lizenz<a class="headerlink" href="#lizenz" title="Permanent link">&para;</a></h2>
 <p>Mit Ihrem Beitrag stimmen Sie zu, dass Ihre Änderungen unter der MIT-Lizenz veröffentlicht werden.</p>
 <h2 id="danke">🙏 Danke!<a class="headerlink" href="#danke" title="Permanent link">&para;</a></h2>

@@ -3215,191 +3215,191 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <h2 id="v040-2026-02-11">v0.4.0 (2026-02-11)<a class="headerlink" href="#v040-2026-02-11" title="Permanent link">&para;</a></h2>
 <h3 id="feat">Feat<a class="headerlink" href="#feat" title="Permanent link">&para;</a></h3>
 <ul>
-<li>add automatic versioning and changelog updates</li>
+<li>add automatic versioning and changelog updates  </li>
 </ul>
 <h3 id="fix">Fix<a class="headerlink" href="#fix" title="Permanent link">&para;</a></h3>
 <ul>
-<li>update branch references from main to master</li>
-<li>enable emoji and icon support in documentation</li>
-<li>resolve async provider test failures and CI issues</li>
-<li>resolve async provider test failures and CI issues</li>
-<li><strong>tests</strong>: resolve failing async provider tests</li>
-<li><strong>tests</strong>: make test_detect_file_type_unsupported deterministic</li>
+<li>update branch references from main to master  </li>
+<li>enable emoji and icon support in documentation  </li>
+<li>resolve async provider test failures and CI issues  </li>
+<li>resolve async provider test failures and CI issues  </li>
+<li><strong>tests</strong>: resolve failing async provider tests  </li>
+<li><strong>tests</strong>: make test_detect_file_type_unsupported deterministic  </li>
 </ul>
 <hr />
 <h2 id="030-2025-01-xx">[0.3.0] - 2025-01-XX<a class="headerlink" href="#030-2025-01-xx" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <h4 id="token-counting">Token Counting<a class="headerlink" href="#token-counting" title="Permanent link">&para;</a></h4>
 <ul>
-<li>✨ <strong>Token counting with tiktoken</strong> - Accurate token counting for all messages</li>
-<li>📊 <code>count_tokens()</code> method for counting tokens in message lists</li>
-<li>📊 <code>count_string_tokens()</code> method for counting tokens in plain text</li>
-<li>🔄 Automatic fallback to estimation when tiktoken is not available</li>
-<li>📦 Support for all GPT models (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)</li>
+<li>✨ <strong>Token counting with tiktoken</strong> - Accurate token counting for all messages  </li>
+<li>📊 <code>count_tokens()</code> method for counting tokens in message lists  </li>
+<li>📊 <code>count_string_tokens()</code> method for counting tokens in plain text  </li>
+<li>🔄 Automatic fallback to estimation when tiktoken is not available  </li>
+<li>📦 Support for all GPT models (GPT-4o, GPT-4o-mini, GPT-3.5-turbo)  </li>
 </ul>
 <h4 id="async-support">Async Support<a class="headerlink" href="#async-support" title="Permanent link">&para;</a></h4>
 <ul>
-<li>⚡ <strong>Full async/await support</strong> for chat completions</li>
-<li>🔄 <code>achat_completion()</code> - Async chat completion method</li>
-<li>🔄 <code>achat_completion_stream()</code> - Async streaming support</li>
-<li>🔄 <code>achat_completion_with_tools()</code> - Async tool calling support</li>
-<li>📦 Async providers: <code>AsyncOpenAIProvider</code>, <code>AsyncGroqProvider</code>, <code>AsyncGeminiProvider</code></li>
-<li>🎯 <code>use_async=True</code> parameter for creating async clients</li>
+<li>⚡ <strong>Full async/await support</strong> for chat completions  </li>
+<li>🔄 <code>achat_completion()</code> - Async chat completion method  </li>
+<li>🔄 <code>achat_completion_stream()</code> - Async streaming support  </li>
+<li>🔄 <code>achat_completion_with_tools()</code> - Async tool calling support  </li>
+<li>📦 Async providers: <code>AsyncOpenAIProvider</code>, <code>AsyncGroqProvider</code>, <code>AsyncGeminiProvider</code>  </li>
+<li>🎯 <code>use_async=True</code> parameter for creating async clients  </li>
 </ul>
 <h4 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h4>
 <ul>
-<li>📁 <strong>YAML/JSON configuration file support</strong></li>
-<li>🔧 <code>LLMConfig</code> class for managing configurations</li>
-<li>🔧 <code>from_config()</code> class method to load client from config files</li>
-<li>🔧 <code>generate_config_template()</code> utility function</li>
-<li>🔧 <code>create_default_config()</code> helper function</li>
-<li>✅ Configuration validation with detailed error messages</li>
-<li>🔄 Support for multiple provider configurations in one file</li>
-<li>🌍 Global settings with per-provider overrides</li>
+<li>📁 <strong>YAML/JSON configuration file support</strong>  </li>
+<li>🔧 <code>LLMConfig</code> class for managing configurations  </li>
+<li>🔧 <code>from_config()</code> class method to load client from config files  </li>
+<li>🔧 <code>generate_config_template()</code> utility function  </li>
+<li>🔧 <code>create_default_config()</code> helper function  </li>
+<li>✅ Configuration validation with detailed error messages  </li>
+<li>🔄 Support for multiple provider configurations in one file  </li>
+<li>🌍 Global settings with per-provider overrides  </li>
 </ul>
 <h4 id="ollama-cloud-support">Ollama Cloud Support<a class="headerlink" href="#ollama-cloud-support" title="Permanent link">&para;</a></h4>
 <ul>
-<li>☁️ <strong>Ollama Cloud API integration</strong> - Access to cloud-hosted Ollama models</li>
-<li>🔄 <strong>Automatic cloud detection</strong> from model names ending with <code>-cloud</code></li>
-<li>🔑 Support for <code>OLLAMA_API_KEY</code> environment variable</li>
-<li>🎯 <code>use_ollama_cloud=True</code> parameter for explicit cloud mode</li>
-<li>🌐 <code>ollama_host</code> parameter for custom Ollama endpoints</li>
-<li>🔀 Seamless switching between local and cloud Ollama instances</li>
-<li>📝 Example: <code>ollama_cloud_examples.py</code> demonstrating all cloud features</li>
+<li>☁️ <strong>Ollama Cloud API integration</strong> - Access to cloud-hosted Ollama models  </li>
+<li>🔄 <strong>Automatic cloud detection</strong> from model names ending with <code>-cloud</code>  </li>
+<li>🔑 Support for <code>OLLAMA_API_KEY</code> environment variable  </li>
+<li>🎯 <code>use_ollama_cloud=True</code> parameter for explicit cloud mode  </li>
+<li>🌐 <code>ollama_host</code> parameter for custom Ollama endpoints  </li>
+<li>🔀 Seamless switching between local and cloud Ollama instances  </li>
+<li>📝 Example: <code>ollama_cloud_examples.py</code> demonstrating all cloud features  </li>
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
 <ul>
-<li>📚 Enhanced documentation with examples for all new features</li>
-<li>🧪 Expanded test suite with &gt;92% coverage</li>
-<li>📦 Updated dependencies: <code>tiktoken</code>, <code>pyyaml</code>, <code>asyncio</code></li>
-<li>🔧 Improved type hints throughout the codebase</li>
+<li>📚 Enhanced documentation with examples for all new features  </li>
+<li>🧪 Expanded test suite with &gt;92% coverage  </li>
+<li>📦 Updated dependencies: <code>tiktoken</code>, <code>pyyaml</code>, <code>asyncio</code>  </li>
+<li>🔧 Improved type hints throughout the codebase  </li>
 </ul>
 <h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
 <ul>
-<li>📖 <code>examples/usage_examples.py</code> - Demonstrates token counting, async, and config features</li>
-<li>📖 <code>examples/ollama_cloud_examples.py</code> - Comprehensive Ollama Cloud usage examples</li>
-<li>📖 Updated all existing examples with new capabilities</li>
+<li>📖 <code>examples/usage_examples.py</code> - Demonstrates token counting, async, and config features  </li>
+<li>📖 <code>examples/ollama_cloud_examples.py</code> - Comprehensive Ollama Cloud usage examples  </li>
+<li>📖 Updated all existing examples with new capabilities  </li>
 </ul>
 <h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
 <ul>
-<li>➕ Added <code>tiktoken</code> for accurate token counting</li>
-<li>➕ Added <code>pyyaml</code> for YAML configuration support</li>
-<li>➕ Added <code>asyncio</code> for async support</li>
+<li>➕ Added <code>tiktoken</code> for accurate token counting  </li>
+<li>➕ Added <code>pyyaml</code> for YAML configuration support  </li>
+<li>➕ Added <code>asyncio</code> for async support  </li>
 </ul>
 <h3 id="maintained">Maintained<a class="headerlink" href="#maintained" title="Permanent link">&para;</a></h3>
 <ul>
-<li>✅ 100% backward compatibility</li>
-<li>✅ All existing functionality preserved</li>
-<li>✅ No breaking changes</li>
+<li>✅ 100% backward compatibility  </li>
+<li>✅ All existing functionality preserved  </li>
+<li>✅ No breaking changes  </li>
 </ul>
 <hr />
 <h2 id="020-2024-12-xx">[0.2.0] - 2024-12-XX<a class="headerlink" href="#020-2024-12-xx" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
 <h4 id="response-streaming">Response Streaming<a class="headerlink" href="#response-streaming" title="Permanent link">&para;</a></h4>
 <ul>
-<li>✨ <strong>Response streaming support</strong> for all providers (OpenAI, Groq, Gemini, Ollama)</li>
-<li>🔄 <code>chat_completion_stream()</code> method for real-time token streaming</li>
-<li>📦 Generator-based API for memory-efficient streaming</li>
-<li>⚡ Enables progressive response display in UIs</li>
+<li>✨ <strong>Response streaming support</strong> for all providers (OpenAI, Groq, Gemini, Ollama)  </li>
+<li>🔄 <code>chat_completion_stream()</code> method for real-time token streaming  </li>
+<li>📦 Generator-based API for memory-efficient streaming  </li>
+<li>⚡ Enables progressive response display in UIs  </li>
 </ul>
 <h4 id="retry-logic">Retry Logic<a class="headerlink" href="#retry-logic" title="Permanent link">&para;</a></h4>
 <ul>
-<li>🔄 <strong>Automatic retry with exponential backoff</strong></li>
-<li>🎯 Up to 3 retry attempts on transient failures</li>
-<li>⏱️ Exponential backoff: 4s, 8s, 10s delays</li>
-<li>📦 Powered by <code>tenacity</code> library</li>
-<li>🛡️ Transparent handling of temporary API errors</li>
+<li>🔄 <strong>Automatic retry with exponential backoff</strong>  </li>
+<li>🎯 Up to 3 retry attempts on transient failures  </li>
+<li>⏱️ Exponential backoff: 4s, 8s, 10s delays  </li>
+<li>📦 Powered by <code>tenacity</code> library  </li>
+<li>🛡️ Transparent handling of temporary API errors  </li>
 </ul>
 <h4 id="custom-exceptions">Custom Exceptions<a class="headerlink" href="#custom-exceptions" title="Permanent link">&para;</a></h4>
 <ul>
-<li>🚨 <strong>Comprehensive exception hierarchy</strong></li>
-<li><code>LLMClientError</code> - Base exception for all package errors</li>
-<li><code>APIKeyNotFoundError</code> - Missing API key errors with context</li>
-<li><code>ProviderNotAvailableError</code> - Package installation errors</li>
-<li><code>InvalidProviderError</code> - Invalid provider name errors</li>
-<li><code>ChatCompletionError</code> - API call failures with original error</li>
-<li><code>StreamingNotSupportedError</code> - Streaming not available errors</li>
-<li>📋 Detailed error messages with actionable information</li>
+<li>🚨 <strong>Comprehensive exception hierarchy</strong>  </li>
+<li><code>LLMClientError</code> - Base exception for all package errors  </li>
+<li><code>APIKeyNotFoundError</code> - Missing API key errors with context  </li>
+<li><code>ProviderNotAvailableError</code> - Package installation errors  </li>
+<li><code>InvalidProviderError</code> - Invalid provider name errors  </li>
+<li><code>ChatCompletionError</code> - API call failures with original error  </li>
+<li><code>StreamingNotSupportedError</code> - Streaming not available errors  </li>
+<li>📋 Detailed error messages with actionable information  </li>
 </ul>
 <h4 id="architecture-improvements">Architecture Improvements<a class="headerlink" href="#architecture-improvements" title="Permanent link">&para;</a></h4>
 <ul>
-<li>🏗️ <strong>Strategy Pattern</strong> implementation with provider classes</li>
-<li>🏭 <strong>Factory Pattern</strong> for provider creation</li>
-<li>🎯 <code>BaseProvider</code> abstract class for consistent interface</li>
-<li>📦 Concrete providers: <code>OpenAIProvider</code>, <code>GroqProvider</code>, <code>GeminiProvider</code>, <code>OllamaProvider</code></li>
-<li>🔧 <code>ProviderFactory</code> for centralized provider management</li>
+<li>🏗️ <strong>Strategy Pattern</strong> implementation with provider classes  </li>
+<li>🏭 <strong>Factory Pattern</strong> for provider creation  </li>
+<li>🎯 <code>BaseProvider</code> abstract class for consistent interface  </li>
+<li>📦 Concrete providers: <code>OpenAIProvider</code>, <code>GroqProvider</code>, <code>GeminiProvider</code>, <code>OllamaProvider</code>  </li>
+<li>🔧 <code>ProviderFactory</code> for centralized provider management  </li>
 </ul>
 <h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>🔄 <code>chat_completion()</code> now includes automatic retry logic by default</li>
-<li>🔄 Error messages are more descriptive with custom exceptions</li>
-<li>🔄 Better type hints and documentation throughout</li>
-<li>📚 Refactored codebase for better maintainability</li>
+<li>🔄 <code>chat_completion()</code> now includes automatic retry logic by default  </li>
+<li>🔄 Error messages are more descriptive with custom exceptions  </li>
+<li>🔄 Better type hints and documentation throughout  </li>
+<li>📚 Refactored codebase for better maintainability  </li>
 </ul>
 <h3 id="dependencies_1">Dependencies<a class="headerlink" href="#dependencies_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>➕ Added <code>tenacity&gt;=8.2.0</code> for retry logic</li>
+<li>➕ Added <code>tenacity&gt;=8.2.0</code> for retry logic  </li>
 </ul>
 <h3 id="examples_1">Examples<a class="headerlink" href="#examples_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>📖 <code>examples/streaming_example.py</code> - Comprehensive streaming examples</li>
-<li>📖 Demonstrates retry behavior and exception handling</li>
+<li>📖 <code>examples/streaming_example.py</code> - Comprehensive streaming examples  </li>
+<li>📖 Demonstrates retry behavior and exception handling  </li>
 </ul>
 <h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
 <ul>
-<li>🧪 Full test coverage for streaming functionality</li>
-<li>🧪 Tests for retry logic with transient failures</li>
-<li>🧪 Exception handling tests</li>
-<li>🧪 Provider switching with streaming support</li>
+<li>🧪 Full test coverage for streaming functionality  </li>
+<li>🧪 Tests for retry logic with transient failures  </li>
+<li>🧪 Exception handling tests  </li>
+<li>🧪 Provider switching with streaming support  </li>
 </ul>
 <h3 id="maintained_1">Maintained<a class="headerlink" href="#maintained_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>✅ 100% backward compatibility</li>
-<li>✅ All existing functionality preserved</li>
-<li>✅ No breaking changes</li>
+<li>✅ 100% backward compatibility  </li>
+<li>✅ All existing functionality preserved  </li>
+<li>✅ No breaking changes  </li>
 </ul>
 <hr />
 <h2 id="010-2024-11-xx">[0.1.0] - 2024-11-XX<a class="headerlink" href="#010-2024-11-xx" title="Permanent link">&para;</a></h2>
 <h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li>🎉 Initial release</li>
-<li>🤖 Support for multiple LLM providers:</li>
-<li>OpenAI (GPT-4, GPT-4o, GPT-3.5-turbo)</li>
-<li>Groq (Llama, Mixtral, Gemma models)</li>
-<li>Google Gemini (Gemini 2.0 Flash, Gemini 2.5 Flash)</li>
-<li>Ollama (local models)</li>
-<li>🔍 <strong>Automatic API detection</strong> based on available API keys</li>
-<li>🔄 <strong>Dynamic provider switching</strong> at runtime with <code>switch_provider()</code></li>
-<li>⚙️ <strong>Unified interface</strong> - one method for all LLM backends</li>
-<li>🔧 <strong>Flexible configuration</strong> - model, temperature, max_tokens customizable</li>
-<li>🔐 <strong>Google Colab support</strong> - automatic secret loading from userdata</li>
-<li>📦 <strong>Zero-config</strong> - works out-of-the-box with Ollama (no API keys needed)</li>
-<li>🧩 <strong>llama-index integration</strong> via <code>LLMClientAdapter</code></li>
-<li>🧪 <strong>Comprehensive test suite</strong> with &gt;90% coverage</li>
-<li>📚 <strong>Detailed documentation</strong> with examples and tutorials</li>
-<li>📓 <strong>Jupyter notebooks</strong> for RAG applications</li>
+<li>🎉 Initial release  </li>
+<li>🤖 Support for multiple LLM providers:  </li>
+<li>OpenAI (GPT-4, GPT-4o, GPT-3.5-turbo)  </li>
+<li>Groq (Llama, Mixtral, Gemma models)  </li>
+<li>Google Gemini (Gemini 2.0 Flash, Gemini 2.5 Flash)  </li>
+<li>Ollama (local models)  </li>
+<li>🔍 <strong>Automatic API detection</strong> based on available API keys  </li>
+<li>🔄 <strong>Dynamic provider switching</strong> at runtime with <code>switch_provider()</code>  </li>
+<li>⚙️ <strong>Unified interface</strong> - one method for all LLM backends  </li>
+<li>🔧 <strong>Flexible configuration</strong> - model, temperature, max_tokens customizable  </li>
+<li>🔐 <strong>Google Colab support</strong> - automatic secret loading from userdata  </li>
+<li>📦 <strong>Zero-config</strong> - works out-of-the-box with Ollama (no API keys needed)  </li>
+<li>🧩 <strong>llama-index integration</strong> via <code>LLMClientAdapter</code>  </li>
+<li>🧪 <strong>Comprehensive test suite</strong> with &gt;90% coverage  </li>
+<li>📚 <strong>Detailed documentation</strong> with examples and tutorials  </li>
+<li>📓 <strong>Jupyter notebooks</strong> for RAG applications  </li>
 </ul>
 <h3 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Clean architecture with provider abstraction</li>
-<li>CI/CD pipelines (GitHub Actions)</li>
-<li>Automated testing (pytest)</li>
-<li>Code quality tools (black, ruff, mypy, bandit)</li>
-<li>Pre-commit hooks for code quality</li>
+<li>Clean architecture with provider abstraction  </li>
+<li>CI/CD pipelines (GitHub Actions)  </li>
+<li>Automated testing (pytest)  </li>
+<li>Code quality tools (black, ruff, mypy, bandit)  </li>
+<li>Pre-commit hooks for code quality  </li>
 </ul>
 <h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Comprehensive README with examples</li>
-<li>Contribution guidelines (development/contributing.md)</li>
-<li>Test documentation (tests/README.md)</li>
-<li>Notebook tutorials for RAG applications</li>
+<li>Comprehensive README with examples  </li>
+<li>Contribution guidelines (development/contributing.md)  </li>
+<li>Test documentation (tests/README.md)  </li>
+<li>Notebook tutorials for RAG applications  </li>
 </ul>
 <hr />
 <h2 id="release-history">Release History<a class="headerlink" href="#release-history" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>0.3.0</strong> - Token counting, async support, configuration files, Ollama Cloud</li>
-<li><strong>0.2.0</strong> - Streaming, retry logic, custom exceptions</li>
-<li><strong>0.1.0</strong> - Initial release with multi-provider support</li>
+<li><strong>0.3.0</strong> - Token counting, async support, configuration files, Ollama Cloud  </li>
+<li><strong>0.2.0</strong> - Streaming, retry logic, custom exceptions  </li>
+<li><strong>0.1.0</strong> - Initial release with multi-provider support  </li>
 </ul>
 <hr />
 <h2 id="upgrading">Upgrading<a class="headerlink" href="#upgrading" title="Permanent link">&para;</a></h2>
@@ -3421,10 +3421,10 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <h3 id="from-010-to-020">From 0.1.0 to 0.2.0<a class="headerlink" href="#from-010-to-020" title="Permanent link">&para;</a></h3>
 <p>No breaking changes. New features work automatically:</p>
 <ul>
-<li>Retry logic is enabled by default</li>
-<li>Streaming available via <code>chat_completion_stream()</code></li>
-<li>Custom exceptions provide better error messages</li>
-<li>All existing code continues to work unchanged</li>
+<li>Retry logic is enabled by default  </li>
+<li>Streaming available via <code>chat_completion_stream()</code>  </li>
+<li>Custom exceptions provide better error messages  </li>
+<li>All existing code continues to work unchanged  </li>
 </ul>
 <hr />
 <h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h2>

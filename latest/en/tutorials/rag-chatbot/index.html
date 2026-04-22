@@ -2600,16 +2600,16 @@
 <h1 id="rag-chatbot-with-groq-api">RAG Chatbot with Groq API<a class="headerlink" href="#rag-chatbot-with-groq-api" title="Permanent link">&para;</a></h1>
 <p><a href="https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <ul>
-<li><a href="#overview-of-retrieval-augmented-generation-rag">Overview of Retrieval-Augmented Generation (RAG)</a></li>
-<li><a href="#notebook-content">Notebook Content</a></li>
-<li><a href="#required-api-keys">Required API Keys</a></li>
-<li><a href="#creating-a-hugging-face-access-token">Creating a Hugging Face Access Token</a></li>
-<li><a href="#creating-a-groq-api-key">Creating a Groq API Key</a></li>
-<li><a href="#creating-an-openai-api-key">Creating an OpenAI API Key</a></li>
-<li><a href="#store-api-keys-as-secrets-in-google-colab">Store API Keys as Secrets in Google Colab</a></li>
-<li><a href="#using-llmclient-in-the-notebook">Using LLMClient in the Notebook</a></li>
-<li><a href="#resources-for-rag">Resources for RAG</a></li>
-<li><a href="#license">License</a></li>
+<li><a href="#overview-of-retrieval-augmented-generation-rag">Overview of Retrieval-Augmented Generation (RAG)</a>  </li>
+<li><a href="#notebook-content">Notebook Content</a>  </li>
+<li><a href="#required-api-keys">Required API Keys</a>  </li>
+<li><a href="#creating-a-hugging-face-access-token">Creating a Hugging Face Access Token</a>  </li>
+<li><a href="#creating-a-groq-api-key">Creating a Groq API Key</a>  </li>
+<li><a href="#creating-an-openai-api-key">Creating an OpenAI API Key</a>  </li>
+<li><a href="#store-api-keys-as-secrets-in-google-colab">Store API Keys as Secrets in Google Colab</a>  </li>
+<li><a href="#using-llmclient-in-the-notebook">Using LLMClient in the Notebook</a>  </li>
+<li><a href="#resources-for-rag">Resources for RAG</a>  </li>
+<li><a href="#license">License</a>  </li>
 </ul>
 <p>The notebook <a href="https://github.com/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb"><code>RAGChatbot_groq_API.ipynb</code></a> demonstrates how to create a <strong>Retrieval-Augmented Generation (RAG)</strong> chatbot using the <a href="../../api/llm_client/"><code>LLMClient</code></a> class, which can be operated via <strong>Groq</strong>, <strong>OpenAI</strong>, or <strong>Ollama</strong>.</p>
 <p><img alt="RAG-Chatbot GUI" src="../../../assets/tutorials/PDF_RAG_Chatbot.png" style="display: block; margin: 0 auto" width="750" /></p>
@@ -2639,15 +2639,15 @@ Own representation, inspired by course material from <a href="https://www.course
 <h2 id="notebook-content">🚀 Notebook Content<a class="headerlink" href="#notebook-content" title="Permanent link">&para;</a></h2>
 <p>The notebook demonstrates:</p>
 <ol>
-<li>Installation of required packages in <strong>Google Colab</strong></li>
-<li>Using the <code>LLMClient</code> class with:</li>
-<li>🧩 <strong>Groq API</strong> <em>(optional)</em></li>
-<li>🔮 <strong>OpenAI API</strong> <em>(optional)</em></li>
-<li>💻 <strong>Ollama (local)</strong> <em>(Fallback)</em></li>
-<li>Building a simple <strong>RAG workflow</strong>:</li>
-<li>Loading PDF documents with <a href="https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader"><code>UnstructuredReader</code></a> from <a href="https://developers.llamaindex.ai/"><code>llamaindex</code></a></li>
-<li>Generating embeddings with an embedding model from <a href="https://huggingface.co/"><code>Hugging Face</code></a></li>
-<li>Combining answers from LLM + <a href="https://www.trychroma.com/"><code>ChromaDB</code></a> vector database</li>
+<li>Installation of required packages in <strong>Google Colab</strong>  </li>
+<li>Using the <code>LLMClient</code> class with:  </li>
+<li>🧩 <strong>Groq API</strong> <em>(optional)</em>  </li>
+<li>🔮 <strong>OpenAI API</strong> <em>(optional)</em>  </li>
+<li>💻 <strong>Ollama (local)</strong> <em>(Fallback)</em>  </li>
+<li>Building a simple <strong>RAG workflow</strong>:  </li>
+<li>Loading PDF documents with <a href="https://developers.llamaindex.ai/python/framework-api-reference/readers/file/#llama_index.readers.file.UnstructuredReader"><code>UnstructuredReader</code></a> from <a href="https://developers.llamaindex.ai/"><code>llamaindex</code></a>  </li>
+<li>Generating embeddings with an embedding model from <a href="https://huggingface.co/"><code>Hugging Face</code></a>  </li>
+<li>Combining answers from LLM + <a href="https://www.trychroma.com/"><code>ChromaDB</code></a> vector database  </li>
 </ol>
 <hr />
 <h2 id="required-api-keys">🔑 Required API Keys<a class="headerlink" href="#required-api-keys" title="Permanent link">&para;</a></h2>
@@ -2683,67 +2683,67 @@ Own representation, inspired by course material from <a href="https://www.course
 <p>The Hugging Face Access Token is required to access <strong>embedding models</strong> and other AI models from the Hugging Face Model Hub, which are used to calculate sentence embeddings. These are downloaded from the Model Hub and executed locally.</p>
 <ol>
 <li>
-<p>Create a free account at <a href="https://huggingface.co/">https://huggingface.co/</a> or log in (if necessary).</p>
+<p>Create a free account at <a href="https://huggingface.co/">https://huggingface.co/</a> or log in (if necessary).  </p>
 </li>
 <li>
-<p>Go to <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a></p>
+<p>Go to <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a>  </p>
 </li>
 </ol>
 <p><img alt="Hugging Face – Settings Menu" src="../../../assets/tutorials/Hugging_Face_settings_menu_access_tokens.png" style="display: block; margin: 0 auto" width="250" /></p>
 <ol>
-<li>Click on the <strong>"Create new token"</strong> button</li>
+<li>Click on the <strong>"Create new token"</strong> button  </li>
 </ol>
 <p><img alt="Hugging Face – User Access Tokens" src="../../../assets/tutorials/Hugging_Face_User_Access_Tokens.png" style="display: block; margin: 0 auto" width="850" /></p>
 <ol>
-<li>Enter a name (e.g., <code>colab-rag</code>) and select <strong>Type: Write</strong></li>
+<li>Enter a name (e.g., <code>colab-rag</code>) and select <strong>Type: Write</strong>  </li>
 </ol>
 <p><img alt="Hugging Face – Create New Write Token" src="../../../assets/tutorials/Hugging_Face_create_new_write_token.png" style="display: block; margin: 0 auto" width="850" /></p>
 <ol>
-<li>Copy the displayed token (usually starts with <code>hf_...</code>).</li>
+<li>Copy the displayed token (usually starts with <code>hf_...</code>).  </li>
 </ol>
 <hr />
 <h2 id="creating-a-groq-api-key">⚡️ Creating a Groq API Key<a class="headerlink" href="#creating-a-groq-api-key" title="Permanent link">&para;</a></h2>
 <p>The Groq API Key allows access to publicly available <strong>LLMs</strong> that can be used for particularly fast <strong>text generation and question answering</strong> in the RAG workflow. These LLMs are executed in the GroqCloud.</p>
 <ol>
-<li>Create a free account at <a href="https://groq.com/">https://groq.com/</a> or log in (if necessary).</li>
-<li>Visit <a href="https://console.groq.com/keys">https://console.groq.com/keys</a></li>
-<li>Click on <strong>"Create API Key"</strong></li>
+<li>Create a free account at <a href="https://groq.com/">https://groq.com/</a> or log in (if necessary).  </li>
+<li>Visit <a href="https://console.groq.com/keys">https://console.groq.com/keys</a>  </li>
+<li>Click on <strong>"Create API Key"</strong>  </li>
 </ol>
 <p><img alt="Groq API Keys – Create API Key" src="../../../assets/tutorials/groq_API_Keys_Create_API_Key.png" /></p>
 <ol>
-<li>Copy the key (usually starts with <code>groq_...</code>).</li>
+<li>Copy the key (usually starts with <code>groq_...</code>).  </li>
 </ol>
 <hr />
 <h2 id="creating-an-openai-api-key">🔮 Creating an OpenAI API Key<a class="headerlink" href="#creating-an-openai-api-key" title="Permanent link">&para;</a></h2>
 <p>The OpenAI API Key allows the use of <strong>OpenAI models</strong> (e.g., GPT-4 or GPT-4o) to generate <strong>context-related answers</strong> in the Retrieval-Augmented Generation system.</p>
 <ol>
-<li>Log in to <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a></li>
+<li>Log in to <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a>  </li>
 </ol>
 <p><img alt="OpenAI API – API Keys" src="../../../assets/tutorials/OpenAI_API_API_keys.png" style="display: block; margin: 0 auto" width="175" /></p>
 <ol>
-<li>Click on "Create new secret key"</li>
+<li>Click on "Create new secret key"  </li>
 </ol>
 <p><img alt="OpenAI API – Create New Secret Key" src="../../../assets/tutorials/OpenAI_API_Create_new_secret_key.png" style="display: block; margin: 0 auto" width="450" /></p>
 <ol>
-<li>Copy the key (usually starts with <code>sk-...</code>).</li>
+<li>Copy the key (usually starts with <code>sk-...</code>).  </li>
 </ol>
 <hr />
 <h2 id="creating-a-google-gemini-api-key">Creating a Google Gemini API Key<a class="headerlink" href="#creating-a-google-gemini-api-key" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Visit <a href="https://aistudio.google.com/apikey">Google AI Studio</a></li>
-<li>Click on <strong>"Get API Key"</strong> or <strong>"Create API Key"</strong></li>
-<li>Select a Google Cloud project or create a new one</li>
-<li>Copy the generated API key (starts with <code>AIzaSy...</code>)</li>
+<li>Visit <a href="https://aistudio.google.com/apikey">Google AI Studio</a>  </li>
+<li>Click on <strong>"Get API Key"</strong> or <strong>"Create API Key"</strong>  </li>
+<li>Select a Google Cloud project or create a new one  </li>
+<li>Copy the generated API key (starts with <code>AIzaSy...</code>)  </li>
 </ol>
 <p><strong>Note</strong>: The Gemini API is accessed via the OpenAI compatibility mode, therefore only the <code>openai</code> Python package is required.</p>
 <hr />
 <h2 id="store-api-keys-as-secrets-in-google-colab">☁️ Store API Keys as Secrets in Google Colab<a class="headerlink" href="#store-api-keys-as-secrets-in-google-colab" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Click on the key symbol 🔑 in the menu on the left</li>
+<li>Click on the key symbol 🔑 in the menu on the left  </li>
 </ol>
 <p><img alt="Google Colab – Secrets – API Keys" src="../../../assets/tutorials/Google_Colab_secrets_api_keys.png" style="display: block; margin: 0 auto" width="600" /></p>
 <ol>
-<li>Create the following secrets:</li>
+<li>Create the following secrets:  </li>
 </ol>
 <table>
 <thead>

@@ -3456,16 +3456,16 @@
 <p>Solutions for common issues with the LLM Client.</p>
 <h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#api-keys">API Keys</a></li>
-<li><a href="#provider-issues">Provider Issues</a></li>
-<li><a href="#ollama">Ollama</a></li>
-<li><a href="#streaming">Streaming</a></li>
-<li><a href="#token-counting">Token Counting</a></li>
-<li><a href="#async-issues">Async Issues</a></li>
-<li><a href="#configuration-files">Configuration Files</a></li>
-<li><a href="#file-upload">File Upload</a></li>
-<li><a href="#performance">Performance</a></li>
+<li><a href="#installation">Installation</a>  </li>
+<li><a href="#api-keys">API Keys</a>  </li>
+<li><a href="#provider-issues">Provider Issues</a>  </li>
+<li><a href="#ollama">Ollama</a>  </li>
+<li><a href="#streaming">Streaming</a>  </li>
+<li><a href="#token-counting">Token Counting</a>  </li>
+<li><a href="#async-issues">Async Issues</a>  </li>
+<li><a href="#configuration-files">Configuration Files</a>  </li>
+<li><a href="#file-upload">File Upload</a>  </li>
+<li><a href="#performance">Performance</a>  </li>
 </ul>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
@@ -3556,10 +3556,10 @@
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">userdata</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">userdata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">))</span>
 </code></pre></div></p>
-<p><strong>Possible Causes</strong>:
-- Spaces in the key
-- Incorrect key name (e.g., <code>OPENAI_KEY</code> instead of <code>OPENAI_API_KEY</code>)
-- Key in incorrect format</p>
+<p><strong>Possible Causes</strong>:<br />
+- Spaces in the key<br />
+- Incorrect key name (e.g., <code>OPENAI_KEY</code> instead of <code>OPENAI_API_KEY</code>)<br />
+- Key in incorrect format  </p>
 <hr />
 <h2 id="provider-issues">Provider Issues<a class="headerlink" href="#provider-issues" title="Permanent link">&para;</a></h2>
 <h3 id="invalidprovidererror">InvalidProviderError<a class="headerlink" href="#invalidprovidererror" title="Permanent link">&para;</a></h3>
@@ -3646,11 +3646,11 @@
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Or a quantized model</span>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.1:8b-q4_0&quot;</span><span class="p">)</span>  <span class="c1"># Smaller</span>
 </code></pre></div></p>
-<p><strong>Recommendations by RAM</strong>:
-- &lt; 4GB RAM: <code>llama3.2:1b</code>
-- 4-8GB RAM: <code>llama3.2:3b</code>
-- 8-16GB RAM: <code>llama3.1:8b</code>
-- 16GB+ RAM: <code>llama3.1:70b</code> or larger</p>
+<p><strong>Recommendations by RAM</strong>:<br />
+- &lt; 4GB RAM: <code>llama3.2:1b</code><br />
+- 4-8GB RAM: <code>llama3.2:3b</code><br />
+- 8-16GB RAM: <code>llama3.1:8b</code><br />
+- 16GB+ RAM: <code>llama3.1:70b</code> or larger  </p>
 <h3 id="ollama-cloud-api-key-missing">Ollama Cloud API Key missing<a class="headerlink" href="#ollama-cloud-api-key-missing" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Ollama Cloud without API key.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">APIKeyNotFoundError</span><span class="p">:</span> <span class="n">OLLAMA_API_KEY</span> <span class="ow">not</span> <span class="n">found</span> <span class="k">for</span> <span class="n">ollama_cloud</span> <span class="n">provider</span>
@@ -3679,10 +3679,10 @@
 </code></pre></div></p>
 <h3 id="streaming-freezes">Streaming Freezes<a class="headerlink" href="#streaming-freezes" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Stream stops in the middle of a response.</p>
-<p><strong>Possible Causes</strong>:
-- Network issues
-- Timeout
-- API limit reached</p>
+<p><strong>Possible Causes</strong>:<br />
+- Network issues<br />
+- Timeout<br />
+- API limit reached  </p>
 <p><strong>Solution</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
@@ -3715,9 +3715,9 @@
 </code></pre></div></p>
 <h3 id="incorrect-token-count">Incorrect Token Count<a class="headerlink" href="#incorrect-token-count" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Token count deviates significantly.</p>
-<p><strong>Causes</strong>:
-- Incorrect model for encoding
-- tiktoken not installed (estimation)</p>
+<p><strong>Causes</strong>:<br />
+- Incorrect model for encoding<br />
+- tiktoken not installed (estimation)  </p>
 <p><strong>Solution</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Specify correct model</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">token_count</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">)</span>
@@ -3800,10 +3800,10 @@
 <a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
 <a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></p>
-<p><strong>Common Errors</strong>:
-- Missing <code>model</code> parameter
-- Invalid <code>default_provider</code>
-- YAML syntax error</p>
+<p><strong>Common Errors</strong>:<br />
+- Missing <code>model</code> parameter<br />
+- Invalid <code>default_provider</code><br />
+- YAML syntax error  </p>
 <h3 id="importerror-pyyaml-required">ImportError: pyyaml required<a class="headerlink" href="#importerror-pyyaml-required" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: YAML file used but pyyaml missing.</p>
 <p><strong>Solution</strong>:
@@ -3842,11 +3842,11 @@
 <a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>    <span class="c1"># Use Gemini instead</span>
 <a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>    <span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>
 </code></pre></div></p>
-<p><strong>Provider File Support</strong>:
-- OpenAI: Images, PDFs
-- Gemini: Images, PDFs, Videos, Audio
-- Groq: Images only (Vision models)
-- Ollama: Images only (Vision models)</p>
+<p><strong>Provider File Support</strong>:<br />
+- OpenAI: Images, PDFs<br />
+- Gemini: Images, PDFs, Videos, Audio<br />
+- Groq: Images only (Vision models)<br />
+- Ollama: Images only (Vision models)  </p>
 <h3 id="fileuploadnotsupportederror">FileUploadNotSupportedError<a class="headerlink" href="#fileuploadnotsupportederror" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Provider does not support file uploads.</p>
 <p><strong>Solution</strong>:
@@ -3955,20 +3955,20 @@
 <h3 id="create-issue-on-github">Create Issue on GitHub<a class="headerlink" href="#create-issue-on-github" title="Permanent link">&para;</a></h3>
 <p>If the problem persists:</p>
 <ol>
-<li>Visit <a href="https://github.com/dgaida/llm_client/issues">GitHub Issues</a></li>
-<li>Check if the problem has already been reported</li>
-<li>Create a new issue with:</li>
-<li>Python version (<code>python --version</code>)</li>
-<li>Operating System</li>
-<li>LLM Client version</li>
-<li>Provider used</li>
-<li>Minimal reproduction example</li>
-<li>Full error traceback</li>
+<li>Visit <a href="https://github.com/dgaida/llm_client/issues">GitHub Issues</a>  </li>
+<li>Check if the problem has already been reported  </li>
+<li>Create a new issue with:  </li>
+<li>Python version (<code>python --version</code>)  </li>
+<li>Operating System  </li>
+<li>LLM Client version  </li>
+<li>Provider used  </li>
+<li>Minimal reproduction example  </li>
+<li>Full error traceback  </li>
 </ol>
 <h3 id="support-channels">Support Channels<a class="headerlink" href="#support-channels" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/dgaida/llm_client/issues">GitHub Issues</a> - Bug Reports &amp; Feature Requests</li>
-<li><a href="https://github.com/dgaida/llm_client/tree/master/docs">Documentation</a> - Full documentation</li>
+<li><a href="https://github.com/dgaida/llm_client/issues">GitHub Issues</a> - Bug Reports &amp; Feature Requests  </li>
+<li><a href="https://github.com/dgaida/llm_client/tree/master/docs">Documentation</a> - Full documentation  </li>
 </ul>
 
 

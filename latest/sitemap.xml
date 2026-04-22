@@ -2,518 +2,518 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/changelog/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/changelog/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/changelog/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/features/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/features/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/features/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/getting-started/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/getting-started/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/getting-started/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/installation/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/installation/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/installation/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/metrics/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/metrics/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/metrics/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/troubleshooting/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/troubleshooting/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/troubleshooting/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/cli/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/cli/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/cli/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/config/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/config/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/config/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/exceptions/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/exceptions/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/exceptions/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/llm_client/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/llm_client/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/llm_client/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/providers_adapter/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/providers_adapter/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/providers_adapter/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/providers_async_providers/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/providers_async_providers/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/providers_async_providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/providers_base_provider/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/providers_base_provider/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/providers_base_provider/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/providers_provider_factory/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/providers_provider_factory/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/providers_provider_factory/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/providers_providers/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/providers_providers/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/providers_providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/utils_file_utils/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/utils_file_utils/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/utils_file_utils/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/utils_logging_config/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/utils_logging_config/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/utils_logging_config/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/api/utils_token_counter/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/api/utils_token_counter/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/api/utils_token_counter/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/architecture/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/architecture/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/architecture/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/development/contributing/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/development/contributing/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/development/contributing/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/development/logging/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/development/logging/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/development/logging/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/development/testing/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/development/testing/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/development/testing/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/tutorials/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/tutorials/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/tutorials/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/tutorials/rag-chatbot/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/tutorials/rag-chatbot/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/tutorials/rag-chatbot/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/basic-usage/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/basic-usage/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/basic-usage/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/cli/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/cli/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/cli/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/provider_switching/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/provider_switching/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/provider_switching/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/token-counting/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/token-counting/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/token-counting/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/gemini/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/gemini/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/gemini/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/groq/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/groq/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/groq/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/ollama/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/ollama/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/ollama/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/ollama_cloud/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/ollama_cloud/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/ollama_cloud/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/usage/providers/openai/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest/usage/providers/openai/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latesten/usage/providers/openai/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latest"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/changelog/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/changelog/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestchangelog/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/features/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/features/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestfeatures/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/getting-started/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/getting-started/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestgetting-started/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/installation/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/installation/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestinstallation/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/metrics/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/metrics/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestmetrics/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/troubleshooting/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/troubleshooting/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latesttroubleshooting/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/cli/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/cli/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/cli/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/config/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/config/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/config/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/exceptions/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/exceptions/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/exceptions/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/llm_client/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/llm_client/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/llm_client/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/providers_adapter/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/providers_adapter/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/providers_adapter/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/providers_async_providers/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/providers_async_providers/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/providers_async_providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/providers_base_provider/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/providers_base_provider/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/providers_base_provider/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/providers_provider_factory/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/providers_provider_factory/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/providers_provider_factory/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/providers_providers/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/providers_providers/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/providers_providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/utils_file_utils/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/utils_file_utils/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/utils_file_utils/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/utils_logging_config/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/utils_logging_config/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/utils_logging_config/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/api/utils_token_counter/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/api/utils_token_counter/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestapi/utils_token_counter/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/architecture/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/architecture/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestarchitecture/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/development/contributing/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/development/contributing/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestdevelopment/contributing/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/development/logging/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/development/logging/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestdevelopment/logging/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/development/testing/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/development/testing/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestdevelopment/testing/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/tutorials/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/tutorials/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latesttutorials/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/tutorials/rag-chatbot/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/tutorials/rag-chatbot/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latesttutorials/rag-chatbot/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/basic-usage/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/basic-usage/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/basic-usage/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/cli/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/cli/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/cli/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/provider_switching/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/provider_switching/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/provider_switching/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/token-counting/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/token-counting/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/token-counting/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/gemini/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/gemini/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/gemini/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/groq/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/groq/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/groq/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/ollama/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/ollama/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/ollama/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/ollama_cloud/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/ollama_cloud/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/ollama_cloud/"/>
     </url>
     <url>
         <loc>https://dgaida.github.io/llm_client/latest/en/usage/providers/openai/</loc>
-        <lastmod>2026-04-20</lastmod>
+        <lastmod>2026-04-22</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://dgaida.github.io/llm_client/latest/en/usage/providers/openai/"/>
         <xhtml:link rel="alternate" hreflang="de" href="https://dgaida.github.io/llm_client/latestusage/providers/openai/"/>
