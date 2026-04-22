@@ -28,6 +28,28 @@ class ProviderFactory:
 
     _async_provider_classes = {}  # Will be populated if async module available
 
+    @staticmethod
+    def detect_provider_from_key(api_key: str) -> str | None:
+        """Detect the LLM provider based on API key prefix.
+
+        Args:
+            api_key: The API key to analyze.
+
+        Returns:
+            Detected provider name or None if unknown.
+        """
+        if not api_key:
+            return None
+
+        if api_key.startswith("sk-"):
+            return "openai"
+        if api_key.startswith("gsk-") or api_key.startswith("gsk_"):
+            return "groq"
+        if api_key.startswith("AIza"):
+            return "gemini"
+
+        return None
+
     @classmethod
     def create_provider(
         cls,
@@ -39,6 +61,7 @@ class ProviderFactory:
         groq_api_key: str | None = None,
         gemini_api_key: str | None = None,
         ollama_api_key: str | None = None,
+        api_key: str | None = None,
         keep_alive: str = "5m",
         use_async: bool = False,
         use_ollama_cloud: bool = False,
@@ -55,6 +78,7 @@ class ProviderFactory:
             groq_api_key: Groq API key.
             gemini_api_key: Gemini API key.
             ollama_api_key: Ollama Cloud API key.
+            api_key: Generic API key (used for auto-detection).
             keep_alive: Ollama keep-alive duration.
             use_async: If True, create async provider.
             use_ollama_cloud: If True, use Ollama Cloud instead of local.
@@ -69,6 +93,21 @@ class ProviderFactory:
             ProviderNotAvailableError: If required package is not installed.
         """
         logger.debug(f"Creating provider with api_choice={api_choice}, async={use_async}")
+
+        # Auto-detect provider from generic API key if no explicit choice or keys
+        if api_key and api_choice is None:
+            detected = cls.detect_provider_from_key(api_key)
+            if detected:
+                api_choice = detected
+                logger.info(f"Auto-detected provider from API_KEY: {api_choice}")
+                if api_choice == "openai" and not openai_api_key:
+                    openai_api_key = api_key
+                elif api_choice == "groq" and not groq_api_key:
+                    groq_api_key = api_key
+                elif api_choice == "gemini" and not gemini_api_key:
+                    gemini_api_key = api_key
+                elif api_choice == "ollama" and not ollama_api_key:
+                    ollama_api_key = api_key
 
         # Lazy load async providers
         if use_async and not cls._async_provider_classes:

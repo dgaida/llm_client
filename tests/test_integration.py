@@ -204,7 +204,7 @@ class TestFactoryAndClientIntegration:
             groq_provider = ProviderFactory.create_provider(
                 api_choice="groq", llm=None, groq_api_key="gsk-test"
             )
-            assert groq_provider.llm == "moonshotai/kimi-k2-instruct-0905"
+            assert groq_provider.llm == "qwen/qwen3-32b"
 
             gemini_provider = ProviderFactory.create_provider(
                 api_choice="gemini", llm=None, gemini_api_key="AIzaSy-test"

@@ -291,7 +291,7 @@ def create_default_config() -> dict[str, Any]:
                 "max_tokens": 512,
             },
             "groq": {
-                "model": "moonshotai/kimi-k2-instruct-0905",
+                "model": "qwen/qwen3-32b",
                 "temperature": 0.5,
                 "max_tokens": 1024,
             },

@@ -49,7 +49,7 @@ def main():
     question = "Was ist der Unterschied zwischen KI und ML?"
     apis_to_test = [
         ("openai", "gpt-4o-mini"),
-        ("groq", "moonshotai/kimi-k2-instruct-0905"),
+        ("groq", "qwen/qwen3-32b"),
         ("gemini", "gemini-2.0-flash-exp"),
     ]
 

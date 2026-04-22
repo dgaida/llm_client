@@ -845,7 +845,7 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 | API    | Default Model                      | Notes                             |
 | ------ |------------------------------------|-----------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Fast, reliable                    |
-| Groq   | `moonshotai/kimi-k2-instruct-0905` | Very efficient on GroqCloud       |
+| Groq   | `qwen/qwen3-32b` | Very efficient on GroqCloud       |
 | Gemini | `gemini-2.0-flash-exp`             | Google's latest model (Dec 2024)  |
 | Ollama | `llama3.2:1b`                      | Runs locally, no API key needed   |
 

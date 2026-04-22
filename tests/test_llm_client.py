@@ -46,7 +46,7 @@ class TestLLMClientInitialization:
         monkeypatch.setenv("GROQ_API_KEY", "groq-test")
         client = LLMClient()
         assert client.api_choice == "groq"
-        assert "moonshotai" in client.llm.lower()
+        assert "qwen" in client.llm.lower()
 
     def test_auto_select_gemini(self, monkeypatch):
         """Test: Gemini wird automatisch gewählt wenn API Key vorhanden."""

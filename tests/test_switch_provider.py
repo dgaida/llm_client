@@ -277,7 +277,7 @@ class TestSwitchProvider:
 
             # Wechsel zu Groq ohne Modell-Angabe -> Default-Modell
             client.switch_provider("groq")
-            assert "moonshotai" in client.llm.lower()
+            assert "qwen" in client.llm.lower()
 
             # Wechsel zu Gemini ohne Modell-Angabe -> Default-Modell
             client.switch_provider("gemini")

@@ -198,7 +198,7 @@ class TestGroqProvider:
 
     def test_get_default_model(self):
         """Test: Default model is correct."""
-        assert GroqProvider.get_default_model() == "moonshotai/kimi-k2-instruct-0905"
+        assert GroqProvider.get_default_model() == "qwen/qwen3-32b"
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when package is installed."""
