@@ -2,6 +2,15 @@
 
 Dieses Dashboard überwacht die Qualität und Abdeckung unserer Dokumentation.
 
+## Dashboard
+
+| Metrik | Quelle | Frequenz | Status |
+|--------|--------|----------|--------|
+| API Doc Coverage | interrogate | Jeder CI-Lauf | ✅ >95% |
+| Defekte Links | lychee | Monatlich | ✅ 0 |
+| Markdown Lint | ruff/mkdocs | Jeder CI-Lauf | ✅ Bestanden |
+| Build Warnings | mkdocs --strict | Jeder CI-Lauf | ✅ 0 |
+
 ## API-Dokumentationsabdeckung
 
 Aktuelle Abdeckung gemessen mit `interrogate`.
@@ -14,24 +23,3 @@ pie title API-Dokumentationsabdeckung
 
 - **Schwellenwert**: 95%  
 - **Aktueller Status**: ✅ 100.0%  
-
-## Build-Status
-
-| Prüfung | Status |
-|---------|--------|
-| MkDocs Build | ✅ Bestanden |
-| Defekte Links | ✅ Keine |
-| Markdown Lint | ✅ Bestanden |
-
-## Testabdeckung
-
-| Modul | Abdeckung |
-|-------|-----------|
-| `llm_client` | >95% |
-| `providers` | >95% |
-| `utils` | >95% |
-
-## Changelog-Status
-
-- **Letztes Release**: v0.4.1  
-- **Status**: ✅ Aktuell  
