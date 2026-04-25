@@ -1,208 +1,6 @@
 # Troubleshooting
 
-Solutions for common issues with the LLM Client.
-
-## Table of Contents
-
-- [Installation](#installation)  
-- [API Keys](#api-keys)  
-- [Provider Issues](#provider-issues)  
-- [Ollama](#ollama)  
-- [Streaming](#streaming)  
-- [Token Counting](#token-counting)  
-- [Async Issues](#async-issues)  
-- [Configuration Files](#configuration-files)  
-- [File Upload](#file-upload)  
-- [Performance](#performance)  
-
----
-
-## Installation
-
-### ImportError: No module named 'llm_client'
-
-**Problem**: After installation, llm_client cannot be imported.
-
-**Solution**:
-```bash
-# Check if installation was successful
-pip list | grep llm-client
-
-# Reinstall
-pip uninstall llm-client
-pip install git+https://github.com/dgaida/llm_client.git
-
-# Or use editable install
-git clone https://github.com/dgaida/llm_client.git
-cd llm_client
-pip install -e .
-```
-
-### ModuleNotFoundError: No module named 'openai'/'groq'/'ollama'
-
-**Problem**: Provider packages are missing.
-
-**Solution**:
-```bash
-# For OpenAI/Gemini
-pip install openai
-
-# For Groq
-pip install groq
-
-# For Ollama
-pip install ollama
-
-# Or all at once
-pip install openai groq ollama
-```
-
-### ImportError: tiktoken required
-
-**Problem**: tiktoken not installed, but needed for token counting.
-
-**Solution**:
-```bash
-pip install tiktoken
-
-# Or all optional dependencies
-pip install -e ".[all]"
-```
-
----
-
-## API Keys
-
-### APIKeyNotFoundError
-
-**Problem**: API key not found.
-
-```python
-APIKeyNotFoundError: OPENAI_API_KEY not found for openai provider.
-```
-
-**Solution 1 - Environment Variable**:
-```bash
-# Linux/macOS
-export OPENAI_API_KEY=sk-...
-
-# Windows (PowerShell)
-$env:OPENAI_API_KEY="sk-..."
-
-# Windows (CMD)
-set OPENAI_API_KEY=sk-...
-```
-
-**Solution 2 - secrets.env File**:
-```bash
-# Create secrets.env in project directory
-OPENAI_API_KEY=sk-...
-GROQ_API_KEY=gsk-...
-GEMINI_API_KEY=AIzaSy-...
-```
-
-**Solution 3 - Google Colab**:
-```python
-# Add keys in Colab Secrets (🔑 icon in left sidebar)
-# Key Name: OPENAI_API_KEY
-# Value: sk-...
-
-from llm_client import LLMClient
-client = LLMClient()  # Automatically loads from Colab Secrets
-```
-
-**Solution 4 - Programmatically**:
-```python
-import os
-os.environ["OPENAI_API_KEY"] = "sk-..."
-
-from llm_client import LLMClient
-client = LLMClient()
-```
-
-### API Key not recognized
-
-**Problem**: Key is set but not recognized.
-
-**Verification**:
-```python
-import os
-
-# Print key (safe in local environment)
-print(os.getenv("OPENAI_API_KEY"))
-
-# In Colab
-from google.colab import userdata
-print(userdata.get("OPENAI_API_KEY"))
-```
-
-**Possible Causes**:  
-- Spaces in the key  
-- Incorrect key name (e.g., `OPENAI_KEY` instead of `OPENAI_API_KEY`)  
-- Key in incorrect format  
-
----
-
-## Provider Issues
-
-### InvalidProviderError
-
-**Problem**: Invalid provider name.
-
-```python
-InvalidProviderError: Invalid provider: opena1. Valid providers are: openai, groq, gemini, ollama
-```
-
-**Solution**:
-```python
-# Correct provider names
-client = LLMClient(api_choice="openai")   # ✓
-client = LLMClient(api_choice="groq")     # ✓
-client = LLMClient(api_choice="gemini")   # ✓
-client = LLMClient(api_choice="ollama")   # ✓
-
-# List available providers
-from llm_client import ProviderFactory
-available = ProviderFactory.get_available_providers()
-print(f"Available: {available}")
-```
-
-### ProviderNotAvailableError
-
-**Problem**: Provider package not installed.
-
-```python
-ProviderNotAvailableError: groq provider not available. Install with: pip install groq
-```
-
-**Solution**:
-```bash
-# Install missing package
-pip install groq
-
-# Or all provider packages
-pip install openai groq ollama
-```
-
-### Provider Switch Fails
-
-**Problem**: `switch_provider()` leads to error.
-
-**Solution**:
-```python
-from llm_client.exceptions import APIKeyNotFoundError
-
-try:
-    client.switch_provider("groq")
-except APIKeyNotFoundError as e:
-    print(f"API Key missing: {e.key_name}")
-    # Set key and try again
-    import os
-    os.environ["GROQ_API_KEY"] = "gsk-..."
-    client.switch_provider("groq")
-```
-
----
+This page lists common problems and their solutions.
 
 ## Ollama
 
@@ -230,7 +28,7 @@ sudo systemctl status ollama
 
 ### Model not found
 
-**Problem**: Model not available.
+**Problem**: Model is not available.
 
 ```python
 ChatCompletionError: model 'llama3.2:1b' not found
@@ -250,7 +48,7 @@ ollama pull llama3.1:8b
 ollama pull mixtral:8x7b
 ```
 
-### Out of Memory (Ollama local)
+### Out of Memory (local Ollama)
 
 **Problem**: Model is too large for available RAM.
 
@@ -263,11 +61,11 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # ~1.3GB
 client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")  # Smaller
 ```
 
-**Recommendations by RAM**:  
-- < 4GB RAM: `llama3.2:1b`  
-- 4-8GB RAM: `llama3.2:3b`  
-- 8-16GB RAM: `llama3.1:8b`  
-- 16GB+ RAM: `llama3.1:70b` or larger  
+**RAM Recommendations**:
+- < 4GB RAM: `llama3.2:1b`
+- 4-8GB RAM: `llama3.2:3b`
+- 8-16GB RAM: `llama3.1:8b`
+- 16GB+ RAM: `llama3.1:70b` or larger
 
 ### Ollama Cloud API Key missing
 
@@ -307,14 +105,14 @@ except StreamingNotSupportedError:
     print(response)
 ```
 
-### Streaming Freezes
+### Streaming freezes
 
-**Problem**: Stream stops in the middle of a response.
+**Problem**: Stream stops in the middle of the response.
 
-**Possible Causes**:  
-- Network issues  
-- Timeout  
-- API limit reached  
+**Possible causes**:
+- Network issues
+- Timeout
+- API limit reached
 
 **Solution**:
 ```python
@@ -360,9 +158,9 @@ print(f"Estimated tokens: {token_count}")
 
 **Problem**: Token count deviates significantly.
 
-**Causes**:  
-- Incorrect model for encoding  
-- tiktoken not installed (estimation)  
+**Causes**:
+- Wrong model for encoding
+- tiktoken not installed (estimation)
 
 **Solution**:
 ```python
@@ -386,7 +184,7 @@ count = counter.count_tokens(messages, model="gpt-3.5-turbo")
 
 ### RuntimeError: Async methods not supported
 
-**Problem**: Async methods called on a Sync client.
+**Problem**: Async methods on a sync client.
 
 ```python
 RuntimeError: AsyncOpenAIProvider does not support async methods
@@ -409,7 +207,7 @@ asyncio.run(main())
 
 ### Event loop is already running
 
-**Problem**: In Jupyter/Colab.
+**Problem**: Occurs in Jupyter/Colab.
 
 **Solution**:
 ```python
@@ -417,7 +215,7 @@ asyncio.run(main())
 import nest_asyncio
 nest_asyncio.apply()
 
-# Then as usual
+# Then run as usual
 asyncio.run(main())
 ```
 
@@ -430,7 +228,7 @@ asyncio.run(main())
 # Install async dependencies
 pip install asyncio
 
-# Or full installation
+# Or complete installation
 pip install -e ".[all]"
 ```
 
@@ -458,7 +256,7 @@ if not config_path.exists():
 
 ### ValueError: Invalid configuration
 
-**Problem**: Configuration invalid.
+**Problem**: Configuration is invalid.
 
 **Solution**:
 ```python
@@ -474,14 +272,14 @@ if not is_valid:
         print(f"  - {error}")
 ```
 
-**Common Errors**:  
-- Missing `model` parameter  
-- Invalid `default_provider`  
-- YAML syntax error  
+**Common errors**:
+- Missing `model` parameter
+- Invalid `default_provider`
+- YAML syntax error
 
 ### ImportError: pyyaml required
 
-**Problem**: YAML file used but pyyaml missing.
+**Problem**: Using YAML file, but pyyaml is missing.
 
 **Solution**:
 ```bash
@@ -517,7 +315,7 @@ for file_path in files:
 
 ### ValueError: Unsupported file type
 
-**Problem**: File type not supported.
+**Problem**: File type is not supported.
 
 **Solution**:
 ```python
@@ -533,11 +331,11 @@ if not is_valid:
     client = LLMClient(api_choice="gemini")
 ```
 
-**Provider File Support**:  
-- OpenAI: Images, PDFs  
-- Gemini: Images, PDFs, Videos, Audio  
-- Groq: Images only (Vision models)  
-- Ollama: Images only (Vision models)  
+**Provider File Support**:
+- OpenAI: Images, PDFs
+- Gemini: Images, PDFs, Videos, Audio
+- Groq: Only images (Vision models)
+- Ollama: Only images (Vision models)
 
 ### FileUploadNotSupportedError
 
@@ -562,7 +360,7 @@ except FileUploadNotSupportedError as e:
 
 ### Slow Responses
 
-**Problem**: API calls take a very long time.
+**Problem**: API calls take a long time.
 
 **Possible Causes & Solutions**:
 
@@ -576,7 +374,7 @@ elapsed = time.time() - start
 
 print(f"Duration: {elapsed:.2f}s")
 
-# If > 10s: Network issue or API overload
+# If > 10s: Network problem or API overload
 ```
 
 **2. Too many tokens**:
@@ -587,11 +385,11 @@ print(f"Tokens: {token_count}")
 
 # Reduce input
 if token_count > 2000:
-    # Shorten messages or use summarization
+    # Shorten messages or use summary
     pass
 ```
 
-**3. Incorrect Model**:
+**3. Wrong model**:
 ```python
 # Use faster models
 client = LLMClient(api_choice="groq")  # Very fast
@@ -681,17 +479,17 @@ except ChatCompletionError as e:
 
 If the problem persists:
 
-1. Visit [GitHub Issues](https://github.com/dgaida/llm_client/issues)  
-2. Check if the problem has already been reported  
-3. Create a new issue with:  
-   - Python version (`python --version`)  
-   - Operating System  
-   - LLM Client version  
-   - Provider used  
-   - Minimal reproduction example  
-   - Full error traceback  
+1. Visit [GitHub Issues](https://github.com/dgaida/llm_client/issues)
+2. Check if the problem has already been reported
+3. Create a new issue with:
+   - Python version (`python --version`)
+   - Operating system
+   - LLM Client version
+   - Provider used
+   - Minimal reproduction example
+   - Full error traceback
 
 ### Support Channels
 
-- [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests  
-- [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation  
+- [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests
+- [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation

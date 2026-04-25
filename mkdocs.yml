@@ -87,6 +87,7 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Getting Started: getting-started.md
+  - Configuration: configuration.md
   - Usage:
       - Overview: usage/index.md
       - CLI: usage/cli.md
@@ -132,6 +133,8 @@ nav:
       - Testing: development/testing.md
       - Logging: development/logging.md
       - Contributing: development/contributing.md
+      - Docstring Guide: development/docstring-guide.md
+      - Versioning: development/versioning.md
   - Troubleshooting: troubleshooting.md
   - Metrics: metrics.md
   - Changelog: changelog.md

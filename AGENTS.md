@@ -34,3 +34,9 @@ Welcome, Agent! This repository contains the `llm_client` project, a universal P
 - Check docstring coverage: `interrogate -v llm_client/`  
 
 Follow these instructions to maintain high code quality and documentation standards.
+
+## AI Skills
+This project uses AI skills to automate and standardize workflows. These skills are defined in the [auto-version-action repository](https://github.com/dgaida/auto-version-action/tree/main/skills).
+
+- **github-repo-review**: Perform a deep, holistic code review of a GitHub repository and propose specific, actionable improvements for maintainability, clarity, correctness, and long-term scalability.
+- **mkdocs-documentation**: Generate a complete, production-ready MkDocs documentation ecosystem for a Python GitHub repository. Use this whenever setting up, improving, or automating documentation.
