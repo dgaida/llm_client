@@ -124,7 +124,7 @@ providers:
     temperature: 0.5
 
   gemini:
-    model: gemini-2.0-flash-exp
+    model: gemini-3.1-flash-lite-preview
     temperature: 0.8
 ```
 
@@ -416,7 +416,7 @@ providers:
     max_tokens: 1024
 
   gemini:
-    model: gemini-2.0-flash-exp
+    model: gemini-3.1-flash-lite-preview
     temperature: 0.8
     max_tokens: 2048
 
@@ -516,7 +516,7 @@ client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
 response1 = client.chat_completion([{"role": "user", "content": "Hello"}])
 
 # Switch to Gemini
-client.switch_provider("gemini", llm="gemini-2.0-flash-exp")
+client.switch_provider("gemini", llm="gemini-3.1-flash-lite-preview")
 response2 = client.chat_completion([{"role": "user", "content": "Hello"}])
 
 # Switch to Groq with adjusted temperature
@@ -846,7 +846,7 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 | ------ |------------------------------------|-----------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Fast, reliable                    |
 | Groq   | `qwen/qwen3-32b` | Very efficient on GroqCloud       |
-| Gemini | `gemini-2.0-flash-exp`             | Google's latest model (Dec 2024)  |
+| Gemini | `gemini-3.1-flash-lite-preview`             | Google's latest model (Dec 2024)  |
 | Ollama | `llama3.2:1b`                      | Runs locally, no API key needed   |
 
 ### Available Gemini Models
@@ -861,7 +861,7 @@ Based on current Google Gemini API documentation (December 2025):
 
 **Experimental/Preview Models:**  
 - `gemini-3-pro` - Latest model with extended reasoning (Preview)  
-- `gemini-2.0-flash-exp` - Experimental Flash model  
+- `gemini-3.1-flash-lite-preview` - Experimental Flash model
 
 ### Ollama Installation
 

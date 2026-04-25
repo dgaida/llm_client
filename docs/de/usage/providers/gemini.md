@@ -48,12 +48,12 @@ Based on Google Gemini API documentation (December 2025):
 | Model | Description | Context Window | Notes |
 |-------|-------------|----------------|-------|
 | `gemini-3-pro` | Latest with extended reasoning | 2M tokens | Preview - may change |
-| `gemini-2.0-flash-exp` | Experimental Flash | 1M tokens | Testing new features |
+| `gemini-3.1-flash-lite-preview` | Experimental Flash | 1M tokens | Testing new features |
 
 ### Model Selection
 
 ```python
-# Use default model (gemini-2.0-flash-exp)
+# Use default model (gemini-3.1-flash-lite-preview)
 client = LLMClient(api_choice="gemini")
 
 # Specify model

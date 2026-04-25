@@ -296,7 +296,7 @@ def create_default_config() -> dict[str, Any]:
                 "max_tokens": 1024,
             },
             "gemini": {
-                "model": "gemini-2.0-flash-exp",
+                "model": "gemini-3.1-flash-lite-preview",
                 "temperature": 0.8,
                 "max_tokens": 2048,
             },

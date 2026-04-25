@@ -55,7 +55,7 @@ def test_llm_client_auto_detects_gemini_from_api_key(mock_openai):
     ):
         client = LLMClient()
         assert client.api_choice == "gemini"
-        assert client.provider.llm == "gemini-2.0-flash-exp"
+        assert client.provider.llm == "gemini-3.1-flash-lite-preview"
 
 
 def test_llm_client_colab_api_key_detection():
