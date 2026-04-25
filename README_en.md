@@ -861,7 +861,7 @@ Based on current Google Gemini API documentation (December 2025):
 
 **Experimental/Preview Models:**  
 - `gemini-3-pro` - Latest model with extended reasoning (Preview)  
-- `gemini-3.1-flash-lite-preview` - Experimental Flash model
+- `gemini-3.1-flash-lite-preview` - Experimental Flash model  
 
 ### Ollama Installation
 
