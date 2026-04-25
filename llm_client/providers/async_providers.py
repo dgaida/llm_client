@@ -190,7 +190,15 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
             temperature=self.temperature,
             max_tokens=self.max_tokens,
         )
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
 
     async def _achat_completion_with_tools_impl(
         self,
@@ -224,6 +232,7 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
                         "id": tc.id,
                         "type": tc.type,
                         "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                        "extra_content": getattr(tc, "extra_content", None),
                     }
                     for tc in (choice.message.tool_calls or [])
                 ]
@@ -263,7 +272,15 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
             max_tokens=self.max_tokens,
         )
 
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
@@ -341,7 +358,15 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
                     return await self._achat_completion_impl(messages)
             raise
 
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
 
     async def _achat_completion_with_tools_impl(
         self,
@@ -375,6 +400,7 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
                         "id": tc.id,
                         "type": tc.type,
                         "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                        "extra_content": getattr(tc, "extra_content", None),
                     }
                     for tc in (choice.message.tool_calls or [])
                 ]
@@ -419,7 +445,15 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
             max_tokens=self.max_tokens,
         )
 
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]
@@ -485,7 +519,15 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
             temperature=self.temperature,
             max_tokens=self.max_tokens,
         )
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
 
     async def _achat_completion_with_tools_impl(
         self,
@@ -519,6 +561,7 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
                         "id": tc.id,
                         "type": tc.type,
                         "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                        "extra_content": getattr(tc, "extra_content", None),
                     }
                     for tc in (choice.message.tool_calls or [])
                 ]
@@ -558,7 +601,15 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
             max_tokens=self.max_tokens,
         )
 
-        return response.choices[0].message.content
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
 
     async def _achat_completion_stream_impl(
         self, messages: list[dict[str, str]]

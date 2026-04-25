@@ -82,7 +82,13 @@ class OpenAIProvider(BaseProvider):
             max_tokens=self.max_tokens,
         )
 
-        content = response.choices[0].message.content
+        message = response.choices[0].message
+        content = message.content
+
+        # Log thought signature if present (Gemini support)
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
 
         if content is None:
             logger.debug("OpenAI response content is None")
@@ -216,6 +222,7 @@ class OpenAIProvider(BaseProvider):
                         "id": tc.id,
                         "type": tc.type,
                         "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                        "extra_content": getattr(tc, "extra_content", None),
                     }
                     for tc in (choice.message.tool_calls or [])
                 ]
@@ -319,7 +326,13 @@ class GroqProvider(BaseProvider):
                     return self._chat_completion_impl(messages)
             raise
 
-        content = response.choices[0].message.content
+        message = response.choices[0].message
+        content = message.content
+
+        # Log thought signature if present (Gemini support)
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
 
         if content is None:
             logger.debug("Groq response content is None")
@@ -432,6 +445,7 @@ class GroqProvider(BaseProvider):
                         "id": tc.id,
                         "type": tc.type,
                         "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                        "extra_content": getattr(tc, "extra_content", None),
                     }
                     for tc in (choice.message.tool_calls or [])
                 ]
@@ -606,7 +620,13 @@ class GeminiProvider(BaseProvider):
             max_tokens=self.max_tokens,
         )
 
-        content = response.choices[0].message.content
+        message = response.choices[0].message
+        content = message.content
+
+        # Log thought signature if present (Gemini support)
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
 
         if content is None:
             logger.debug("Gemini response content is None")
@@ -649,6 +669,7 @@ class GeminiProvider(BaseProvider):
                         "id": tc.id,
                         "type": tc.type,
                         "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+                        "extra_content": getattr(tc, "extra_content", None),
                     }
                     for tc in (choice.message.tool_calls or [])
                 ]
