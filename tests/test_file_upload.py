@@ -289,7 +289,7 @@ class TestProviderFileUpload:
         mock_openai_class.return_value = mock_client
 
         # Create provider
-        provider = GeminiProvider(llm="gemini-2.0-flash-exp", api_key="test-key")
+        provider = GeminiProvider(llm="gemini-3.1-flash-lite-preview", api_key="test-key")
 
         # Test file upload
         messages = [{"role": "user", "content": "Analyze"}]

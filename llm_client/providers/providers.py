@@ -747,7 +747,7 @@ class GeminiProvider(BaseProvider):
         Returns:
             Default model name.
         """
-        return "gemini-2.0-flash-exp"
+        return "gemini-3.1-flash-lite-preview"
 
     @staticmethod
     def is_available() -> bool:

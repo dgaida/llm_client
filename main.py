@@ -28,7 +28,9 @@ def main():
     print("Beispiel 2: Google Gemini")
     print("=" * 50)
     try:
-        gemini_client = LLMClient(api_choice="gemini", llm="gemini-2.0-flash-exp", temperature=0.7)
+        gemini_client = LLMClient(
+            api_choice="gemini", llm="gemini-3.1-flash-lite-preview", temperature=0.7
+        )
         print(f"Verwendetes Modell: {gemini_client.llm}")
 
         gemini_messages = [{"role": "user", "content": "Erkläre Quantencomputing in einem Satz."}]
@@ -50,7 +52,7 @@ def main():
     apis_to_test = [
         ("openai", "gpt-4o-mini"),
         ("groq", "qwen/qwen3-32b"),
-        ("gemini", "gemini-2.0-flash-exp"),
+        ("gemini", "gemini-3.1-flash-lite-preview"),
     ]
 
     for api_name, model_name in apis_to_test:

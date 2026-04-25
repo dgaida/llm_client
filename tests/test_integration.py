@@ -209,7 +209,7 @@ class TestFactoryAndClientIntegration:
             gemini_provider = ProviderFactory.create_provider(
                 api_choice="gemini", llm=None, gemini_api_key="AIzaSy-test"
             )
-            assert gemini_provider.llm == "gemini-2.0-flash-exp"
+            assert gemini_provider.llm == "gemini-3.1-flash-lite-preview"
 
             ollama_provider = ProviderFactory.create_provider(api_choice="ollama", llm=None)
             assert ollama_provider.llm == "llama3.2:1b"

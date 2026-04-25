@@ -292,7 +292,9 @@ class TestAsyncGeminiProviderExtended:
             mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
             mock_async_openai.return_value = mock_client
 
-            provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            provider = AsyncGeminiProvider(
+                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+            )
             messages = [{"role": "user", "content": "Analyze"}]
 
             with patch(
@@ -317,7 +319,9 @@ class TestAsyncGeminiProviderExtended:
 
             mock_async_openai.return_value = MagicMock()
 
-            provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            provider = AsyncGeminiProvider(
+                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+            )
             provider.client = None
 
             with pytest.raises(
@@ -332,7 +336,9 @@ class TestAsyncGeminiProviderExtended:
 
             mock_async_openai.return_value = MagicMock()
 
-            provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            provider = AsyncGeminiProvider(
+                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+            )
             provider.client = None
 
             with pytest.raises(ChatCompletionError, match="Gemini client not initialized"):
@@ -345,7 +351,9 @@ class TestAsyncGeminiProviderExtended:
 
             mock_async_openai.return_value = MagicMock()
 
-            provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            provider = AsyncGeminiProvider(
+                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+            )
             provider.client = None
 
             with pytest.raises(ChatCompletionError, match="Gemini client not initialized"):
@@ -359,7 +367,9 @@ class TestAsyncGeminiProviderExtended:
 
             mock_async_openai.return_value = MagicMock()
 
-            provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            provider = AsyncGeminiProvider(
+                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+            )
             provider.client = None
 
             with pytest.raises(ChatCompletionError, match="Gemini client not initialized"):
@@ -553,7 +563,9 @@ class TestToolCallsWithoutContent:
             mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
             mock_async_openai.return_value = mock_client
 
-            provider = AsyncGeminiProvider(llm="gemini-2.0-flash-exp", api_key="AIzaSy-test")
+            provider = AsyncGeminiProvider(
+                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+            )
             tools = [{"type": "function", "function": {"name": "gemini_tool"}}]
 
             result = await provider.achat_completion_with_tools([], tools)
