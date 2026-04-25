@@ -33,10 +33,10 @@ def example_function(name: str, age: int = 0) -> str:
 
 ## Requirements
 
-- **Type Hints**: Always use Python type hints in the function signature.
-- **Completeness**: All parameters must be documented in the `Args` section.
-- **Return Values**: Document the return value in the `Returns` section.
-- **Exceptions**: Document all explicitly raised errors in the `Raises` section.
+- **Type Hints**: Always use Python type hints in the function signature.  
+- **Completeness**: All parameters must be documented in the `Args` section.  
+- **Return Values**: Document the return value in the `Returns` section.  
+- **Exceptions**: Document all explicitly raised errors in the `Raises` section.  
 
 ## Tools
 

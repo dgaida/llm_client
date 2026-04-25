@@ -44,4 +44,4 @@ client = LLMClient.from_config("llm_config.yaml")
 
 ## Weitere Informationen
 
-- [API-Referenz: LLMConfig](api/config.md)
+- [API-Referenz: LLMConfig](api/config.md)  

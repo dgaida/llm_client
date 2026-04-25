@@ -61,11 +61,11 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # ~1.3GB
 client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")  # Smaller
 ```
 
-**RAM Recommendations**:
-- < 4GB RAM: `llama3.2:1b`
-- 4-8GB RAM: `llama3.2:3b`
-- 8-16GB RAM: `llama3.1:8b`
-- 16GB+ RAM: `llama3.1:70b` or larger
+**RAM Recommendations**:  
+- < 4GB RAM: `llama3.2:1b`  
+- 4-8GB RAM: `llama3.2:3b`  
+- 8-16GB RAM: `llama3.1:8b`  
+- 16GB+ RAM: `llama3.1:70b` or larger  
 
 ### Ollama Cloud API Key missing
 
@@ -109,10 +109,10 @@ except StreamingNotSupportedError:
 
 **Problem**: Stream stops in the middle of the response.
 
-**Possible causes**:
-- Network issues
-- Timeout
-- API limit reached
+**Possible causes**:  
+- Network issues  
+- Timeout  
+- API limit reached  
 
 **Solution**:
 ```python
@@ -158,9 +158,9 @@ print(f"Estimated tokens: {token_count}")
 
 **Problem**: Token count deviates significantly.
 
-**Causes**:
-- Wrong model for encoding
-- tiktoken not installed (estimation)
+**Causes**:  
+- Wrong model for encoding  
+- tiktoken not installed (estimation)  
 
 **Solution**:
 ```python
@@ -272,10 +272,10 @@ if not is_valid:
         print(f"  - {error}")
 ```
 
-**Common errors**:
-- Missing `model` parameter
-- Invalid `default_provider`
-- YAML syntax error
+**Common errors**:  
+- Missing `model` parameter  
+- Invalid `default_provider`  
+- YAML syntax error  
 
 ### ImportError: pyyaml required
 
@@ -331,11 +331,11 @@ if not is_valid:
     client = LLMClient(api_choice="gemini")
 ```
 
-**Provider File Support**:
-- OpenAI: Images, PDFs
-- Gemini: Images, PDFs, Videos, Audio
-- Groq: Only images (Vision models)
-- Ollama: Only images (Vision models)
+**Provider File Support**:  
+- OpenAI: Images, PDFs  
+- Gemini: Images, PDFs, Videos, Audio  
+- Groq: Only images (Vision models)  
+- Ollama: Only images (Vision models)  
 
 ### FileUploadNotSupportedError
 
@@ -479,17 +479,17 @@ except ChatCompletionError as e:
 
 If the problem persists:
 
-1. Visit [GitHub Issues](https://github.com/dgaida/llm_client/issues)
-2. Check if the problem has already been reported
-3. Create a new issue with:
-   - Python version (`python --version`)
-   - Operating system
-   - LLM Client version
-   - Provider used
-   - Minimal reproduction example
-   - Full error traceback
+1. Visit [GitHub Issues](https://github.com/dgaida/llm_client/issues)  
+2. Check if the problem has already been reported  
+3. Create a new issue with:  
+   - Python version (`python --version`)  
+   - Operating system  
+   - LLM Client version  
+   - Provider used  
+   - Minimal reproduction example  
+   - Full error traceback  
 
 ### Support Channels
 
-- [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests
-- [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation
+- [GitHub Issues](https://github.com/dgaida/llm_client/issues) - Bug Reports & Feature Requests  
+- [Documentation](https://github.com/dgaida/llm_client/tree/master/docs) - Full documentation  
