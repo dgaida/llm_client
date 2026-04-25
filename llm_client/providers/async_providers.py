@@ -194,6 +194,7 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
 
         # Log thought signature if present (Gemini support)
         from .providers import logger
+
         extra_content = getattr(message, "extra_content", None)
         if extra_content:
             logger.debug(f"Received extra_content: {extra_content}")
@@ -276,6 +277,7 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
 
         # Log thought signature if present (Gemini support)
         from .providers import logger
+
         extra_content = getattr(message, "extra_content", None)
         if extra_content:
             logger.debug(f"Received extra_content: {extra_content}")
@@ -362,6 +364,7 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
 
         # Log thought signature if present (Gemini support)
         from .providers import logger
+
         extra_content = getattr(message, "extra_content", None)
         if extra_content:
             logger.debug(f"Received extra_content: {extra_content}")
@@ -449,6 +452,7 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
 
         # Log thought signature if present (Gemini support)
         from .providers import logger
+
         extra_content = getattr(message, "extra_content", None)
         if extra_content:
             logger.debug(f"Received extra_content: {extra_content}")
@@ -523,6 +527,7 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
 
         # Log thought signature if present (Gemini support)
         from .providers import logger
+
         extra_content = getattr(message, "extra_content", None)
         if extra_content:
             logger.debug(f"Received extra_content: {extra_content}")
@@ -605,6 +610,7 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
 
         # Log thought signature if present (Gemini support)
         from .providers import logger
+
         extra_content = getattr(message, "extra_content", None)
         if extra_content:
             logger.debug(f"Received extra_content: {extra_content}")
