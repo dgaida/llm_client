@@ -1,20 +1,21 @@
-import unittest
-from unittest.mock import MagicMock, patch, AsyncMock
-from llm_client.providers.providers import GeminiProvider
 import asyncio
+import unittest
+from unittest.mock import AsyncMock, MagicMock, patch
+
 from llm_client.providers.async_providers import AsyncGeminiProvider
-import logging
+from llm_client.providers.providers import GeminiProvider
+
 
 class TestThoughtSignature(unittest.TestCase):
     def setUp(self):
-        self.patcher = patch('llm_client.providers.providers.OpenAI')
+        self.patcher = patch("llm_client.providers.providers.OpenAI")
         self.mock_openai = self.patcher.start()
         self.mock_client = MagicMock()
         self.mock_openai.return_value = self.mock_client
 
         self.provider = GeminiProvider(llm="gemini-3.1-flash-lite-preview", api_key="fake-key")
 
-        self.async_patcher = patch('llm_client.providers.async_providers.AsyncOpenAI')
+        self.async_patcher = patch("llm_client.providers.async_providers.AsyncOpenAI")
         self.mock_async_openai = self.async_patcher.start()
         self.mock_async_client = MagicMock()
         self.mock_async_client.chat = MagicMock()
@@ -22,7 +23,9 @@ class TestThoughtSignature(unittest.TestCase):
         self.mock_async_client.chat.completions.create = AsyncMock()
         self.mock_async_openai.return_value = self.mock_async_client
 
-        self.async_provider = AsyncGeminiProvider(llm="gemini-3.1-flash-lite-preview", api_key="fake-key")
+        self.async_provider = AsyncGeminiProvider(
+            llm="gemini-3.1-flash-lite-preview", api_key="fake-key"
+        )
 
     def tearDown(self):
         self.patcher.stop()
@@ -52,7 +55,9 @@ class TestThoughtSignature(unittest.TestCase):
 
         tool_calls = result.get("tool_calls", [])
         self.assertEqual(len(tool_calls), 1)
-        self.assertEqual(tool_calls[0]["extra_content"], {"google": {"thought_signature": "sig_abc_123"}})
+        self.assertEqual(
+            tool_calls[0]["extra_content"], {"google": {"thought_signature": "sig_abc_123"}}
+        )
 
     def test_sync_chat_logging(self):
         mock_message = MagicMock()
@@ -69,7 +74,7 @@ class TestThoughtSignature(unittest.TestCase):
 
         messages = [{"role": "user", "content": "How is the weather in Berlin?"}]
 
-        with self.assertLogs('llm_client.providers.providers', level='DEBUG') as cm:
+        with self.assertLogs("llm_client.providers.providers", level="DEBUG") as cm:
             result = self.provider.chat_completion(messages)
             self.assertEqual(result, "Berlin is sunny.")
             self.assertTrue(any("Received extra_content" in output for output in cm.output))
@@ -101,7 +106,9 @@ class TestThoughtSignature(unittest.TestCase):
 
             tool_calls = result.get("tool_calls", [])
             self.assertEqual(len(tool_calls), 1)
-            self.assertEqual(tool_calls[0]["extra_content"], {"google": {"thought_signature": "sig_async_abc"}})
+            self.assertEqual(
+                tool_calls[0]["extra_content"], {"google": {"thought_signature": "sig_async_abc"}}
+            )
 
         asyncio.run(run_test())
 
@@ -122,13 +129,14 @@ class TestThoughtSignature(unittest.TestCase):
 
             messages = [{"role": "user", "content": "How is the weather in Berlin?"}]
 
-            with self.assertLogs('llm_client.providers.providers', level='DEBUG') as cm:
+            with self.assertLogs("llm_client.providers.providers", level="DEBUG") as cm:
                 result = await self.async_provider.achat_completion(messages)
                 self.assertEqual(result, "Berlin is sunny.")
                 self.assertTrue(any("Received extra_content" in output for output in cm.output))
                 self.assertTrue(any("sig_async_chat_123" in output for output in cm.output))
 
         asyncio.run(run_test())
+
 
 if __name__ == "__main__":
     unittest.main()
