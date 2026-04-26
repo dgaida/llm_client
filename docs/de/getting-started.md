@@ -25,6 +25,9 @@ GROQ_API_KEY=gsk-xxxxxxxx
 
 # Google Gemini (optional)
 GEMINI_API_KEY=AIzaSy-xxxxxxxx
+
+# ODER: Generischer Key (automatische Erkennung)
+API_KEY=sk-xxxxxxxx
 ```
 
 Detaillierte Anweisungen zum Erhalt von Keys für die einzelnen Provider finden Sie im [Provider-Abschnitt](usage/providers/index.md).
@@ -55,7 +58,8 @@ Der Client wählt automatisch den ersten verfügbaren API-Key aus:
 1. **OpenAI** (wenn `OPENAI_API_KEY` gesetzt ist)  
 2. **Groq** (wenn `GROQ_API_KEY` gesetzt ist)  
 3. **Gemini** (wenn `GEMINI_API_KEY` gesetzt ist)  
-4. **Ollama** (Fallback, benötigt lokale Installation)  
+4. **Automatische Erkennung** (wenn `API_KEY` gesetzt ist - erkennt OpenAI, Groq, Gemini anhand des Präfixes)
+5. **Ollama** (Fallback, benötigt lokale Installation)
 
 ### Manuelle Auswahl
 

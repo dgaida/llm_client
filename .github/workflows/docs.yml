@@ -2,65 +2,48 @@ name: Documentation
 
 on:
   push:
-    branches:
-      - master
-    tags:
-      - 'v*'
+    branches: [master]
+    tags: ["v*"]
   pull_request:
-    branches:
-      - master
-
-permissions:
-  contents: write
+    branches: [master]
 
 jobs:
-  test-and-build:
+  docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
           pip install -e ".[all]"
-          pip install interrogate mkdocs-static-i18n mike mkdocs-mermaid2-plugin mkdocstrings[python] mkdocs-material
+          pip install interrogate mkdocs-material mkdocs-static-i18n mkdocstrings[python] mkdocs-mermaid2-plugin mike beautifulsoup4 playwright
 
-      - name: Run Tests
-        run: python -m pytest --cov=llm_client tests/
+      - name: Run tests
+        run: python -m pytest
 
-      - name: Check API Documentation Coverage
-        run: interrogate llm_client
+      - name: Check API doc coverage
+        run: interrogate llm_client/ --fail-under 95
 
-      - name: Generate API Documentation
-        run: python scripts/generate_api_docs.py
+      - name: Build MkDocs
+        run: mkdocs build --strict
 
-      - name: Update Metrics Dashboard
-        run: python scripts/update_metrics.py
-
-      - name: Check Documentation Quality
-        run: mkdocs build
-
-      - name: Configure Git for Mike
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - name: Deploy with mike
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin gh-pages --depth=1 || true
-
-      - name: Deploy Versioned Documentation (Latest)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: |
-          mike deploy --push --update-aliases latest
-          mike set-default --push latest
-
-      - name: Deploy Versioned Documentation (Tags)
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-        run: |
-          mike deploy --push ${GITHUB_REF_NAME}
+          git fetch origin gh-pages --depth=1
+          if [ -n "\${{ github.event.release.tag_name }}" ]; then
+            mike deploy --push --update-aliases \${{ github.event.release.tag_name }} latest
+          elif [ "\${{ github.ref_name }}" == "master" ]; then
+            mike deploy --push --update-aliases dev latest
+          fi

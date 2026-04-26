@@ -87,22 +87,35 @@ graph TB
 
 ### Automatic API Detection
 
-LLM Client automatically detects which LLM provider to use based on available API keys:
+LLM Client automatically detects which LLM provider to use based on available API keys.
+
+#### Generic API Key Support
+
+In addition to provider-specific keys (`OPENAI_API_KEY`, etc.), the client supports a generic `API_KEY` variable. The client analyzes the key prefix to determine the provider:
+
+| Prefix | Detected Provider |
+|--------|-------------------|
+| `sk-`   | OpenAI            |
+| `gsk-`  | Groq              |
+| `gsk_`  | Groq              |
+| `AIza`  | Google Gemini     |
+
+#### Example
 
 ```python
+import os
 from llm_client import LLMClient
 
-# Automatically selects first available provider:
-# 1. OpenAI (if OPENAI_API_KEY set)
-# 2. Groq (if GROQ_API_KEY set)
-# 3. Gemini (if GEMINI_API_KEY set)
-# 4. Ollama (local fallback, no key needed)
-client = LLMClient()
+# Set only a generic key
+os.environ["API_KEY"] = "sk-..."
 
-print(f"Using: {client.api_choice}")  # e.g., "openai"
+# Client automatically detects it's OpenAI
+client = LLMClient()
+print(client.api_choice) # "openai"
 ```
 
-[:octicons-arrow-right-24: Learn more](getting-started.md#automatic-provider-selection)
+
+
 
 ---
 

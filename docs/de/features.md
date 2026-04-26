@@ -4,6 +4,7 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 
 ## Inhaltsverzeichnis
 
+- [Automatische API-Erkennung](#automatische-api-erkennung)
 - [Token-Zählung](#token-zählung)  
 - [Async-Unterstützung](#async-unterstützung)  
 - [Konfigurationsdateien](#konfigurationsdateien)  
@@ -11,6 +12,37 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 - [Dynamischer Provider-Wechsel](#dynamischer-provider-wechsel)  
 - [Tool-Calling](#tool-calling-function-calling)  
 - [Datei-Upload](#datei-upload)  
+
+---
+
+## Automatische API-Erkennung
+
+Der LLM Client kann automatisch entscheiden, welcher Provider genutzt werden soll, basierend auf den verfügbaren Umgebungsvariablen.
+
+### Unterstützung für generische API-Keys
+
+Zusätzlich zu provider-spezifischen Keys (`OPENAI_API_KEY`, etc.) unterstützt der Client eine generische `API_KEY` Variable. Der Client analysiert das Präfix des Schlüssels, um den Provider zu bestimmen:
+
+| Präfix | Erkannter Provider |
+|--------|-------------------|
+| `sk-`   | OpenAI            |
+| `gsk-`  | Groq              |
+| `gsk_`  | Groq              |
+| `AIza`  | Google Gemini     |
+
+### Beispiel
+
+```python
+import os
+from llm_client import LLMClient
+
+# Nur einen generischen Key setzen
+os.environ["API_KEY"] = "sk-..."
+
+# Client erkennt automatisch, dass es sich um OpenAI handelt
+client = LLMClient()
+print(client.api_choice) # "openai"
+```
 
 ---
 

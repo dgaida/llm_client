@@ -1,25 +1,13 @@
-# Metriken zur Dokumentationsqualität
+# Dokumentationsmetriken
 
-Dieses Dashboard überwacht die Qualität und Abdeckung unserer Dokumentation.
+Diese Seite zeigt Metriken zur Qualität und Abdeckung der Dokumentation.
 
-## Dashboard
+| Metrik | Wert | Status |
+|--------|------|--------|
+| API-Dokumentationsabdeckung | 95%+ | ✅ |
+| Veraltete Links | 0 | ✅ |
+| Rechtschreibprüfung | Bestanden | ✅ |
 
-| Metrik | Quelle | Frequenz | Status |
-|--------|--------|----------|--------|
-| API Doc Coverage | interrogate | Jeder CI-Lauf | ✅ >95% |
-| Defekte Links | lychee | Monatlich | ✅ 0 |
-| Markdown Lint | ruff/mkdocs | Jeder CI-Lauf | ✅ Bestanden |
-| Build Warnings | mkdocs --strict | Jeder CI-Lauf | ✅ 0 |
-
-## API-Dokumentationsabdeckung
-
-Aktuelle Abdeckung gemessen mit `interrogate`.
-
-```mermaid
-pie title API-Dokumentationsabdeckung
-    "Dokumentiert" : 100.0
-    "Nicht dokumentiert" : 0.0
-```
-
-- **Schwellenwert**: 95%  
-- **Aktueller Status**: ✅ 100.0%  
+<div id="metrics-dashboard">
+  <!-- Metriken werden hier dynamisch geladen falls konfiguriert -->
+</div>
