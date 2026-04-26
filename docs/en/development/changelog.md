@@ -10,14 +10,14 @@ Each commit should follow this format:
 <type>(<scope>): <description>
 \`\`\`
 
-- **feat**: A new feature
-- **fix**: A bug fix
-- **docs**: Documentation changes
-- **style**: Formatting, missing semi-colons, etc.
-- **refactor**: Code change that neither fixes a bug nor adds a feature
-- **perf**: Code change that improves performance
-- **test**: Adding missing tests
-- **chore**: Changes to the build process or auxiliary tools
+- **feat**: A new feature  
+- **fix**: A bug fix  
+- **docs**: Documentation changes  
+- **style**: Formatting, missing semi-colons, etc.  
+- **refactor**: Code change that neither fixes a bug nor adds a feature  
+- **perf**: Code change that improves performance  
+- **test**: Adding missing tests  
+- **chore**: Changes to the build process or auxiliary tools  
 
 ## Automation
 

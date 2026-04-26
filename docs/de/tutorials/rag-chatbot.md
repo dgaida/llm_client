@@ -2,7 +2,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
 
-- [Überblick über Retrieval-Augmented Generation (RAG)](#ueberblick-ueber-retrieval-augmented-generation-rag)
+- [Überblick über Retrieval-Augmented Generation (RAG)](#ueberblick-ueber-retrieval-augmented-generation-rag)  
 - [Inhalt des Notebooks](#inhalt-des-notebooks)  
 - [Erforderliche API Keys](#erforderliche-api-keys)  
 - [Hugging Face Access Token erstellen](#hugging-face-access-token-erstellen)  

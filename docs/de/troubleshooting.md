@@ -9,10 +9,10 @@ Lösungen für häufige Probleme mit LLM Client.
 - [Provider-Probleme](#provider-probleme)  
 - [Ollama](#ollama)  
 - [Streaming](#streaming)  
-- [Token-Zählung](#token-counting)
+- [Token-Zählung](#token-counting)  
 - [Async-Probleme](#async-probleme)  
-- [Konfigurationsdateien](#configuration-files)
-- [Datei-Upload](#file-upload)
+- [Konfigurationsdateien](#configuration-files)  
+- [Datei-Upload](#file-upload)  
 - [Performance](#performance)  
 
 ---

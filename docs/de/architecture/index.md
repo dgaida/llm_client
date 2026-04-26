@@ -21,7 +21,7 @@ graph TD
 
 ## Datenfluss
 
-1. Der Benutzer sendet Nachrichten an den `LLMClient`.
-2. Der `LLMClient` nutzt die `ProviderFactory`, um den richtigen Provider zu instanziieren.
-3. Der Provider bereitet die Anfrage für die spezifische API vor.
-4. Die Antwort wird normalisiert und an den Benutzer zurückgegeben.
+1. Der Benutzer sendet Nachrichten an den `LLMClient`.  
+2. Der `LLMClient` nutzt die `ProviderFactory`, um den richtigen Provider zu instanziieren.  
+3. Der Provider bereitet die Anfrage für die spezifische API vor.  
+4. Die Antwort wird normalisiert und an den Benutzer zurückgegeben.  

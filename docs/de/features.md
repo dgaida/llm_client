@@ -4,14 +4,14 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 
 ## Inhaltsverzeichnis
 
-- [Automatische API-Erkennung](#automatic-api-detection)
-- [Token-Zählung](#token-counting)
-- [Async-Unterstützung](#async-support)
-- [Konfigurationsdateien](#configuration-files)
+- [Automatische API-Erkennung](#automatic-api-detection)  
+- [Token-Zählung](#token-counting)  
+- [Async-Unterstützung](#async-support)  
+- [Konfigurationsdateien](#configuration-files)  
 - [Response-Streaming](#response-streaming)  
-- [Dynamischer Provider-Wechsel](#dynamic-provider-switching)
+- [Dynamischer Provider-Wechsel](#dynamic-provider-switching)  
 - [Tool-Calling](#tool-calling-function-calling)  
-- [Datei-Upload](#file-upload)
+- [Datei-Upload](#file-upload)  
 
 ---
 

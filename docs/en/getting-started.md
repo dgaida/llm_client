@@ -58,8 +58,8 @@ The client automatically selects the first available API key:
 1. **OpenAI** (if `OPENAI_API_KEY` is set)  
 2. **Groq** (if `GROQ_API_KEY` is set)  
 3. **Gemini** (if `GEMINI_API_KEY` is set)  
-4. **Automatic Detection** (if `API_KEY` is set - detects OpenAI, Groq, Gemini based on prefix)
-5. **Ollama** (Fallback, requires local installation)
+4. **Automatic Detection** (if `API_KEY` is set - detects OpenAI, Groq, Gemini based on prefix)  
+5. **Ollama** (Fallback, requires local installation)  
 
 ### Manual Selection
 
