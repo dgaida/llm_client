@@ -1,43 +1,28 @@
-# Docstring Guide
+# Docstring Style Guide
 
-This project uses the **Google-style** for docstrings. This ensures consistent, readable, and automatically extractable documentation.
+We use the **Google Style** for docstrings. This ensures our API documentation is correctly generated with `mkdocstrings`.
 
-## Standard Format
-
-Every public member (classes, functions, methods, modules) must have a docstring.
+## Example
 
 ```python
-def example_function(name: str, age: int = 0) -> str:
-    """Short one-line description.
+def example_function(param1: int, param2: str = "default") -> bool:
+    \"\"\"Short single-line description.
 
     Longer description if necessary. Can span multiple paragraphs.
 
     Args:
-        name (str): The name of the person.
-        age (int): The age of the person. Defaults to 0.
+        param1 (int): Description of the first parameter.
+        param2 (str): Description of the second. Defaults to "default".
 
     Returns:
-        str: A greeting message.
+        bool: Description of the return value.
 
     Raises:
-        ValueError: If the name is empty.
+        ValueError: When this error occurs.
 
     Example:
-        >>> example_function("Alice", 30)
-        "Hello Alice, you are 30 years old."
-    """
-    if not name:
-        raise ValueError("Name cannot be empty")
-    return f"Hello {name}, you are {age} years old."
+        >>> example_function(42)
+        True
+    \"\"\"
+    return True
 ```
-
-## Requirements
-
-- **Type Hints**: Always use Python type hints in the function signature.  
-- **Completeness**: All parameters must be documented in the `Args` section.  
-- **Return Values**: Document the return value in the `Returns` section.  
-- **Exceptions**: Document all explicitly raised errors in the `Raises` section.  
-
-## Tools
-
-We use [interrogate](https://interrogate.readthedocs.io/) to enforce docstring coverage. Coverage must be at least **95%**.

@@ -5,8 +5,8 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 ## Inhaltsverzeichnis
 
 - [Automatische API-Erkennung](#automatische-api-erkennung)
-- [Token-Zählung](#token-zählung)  
-- [Async-Unterstützung](#async-unterstützung)  
+- [Token-Zählung](#token-counting)
+- [Async-Unterstützung](#async-support)
 - [Konfigurationsdateien](#konfigurationsdateien)  
 - [Response-Streaming](#response-streaming)  
 - [Dynamischer Provider-Wechsel](#dynamischer-provider-wechsel)  
@@ -15,7 +15,7 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 
 ---
 
-## Automatische API-Erkennung
+## Automatische API-Erkennung {: #automatic-api-detection }
 
 Der LLM Client kann automatisch entscheiden, welcher Provider genutzt werden soll, basierend auf den verfügbaren Umgebungsvariablen.
 
@@ -46,7 +46,7 @@ print(client.api_choice) # "openai"
 
 ---
 
-## Token-Zählung
+## Token-Zählung {: #token-counting }
 
 Präzise Token-Zählung hilft, API-Kosten und Kontext-Limits zu verwalten.
 
@@ -102,7 +102,7 @@ else:
 
 ---
 
-## Async-Unterstützung
+## Async-Unterstützung {: #async-support }
 
 Vollständige async/await-Unterstützung für nicht-blockierende Operationen.
 
@@ -198,7 +198,7 @@ asyncio.run(main())
 
 ---
 
-## Konfigurationsdateien
+## Konfigurationsdateien {: #configuration-files }
 
 Verwalte mehrere Provider-Konfigurationen einfach via YAML oder JSON.
 
@@ -292,7 +292,7 @@ else:
 
 ---
 
-## Response-Streaming
+## Response-Streaming {: #response-streaming }
 
 Streame Antworten in Echtzeit für bessere Benutzererfahrung.
 
@@ -357,7 +357,7 @@ asyncio.run(stream_response())
 
 ---
 
-## Dynamischer Provider-Wechsel
+## Dynamischer Provider-Wechsel {: #dynamic-provider-switching }
 
 Wechsle zwischen Providern zur Laufzeit ohne neue Objekte zu erstellen.
 
@@ -416,7 +416,7 @@ complex_response = client.chat_completion(complex_messages)
 
 ---
 
-## Tool-Calling (Function Calling)
+## Tool-Calling (Function Calling) {: #tool-calling-function-calling }
 
 Alle Provider unterstützen OpenAI-kompatibles Tool-Calling.
 
@@ -496,7 +496,7 @@ result = client.chat_completion_with_tools(
 
 ---
 
-## Datei-Upload
+## Datei-Upload {: #file-upload }
 
 Sende Bilder, PDFs und andere Dateien mit Chat-Anfragen.
 

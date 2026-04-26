@@ -85,7 +85,7 @@ graph TB
     class UC1,UC2,UC3,UC4 usecaseClass
 ```
 
-### Automatic API Detection
+## Automatic API Detection {: #automatic-api-detection }
 
 LLM Client automatically detects which LLM provider to use based on available API keys.
 
@@ -146,7 +146,7 @@ response3 = gemini_client.chat_completion(messages)
 
 ## ✨ Advanced Features (v0.3.0)
 
-### 📊 Token Counting
+## Token Counting {: #token-counting }
 
 Accurate token counting with tiktoken for cost management:
 
@@ -164,7 +164,7 @@ if token_count < 4000:
 
 ---
 
-### ⚡ Async Support
+## Async Support {: #async-support }
 
 Full async/await support for non-blocking operations:
 
@@ -184,7 +184,7 @@ async for chunk in async_client.achat_completion_stream(messages):
 
 ---
 
-### 📁 Configuration Files
+## Configuration Files {: #configuration-files }
 
 Manage multiple provider configurations with YAML/JSON:
 
@@ -214,7 +214,7 @@ providers:
 
 ---
 
-### 🌊 Response Streaming
+## Response Streaming {: #response-streaming }
 
 Stream responses in real-time for better UX:
 
@@ -231,7 +231,7 @@ print()
 
 ---
 
-### 🔄 Dynamic Provider Switching
+## Dynamic Provider Switching {: #dynamic-provider-switching }
 
 Switch between providers at runtime:
 
@@ -259,7 +259,7 @@ response3 = client.chat_completion(messages)
 
 ---
 
-### 🧰 Tool Calling
+## Tool Calling {: #tool-calling-function-calling }
 
 OpenAI-compatible function/tool calling for all providers:
 
@@ -289,7 +289,7 @@ if result['tool_calls']:
 
 ---
 
-### 📎 File Upload
+## File Upload {: #file-upload }
 
 Upload images, PDFs, videos, and audio with your messages:
 

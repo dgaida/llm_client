@@ -130,10 +130,11 @@ nav:
       - Exceptions: api/exceptions.md
   - Architecture: architecture/index.md
   - Development:
+      - Changelog: development/changelog.md
       - Testing: development/testing.md
       - Logging: development/logging.md
-      - Contributing: development/contributing.md
       - Docstring Guide: development/docstring-guide.md
+      - Contributing: development/contributing.md
       - Versioning: development/versioning.md
   - Troubleshooting: troubleshooting.md
   - Metrics: metrics.md

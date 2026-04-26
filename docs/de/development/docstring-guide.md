@@ -1,44 +1,48 @@
-# Docstring-Leitfaden
+# Docstring Style Guide
 
-Dieses Projekt verwendet den **Google-Style** für Docstrings. Dies gewährleistet eine konsistente, lesbare und automatisch extrahierbare Dokumentation.
+Wir verwenden den **Google-Style** für Docstrings. Dies stellt sicher, dass unsere API-Dokumentation mit `mkdocstrings` korrekt generiert wird.
 
-## Standard-Format
-
-Jeder öffentliche Member (Klassen, Funktionen, Methoden, Module) muss einen Docstring haben.
+## Beispiel
 
 ```python
-def beispiel_funktion(name: str, alter: int = 0) -> str:
-    """Kurze Einzeilen-Beschreibung.
+def example_function(param1: int, param2: str = "default") -> bool:
+    \"\"\"Kurze Einzeilen-Beschreibung.
 
     Längere Beschreibung falls nötig. Kann mehrere Absätze
     umfassen.
 
     Args:
-        name (str): Der Name der Person.
-        alter (int): Das Alter der Person. Defaults to 0.
+        param1 (int): Beschreibung des ersten Parameters.
+        param2 (str): Beschreibung des zweiten. Defaults to "default".
 
     Returns:
-        str: Eine Begrüßungsnachricht.
+        bool: Beschreibung des Rückgabewerts.
 
     Raises:
-        ValueError: Wenn der Name leer ist.
+        ValueError: Wann dieser Fehler auftritt.
 
     Example:
-        >>> beispiel_funktion("Alice", 30)
-        "Hallo Alice, du bist 30 Jahre alt."
-    """
-    if not name:
-        raise ValueError("Name darf nicht leer sein")
-    return f"Hallo {name}, du bist {alter} Jahre alt."
+        >>> example_function(42)
+        True
+    \"\"\"
+    return True
 ```
 
-## Anforderungen
+## Klassen
 
-- **Typ-Hinweise**: Verwenden Sie immer Python-Typ-Hinweise in der Funktionssignatur.  
-- **Vollständigkeit**: Alle Parameter müssen im `Args`-Abschnitt dokumentiert sein.  
-- **Rückgabewerte**: Dokumentieren Sie den Rückgabewert im `Returns`-Abschnitt.  
-- **Ausnahmen**: Dokumentieren Sie alle explizit ausgelösten Fehler im `Raises`-Abschnitt.  
+```python
+class ExampleClass:
+    \"\"\"Beschreibung der Klasse.
 
-## Werkzeuge
+    Attributes:
+        attr1 (int): Beschreibung des Attributs.
+    \"\"\"
 
-Wir verwenden [interrogate](https://interrogate.readthedocs.io/), um die Docstring-Abdeckung zu erzwingen. Die Abdeckung muss mindestens **95%** betragen.
+    def __init__(self, attr1: int):
+        \"\"\"Initialisierung.
+
+        Args:
+            attr1 (int): Wert für attr1.
+        \"\"\"
+        self.attr1 = attr1
+```
