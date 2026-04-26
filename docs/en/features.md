@@ -85,24 +85,37 @@ graph TB
     class UC1,UC2,UC3,UC4 usecaseClass
 ```
 
-### Automatic API Detection
+## Automatic API Detection {: #automatic-api-detection }
 
-LLM Client automatically detects which LLM provider to use based on available API keys:
+LLM Client automatically detects which LLM provider to use based on available API keys.
+
+#### Generic API Key Support
+
+In addition to provider-specific keys (`OPENAI_API_KEY`, etc.), the client supports a generic `API_KEY` variable. The client analyzes the key prefix to determine the provider:
+
+| Prefix | Detected Provider |
+|--------|-------------------|
+| `sk-`   | OpenAI            |
+| `gsk-`  | Groq              |
+| `gsk_`  | Groq              |
+| `AIza`  | Google Gemini     |
+
+#### Example
 
 ```python
+import os
 from llm_client import LLMClient
 
-# Automatically selects first available provider:
-# 1. OpenAI (if OPENAI_API_KEY set)
-# 2. Groq (if GROQ_API_KEY set)
-# 3. Gemini (if GEMINI_API_KEY set)
-# 4. Ollama (local fallback, no key needed)
-client = LLMClient()
+# Set only a generic key
+os.environ["API_KEY"] = "sk-..."
 
-print(f"Using: {client.api_choice}")  # e.g., "openai"
+# Client automatically detects it's OpenAI
+client = LLMClient()
+print(client.api_choice) # "openai"
 ```
 
-[:octicons-arrow-right-24: Learn more](getting-started.md#automatic-provider-selection)
+
+
 
 ---
 
@@ -133,7 +146,7 @@ response3 = gemini_client.chat_completion(messages)
 
 ## ✨ Advanced Features (v0.3.0)
 
-### 📊 Token Counting
+## Token Counting {: #token-counting }
 
 Accurate token counting with tiktoken for cost management:
 
@@ -151,7 +164,7 @@ if token_count < 4000:
 
 ---
 
-### ⚡ Async Support
+## Async Support {: #async-support }
 
 Full async/await support for non-blocking operations:
 
@@ -171,7 +184,7 @@ async for chunk in async_client.achat_completion_stream(messages):
 
 ---
 
-### 📁 Configuration Files
+## Configuration Files {: #configuration-files }
 
 Manage multiple provider configurations with YAML/JSON:
 
@@ -201,7 +214,7 @@ providers:
 
 ---
 
-### 🌊 Response Streaming
+## Response Streaming {: #response-streaming }
 
 Stream responses in real-time for better UX:
 
@@ -218,7 +231,7 @@ print()
 
 ---
 
-### 🔄 Dynamic Provider Switching
+## Dynamic Provider Switching {: #dynamic-provider-switching }
 
 Switch between providers at runtime:
 
@@ -246,7 +259,7 @@ response3 = client.chat_completion(messages)
 
 ---
 
-### 🧰 Tool Calling
+## Tool Calling {: #tool-calling-function-calling }
 
 OpenAI-compatible function/tool calling for all providers:
 
@@ -272,11 +285,11 @@ if result['tool_calls']:
         print(f"Calling: {call['function']['name']}")
 ```
 
-[:octicons-arrow-right-24: Tool Calling Guide](#tool-calling)
+[:octicons-arrow-right-24: Tool Calling Guide](#tool-calling-function-calling)
 
 ---
 
-### 📎 File Upload
+## File Upload {: #file-upload }
 
 Upload images, PDFs, videos, and audio with your messages:
 

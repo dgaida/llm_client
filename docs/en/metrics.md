@@ -1,25 +1,13 @@
-# Documentation Quality Metrics
+# Documentation Metrics
 
-This dashboard monitors the quality and coverage of our documentation.
+This page shows metrics regarding documentation quality and coverage.
 
-## Dashboard
+| Metric | Value | Status |
+|--------|-------|--------|
+| API Documentation Coverage | 95%+ | ✅ |
+| Broken Links | 0 | ✅ |
+| Spell Check | Passed | ✅ |
 
-| Metric | Source | Frequency | Status |
-|--------|--------|-----------|--------|
-| API Doc Coverage | interrogate | Every CI run | ✅ >95% |
-| Broken Links | lychee | Monthly | ✅ 0 |
-| Markdown Lint | ruff/mkdocs | Every CI run | ✅ Passed |
-| Build Warnings | mkdocs --strict | Every CI run | ✅ 0 |
-
-## API Documentation Coverage
-
-Current coverage measured with `interrogate`.
-
-```mermaid
-pie title API Documentation Coverage
-    "Documented" : 100.0
-    "Undocumented" : 0.0
-```
-
-- **Threshold**: 95%  
-- **Current Status**: ✅ 100.0%  
+<div id="metrics-dashboard">
+  <!-- Metrics are dynamically loaded here if configured -->
+</div>

@@ -164,6 +164,9 @@ GROQ_API_KEY=gsk-xxxxxxxx
 
 # Oder Google Gemini
 GEMINI_API_KEY=AIzaSy-xxxxxxxx
+
+# ODER: Generischer Key (automatische Erkennung)
+API_KEY=sk-xxxxxxxx
 ```
 
 **Ohne API-Keys**: Verwendet automatisch lokales [Ollama](https://ollama.com/) (Installation erforderlich).
@@ -173,7 +176,7 @@ GEMINI_API_KEY=AIzaSy-xxxxxxxx
 In Colab werden Keys automatisch aus `userdata` geladen:
 
 ```python
-# Secrets → OPENAI_API_KEY, GROQ_API_KEY oder GEMINI_API_KEY hinzufügen
+# Secrets → OPENAI_API_KEY, GROQ_API_KEY oder GEMINI_API_KEY oder API_KEY hinzufügen
 from llm_client import LLMClient
 client = LLMClient()  # Lädt automatisch aus userdata
 ```
