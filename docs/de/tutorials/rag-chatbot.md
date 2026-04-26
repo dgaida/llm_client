@@ -2,7 +2,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
 
-- [Überblick über Retrieval-Augmented Generation (RAG)](#überblick-über-retrieval-augmented-generation-rag)  
+- [Überblick über Retrieval-Augmented Generation (RAG)](#ueberblick-ueber-retrieval-augmented-generation-rag)
 - [Inhalt des Notebooks](#inhalt-des-notebooks)  
 - [Erforderliche API Keys](#erforderliche-api-keys)  
 - [Hugging Face Access Token erstellen](#hugging-face-access-token-erstellen)  
@@ -19,7 +19,7 @@ Das Notebook [`RAGChatbot_groq_API.ipynb`](https://github.com/dgaida/llm_client/
 
 ---
 
-## Überblick über Retrieval-Augmented Generation (RAG)
+## Überblick über Retrieval-Augmented Generation (RAG) {: #ueberblick-ueber-retrieval-augmented-generation-rag }
 
 Retrieval-Augmented Generation (RAG) kombiniert **Wissen aus eigenen Dokumenten** mit der **Sprachkompetenz großer KI-Modelle** wie ChatGPT.
 Statt dass das Modell nur auf sein internes (und begrenztes) Trainingswissen zugreift, sucht RAG zuerst gezielt in einer **Wissensdatenbank** oder **Dokumentsammlung** nach relevanten Textstellen („Retrieval“) und übergibt diese dann zusammen mit der Nutzerfrage an das **Large Language Model** („Generation“).
@@ -184,7 +184,7 @@ Falls kein Groq- oder OpenAI-Key gefunden wird, fällt der Client automatisch au
 
 ---
 
-## 🧩 Lizenz
+## 🧩 Lizenz {: #-lizenz }
 
 Dieses Notebook ist Teil des Repositories [**dgaida/llm_client**](https://github.com/dgaida/llm_client).
 © 2025 – Daniel Gaida, Technische Hochschule.

@@ -285,7 +285,7 @@ if result['tool_calls']:
         print(f"Calling: {call['function']['name']}")
 ```
 
-[:octicons-arrow-right-24: Tool Calling Guide](#tool-calling)
+[:octicons-arrow-right-24: Tool Calling Guide](#tool-calling-function-calling)
 
 ---
 
