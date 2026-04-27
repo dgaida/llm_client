@@ -1,3 +1,3 @@
 # Async Providers
 
-::: llm_client.providers.async_providers
+The detailed API documentation for this module is available in the [default language version](../../de/api/providers_async_providers.md).

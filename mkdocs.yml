@@ -42,6 +42,7 @@ plugins:
   - search
   - i18n:
       docs_structure: folder
+
       languages:
         - locale: de
           name: Deutsch
@@ -50,8 +51,10 @@ plugins:
           name: English
   - autorefs
   - mkdocstrings:
+
       handlers:
         python:
+
           options:
             show_source: true
             show_root_heading: true
@@ -106,12 +109,12 @@ nav:
   - Features:
       - Overview: features.md
       - Token Counting: usage/token-counting.md
-      - Async Support: features.md#async-support
-      - Configuration Files: features.md#configuration-files
-      - Response Streaming: features.md#response-streaming
-      - Provider Switching: features.md#dynamic-provider-switching
-      - Tool Calling: features.md#tool-calling-function-calling
-      - File Upload: features.md#file-upload
+      - Async Support: features.md
+      - Configuration Files: features.md
+      - Response Streaming: features.md
+      - Provider Switching: features.md
+      - Tool Calling: features.md
+      - File Upload: features.md
   - API Reference:
       - Overview: api/index.md
       - LLMClient: api/llm_client.md

@@ -334,7 +334,7 @@ except Exception as e:
 
 ---
 
-## Token-Zählung
+## Token-Zählung {: #token-counting }
 
 ### tiktoken not available
 
@@ -436,7 +436,7 @@ pip install -e ".[all]"
 
 ---
 
-## Konfigurationsdateien
+## Konfigurationsdateien {: #configuration-files }
 
 ### FileNotFoundError: Config file not found
 
@@ -496,7 +496,7 @@ generate_config_template("llm_config.json", format="json")
 
 ---
 
-## Datei-Upload
+## Datei-Upload {: #file-upload }
 
 ### FileNotFoundError: File not found
 

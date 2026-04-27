@@ -1,3 +1,3 @@
 # File Utilities
 
-::: llm_client.utils.file_utils
+The detailed API documentation for this module is available in the [default language version](../../de/api/utils_file_utils.md).
