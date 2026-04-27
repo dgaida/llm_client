@@ -229,4 +229,4 @@ See [development/contributing.md](development/contributing.md) for guidelines on
 
 ## License
 
-This project is licensed under the MIT License - see [LICENSE](../../LICENSE) for details.
+This project is licensed under the MIT License - see [LICENSE](https://github.com/dgaida/llm_client/blob/master/LICENSE) for details.
