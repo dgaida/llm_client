@@ -8,7 +8,7 @@ def generate_api_docs():
 
     To avoid duplicate primary URL warnings from autorefs in a multi-language setup,
     only the default language (German) contains the full mkdocstrings documentation.
-    The English versions provide headers and links to the default language version.
+    The English versions provide headers and links to the German version.
     """
     package_dir = Path("llm_client")
 
@@ -56,7 +56,7 @@ def generate_api_docs():
         },
     }
 
-    for config in langs.values():
+    for _lang_code, config in langs.items():
         api_dir = config["dir"]
         if api_dir.exists():
             shutil.rmtree(api_dir)
@@ -85,18 +85,21 @@ def generate_api_docs():
                     with open(target_path, "w", encoding="utf-8") as f:
                         f.write(f"# {title}\n\n")
                         if config["is_default"]:
+                            # Default language gets the full API docs
                             f.write(f"::: {module_path}\n")
                         else:
+                            # Secondary language gets a link to avoid duplicate primary URL warnings
+                            # Fixed relative link to the 'de' version.
                             f.write(
                                 "The detailed API documentation for this module is available "
-                                f"in the [default language version](../../api/{safe_name}).\n"
+                                f"in the [default language version](../../de/api/{safe_name}).\n"
                             )
 
                     index_content.append(f"- [{title}]({safe_name})\n")
 
         with open(api_dir / "index.md", "w", encoding="utf-8") as f:
             f.writelines(index_content)
-    print("Generated API documentation for both languages (English as placeholder links).")
+    print("Generated API documentation for both languages (Fixed fallback links).")
 
 
 if __name__ == "__main__":
