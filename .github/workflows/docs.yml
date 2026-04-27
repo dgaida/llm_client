@@ -48,13 +48,20 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin gh-pages --depth=1 || true
-          # Delete 'latest' if it exists as a version to avoid conflict with alias
-          if mike list | grep -q "^latest"; then
-            mike delete --push latest
-          fi
+
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            # Delete 'latest' if it exists to ensure it's recreated as an alias
+            if mike list | grep -q "^latest"; then
+              mike delete --push latest
+            fi
             mike deploy --push --update-aliases "${{ github.ref_name }}" latest
             mike set-default --push latest
           else
             mike deploy --push dev
+            # Ensure a default is set if none exists (fallback to dev if no latest)
+            if ! mike list | grep -q "latest"; then
+              if ! mike list | grep -q "default"; then
+                mike set-default --push dev
+              fi
+            fi
           fi
