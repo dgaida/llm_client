@@ -12,8 +12,6 @@
 | meta-llama/llama-4-scout-17b-16e-instruct | 30 | 1K | 30K | 500K | - | - |
 | meta-llama/llama-prompt-guard-2-22m | 30 | 14.4K | 15K | 500K | - | - |
 | meta-llama/llama-prompt-guard-2-86m | 30 | 14.4K | 15K | 500K | - | - |
-| moonshotai/kimi-k2-instruct | 60 | 1K | 10K | 300K | - | - |
-| moonshotai/kimi-k2-instruct-0905 | 60 | 1K | 10K | 300K | - | - |
 | openai/gpt-oss-120b | 30 | 1K | 8K | 200K | - | - |
 | openai/gpt-oss-20b | 30 | 1K | 8K | 200K | - | - |
 | openai/gpt-oss-safeguard-20b | 30 | 1K | 8K | 200K | - | - |
