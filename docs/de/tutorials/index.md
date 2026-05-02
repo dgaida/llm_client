@@ -4,7 +4,8 @@ Willkommen in der Tutorial-Sektion! Hier findest du praktische Anleitungen und B
 
 ## Verfügbare Tutorials
 
-*   [**RAG Chatbot mit Groq API**](rag-chatbot.md): Erfahre, wie du einen Retrieval-Augmented-Generation (RAG) Chatbot mit dem `LLM Client`, der Groq API und ChromaDB baust.  
+*   [**RAG Chatbot mit Groq API**](rag-chatbot.md): Erfahre, wie du einen Retrieval-Augmented-Generation (RAG) Chatbot mit dem `LLM Client`, der Groq API und ChromaDB baust.
+*   [**RAG Chatbot mit Groq API und Text-to-Speech (TTS)**](rag-chatbot-tts.md): Erfahre, wie du einen RAG Chatbot mit Sprachausgabe mittels Kokoro baust.
 
 ---
 
@@ -14,4 +15,5 @@ Die meisten unserer Tutorials sind auch als Jupyter Notebooks verfügbar, die du
 
 | Tutorial | Colab Link |
 | :--- | :--- |
-| RAG Chatbot (Groq API) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb) |
+| RAG Chatbot (Groq API) | [![Open In Colab](../../assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb) |
+| RAG Chatbot (Groq API & TTS) | [![Open In Colab](../../assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API_t2s.ipynb) |
