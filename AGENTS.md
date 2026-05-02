@@ -41,5 +41,5 @@ This project uses AI skills to automate and standardize workflows. These skills 
 - **github-repo-review**: Perform a deep, holistic code review of a GitHub repository and propose specific, actionable improvements for maintainability, clarity, correctness, and long-term scalability.  
 - **mkdocs-documentation**: Generate a complete, production-ready MkDocs documentation ecosystem for a Python GitHub repository. Use this whenever setting up, improving, or automating documentation.  
 
-## Documentation Assets
-- **Colab Badges**: To ensure that "Open In Colab" badges are correctly displayed in the documentation without being blocked by browser privacy settings or mixed content restrictions, always store the Colab badge SVG locally (e.g., in `docs/assets/colab-badge.svg`) and reference it using a relative path.
+## Documentation Assets  
+- **Colab Badges**: To ensure that "Open In Colab" badges are correctly displayed in the documentation without being blocked by browser privacy settings or mixed content restrictions, always store the Colab badge SVG locally (e.g., in `docs/assets/colab-badge.svg`) and reference it using a relative path.  
