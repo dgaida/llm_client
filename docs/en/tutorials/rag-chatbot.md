@@ -1,6 +1,6 @@
 # RAG Chatbot with Groq API
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
+[![Open In Colab](../../assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
 
 - [Overview of Retrieval-Augmented Generation (RAG)](#overview-of-retrieval-augmented-generation-rag)  
 - [Notebook Content](#notebook-content)  

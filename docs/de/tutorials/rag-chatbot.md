@@ -1,6 +1,6 @@
 # RAG Chatbot mit LLMClient (Groq, OpenAI & Hugging Face)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
+[![Open In Colab](../../assets/colab-badge.svg)](https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API.ipynb)
 
 - [Überblick über Retrieval-Augmented Generation (RAG)](#ueberblick-ueber-retrieval-augmented-generation-rag)  
 - [Inhalt des Notebooks](#inhalt-des-notebooks)  

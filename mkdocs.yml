@@ -106,6 +106,7 @@ nav:
   - Tutorials:
       - Overview: tutorials/index.md
       - RAG Chatbot: tutorials/rag-chatbot.md
+      - RAG Chatbot mit TTS: tutorials/rag-chatbot-tts.md
   - Features:
       - Overview: features.md
       - Token Counting: usage/token-counting.md
