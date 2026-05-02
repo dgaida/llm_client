@@ -12,35 +12,35 @@
         <meta name="author" content="Daniel Gaida">
       
       
-        <link rel="canonical" href="https://dgaida.github.io/llm_client/dev/en/getting-started/">
+        <link rel="canonical" href="https://dgaida.github.io/llm_client/dev/en/tutorials/rag-chatbot-tts/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../rag-chatbot/">
       
       
-        <link rel="next" href="../configuration/">
+        <link rel="next" href="../../features/">
       
       
         
-          <link rel="alternate" href="../../getting-started/" hreflang="de">
+          <link rel="alternate" href="../../../tutorials/rag-chatbot-tts/" hreflang="de">
         
           <link rel="alternate" href="./" hreflang="en">
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Getting Started - LLM Client Documentation</title>
+        <title>RAG Chatbot mit TTS - LLM Client Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -59,11 +59,11 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started" class="md-skip">
+        <a href="#rag-chatbot-with-groq-api-and-text-to-speech-tts" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../" title="LLM Client Documentation" class="md-header__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
+    <a href="../../" title="LLM Client Documentation" class="md-header__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting Started
+              RAG Chatbot mit TTS
             
           </span>
         </div>
@@ -169,7 +169,7 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="../../getting-started/" hreflang="de" class="md-select__link">
+            <a href="../../../tutorials/rag-chatbot-tts/" hreflang="de" class="md-select__link">
               Deutsch
             </a>
           </li>
@@ -261,7 +261,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link">
+      <a href="../../" class="md-tabs__link">
         
   
   
@@ -280,7 +280,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../installation/" class="md-tabs__link">
+      <a href="../../installation/" class="md-tabs__link">
         
   
   
@@ -297,11 +297,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../../getting-started/" class="md-tabs__link">
         
   
   
@@ -320,7 +318,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../configuration/" class="md-tabs__link">
+      <a href="../../configuration/" class="md-tabs__link">
         
   
   
@@ -341,7 +339,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../usage/" class="md-tabs__link">
+        <a href="../../usage/" class="md-tabs__link">
           
   
   
@@ -359,11 +357,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../tutorials/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -385,7 +385,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../features/" class="md-tabs__link">
+        <a href="../../features/" class="md-tabs__link">
           
   
   
@@ -407,7 +407,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../api/" class="md-tabs__link">
+        <a href="../../api/" class="md-tabs__link">
           
   
   
@@ -427,7 +427,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../architecture/" class="md-tabs__link">
+      <a href="../../architecture/" class="md-tabs__link">
         
   
   
@@ -448,7 +448,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../development/changelog/" class="md-tabs__link">
+        <a href="../../development/changelog/" class="md-tabs__link">
           
   
   
@@ -468,7 +468,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../troubleshooting/" class="md-tabs__link">
+      <a href="../../troubleshooting/" class="md-tabs__link">
         
   
   
@@ -487,7 +487,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../metrics/" class="md-tabs__link">
+      <a href="../../metrics/" class="md-tabs__link">
         
   
   
@@ -506,7 +506,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../changelog/" class="md-tabs__link">
+      <a href="../../changelog/" class="md-tabs__link">
         
   
   
@@ -541,7 +541,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../" title="LLM Client Documentation" class="md-nav__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
+    <a href="../../" title="LLM Client Documentation" class="md-nav__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -571,7 +571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         
   
   
@@ -598,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -622,37 +622,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Getting Started
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
         
   
   
@@ -668,120 +641,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-configure-api-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Configure API Keys
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-first-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. First Example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-concepts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Concepts
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Concepts">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#automatic-provider-selection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automatic Provider Selection
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manual-selection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Manual Selection
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#core-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Core Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -793,7 +652,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuration/" class="md-nav__link">
+      <a href="../../configuration/" class="md-nav__link">
         
   
   
@@ -853,7 +712,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../usage/" class="md-nav__link ">
+            <a href="../../usage/" class="md-nav__link ">
               
   
   
@@ -897,7 +756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/cli/" class="md-nav__link">
+      <a href="../../usage/cli/" class="md-nav__link">
         
   
   
@@ -925,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/basic-usage/" class="md-nav__link">
+      <a href="../../usage/basic-usage/" class="md-nav__link">
         
   
   
@@ -953,7 +812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/provider_switching/" class="md-nav__link">
+      <a href="../../usage/provider_switching/" class="md-nav__link">
         
   
   
@@ -1016,7 +875,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../usage/providers/" class="md-nav__link ">
+            <a href="../../usage/providers/" class="md-nav__link ">
               
   
   
@@ -1060,7 +919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/providers/openai/" class="md-nav__link">
+      <a href="../../usage/providers/openai/" class="md-nav__link">
         
   
   
@@ -1088,7 +947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/providers/groq/" class="md-nav__link">
+      <a href="../../usage/providers/groq/" class="md-nav__link">
         
   
   
@@ -1116,7 +975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/providers/gemini/" class="md-nav__link">
+      <a href="../../usage/providers/gemini/" class="md-nav__link">
         
   
   
@@ -1144,7 +1003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/providers/ollama/" class="md-nav__link">
+      <a href="../../usage/providers/ollama/" class="md-nav__link">
         
   
   
@@ -1172,7 +1031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/providers/ollama_cloud/" class="md-nav__link">
+      <a href="../../usage/providers/ollama_cloud/" class="md-nav__link">
         
   
   
@@ -1212,6 +1071,8 @@
       
   
   
+    
+  
   
   
     
@@ -1229,22 +1090,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../tutorials/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1262,13 +1124,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1288,7 +1150,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/rag-chatbot/" class="md-nav__link">
+      <a href="../rag-chatbot/" class="md-nav__link">
         
   
   
@@ -1313,10 +1175,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tutorials/rag-chatbot-tts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG Chatbot mit TTS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1332,6 +1221,147 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview-of-retrieval-augmented-generation-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview of Retrieval-Augmented Generation (RAG)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notebook-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Notebook Content
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#required-api-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔑 Required API Keys
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-hugging-face-access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🦮 Creating a Hugging Face Access Token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-groq-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡️ Creating a Groq API Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-an-openai-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔮 Creating an OpenAI API Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-google-gemini-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Google Gemini API Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#store-api-keys-as-secrets-in-google-colab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ☁️ Store API Keys as Secrets in Google Colab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-llmclient-in-the-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Using LLMClient in the Notebook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources-for-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources for RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1423,7 +1453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1451,7 +1481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usage/token-counting/" class="md-nav__link">
+      <a href="../../usage/token-counting/" class="md-nav__link">
         
   
   
@@ -1479,7 +1509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1507,7 +1537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1535,7 +1565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1563,7 +1593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1591,7 +1621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1619,7 +1649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -1691,7 +1721,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../api/" class="md-nav__link ">
+            <a href="../../api/" class="md-nav__link ">
               
   
   
@@ -1735,7 +1765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/llm_client/" class="md-nav__link">
+      <a href="../../api/llm_client/" class="md-nav__link">
         
   
   
@@ -1763,7 +1793,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/config/" class="md-nav__link">
+      <a href="../../api/config/" class="md-nav__link">
         
   
   
@@ -1857,7 +1887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/providers_base_provider/" class="md-nav__link">
+      <a href="../../api/providers_base_provider/" class="md-nav__link">
         
   
   
@@ -1885,7 +1915,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/providers_providers/" class="md-nav__link">
+      <a href="../../api/providers_providers/" class="md-nav__link">
         
   
   
@@ -1913,7 +1943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/providers_async_providers/" class="md-nav__link">
+      <a href="../../api/providers_async_providers/" class="md-nav__link">
         
   
   
@@ -1941,7 +1971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/providers_provider_factory/" class="md-nav__link">
+      <a href="../../api/providers_provider_factory/" class="md-nav__link">
         
   
   
@@ -1969,7 +1999,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/providers_adapter/" class="md-nav__link">
+      <a href="../../api/providers_adapter/" class="md-nav__link">
         
   
   
@@ -2067,7 +2097,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/utils_token_counter/" class="md-nav__link">
+      <a href="../../api/utils_token_counter/" class="md-nav__link">
         
   
   
@@ -2095,7 +2125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/utils_file_utils/" class="md-nav__link">
+      <a href="../../api/utils_file_utils/" class="md-nav__link">
         
   
   
@@ -2123,7 +2153,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/utils_logging_config/" class="md-nav__link">
+      <a href="../../api/utils_logging_config/" class="md-nav__link">
         
   
   
@@ -2159,7 +2189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/cli/" class="md-nav__link">
+      <a href="../../api/cli/" class="md-nav__link">
         
   
   
@@ -2187,7 +2217,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/exceptions/" class="md-nav__link">
+      <a href="../../api/exceptions/" class="md-nav__link">
         
   
   
@@ -2222,7 +2252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+      <a href="../../architecture/" class="md-nav__link">
         
   
   
@@ -2317,7 +2347,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/changelog/" class="md-nav__link">
+      <a href="../../development/changelog/" class="md-nav__link">
         
   
   
@@ -2345,7 +2375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/testing/" class="md-nav__link">
+      <a href="../../development/testing/" class="md-nav__link">
         
   
   
@@ -2373,7 +2403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/logging/" class="md-nav__link">
+      <a href="../../development/logging/" class="md-nav__link">
         
   
   
@@ -2401,7 +2431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/docstring-guide/" class="md-nav__link">
+      <a href="../../development/docstring-guide/" class="md-nav__link">
         
   
   
@@ -2429,7 +2459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/contributing/" class="md-nav__link">
+      <a href="../../development/contributing/" class="md-nav__link">
         
   
   
@@ -2457,7 +2487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/versioning/" class="md-nav__link">
+      <a href="../../development/versioning/" class="md-nav__link">
         
   
   
@@ -2492,7 +2522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshooting/" class="md-nav__link">
+      <a href="../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -2519,7 +2549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
+      <a href="../../metrics/" class="md-nav__link">
         
   
   
@@ -2546,7 +2576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -2593,10 +2623,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-installation" class="md-nav__link">
+  <a href="#overview-of-retrieval-augmented-generation-rag" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Installation
+        Overview of Retrieval-Augmented Generation (RAG)
       
     </span>
   </a>
@@ -2604,10 +2634,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-configure-api-keys" class="md-nav__link">
+  <a href="#notebook-content" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Configure API Keys
+        🚀 Notebook Content
       
     </span>
   </a>
@@ -2615,10 +2645,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-first-example" class="md-nav__link">
+  <a href="#required-api-keys" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. First Example
+        🔑 Required API Keys
       
     </span>
   </a>
@@ -2626,49 +2656,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-concepts" class="md-nav__link">
+  <a href="#creating-a-hugging-face-access-token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Concepts
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Concepts">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#automatic-provider-selection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automatic Provider Selection
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manual-selection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Manual Selection
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#core-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Core Features
+        🦮 Creating a Hugging Face Access Token
       
     </span>
   </a>
@@ -2676,10 +2667,76 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#creating-a-groq-api-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        ⚡️ Creating a Groq API Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-an-openai-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔮 Creating an OpenAI API Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-google-gemini-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Google Gemini API Key
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#store-api-keys-as-secrets-in-google-colab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ☁️ Store API Keys as Secrets in Google Colab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-llmclient-in-the-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Using LLMClient in the Notebook
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources-for-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources for RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 License
       
     </span>
   </a>
@@ -2706,79 +2763,177 @@
   
 
 
-<h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
-<p>This guide will help you get up and running with the LLM Client quickly.</p>
-<h2 id="1-installation">1. Installation<a class="headerlink" href="#1-installation" title="Permanent link">&para;</a></h2>
-<p>The first step is to install the LLM Client. You can do this easily using pip:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>llm-client
-</code></pre></div>
-<p>For more detailed instructions and optional dependencies, see the <a href="../installation/">Installation Guide</a>.</p>
-<h2 id="2-configure-api-keys">2. Configure API Keys<a class="headerlink" href="#2-configure-api-keys" title="Permanent link">&para;</a></h2>
-<p>To use most LLM providers, you will need an API key. Create a <code>secrets.env</code> file in your project directory with your keys:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># OpenAI</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-xxxxxxxx
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Groq (optional)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nv">GROQ_API_KEY</span><span class="o">=</span>gsk-xxxxxxxx
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Google Gemini (optional)</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nv">GEMINI_API_KEY</span><span class="o">=</span>AIzaSy-xxxxxxxx
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># OR: Generic Key (automatic detection)</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nv">API_KEY</span><span class="o">=</span>sk-xxxxxxxx
-</code></pre></div>
-<p>Detailed instructions on how to obtain keys for each provider can be found in the <a href="../usage/providers/">Providers Section</a>.</p>
-<h2 id="3-first-example">3. First Example<a class="headerlink" href="#3-first-example" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Automatic API detection</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">()</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">},</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;What is machine learning?&quot;</span><span class="p">}</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">]</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
-<h3 id="automatic-provider-selection">Automatic Provider Selection<a class="headerlink" href="#automatic-provider-selection" title="Permanent link">&para;</a></h3>
-<p>The client automatically selects the first available API key:</p>
+<h1 id="rag-chatbot-with-groq-api-and-text-to-speech-tts">RAG Chatbot with Groq API and Text-to-Speech (TTS)<a class="headerlink" href="#rag-chatbot-with-groq-api-and-text-to-speech-tts" title="Permanent link">&para;</a></h1>
+<p><a href="https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API_t2s.ipynb"><img alt="Open In Colab" src="../../../assets/colab-badge.svg" /></a></p>
+<ul>
+<li><a href="#overview-of-retrieval-augmented-generation-rag">Overview of Retrieval-Augmented Generation (RAG)</a></li>
+<li><a href="#notebook-content">🚀 Notebook Content</a></li>
+<li><a href="#required-api-keys">🔑 Required API Keys</a></li>
+<li><a href="#creating-a-hugging-face-access-token">🦮 Creating a Hugging Face Access Token</a></li>
+<li><a href="#creating-a-groq-api-key">⚡️ Creating a Groq API Key</a></li>
+<li><a href="#creating-an-openai-api-key">🔮 Creating an OpenAI API Key</a></li>
+<li><a href="#creating-a-google-gemini-api-key">Creating a Google Gemini API Key</a></li>
+<li><a href="#store-api-keys-as-secrets-in-google-colab">☁️ Store API Keys as Secrets in Google Colab</a></li>
+<li><a href="#using-llmclient-in-the-notebook">⚙️ Using LLMClient in the Notebook</a></li>
+<li><a href="#resources-for-rag">Resources for RAG</a></li>
+<li><a href="#license">🧩 License</a></li>
+</ul>
+<p>The notebook <a href="https://github.com/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API_t2s.ipynb"><code>RAGChatbot_groq_API_t2s.ipynb</code></a> shows how to create a <strong>Retrieval-Augmented Generation (RAG)</strong> chatbot using the <a href="https://github.com/dgaida/llm_client/blob/master/llm_client/llm_client.py"><code>LLMClient</code></a> class, which also features a <strong>Text-to-Speech (TTS)</strong> function. The <a href="https://huggingface.co/hexgrad/Kokoro-82M"><strong>Kokoro</strong></a> model is used for speech synthesis.</p>
+<p><img alt="RAG-Chatbot GUI" src="../../../assets/tutorials/PDF_RAG_Chatbot.png" style="display: block; margin: 0 auto" width="750" /></p>
+<hr />
+<h2 id="overview-of-retrieval-augmented-generation-rag">Overview of Retrieval-Augmented Generation (RAG)<a class="headerlink" href="#overview-of-retrieval-augmented-generation-rag" title="Permanent link">&para;</a></h2>
+<p>Retrieval-Augmented Generation (RAG) combines <strong>knowledge from your own documents</strong> with the <strong>linguistic competence of large AI models</strong> like ChatGPT.
+Instead of the model only accessing its internal (and limited) training knowledge, RAG first searches specifically in a <strong>knowledge base</strong> or <strong>document collection</strong> for relevant text passages ("Retrieval") and then passes these along with the user query to the <strong>Large Language Model</strong> ("Generation").</p>
+<p>Additionally, this tutorial integrates <strong>Text-to-Speech (TTS)</strong> to convert the generated answers directly into speech. This allows for a more natural interaction with the chatbot.</p>
+<p>The following diagram shows the basic structure of a RAG system:</p>
+<p><img alt="High-level overview of the Retrieval Augmented Generation System" src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*ys44J6jLm5vSTjFIMDDEfw.png" /></p>
+<p><em>Figure: "High-level overview of the Retrieval Augmented Generation System"
+by <a href="https://maanjunathn07ds.medium.com/">Maanjunath S Naragund</a>, taken from <a href="https://blog.gopenai.com/step-by-step-guide-to-implementing-retrieval-augmented-generation-in-python-4801be2771c3">this blog post on Medium</a>.
+Icons by Flaticon. Used under the right of quotation (§ 51 UrhG). This figure is </em><em>not under the MIT license</em><em> of this repository.</em></p>
+<hr />
+<h2 id="notebook-content">🚀 Notebook Content<a class="headerlink" href="#notebook-content" title="Permanent link">&para;</a></h2>
+<p>The notebook demonstrates:</p>
 <ol>
-<li><strong>OpenAI</strong> (if <code>OPENAI_API_KEY</code> is set)  </li>
-<li><strong>Groq</strong> (if <code>GROQ_API_KEY</code> is set)  </li>
-<li><strong>Gemini</strong> (if <code>GEMINI_API_KEY</code> is set)  </li>
-<li><strong>Automatic Detection</strong> (if <code>API_KEY</code> is set - detects OpenAI, Groq, Gemini based on prefix)  </li>
-<li><strong>Ollama</strong> (Fallback, requires local installation)  </li>
+<li>Installation of required packages in <strong>Google Colab</strong> (including <code>kokoro</code> for TTS)</li>
+<li>Using the <code>LLMClient</code> class for text generation</li>
+<li>Building a <strong>RAG workflow</strong> with PDF documents and ChromaDB</li>
+<li>Integration of <strong>Text-to-Speech (TTS)</strong> with the Kokoro model for speech output of responses</li>
 </ol>
-<h3 id="manual-selection">Manual Selection<a class="headerlink" href="#manual-selection" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Force specific provider</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># With custom model and parameters</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">,</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">2048</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+<hr />
+<h2 id="required-api-keys">🔑 Required API Keys<a class="headerlink" href="#required-api-keys" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Required</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hugging Face Access Token</strong></td>
+<td>✅ <strong>required</strong></td>
+<td>Download the embedding model and the Kokoro TTS model</td>
+</tr>
+<tr>
+<td><strong>Groq API Key</strong></td>
+<td>optional</td>
+<td>Use the <a href="https://console.groq.com/home"><code>Groq</code></a> LLM API</td>
+</tr>
+<tr>
+<td><strong>OpenAI API Key</strong></td>
+<td>optional</td>
+<td>Use the OpenAI LLM API</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="creating-a-hugging-face-access-token">🦮 Creating a Hugging Face Access Token<a class="headerlink" href="#creating-a-hugging-face-access-token" title="Permanent link">&para;</a></h2>
+<p>The Hugging Face Access Token is required to access <strong>embedding models</strong> and other AI models from the Hugging Face Model Hub, which are used to calculate sentence embeddings. These are downloaded from the Model Hub and executed locally.</p>
+<ol>
+<li>
+<p>Create a free account at <a href="https://huggingface.co/">https://huggingface.co/</a> or log in (if necessary).</p>
+</li>
+<li>
+<p>Go to <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a></p>
+</li>
+</ol>
+<p><img alt="Hugging Face – Settings Menu" src="../../../assets/tutorials/Hugging_Face_settings_menu_access_tokens.png" style="display: block; margin: 0 auto" width="250" /></p>
+<ol>
+<li>Click on the <strong>"Create new token"</strong> button</li>
+</ol>
+<p><img alt="Hugging Face – User Access Tokens" src="../../../assets/tutorials/Hugging_Face_User_Access_Tokens.png" style="display: block; margin: 0 auto" width="850" /></p>
+<ol>
+<li>Enter a name (e.g., <code>colab-rag</code>) and select <strong>Type: Write</strong></li>
+</ol>
+<p><img alt="Hugging Face – Create New Write Token" src="../../../assets/tutorials/Hugging_Face_create_new_write_token.png" style="display: block; margin: 0 auto" width="850" /></p>
+<ol>
+<li>Copy the displayed token (usually starts with <code>hf_...</code>).</li>
+</ol>
+<hr />
+<h2 id="creating-a-groq-api-key">⚡️ Creating a Groq API Key<a class="headerlink" href="#creating-a-groq-api-key" title="Permanent link">&para;</a></h2>
+<p>The Groq API Key allows access to publicly available <strong>LLMs</strong> that can be used for particularly fast <strong>text generation and question answering</strong> in the RAG workflow. These LLMs are executed in the GroqCloud.</p>
+<ol>
+<li>Create a free account at <a href="https://groq.com/">https://groq.com/</a> or log in (if necessary).</li>
+<li>Visit <a href="https://console.groq.com/keys">https://console.groq.com/keys</a></li>
+<li>Click on <strong>"Create API Key"</strong></li>
+</ol>
+<p><img alt="Groq API Keys – Create API Key" src="../../../assets/tutorials/groq_API_Keys_Create_API_Key.png" /></p>
+<ol>
+<li>Copy the key (usually starts with <code>groq_...</code>).</li>
+</ol>
+<hr />
+<h2 id="creating-an-openai-api-key">🔮 Creating an OpenAI API Key<a class="headerlink" href="#creating-an-openai-api-key" title="Permanent link">&para;</a></h2>
+<p>The OpenAI API Key allows the use of <strong>OpenAI models</strong> (e.g., GPT-4 or GPT-4o) to generate <strong>context-related answers</strong> in the Retrieval-Augmented Generation system.</p>
+<ol>
+<li>Log in to <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a></li>
+</ol>
+<p><img alt="OpenAI API – API Keys" src="../../../assets/tutorials/OpenAI_API_API_keys.png" style="display: block; margin: 0 auto" width="175" /></p>
+<ol>
+<li>Click on "Create new secret key"</li>
+</ol>
+<p><img alt="OpenAI API – Create New Secret Key" src="../../../assets/tutorials/OpenAI_API_Create_new_secret_key.png" style="display: block; margin: 0 auto" width="450" /></p>
+<ol>
+<li>Copy the key (usually starts with <code>sk-...</code>).</li>
+</ol>
+<hr />
+<h2 id="creating-a-google-gemini-api-key">Creating a Google Gemini API Key<a class="headerlink" href="#creating-a-google-gemini-api-key" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Visit <a href="https://aistudio.google.com/apikey">Google AI Studio</a></li>
+<li>Click on <strong>"Get API Key"</strong> or <strong>"Create API Key"</strong></li>
+<li>Select a Google Cloud project or create a new one</li>
+<li>Copy the generated API key (starts with <code>AIzaSy...</code>)</li>
+</ol>
+<p><strong>Note</strong>: The Gemini API is accessed via the OpenAI compatibility mode, therefore only the <code>openai</code> Python package is required.</p>
+<hr />
+<h2 id="store-api-keys-as-secrets-in-google-colab">☁️ Store API Keys as Secrets in Google Colab<a class="headerlink" href="#store-api-keys-as-secrets-in-google-colab" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Click on the key symbol 🔑 in the menu on the left</li>
+</ol>
+<p><img alt="Google Colab – Secrets – API Keys" src="../../../assets/tutorials/Google_Colab_secrets_api_keys.png" style="display: block; margin: 0 auto" width="600" /></p>
+<ol>
+<li>Create the following secrets:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HF_TOKEN</code></td>
+<td>your Hugging Face Access Token</td>
+</tr>
+<tr>
+<td><code>GROQ_API_KEY</code></td>
+<td>(optional) your Groq API Key</td>
+</tr>
+<tr>
+<td><code>OPENAI_API_KEY</code></td>
+<td>(optional) your OpenAI API Key</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="using-llmclient-in-the-notebook">⚙️ Using LLMClient in the Notebook<a class="headerlink" href="#using-llmclient-in-the-notebook" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># LLMClient automatically detects which keys are set</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">()</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Used API:&quot;</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">api_choice</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model:&quot;</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">llm</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="core-features">Core Features<a class="headerlink" href="#core-features" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Chat Completion</strong>: Standard requests to LLMs.  </li>
-<li><strong>Streaming</strong>: Get responses in real-time.  </li>
-<li><strong>Token Counting</strong>: Monitor your usage and costs.  </li>
-<li><strong>Provider Switching</strong>: Change the API at runtime.  </li>
-<li><strong>Configuration Files</strong>: Load settings from YAML or JSON.  </li>
-<li><strong>Async Support</strong>: Use <code>async/await</code> for high-performance applications.  </li>
-</ul>
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../features/">Features</a> - Features overview  </li>
-<li><a href="../api/">API Reference</a> - Detailed class documentation  </li>
-<li><a href="../usage/basic-usage/">Examples</a> - Real-world use cases  </li>
-</ul>
+<hr />
+<h2 id="resources-for-rag">Resources for RAG<a class="headerlink" href="#resources-for-rag" title="Permanent link">&para;</a></h2>
+<p><a href="https://www.coursera.org/learn/retrieval-augmented-generation-rag/"><code>Coursera Course on Retrieval Augmented Generation (RAG) by DeepLearning.AI</code></a></p>
+<hr />
+<h2 id="license">🧩 License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>This notebook is part of the repository <a href="https://github.com/dgaida/llm_client"><strong>dgaida/llm_client</strong></a>.
+© 2025 – Daniel Gaida, Technical University.
+Licensed under the <strong>MIT License</strong>.</p>
 
 
 
@@ -2865,10 +3020,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
