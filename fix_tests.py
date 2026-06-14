@@ -1,7 +1,7 @@
 import re
 
 filename = "tests/test_base_provider.py"
-with open(filename, "r") as f:
+with open(filename) as f:
     content = f.read()
 
 # Add list_models to ConcreteProvider
