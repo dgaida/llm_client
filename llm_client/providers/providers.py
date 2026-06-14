@@ -56,6 +56,7 @@ class OpenAIProvider(BaseProvider):
 
         self.client = OpenAI(api_key=api_key)
         logger.info(f"OpenAI client initialized with model {self.llm}")
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
         """Execute chat completion with OpenAI.
@@ -257,6 +258,13 @@ class OpenAIProvider(BaseProvider):
             logger.debug("OpenAI package not available")
         return available
 
+    def list_models(self) -> list[str]:
+        """List available models for OpenAI."""
+        if not self.client:
+            return []
+        models = self.client.models.list()
+        return [m.id for m in models.data]
+
 
 class GroqProvider(BaseProvider):
     """Provider for Groq API with streaming support."""
@@ -284,6 +292,7 @@ class GroqProvider(BaseProvider):
 
         self.client = Groq(api_key=api_key)
         logger.info(f"Groq client initialized with model {self.llm}")
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
         """Execute chat completion with Groq.
@@ -565,6 +574,13 @@ class GroqProvider(BaseProvider):
             logger.debug("Groq package not available")
         return available
 
+    def list_models(self) -> list[str]:
+        """List available models for Groq."""
+        if not self.client:
+            return []
+        models = self.client.models.list()
+        return [m.id for m in models.data]
+
 
 class GeminiProvider(BaseProvider):
     """Provider for Google Gemini API via OpenAI compatibility mode."""
@@ -595,6 +611,7 @@ class GeminiProvider(BaseProvider):
             base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
         )
         logger.info(f"Gemini client initialized with model {self.llm}")
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
         """Execute chat completion with Gemini.
@@ -782,6 +799,13 @@ class GeminiProvider(BaseProvider):
             logger.debug("OpenAI package not available (required for Gemini)")
         return available
 
+    def list_models(self) -> list[str]:
+        """List available models for Gemini."""
+        if not self.client:
+            return []
+        models = self.client.models.list()
+        return [m.id for m in models.data]
+
 
 class OllamaProvider(BaseProvider):
     """Provider for Ollama API with local and cloud support.
@@ -873,6 +897,7 @@ class OllamaProvider(BaseProvider):
                 # Use default local client
                 self.client = Client()
                 logger.info(f"Ollama local client initialized with model {self.llm}")
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Execute chat completion with Ollama (local or cloud).
@@ -1080,6 +1105,13 @@ class OllamaProvider(BaseProvider):
         if not available:
             logger.debug("Ollama package not available")
         return available
+
+    def list_models(self) -> list[str]:
+        """List available models for Ollama."""
+        if not self.client:
+            return []
+        models = self.client.list()
+        return [m["name"] for m in models.get("models", [])]
 
     def __repr__(self) -> str:
         """Return string representation of the provider.
