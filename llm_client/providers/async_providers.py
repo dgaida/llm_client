@@ -1,5 +1,6 @@
 """Async support for LLM providers."""
 
+import requests
 from collections.abc import AsyncIterator
 from typing import Any
 
@@ -172,6 +173,7 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
             raise APIKeyNotFoundError("openai", "OPENAI_API_KEY")
 
         self.client = AsyncOpenAI(api_key=api_key)
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Sync method raises error - use async version."""
@@ -313,6 +315,18 @@ class AsyncOpenAIProvider(BaseProvider, AsyncProviderMixin):
         """Check if AsyncOpenAI is available."""
         return AsyncOpenAI is not None
 
+    def list_models(self) -> list[str]:
+        """List available models for OpenAI (sync)."""
+        if not self.client:
+            return []
+        api_key = self.client.api_key
+        url = "https://api.openai.com/v1/models"
+        headers = {"Authorization": f"Bearer {api_key}"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return [m["id"] for m in response.json().get("data", [])]
+        return []
+
 
 class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
     """Async Groq provider."""
@@ -327,6 +341,7 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
             raise APIKeyNotFoundError("groq", "GROQ_API_KEY")
 
         self.client = AsyncGroq(api_key=api_key)
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Sync method raises error - use async version."""
@@ -488,6 +503,18 @@ class AsyncGroqProvider(BaseProvider, AsyncProviderMixin):
         """Check if AsyncGroq is available."""
         return AsyncGroq is not None
 
+    def list_models(self) -> list[str]:
+        """List available models for Groq (sync)."""
+        if not self.client:
+            return []
+        api_key = self.client.api_key
+        url = "https://api.groq.com/openai/v1/models"
+        headers = {"Authorization": f"Bearer {api_key}"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return [m["id"] for m in response.json().get("data", [])]
+        return []
+
 
 class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
     """Async Gemini provider via OpenAI compatibility."""
@@ -505,6 +532,7 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
             api_key=api_key,
             base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
         )
+        self._validate_llm()
 
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Sync method raises error - use async version."""
@@ -645,3 +673,15 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
     def is_available() -> bool:
         """Check if AsyncOpenAI (for Gemini) is available."""
         return AsyncOpenAI is not None
+
+    def list_models(self) -> list[str]:
+        """List available models for Gemini (sync)."""
+        if not self.client:
+            return []
+        api_key = self.client.api_key
+        url = "https://generativelanguage.googleapis.com/v1beta/openai/models"
+        headers = {"Authorization": f"Bearer {api_key}"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return [m["id"] for m in response.json().get("data", [])]
+        return []

@@ -1,4 +1,4 @@
-"""Base provider interface for LLM clients with streaming support."""
+"""Base class for LLM providers."""
 
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
@@ -7,32 +7,38 @@ from typing import Any
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from ..exceptions import ChatCompletionError
+from ..utils.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class BaseProvider(ABC):
     """Abstract base class for LLM providers.
 
     This class defines the interface that all LLM providers must implement.
-    Each provider handles the specific API communication and response parsing
-    for its respective service.
+    It provides basic functionality for retries and error handling.
 
     Attributes:
         llm: Name of the model to use.
-        temperature: Sampling temperature for generation.
-        max_tokens: Maximum number of tokens to generate.
+        temperature: Sampling temperature (0.0 to 2.0).
+        max_tokens: Maximum tokens to generate.
         client: The underlying API client instance.
     """
 
     def __init__(
-        self, llm: str, temperature: float = 0.7, max_tokens: int = 512, **kwargs: Any
+        self,
+        llm: str,
+        temperature: float = 0.7,
+        max_tokens: int = 512,
+        **kwargs: Any,
     ) -> None:
         """Initialize the provider.
 
         Args:
-            llm (str): Model name to use.
-            temperature (float): Sampling temperature (0.0 to 2.0).
-            max_tokens (int): Maximum tokens to generate.
-            **kwargs: Additional provider-specific parameters.
+            llm: Model name.
+            temperature: Sampling temperature.
+            max_tokens: Maximum tokens to generate.
+            **kwargs: Provider-specific configuration.
         """
         self.llm = llm
         self.temperature = temperature
@@ -310,6 +316,34 @@ class BaseProvider(ABC):
             True if the provider can be used, False otherwise.
         """
         pass
+
+    @abstractmethod
+    def list_models(self) -> list[str]:
+        """List available models for this provider.
+
+        Returns:
+            list[str]: List of model IDs/names.
+        """
+        pass
+
+    def _validate_llm(self) -> None:
+        """Validate if the current model is available and switch to default if not."""
+        try:
+            available_models = self.list_models()
+            if available_models and self.llm not in available_models:
+                logger.warning(
+                    f"Das Modell '{self.llm}' ist für den Anbieter "
+                    f"{self.__class__.__name__} nicht verfügbar oder existiert nicht."
+                )
+                print(f"Verfügbare Modelle: {available_models}")
+
+                old_model = self.llm
+                self.llm = available_models[0]
+                logger.warning(f"Automatischer Wechsel von '{old_model}' zu '{self.llm}'.")
+        except NotImplementedError:
+            logger.error(f"Das Modell '{self.llm}' existiert möglicherweise nicht, und ein automatischer Wechsel zu einem gültigen LLM ist für den Anbieter {self.__class__.__name__} noch nicht implementiert.")
+        except Exception as e:
+            logger.debug(f"Error validating model for {self.__class__.__name__}: {e}")
 
     def __repr__(self) -> str:
         """Return string representation of the provider.
