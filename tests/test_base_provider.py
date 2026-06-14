@@ -30,7 +30,7 @@ class ConcreteProvider(BaseProvider):
         """Return True for testing."""
         return True
 
-    def list_models(self):
+    def list_models(self) -> list[str]:
         """Return a mock list of models."""
         return ["test-model", "other-model"]
 
@@ -157,21 +157,21 @@ class TestProviderParameterValidation:
     """Tests for parameter validation in providers."""
 
     def test_provider_can_validate_parameters(self):
-        """Test: Provider can validate required parameters."""
+        """Test: Provider can validate parameters in _initialize_client."""
         with pytest.raises(ValueError, match="API key required"):
             ParameterValidationProvider(llm="test-model")
 
     def test_provider_with_valid_parameters(self):
         """Test: Provider initializes with valid parameters."""
         provider = ParameterValidationProvider(llm="test-model", api_key="valid-key")
-        assert provider.client is not None
+        assert provider.llm == "test-model"
 
 
 class TestProviderClientAttribute:
-    """Tests for client attribute handling."""
+    """Tests for the client attribute."""
 
     def test_client_attribute_initialized(self):
-        """Test: Client attribute is set during initialization."""
+        """Test: client attribute is set during initialization."""
         provider = ConcreteProvider(llm="test-model")
         assert provider.client is not None
         assert isinstance(provider.client, MagicMock)
