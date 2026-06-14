@@ -30,6 +30,10 @@ class ConcreteProvider(BaseProvider):
         """Return True for testing."""
         return True
 
+    def list_models(self):
+        """Return a mock list of models."""
+        return ["test-model", "other-model"]
+
 
 class TestBaseProvider:
     """Tests for BaseProvider abstract base class."""

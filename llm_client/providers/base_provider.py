@@ -341,7 +341,9 @@ class BaseProvider(ABC):
                 self.llm = available_models[0]
                 logger.warning(f"Automatischer Wechsel von '{old_model}' zu '{self.llm}'.")
         except NotImplementedError:
-            logger.error(f"Das Modell '{self.llm}' existiert möglicherweise nicht, und ein automatischer Wechsel zu einem gültigen LLM ist für den Anbieter {self.__class__.__name__} noch nicht implementiert.")
+            logger.error(
+                f"Das Modell '{self.llm}' existiert möglicherweise nicht, und ein automatischer Wechsel zu einem gültigen LLM ist für den Anbieter {self.__class__.__name__} noch nicht implementiert."
+            )
         except Exception as e:
             logger.debug(f"Error validating model for {self.__class__.__name__}: {e}")
 
