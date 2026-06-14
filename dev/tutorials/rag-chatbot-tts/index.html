@@ -2764,17 +2764,17 @@
 <h1 id="rag-chatbot-mit-groq-api-und-text-to-speech-tts">RAG Chatbot mit Groq API und Text-to-Speech (TTS)<a class="headerlink" href="#rag-chatbot-mit-groq-api-und-text-to-speech-tts" title="Permanent link">&para;</a></h1>
 <p><a href="https://colab.research.google.com/github/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API_t2s.ipynb"><img alt="Open In Colab" src="../../assets/colab-badge.svg" /></a></p>
 <ul>
-<li><a href="#ueberblick-ueber-retrieval-augmented-generation-rag">Überblick über Retrieval-Augmented Generation (RAG)</a></li>
-<li><a href="#inhalt-des-notebooks">🚀 Inhalt des Notebooks</a></li>
-<li><a href="#erforderliche-api-keys">🔑 Erforderliche API Keys</a></li>
-<li><a href="#hugging-face-access-token-erstellen">🦮 Hugging Face Access Token erstellen</a></li>
-<li><a href="#groq-api-key-erstellen">⚡️ Groq API Key erstellen</a></li>
-<li><a href="#openai-api-key-erstellen">🔮 OpenAI API Key erstellen</a></li>
-<li><a href="#google-gemini-api-key-erstellen">Google Gemini API Key erstellen</a></li>
-<li><a href="#api-keys-als-secrets-in-google-colab-hinterlegen">☁️ API Keys als Secrets in Google Colab hinterlegen</a></li>
-<li><a href="#nutzung-von-llmclient-im-notebook">⚙️ Nutzung von LLMClient im Notebook</a></li>
-<li><a href="#ressourcen-zu-rag">Ressourcen zu RAG</a></li>
-<li><a href="#-lizenz">🧩 Lizenz</a></li>
+<li><a href="#ueberblick-ueber-retrieval-augmented-generation-rag">Überblick über Retrieval-Augmented Generation (RAG)</a>  </li>
+<li><a href="#inhalt-des-notebooks">🚀 Inhalt des Notebooks</a>  </li>
+<li><a href="#erforderliche-api-keys">🔑 Erforderliche API Keys</a>  </li>
+<li><a href="#hugging-face-access-token-erstellen">🦮 Hugging Face Access Token erstellen</a>  </li>
+<li><a href="#groq-api-key-erstellen">⚡️ Groq API Key erstellen</a>  </li>
+<li><a href="#openai-api-key-erstellen">🔮 OpenAI API Key erstellen</a>  </li>
+<li><a href="#google-gemini-api-key-erstellen">Google Gemini API Key erstellen</a>  </li>
+<li><a href="#api-keys-als-secrets-in-google-colab-hinterlegen">☁️ API Keys als Secrets in Google Colab hinterlegen</a>  </li>
+<li><a href="#nutzung-von-llmclient-im-notebook">⚙️ Nutzung von LLMClient im Notebook</a>  </li>
+<li><a href="#ressourcen-zu-rag">Ressourcen zu RAG</a>  </li>
+<li><a href="#-lizenz">🧩 Lizenz</a>  </li>
 </ul>
 <p>Das Notebook <a href="https://github.com/dgaida/llm_client/blob/master/notebooks/RAGChatbot_groq_API_t2s.ipynb"><code>RAGChatbot_groq_API_t2s.ipynb</code></a> zeigt, wie man mit der Klasse <a href="https://github.com/dgaida/llm_client/blob/master/llm_client/llm_client.py"><code>LLMClient</code></a> einen <strong>Retrieval-Augmented-Generation (RAG)</strong>-Chatbot erstellt, der zusätzlich über eine <strong>Text-to-Speech (TTS)</strong>-Funktion verfügt. Zur Sprachsynthese wird das Modell <a href="https://huggingface.co/hexgrad/Kokoro-82M"><strong>Kokoro</strong></a> verwendet.</p>
 <p><img alt="RAG-Chatbot GUI" src="../../assets/tutorials/PDF_RAG_Chatbot.png" style="display: block; margin: 0 auto" width="750" /></p>
@@ -2792,10 +2792,10 @@ Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abb
 <h2 id="inhalt-des-notebooks">🚀 Inhalt des Notebooks<a class="headerlink" href="#inhalt-des-notebooks" title="Permanent link">&para;</a></h2>
 <p>Das Notebook demonstriert:</p>
 <ol>
-<li>Installation der benötigten Packages in <strong>Google Colab</strong> (einschließlich <code>kokoro</code> für TTS)</li>
-<li>Nutzung der <code>LLMClient</code>-Klasse zur Textgenerierung</li>
-<li>Aufbau eines <strong>RAG-Workflows</strong> mit PDF-Dokumenten und ChromaDB</li>
-<li>Integration von <strong>Text-to-Speech (TTS)</strong> mit dem Kokoro-Modell zur Sprachausgabe der Antworten</li>
+<li>Installation der benötigten Packages in <strong>Google Colab</strong> (einschließlich <code>kokoro</code> für TTS)  </li>
+<li>Nutzung der <code>LLMClient</code>-Klasse zur Textgenerierung  </li>
+<li>Aufbau eines <strong>RAG-Workflows</strong> mit PDF-Dokumenten und ChromaDB  </li>
+<li>Integration von <strong>Text-to-Speech (TTS)</strong> mit dem Kokoro-Modell zur Sprachausgabe der Antworten  </li>
 </ol>
 <hr />
 <h2 id="erforderliche-api-keys">🔑 Erforderliche API Keys<a class="headerlink" href="#erforderliche-api-keys" title="Permanent link">&para;</a></h2>
@@ -2830,67 +2830,67 @@ Icons von Flaticon. Verwendung im Rahmen des Zitatrechts (§ 51 UrhG). Diese Abb
 <p>Der Hugging Face Access Token wird benötigt, um auf <strong>Embedding-Modelle</strong> und andere KI-Modelle aus der Hugging Face Model Hub zuzugreifen, die zur Berechnung der Satz-Embeddings verwendet werden. Diese werden von dem Model Hub heruntergeladen und lokal ausgeführt.</p>
 <ol>
 <li>
-<p>Erstelle kostenlosen Account bei <a href="https://huggingface.co/">https://huggingface.co/</a> oder logge dich ein (falls nötig).</p>
+<p>Erstelle kostenlosen Account bei <a href="https://huggingface.co/">https://huggingface.co/</a> oder logge dich ein (falls nötig).  </p>
 </li>
 <li>
-<p>Gehe zu <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a></p>
+<p>Gehe zu <a href="https://huggingface.co/settings/tokens">https://huggingface.co/settings/tokens</a>  </p>
 </li>
 </ol>
 <p><img alt="Hugging Face – Settings Menu" src="../../assets/tutorials/Hugging_Face_settings_menu_access_tokens.png" style="display: block; margin: 0 auto" width="250" /></p>
 <ol>
-<li>Klicke auf die Schaltfläche <strong>„Create new token“</strong></li>
+<li>Klicke auf die Schaltfläche <strong>„Create new token“</strong>  </li>
 </ol>
 <p><img alt="Hugging Face – User Access Tokens" src="../../assets/tutorials/Hugging_Face_User_Access_Tokens.png" style="display: block; margin: 0 auto" width="850" /></p>
 <ol>
-<li>Gib einen Namen ein (z. B. <code>colab-rag</code>) und wähle <strong>Type: Write</strong></li>
+<li>Gib einen Namen ein (z. B. <code>colab-rag</code>) und wähle <strong>Type: Write</strong>  </li>
 </ol>
 <p><img alt="Hugging Face – Create New Write Token" src="../../assets/tutorials/Hugging_Face_create_new_write_token.png" style="display: block; margin: 0 auto" width="850" /></p>
 <ol>
-<li>Kopiere den angezeigten Token (beginnt meist mit <code>hf_...</code>).</li>
+<li>Kopiere den angezeigten Token (beginnt meist mit <code>hf_...</code>).  </li>
 </ol>
 <hr />
 <h2 id="groq-api-key-erstellen">⚡️ Groq API Key erstellen<a class="headerlink" href="#groq-api-key-erstellen" title="Permanent link">&para;</a></h2>
 <p>Der Groq API Key ermöglicht den Zugriff auf öffentlich verfügbare <strong>LLMs</strong>, die für besonders schnelle <strong>Textgenerierung und Beantwortung von Fragen</strong> im RAG-Workflow eingesetzt werden können. Diese LLMs werden in der GroqCloud ausgeführt.</p>
 <ol>
-<li>Erstelle kostenlosen Account bei <a href="https://groq.com/">https://groq.com/</a> oder logge dich ein (falls nötig).</li>
-<li>Besuche <a href="https://console.groq.com/keys">https://console.groq.com/keys</a></li>
-<li>Klicke auf <strong>„Create API Key“</strong></li>
+<li>Erstelle kostenlosen Account bei <a href="https://groq.com/">https://groq.com/</a> oder logge dich ein (falls nötig).  </li>
+<li>Besuche <a href="https://console.groq.com/keys">https://console.groq.com/keys</a>  </li>
+<li>Klicke auf <strong>„Create API Key“</strong>  </li>
 </ol>
 <p><img alt="Groq API Keys – Create API Key" src="../../assets/tutorials/groq_API_Keys_Create_API_Key.png" /></p>
 <ol>
-<li>Kopiere den Schlüssel (beginnt meist mit <code>groq_...</code>).</li>
+<li>Kopiere den Schlüssel (beginnt meist mit <code>groq_...</code>).  </li>
 </ol>
 <hr />
 <h2 id="openai-api-key-erstellen">🔮 OpenAI API Key erstellen<a class="headerlink" href="#openai-api-key-erstellen" title="Permanent link">&para;</a></h2>
 <p>Der OpenAI API Key erlaubt die Nutzung von <strong>OpenAI-Modellen</strong> (z. B. GPT-4 oder GPT-4o), um <strong>kontextbezogene Antworten</strong> im Retrieval-Augmented-Generation-System zu erzeugen.</p>
 <ol>
-<li>Melde dich bei <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a> an</li>
+<li>Melde dich bei <a href="https://platform.openai.com/account/api-keys">https://platform.openai.com/account/api-keys</a> an  </li>
 </ol>
 <p><img alt="OpenAI API – API Keys" src="../../assets/tutorials/OpenAI_API_API_keys.png" style="display: block; margin: 0 auto" width="175" /></p>
 <ol>
-<li>Klicke auf „Create new secret key“</li>
+<li>Klicke auf „Create new secret key“  </li>
 </ol>
 <p><img alt="OpenAI API – Create New Secret Key" src="../../assets/tutorials/OpenAI_API_Create_new_secret_key.png" style="display: block; margin: 0 auto" width="450" /></p>
 <ol>
-<li>Kopiere den Key (beginnt meist mit <code>sk-...</code>).</li>
+<li>Kopiere den Key (beginnt meist mit <code>sk-...</code>).  </li>
 </ol>
 <hr />
 <h2 id="google-gemini-api-key-erstellen">Google Gemini API Key erstellen<a class="headerlink" href="#google-gemini-api-key-erstellen" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Besuche <a href="https://aistudio.google.com/apikey">Google AI Studio</a></li>
-<li>Klicke auf <strong>"Get API Key"</strong> oder <strong>"Create API Key"</strong></li>
-<li>Wähle ein Google Cloud Projekt oder erstelle ein neues</li>
-<li>Kopiere den generierten API Key (beginnt mit <code>AIzaSy...</code>)</li>
+<li>Besuche <a href="https://aistudio.google.com/apikey">Google AI Studio</a>  </li>
+<li>Klicke auf <strong>"Get API Key"</strong> oder <strong>"Create API Key"</strong>  </li>
+<li>Wähle ein Google Cloud Projekt oder erstelle ein neues  </li>
+<li>Kopiere den generierten API Key (beginnt mit <code>AIzaSy...</code>)  </li>
 </ol>
 <p><strong>Hinweis</strong>: Die Gemini API wird über den OpenAI-Kompatibilitätsmodus angesprochen, benötigt deshalb nur das <code>openai</code> Python-Package.</p>
 <hr />
 <h2 id="api-keys-als-secrets-in-google-colab-hinterlegen">☁️ API Keys als Secrets in Google Colab hinterlegen<a class="headerlink" href="#api-keys-als-secrets-in-google-colab-hinterlegen" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Klicke im Menü links auf das Schlüssel-Symbol 🔑</li>
+<li>Klicke im Menü links auf das Schlüssel-Symbol 🔑  </li>
 </ol>
 <p><img alt="Google Colab – Secrets – API Keys" src="../../assets/tutorials/Google_Colab_secrets_api_keys.png" style="display: block; margin: 0 auto" width="600" /></p>
 <ol>
-<li>Lege folgende Secrets an:</li>
+<li>Lege folgende Secrets an:  </li>
 </ol>
 <table>
 <thead>
