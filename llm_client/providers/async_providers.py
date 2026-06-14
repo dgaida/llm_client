@@ -1,8 +1,9 @@
 """Async support for LLM providers."""
 
-import requests
 from collections.abc import AsyncIterator
 from typing import Any
+
+import requests
 
 from ..exceptions import (
     APIKeyNotFoundError,
