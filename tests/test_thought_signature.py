@@ -23,9 +23,7 @@ class TestThoughtSignature(unittest.TestCase):
         self.mock_async_client.chat.completions.create = AsyncMock()
         self.mock_async_openai.return_value = self.mock_async_client
 
-        self.async_provider = AsyncGeminiProvider(
-            llm="gemini-3.1-flash-lite", api_key="fake-key"
-        )
+        self.async_provider = AsyncGeminiProvider(llm="gemini-3.1-flash-lite", api_key="fake-key")
 
     def tearDown(self):
         self.patcher.stop()
