@@ -3322,8 +3322,11 @@
 <li>Copy the generated key (starts with <code>AIzaSy...</code>)  </li>
 </ol>
 <h3 id="2-configure">2. Configure<a class="headerlink" href="#2-configure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># In secrets.env or environment</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">GEMINI_API_KEY</span><span class="o">=</span>AIzaSy-your-api-key-here
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Recommendation: Use generic API_KEY for automatic provider detection</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">API_KEY</span><span class="o">=</span>AIzaSy-your-api-key-here
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># OR use provider-specific key</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># GEMINI_API_KEY=AIzaSy-your-api-key-here</span>
 </code></pre></div>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <h3 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h3>
@@ -3333,7 +3336,7 @@
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="available-models">Available Models<a class="headerlink" href="#available-models" title="Permanent link">&para;</a></h3>
-<p>Based on Google Gemini API documentation (December 2025):</p>
+<p>Based on Google Gemini API documentation (June 2026):</p>
 <p><strong>Stable Production Models:</strong></p>
 <table>
 <thead>
@@ -3346,28 +3349,28 @@
 </thead>
 <tbody>
 <tr>
+<td><code>gemini-3.5-flash</code></td>
+<td>Intelligent performance</td>
+<td>1M tokens</td>
+<td>Agentic and coding tasks</td>
+</tr>
+<tr>
+<td><code>gemini-3.1-flash-lite</code></td>
+<td>High performance (default)</td>
+<td>1M tokens</td>
+<td>Low-cost high-throughput</td>
+</tr>
+<tr>
 <td><code>gemini-2.5-pro</code></td>
-<td>Highest performance</td>
+<td>Highest reasoning</td>
 <td>2M tokens</td>
-<td>Complex reasoning, long documents</td>
+<td>Complex reasoning, programming</td>
 </tr>
 <tr>
 <td><code>gemini-2.5-flash</code></td>
 <td>Optimal balance</td>
 <td>1M tokens</td>
 <td>General-purpose tasks</td>
-</tr>
-<tr>
-<td><code>gemini-2.5-flash-lite</code></td>
-<td>Massive scale</td>
-<td>1M tokens</td>
-<td>High-throughput applications</td>
-</tr>
-<tr>
-<td><code>gemini-2.0-flash</code></td>
-<td>Cost-effective</td>
-<td>1M tokens</td>
-<td>Budget-conscious deployments</td>
 </tr>
 </tbody>
 </table>
@@ -3376,28 +3379,30 @@
 <thead>
 <tr>
 <th>Model</th>
-<th>Description</th>
-<th>Context Window</th>
-<th>Notes</th>
+<th>Status</th>
+<th>Features</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>gemini-3-pro</code></td>
-<td>Latest with extended reasoning</td>
-<td>2M tokens</td>
-<td>Preview - may change</td>
+<td><code>gemini-3.1-pro-preview</code></td>
+<td>Preview</td>
+<td>Advanced intelligence, agentic capabilities</td>
 </tr>
 <tr>
-<td><code>gemini-3.1-flash-lite-preview</code></td>
-<td>Experimental Flash</td>
-<td>1M tokens</td>
-<td>Testing new features</td>
+<td><code>gemini-3-flash-preview</code></td>
+<td>Preview</td>
+<td>High performance at fraction of cost</td>
+</tr>
+<tr>
+<td><code>gemini-2.5-pro-preview-tts</code></td>
+<td>Preview</td>
+<td>High-quality speech synthesis</td>
 </tr>
 </tbody>
 </table>
 <h3 id="model-selection">Model Selection<a class="headerlink" href="#model-selection" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Use default model (gemini-3.1-flash-lite-preview)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Use default model (gemini-3.1-flash-lite)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Specify model</span>

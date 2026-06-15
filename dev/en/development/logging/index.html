@@ -3449,12 +3449,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">setup_logging</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>Example output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>2024-12-08 10:30:15 - llm_client.llm_client - DEBUG - Initializing LLMClient with api_choice=None, llm=None
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>2024-12-08 10:30:15 - llm_client.llm_client - DEBUG - Loading secrets from secrets.env
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>2024-12-08 10:30:15 - llm_client.llm_client - DEBUG - Found API keys for: OpenAI, Groq
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>2024-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Creating provider with api_choice=None, async=False
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>2024-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Auto-selecting API based on available keys
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>2024-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Selected OpenAI (API key found)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>2026-12-08 10:30:15 - llm_client.llm_client - DEBUG - Initializing LLMClient with api_choice=None, llm=None
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>2026-12-08 10:30:15 - llm_client.llm_client - DEBUG - Loading secrets from secrets.env
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>2026-12-08 10:30:15 - llm_client.llm_client - DEBUG - Found API keys for: OpenAI, Groq
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>2026-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Creating provider with api_choice=None, async=False
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>2026-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Auto-selecting API based on available keys
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>2026-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Selected OpenAI (API key found)
 </code></pre></div></p>
 <h3 id="info">INFO<a class="headerlink" href="#info" title="Permanent link">&para;</a></h3>
 <p>Moderate verbosity. Shows:<br />
@@ -3466,10 +3466,10 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">setup_logging</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>Example output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>2024-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>2024-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>2024-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>2024-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>2026-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>2026-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>2026-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>2026-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
 </code></pre></div></p>
 <h3 id="warning-default">WARNING (Default)<a class="headerlink" href="#warning-default" title="Permanent link">&para;</a></h3>
 <p>Shows only warnings and errors. Minimal noise.</p>

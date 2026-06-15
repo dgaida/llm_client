@@ -3689,9 +3689,13 @@
 </code></pre></div></p>
 <p><strong>Lösung 2 - secrets.env Datei</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Erstelle secrets.env im Projektverzeichnis</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">GROQ_API_KEY</span><span class="o">=</span>gsk-...
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nv">GEMINI_API_KEY</span><span class="o">=</span>AIzaSy-...
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Empfohlen: Nutze API_KEY für automatische Erkennung</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">API_KEY</span><span class="o">=</span>sk-...
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># ODER provider-spezifische Keys:</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># OPENAI_API_KEY=sk-...</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># GROQ_API_KEY=gsk-...</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># GEMINI_API_KEY=AIzaSy-...</span>
 </code></pre></div></p>
 <p><strong>Lösung 3 - Google Colab</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># In Colab Secrets hinzufügen (🔑 Icon in linker Leiste)</span>
@@ -3798,7 +3802,7 @@
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Beliebte Modelle</span>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.2:3b
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.1:8b
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.2:1b
 <a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>ollama<span class="w"> </span>pull<span class="w"> </span>mixtral:8x7b
 </code></pre></div></p>
 <h3 id="out-of-memory-ollama-lokal">Out of Memory (Ollama lokal)<a class="headerlink" href="#out-of-memory-ollama-lokal" title="Permanent link">&para;</a></h3>
@@ -3808,12 +3812,12 @@
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b&quot;</span><span class="p">)</span>  <span class="c1"># ~1.3GB</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Oder quantisiertes Modell</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.1:8b-q4_0&quot;</span><span class="p">)</span>  <span class="c1"># Kleiner</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b-q4_0&quot;</span><span class="p">)</span>  <span class="c1"># Kleiner</span>
 </code></pre></div></p>
 <p><strong>Empfehlungen nach RAM</strong>:<br />
 - &lt; 4GB RAM: <code>llama3.2:1b</code><br />
 - 4-8GB RAM: <code>llama3.2:3b</code><br />
-- 8-16GB RAM: <code>llama3.1:8b</code><br />
+- 8-16GB RAM: <code>llama3.2:1b</code>
 - 16GB+ RAM: <code>llama3.1:70b</code> oder größer  </p>
 <h3 id="ollama-cloud-api-key-fehlt">Ollama Cloud API Key fehlt<a class="headerlink" href="#ollama-cloud-api-key-fehlt" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Ollama Cloud ohne API-Key.</p>
@@ -4089,7 +4093,7 @@
 <a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">keep_alive</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
 <a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>
 <a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a><span class="c1"># 3. Quantisiertes Modell</span>
-<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.1:8b-q4_0&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b-q4_0&quot;</span><span class="p">)</span>
 <a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>
 <a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a><span class="c1"># 4. Ollama Cloud verwenden (keine lokale GPU nötig)</span>
 <a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="s2">&quot;gpt-oss:120b-cloud&quot;</span><span class="p">)</span>

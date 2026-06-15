@@ -3350,7 +3350,7 @@
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Popular models</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.2:3b
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.1:8b
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.2:1b
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>ollama<span class="w"> </span>pull<span class="w"> </span>mixtral:8x7b
 </code></pre></div></p>
 <h3 id="out-of-memory-local-ollama">Out of Memory (local Ollama)<a class="headerlink" href="#out-of-memory-local-ollama" title="Permanent link">&para;</a></h3>
@@ -3360,12 +3360,12 @@
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b&quot;</span><span class="p">)</span>  <span class="c1"># ~1.3GB</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Or a quantized model</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.1:8b-q4_0&quot;</span><span class="p">)</span>  <span class="c1"># Smaller</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b-q4_0&quot;</span><span class="p">)</span>  <span class="c1"># Smaller</span>
 </code></pre></div></p>
 <p><strong>RAM Recommendations</strong>:<br />
 - &lt; 4GB RAM: <code>llama3.2:1b</code><br />
 - 4-8GB RAM: <code>llama3.2:3b</code><br />
-- 8-16GB RAM: <code>llama3.1:8b</code><br />
+- 8-16GB RAM: <code>llama3.2:1b</code>
 - 16GB+ RAM: <code>llama3.1:70b</code> or larger  </p>
 <h3 id="ollama-cloud-api-key-missing">Ollama Cloud API Key missing<a class="headerlink" href="#ollama-cloud-api-key-missing" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Ollama Cloud without API key.</p>
@@ -3641,7 +3641,7 @@
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">keep_alive</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
 <a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
 <a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># 3. Quantized model</span>
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.1:8b-q4_0&quot;</span><span class="p">)</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b-q4_0&quot;</span><span class="p">)</span>
 <a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="c1"># 4. Use Ollama Cloud (no local GPU needed)</span>
 <a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="s2">&quot;gpt-oss:120b-cloud&quot;</span><span class="p">)</span>
