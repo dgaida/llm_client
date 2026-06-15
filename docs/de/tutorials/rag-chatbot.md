@@ -156,6 +156,7 @@ Der OpenAI API Key erlaubt die Nutzung von **OpenAI-Modellen** (z. B. GPT-4 oder
 
    | Name | Wert |
    |-------|------|
+   | `API_KEY` | (empfohlen) dein API Key für OpenAI, Groq oder Gemini (automatische Erkennung) |
    | `HF_TOKEN` | dein Hugging Face Access Token |
    | `GROQ_API_KEY` | (optional) dein Groq API Key |
    | `OPENAI_API_KEY` | (optional) dein OpenAI API Key |
