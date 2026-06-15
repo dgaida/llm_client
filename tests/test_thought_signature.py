@@ -13,7 +13,7 @@ class TestThoughtSignature(unittest.TestCase):
         self.mock_client = MagicMock()
         self.mock_openai.return_value = self.mock_client
 
-        self.provider = GeminiProvider(llm="gemini-3.1-flash-lite-preview", api_key="fake-key")
+        self.provider = GeminiProvider(llm="gemini-3.1-flash-lite", api_key="fake-key")
 
         self.async_patcher = patch("llm_client.providers.async_providers.AsyncOpenAI")
         self.mock_async_openai = self.async_patcher.start()
@@ -24,7 +24,7 @@ class TestThoughtSignature(unittest.TestCase):
         self.mock_async_openai.return_value = self.mock_async_client
 
         self.async_provider = AsyncGeminiProvider(
-            llm="gemini-3.1-flash-lite-preview", api_key="fake-key"
+            llm="gemini-3.1-flash-lite", api_key="fake-key"
         )
 
     def tearDown(self):

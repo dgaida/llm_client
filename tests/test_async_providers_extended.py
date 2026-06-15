@@ -293,7 +293,7 @@ class TestAsyncGeminiProviderExtended:
             mock_async_openai.return_value = mock_client
 
             provider = AsyncGeminiProvider(
-                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+                llm="gemini-3.1-flash-lite", api_key="AIzaSy-test"
             )
             messages = [{"role": "user", "content": "Analyze"}]
 
@@ -320,7 +320,7 @@ class TestAsyncGeminiProviderExtended:
             mock_async_openai.return_value = MagicMock()
 
             provider = AsyncGeminiProvider(
-                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+                llm="gemini-3.1-flash-lite", api_key="AIzaSy-test"
             )
             provider.client = None
 
@@ -337,7 +337,7 @@ class TestAsyncGeminiProviderExtended:
             mock_async_openai.return_value = MagicMock()
 
             provider = AsyncGeminiProvider(
-                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+                llm="gemini-3.1-flash-lite", api_key="AIzaSy-test"
             )
             provider.client = None
 
@@ -352,7 +352,7 @@ class TestAsyncGeminiProviderExtended:
             mock_async_openai.return_value = MagicMock()
 
             provider = AsyncGeminiProvider(
-                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+                llm="gemini-3.1-flash-lite", api_key="AIzaSy-test"
             )
             provider.client = None
 
@@ -368,7 +368,7 @@ class TestAsyncGeminiProviderExtended:
             mock_async_openai.return_value = MagicMock()
 
             provider = AsyncGeminiProvider(
-                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+                llm="gemini-3.1-flash-lite", api_key="AIzaSy-test"
             )
             provider.client = None
 
@@ -564,7 +564,7 @@ class TestToolCallsWithoutContent:
             mock_async_openai.return_value = mock_client
 
             provider = AsyncGeminiProvider(
-                llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test"
+                llm="gemini-3.1-flash-lite", api_key="AIzaSy-test"
             )
             tools = [{"type": "function", "function": {"name": "gemini_tool"}}]
 

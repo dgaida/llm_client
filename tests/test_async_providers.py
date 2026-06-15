@@ -311,7 +311,7 @@ class TestAsyncGeminiProvider:
         """Test: Get default Gemini model."""
         from llm_client.providers.async_providers import AsyncGeminiProvider
 
-        assert AsyncGeminiProvider.get_default_model() == "gemini-3.1-flash-lite-preview"
+        assert AsyncGeminiProvider.get_default_model() == "gemini-3.1-flash-lite"
 
 
 class TestAsyncProviderMixin:
