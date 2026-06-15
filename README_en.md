@@ -853,15 +853,15 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 Based on current Google Gemini API documentation (June 2026):
 
 **Stable Models:**  
-- `gemini-3.5-flash` - Most intelligent model for agentic and coding tasks
-- `gemini-3.1-flash-lite` - Peak performance at a fraction of the cost
-- `gemini-2.5-pro` - Advanced reasoning and coding capabilities
-- `gemini-2.5-flash` - Best price-performance balance
+- `gemini-3.5-flash` - Most intelligent model for agentic and coding tasks  
+- `gemini-3.1-flash-lite` - Peak performance at a fraction of the cost  
+- `gemini-2.5-pro` - Advanced reasoning and coding capabilities  
+- `gemini-2.5-flash` - Best price-performance balance  
 
 **Experimental/Preview Models:**  
-- `gemini-3.1-pro-preview` - Advanced intelligence and problem-solving
-- `gemini-3-flash-preview` - High performance at low cost
-- `gemini-2.5-pro-preview-tts` - High-quality speech synthesis
+- `gemini-3.1-pro-preview` - Advanced intelligence and problem-solving  
+- `gemini-3-flash-preview` - High performance at low cost  
+- `gemini-2.5-pro-preview-tts` - High-quality speech synthesis  
 
 ### Ollama Installation
 

@@ -270,7 +270,7 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q4_0")  # Kleiner
 **Empfehlungen nach RAM**:  
 - < 4GB RAM: `llama3.2:1b`  
 - 4-8GB RAM: `llama3.2:3b`  
-- 8-16GB RAM: `llama3.2:1b`
+- 8-16GB RAM: `llama3.2:1b`  
 - 16GB+ RAM: `llama3.1:70b` oder größer  
 
 ### Ollama Cloud API Key fehlt

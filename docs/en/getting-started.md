@@ -51,10 +51,10 @@ print(response)
 
 The client automatically selects the first available API key:
 
-1. **Automatic Detection** (if `API_KEY` is set - detects OpenAI, Groq, Gemini based on prefix) [Recommended]
-2. **OpenAI** (if `OPENAI_API_KEY` is set)
-3. **Groq** (if `GROQ_API_KEY` is set)
-4. **Gemini** (if `GEMINI_API_KEY` is set)
+1. **Automatic Detection** (if `API_KEY` is set - detects OpenAI, Groq, Gemini based on prefix) [Recommended]  
+2. **OpenAI** (if `OPENAI_API_KEY` is set)  
+3. **Groq** (if `GROQ_API_KEY` is set)  
+4. **Gemini** (if `GEMINI_API_KEY` is set)  
 5. **Ollama** (Fallback, requires local installation)  
 
 ### Manual Selection
