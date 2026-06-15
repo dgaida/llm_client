@@ -35,28 +35,29 @@ client = LLMClient(api_choice="gemini")
 
 ### Available Models
 
-Based on Google Gemini API documentation (December 2025):
+Based on Google Gemini API documentation (June 2026):
 
 **Stable Production Models:**
 
 | Model | Description | Context Window | Best For |
 |-------|-------------|----------------|----------|
-| `gemini-2.5-pro` | Highest performance | 2M tokens | Complex reasoning, long documents |
+| `gemini-3.5-flash` | Intelligent performance | 1M tokens | Agentic and coding tasks |
+| `gemini-3.1-flash-lite` | High performance (default) | 1M tokens | Low-cost high-throughput |
+| `gemini-2.5-pro` | Highest reasoning | 2M tokens | Complex reasoning, programming |
 | `gemini-2.5-flash` | Optimal balance | 1M tokens | General-purpose tasks |
-| `gemini-2.5-flash-lite` | Massive scale | 1M tokens | High-throughput applications |
-| `gemini-2.0-flash` | Cost-effective | 1M tokens | Budget-conscious deployments |
 
 **Experimental/Preview Models:**
 
-| Model | Description | Context Window | Notes |
-|-------|-------------|----------------|-------|
-| `gemini-3-pro` | Latest with extended reasoning | 2M tokens | Preview - may change |
-| `gemini-3.1-flash-lite-preview` | Experimental Flash | 1M tokens | Testing new features |
+| Model | Status | Features |
+|-------|--------|----------|
+| `gemini-3.1-pro-preview` | Preview | Advanced intelligence, agentic capabilities |
+| `gemini-3-flash-preview` | Preview | High performance at fraction of cost |
+| `gemini-2.5-pro-preview-tts` | Preview | High-quality speech synthesis |
 
 ### Model Selection
 
 ```python
-# Use default model (gemini-3.1-flash-lite-preview)
+# Use default model (gemini-3.1-flash-lite)
 client = LLMClient(api_choice="gemini")
 
 # Specify model

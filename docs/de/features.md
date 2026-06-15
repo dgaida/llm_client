@@ -233,7 +233,7 @@ providers:
     max_tokens: 1024
 
   gemini:
-    model: gemini-2.0-flash-lite-preview-02-05
+    model: gemini-3.1-flash-lite
     temperature: 0.8
     max_tokens: 2048
 
@@ -371,7 +371,7 @@ client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
 response1 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu Gemini
-client.switch_provider("gemini", llm="gemini-2.0-flash-lite-preview-02-05")
+client.switch_provider("gemini", llm="gemini-3.1-flash-lite")
 response2 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu Groq mit angepasster Temperatur

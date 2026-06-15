@@ -793,7 +793,7 @@ client = LLMClient(
 
 ```python
 # Force Gemini
-client = LLMClient(api_choice="gemini", llm="gemini-1.5-pro")
+client = LLMClient(api_choice="gemini", llm="gemini-2.5-pro")
 
 # Force Ollama (even if API keys present)
 client = LLMClient(api_choice="ollama")
@@ -845,21 +845,23 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 | ------ |------------------------------------|-----------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Fast, reliable                    |
 | Groq   | `qwen/qwen3-32b` | Very efficient on GroqCloud       |
-| Gemini | `gemini-2.0-flash-exp`             | Google's latest model (Dec 2024)  |
+| Gemini | `gemini-3.1-flash-lite`             | Google's efficient multimodal model (Gemini 3.1, June 2026)  |
 | Ollama | `llama3.2:1b`                      | Runs locally, no API key needed   |
 
 ### Available Gemini Models
 
-Based on current Google Gemini API documentation (December 2025):
+Based on current Google Gemini API documentation (June 2026):
 
 **Stable Models:**  
-- `gemini-1.5-pro` - Highest performance for complex tasks
-- `gemini-1.5-flash` - Cost-effective general-purpose model
+- `gemini-3.5-flash` - Most intelligent model for agentic and coding tasks
+- `gemini-3.1-flash-lite` - Peak performance at a fraction of the cost
+- `gemini-2.5-pro` - Advanced reasoning and coding capabilities
+- `gemini-2.5-flash` - Best price-performance balance
 
 **Experimental/Preview Models:**  
-- `gemini-2.0-pro-exp` - Latest model with extended reasoning (Preview)
-- `gemini-2.0-flash-exp` - Latest Flash model (Experimental)
-- `gemini-2.0-flash-lite-preview-02-05` - Optimized for massive scale (Preview)
+- `gemini-3.1-pro-preview` - Advanced intelligence and problem-solving
+- `gemini-3-flash-preview` - High performance at low cost
+- `gemini-2.5-pro-preview-tts` - High-quality speech synthesis
 
 ### Ollama Installation
 

@@ -229,7 +229,7 @@ for chunk in client.chat_completion_stream(messages):
 Wechsle zwischen APIs zur Laufzeit. [→ Details](docs/de/features.md#dynamischer-provider-wechsel)
 
 ```python
-client.switch_provider("gemini", llm="gemini-2.0-flash-lite-preview-02-05")
+client.switch_provider("gemini", llm="gemini-3.1-flash-lite")
 ```
 
 ---
@@ -273,7 +273,7 @@ client = LLMClient(llm="gpt-oss:120b-cloud")
 | ------ |------------------------------------|-------------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
 | Groq   | `qwen/qwen3-32b` | Sehr effizient auf GroqCloud        |
-| Gemini | `gemini-2.0-flash-lite-preview-02-05`             | Googles neuestes Modell (Dez 2024)  |
+| Gemini | `gemini-3.1-flash-lite`             | Googles hocheffizientes Modell (Gemini 3.1, Juni 2026)  |
 | Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
 ### Ollama Installation
