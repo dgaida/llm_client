@@ -668,7 +668,7 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
     @staticmethod
     def get_default_model() -> str:
         """Get default Gemini model."""
-        return "gemini-3.1-flash-lite-preview"
+        return "gemini-3.1-flash-lite"
 
     @staticmethod
     def is_available() -> bool:

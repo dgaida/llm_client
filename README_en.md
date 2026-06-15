@@ -124,7 +124,7 @@ providers:
     temperature: 0.5
 
   gemini:
-    model: gemini-3.1-flash-lite-preview
+    model: gemini-2.0-flash-exp
     temperature: 0.8
 ```
 
@@ -238,17 +238,13 @@ For a comprehensive overview, try the Jupyter notebook [llm_client_example.ipynb
 Create `secrets.env`:
 
 ```bash
-# OpenAI
-OPENAI_API_KEY=sk-xxxxxxxx
-
-# Or Groq
-GROQ_API_KEY=gsk-xxxxxxxx
-
-# Or Google Gemini
-GEMINI_API_KEY=AIzaSy-xxxxxxxx
-
-# OR: Generic Key (automatic detection)
+# Recommended: Generic Key (automatic provider detection)
 API_KEY=sk-xxxxxxxx
+
+# OR provider-specific keys:
+# OPENAI_API_KEY=sk-xxxxxxxx
+# GROQ_API_KEY=gsk-xxxxxxxx
+# GEMINI_API_KEY=AIzaSy-xxxxxxxx
 ```
 
 **Without API Keys**: Automatically uses local [Ollama](https://ollama.com/) (installation required).
@@ -419,7 +415,7 @@ providers:
     max_tokens: 1024
 
   gemini:
-    model: gemini-3.1-flash-lite-preview
+    model: gemini-2.0-flash-exp
     temperature: 0.8
     max_tokens: 2048
 
@@ -519,7 +515,7 @@ client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
 response1 = client.chat_completion([{"role": "user", "content": "Hello"}])
 
 # Switch to Gemini
-client.switch_provider("gemini", llm="gemini-3.1-flash-lite-preview")
+client.switch_provider("gemini", llm="gemini-2.0-flash-exp")
 response2 = client.chat_completion([{"role": "user", "content": "Hello"}])
 
 # Switch to Groq with adjusted temperature
@@ -616,10 +612,10 @@ enable_logging("INFO")
 **Example Output (INFO level):**
 
 ```
-2024-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
-2024-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
-2024-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
-2024-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
+2026-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
+2026-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
+2026-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
+2026-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
 ```
 
 **What Gets Logged:**
@@ -817,7 +813,7 @@ client = LLMClient()
 # Or explicit with specific model
 client = LLMClient(
     api_choice="gemini",
-    llm="gemini-2.5-flash",
+    llm="gemini-2.0-flash-exp",
     temperature=0.7
 )
 
@@ -849,22 +845,23 @@ index = VectorStoreIndex.from_documents(documents, llm=llm_adapter)
 | ------ |------------------------------------|-----------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Fast, reliable                    |
 | Groq   | `qwen/qwen3-32b` | Very efficient on GroqCloud       |
-| Gemini | `gemini-3.1-flash-lite-preview`             | Google's latest model (Dec 2024)  |
+| Gemini | `gemini-3.1-flash-lite`             | Google's efficient multimodal model (Gemini 3.1, June 2026)  |
 | Ollama | `llama3.2:1b`                      | Runs locally, no API key needed   |
 
 ### Available Gemini Models
 
-Based on current Google Gemini API documentation (December 2025):
+Based on current Google Gemini API documentation (June 2026):
 
 **Stable Models:**  
-- `gemini-2.5-pro` - Highest performance for complex tasks  
-- `gemini-2.5-flash` - Optimal balance of speed and intelligence  
-- `gemini-2.5-flash-lite` - Optimized for massive scale  
-- `gemini-2.0-flash` - Cost-effective general-purpose model  
+- `gemini-3.5-flash` - Most intelligent model for agentic and coding tasks
+- `gemini-3.1-flash-lite` - Peak performance at a fraction of the cost
+- `gemini-2.5-pro` - Advanced reasoning and coding capabilities
+- `gemini-2.5-flash` - Best price-performance balance
 
 **Experimental/Preview Models:**  
-- `gemini-3-pro` - Latest model with extended reasoning (Preview)  
-- `gemini-3.1-flash-lite-preview` - Experimental Flash model  
+- `gemini-3.1-pro-preview` - Advanced intelligence and problem-solving
+- `gemini-3-flash-preview` - High performance at low cost
+- `gemini-2.5-pro-preview-tts` - High-quality speech synthesis
 
 ### Ollama Installation
 
@@ -1041,7 +1038,7 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 MIT License - see [LICENSE](LICENSE)
 
-© 2025 Daniel Gaida, Cologne University of Applied Sciences
+© 2026 Daniel Gaida, Cologne University of Applied Sciences
 
 ---
 

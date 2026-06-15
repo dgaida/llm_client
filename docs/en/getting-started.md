@@ -17,17 +17,13 @@ For more detailed instructions and optional dependencies, see the [Installation 
 To use most LLM providers, you will need an API key. Create a `secrets.env` file in your project directory with your keys:
 
 ```bash
-# OpenAI
-OPENAI_API_KEY=sk-xxxxxxxx
-
-# Groq (optional)
-GROQ_API_KEY=gsk-xxxxxxxx
-
-# Google Gemini (optional)
-GEMINI_API_KEY=AIzaSy-xxxxxxxx
-
-# OR: Generic Key (automatic detection)
+# Recommended: Generic Key (automatic provider detection)
 API_KEY=sk-xxxxxxxx
+
+# OR provider-specific keys:
+# OPENAI_API_KEY=sk-xxxxxxxx
+# GROQ_API_KEY=gsk-xxxxxxxx
+# GEMINI_API_KEY=AIzaSy-xxxxxxxx
 ```
 
 Detailed instructions on how to obtain keys for each provider can be found in the [Providers Section](usage/providers/index.md).
@@ -55,10 +51,10 @@ print(response)
 
 The client automatically selects the first available API key:
 
-1. **OpenAI** (if `OPENAI_API_KEY` is set)  
-2. **Groq** (if `GROQ_API_KEY` is set)  
-3. **Gemini** (if `GEMINI_API_KEY` is set)  
-4. **Automatic Detection** (if `API_KEY` is set - detects OpenAI, Groq, Gemini based on prefix)  
+1. **Automatic Detection** (if `API_KEY` is set - detects OpenAI, Groq, Gemini based on prefix) [Recommended]
+2. **OpenAI** (if `OPENAI_API_KEY` is set)
+3. **Groq** (if `GROQ_API_KEY` is set)
+4. **Gemini** (if `GEMINI_API_KEY` is set)
 5. **Ollama** (Fallback, requires local installation)  
 
 ### Manual Selection

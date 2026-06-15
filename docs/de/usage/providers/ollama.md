@@ -29,7 +29,7 @@ ollama pull llama3.2:1b
 ollama pull llama3.2:3b
 
 # Larger, more capable models
-ollama pull llama3.1:8b
+ollama pull llama3.2:1b
 ollama pull llama3.1:70b
 ollama pull mixtral:8x7b
 ```
@@ -83,7 +83,7 @@ client = LLMClient(api_choice="ollama")
 # Specify model
 client = LLMClient(
     api_choice="ollama",
-    llm="llama3.1:8b"
+    llm="llama3.2:1b"
 )
 
 # With custom parameters
@@ -190,7 +190,7 @@ client = LLMClient.from_config("llm_config.yaml", provider="ollama")
 ```python
 client = LLMClient(
     api_choice="ollama",
-    llm="llama3.1:8b",
+    llm="llama3.2:1b",
     temperature=0.5,      # Lower = more focused
     max_tokens=1024,      # Maximum response length
     keep_alive="15m"      # Keep model loaded for 15 minutes
@@ -249,11 +249,11 @@ Ollama automatically uses quantized models for efficiency:
 
 ```python
 # These are automatically quantized for performance
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b")
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
 # Runs Q4_0 quantization by default (4-bit quantization)
 
 # For higher quality (larger size):
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q8_0")
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q8_0")
 # 8-bit quantization - better quality, more memory
 ```
 
@@ -281,14 +281,14 @@ except ChatCompletionError:
 # Deterministic (good for facts)
 factual = LLMClient(
     api_choice="ollama",
-    llm="llama3.1:8b",
+    llm="llama3.2:1b",
     temperature=0.1
 )
 
 # Creative (good for stories)
 creative = LLMClient(
     api_choice="ollama",
-    llm="llama3.1:8b",
+    llm="llama3.2:1b",
     temperature=1.5
 )
 ```
@@ -414,7 +414,7 @@ ollama pull llama3.2:1b
 client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
 
 # Or use quantized version
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q4_0")
 ```
 
 ### Slow Response Times
@@ -479,7 +479,7 @@ from llm_client import LLMClient
 # Setup local LLM
 client = LLMClient(
     api_choice="ollama",
-    llm="llama3.1:8b",
+    llm="llama3.2:1b",
     keep_alive="30m"
 )
 

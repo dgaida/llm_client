@@ -96,9 +96,13 @@ set OPENAI_API_KEY=sk-...
 **Lösung 2 - secrets.env Datei**:
 ```bash
 # Erstelle secrets.env im Projektverzeichnis
-OPENAI_API_KEY=sk-...
-GROQ_API_KEY=gsk-...
-GEMINI_API_KEY=AIzaSy-...
+# Empfohlen: Nutze API_KEY für automatische Erkennung
+API_KEY=sk-...
+
+# ODER provider-spezifische Keys:
+# OPENAI_API_KEY=sk-...
+# GROQ_API_KEY=gsk-...
+# GEMINI_API_KEY=AIzaSy-...
 ```
 
 **Lösung 3 - Google Colab**:
@@ -246,7 +250,7 @@ ollama pull llama3.2:1b
 
 # Beliebte Modelle
 ollama pull llama3.2:3b
-ollama pull llama3.1:8b
+ollama pull llama3.2:1b
 ollama pull mixtral:8x7b
 ```
 
@@ -260,13 +264,13 @@ ollama pull mixtral:8x7b
 client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # ~1.3GB
 
 # Oder quantisiertes Modell
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")  # Kleiner
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q4_0")  # Kleiner
 ```
 
 **Empfehlungen nach RAM**:  
 - < 4GB RAM: `llama3.2:1b`  
 - 4-8GB RAM: `llama3.2:3b`  
-- 8-16GB RAM: `llama3.1:8b`  
+- 8-16GB RAM: `llama3.2:1b`
 - 16GB+ RAM: `llama3.1:70b` oder größer  
 
 ### Ollama Cloud API Key fehlt
@@ -641,7 +645,7 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
 client = LLMClient(api_choice="ollama", keep_alive="0")
 
 # 3. Quantisiertes Modell
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q4_0")
 
 # 4. Ollama Cloud verwenden (keine lokale GPU nötig)
 client = LLMClient(llm="gpt-oss:120b-cloud")

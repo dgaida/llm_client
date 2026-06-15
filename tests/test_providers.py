@@ -286,7 +286,7 @@ class TestGeminiProvider:
 
     def test_get_default_model(self):
         """Test: Default model is correct."""
-        assert GeminiProvider.get_default_model() == "gemini-3.1-flash-lite-preview"
+        assert GeminiProvider.get_default_model() == "gemini-3.1-flash-lite"
 
     def test_is_available_when_installed(self):
         """Test: is_available returns True when OpenAI package is installed."""
@@ -632,7 +632,7 @@ class TestProviderFeatures:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            provider = GeminiProvider(llm="gemini-3.1-flash-lite-preview", api_key="AIzaSy-test")
+            provider = GeminiProvider(llm="gemini-3.1-flash-lite", api_key="AIzaSy-test")
             tools = [{"type": "function", "function": {"name": "search"}}]
 
             result = provider.chat_completion_with_tools([], tools, tool_choice="auto")
@@ -640,7 +640,7 @@ class TestProviderFeatures:
             assert result["content"] == "Searching..."
             assert result["tool_calls"][0]["function"]["name"] == "search"
             mock_client.chat.completions.create.assert_called_with(
-                model="gemini-3.1-flash-lite-preview",
+                model="gemini-3.1-flash-lite",
                 messages=[],
                 temperature=0.7,
                 max_tokens=512,

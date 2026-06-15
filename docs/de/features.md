@@ -19,9 +19,9 @@ LLM Client bietet eine umfassende Palette an Funktionen für die Arbeit mit vers
 
 Der LLM Client kann automatisch entscheiden, welcher Provider genutzt werden soll, basierend auf den verfügbaren Umgebungsvariablen.
 
-### Unterstützung für generische API-Keys
+### Unterstützung für generische API-Keys (Empfohlen)
 
-Zusätzlich zu provider-spezifischen Keys (`OPENAI_API_KEY`, etc.) unterstützt der Client eine generische `API_KEY` Variable. Der Client analysiert das Präfix des Schlüssels, um den Provider zu bestimmen:
+Zusätzlich zu provider-spezifischen Keys (`OPENAI_API_KEY`, etc.) unterstützt der Client eine generische `API_KEY` Variable. Dies ist der empfohlene Weg, da der Client das Präfix des Schlüssels analysiert, um den Provider automatisch zu bestimmen:
 
 | Präfix | Erkannter Provider |
 |--------|-------------------|
@@ -233,7 +233,7 @@ providers:
     max_tokens: 1024
 
   gemini:
-    model: gemini-3.1-flash-lite-preview
+    model: gemini-3.1-flash-lite
     temperature: 0.8
     max_tokens: 2048
 
@@ -371,7 +371,7 @@ client = LLMClient(api_choice="openai", llm="gpt-4o-mini")
 response1 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu Gemini
-client.switch_provider("gemini", llm="gemini-3.1-flash-lite-preview")
+client.switch_provider("gemini", llm="gemini-3.1-flash-lite")
 response2 = client.chat_completion([{"role": "user", "content": "Hallo"}])
 
 # Wechsel zu Groq mit angepasster Temperatur

@@ -98,12 +98,12 @@ setup_logging(level="DEBUG")
 
 Example output:
 ```
-2024-12-08 10:30:15 - llm_client.llm_client - DEBUG - Initializing LLMClient with api_choice=None, llm=None
-2024-12-08 10:30:15 - llm_client.llm_client - DEBUG - Loading secrets from secrets.env
-2024-12-08 10:30:15 - llm_client.llm_client - DEBUG - Found API keys for: OpenAI, Groq
-2024-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Creating provider with api_choice=None, async=False
-2024-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Auto-selecting API based on available keys
-2024-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Selected OpenAI (API key found)
+2026-12-08 10:30:15 - llm_client.llm_client - DEBUG - Initializing LLMClient with api_choice=None, llm=None
+2026-12-08 10:30:15 - llm_client.llm_client - DEBUG - Loading secrets from secrets.env
+2026-12-08 10:30:15 - llm_client.llm_client - DEBUG - Found API keys for: OpenAI, Groq
+2026-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Creating provider with api_choice=None, async=False
+2026-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Auto-selecting API based on available keys
+2026-12-08 10:30:15 - llm_client.provider_factory - DEBUG - Selected OpenAI (API key found)
 ```
 
 ### INFO
@@ -121,10 +121,10 @@ setup_logging(level="INFO")
 
 Example output:
 ```
-2024-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
-2024-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
-2024-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
-2024-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
+2026-12-08 10:30:15 - llm_client.llm_client - INFO - Creating provider for API: auto-detect
+2026-12-08 10:30:15 - llm_client.provider_factory - INFO - Auto-selected API: openai
+2026-12-08 10:30:15 - llm_client.providers - INFO - OpenAI client initialized with model gpt-4o-mini
+2026-12-08 10:30:15 - llm_client.llm_client - INFO - Initialized with provider: openai, model: gpt-4o-mini
 ```
 
 ### WARNING (Default)

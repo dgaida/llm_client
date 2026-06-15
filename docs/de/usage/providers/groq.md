@@ -14,8 +14,11 @@ The Groq provider offers ultra-fast inference on open-source models through Groq
 ### 2. Configure
 
 ```bash
-# In secrets.env or environment
-GROQ_API_KEY=gsk-your-api-key-here
+# Recommendation: Use generic API_KEY for automatic provider detection
+API_KEY=gsk-your-api-key-here
+
+# OR use provider-specific key
+# GROQ_API_KEY=gsk-your-api-key-here
 ```
 
 ## Usage

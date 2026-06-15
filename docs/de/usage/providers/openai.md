@@ -14,8 +14,11 @@ The OpenAI provider enables access to OpenAI's GPT models including GPT-4o, GPT-
 ### 2. Configure
 
 ```bash
-# In secrets.env or environment
-OPENAI_API_KEY=sk-your-api-key-here
+# Recommendation: Use generic API_KEY for automatic provider detection
+API_KEY=sk-your-api-key-here
+
+# OR use provider-specific key
+# OPENAI_API_KEY=sk-your-api-key-here
 ```
 
 ## Usage
