@@ -156,17 +156,13 @@ Für einen umfassenden Überblick teste das Jupyter Notebook [llm_client_example
 Erstelle `secrets.env`:
 
 ```bash
-# OpenAI
-OPENAI_API_KEY=sk-xxxxxxxx
-
-# Oder Groq
-GROQ_API_KEY=gsk-xxxxxxxx
-
-# Oder Google Gemini
-GEMINI_API_KEY=AIzaSy-xxxxxxxx
-
-# ODER: Generischer Key (automatische Erkennung)
+# Empfohlen: Generischer Key (automatische Erkennung des Providers)
 API_KEY=sk-xxxxxxxx
+
+# ODER provider-spezifische Keys:
+# OPENAI_API_KEY=sk-xxxxxxxx
+# GROQ_API_KEY=gsk-xxxxxxxx
+# GEMINI_API_KEY=AIzaSy-xxxxxxxx
 ```
 
 **Ohne API-Keys**: Verwendet automatisch lokales [Ollama](https://ollama.com/) (Installation erforderlich).
@@ -233,7 +229,7 @@ for chunk in client.chat_completion_stream(messages):
 Wechsle zwischen APIs zur Laufzeit. [→ Details](docs/de/features.md#dynamischer-provider-wechsel)
 
 ```python
-client.switch_provider("gemini", llm="gemini-2.5-flash")
+client.switch_provider("gemini", llm="gemini-2.0-flash-lite-preview-02-05")
 ```
 
 ---
@@ -277,7 +273,7 @@ client = LLMClient(llm="gpt-oss:120b-cloud")
 | ------ |------------------------------------|-------------------------------------|
 | OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
 | Groq   | `qwen/qwen3-32b` | Sehr effizient auf GroqCloud        |
-| Gemini | `gemini-3.1-flash-lite-preview`             | Googles neuestes Modell (Dez 2024)  |
+| Gemini | `gemini-2.0-flash-lite-preview-02-05`             | Googles neuestes Modell (Dez 2024)  |
 | Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
 ### Ollama Installation

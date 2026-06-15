@@ -15,8 +15,11 @@ The Gemini provider enables access to Google's Gemini models through the OpenAI 
 ### 2. Configure
 
 ```bash
-# In secrets.env or environment
-GEMINI_API_KEY=AIzaSy-your-api-key-here
+# Recommendation: Use generic API_KEY for automatic provider detection
+API_KEY=AIzaSy-your-api-key-here
+
+# OR use provider-specific key
+# GEMINI_API_KEY=AIzaSy-your-api-key-here
 ```
 
 ## Usage

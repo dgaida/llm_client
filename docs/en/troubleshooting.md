@@ -44,7 +44,7 @@ ollama pull llama3.2:1b
 
 # Popular models
 ollama pull llama3.2:3b
-ollama pull llama3.1:8b
+ollama pull llama3.2:1b
 ollama pull mixtral:8x7b
 ```
 
@@ -58,13 +58,13 @@ ollama pull mixtral:8x7b
 client = LLMClient(api_choice="ollama", llm="llama3.2:1b")  # ~1.3GB
 
 # Or a quantized model
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")  # Smaller
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q4_0")  # Smaller
 ```
 
 **RAM Recommendations**:  
 - < 4GB RAM: `llama3.2:1b`  
 - 4-8GB RAM: `llama3.2:3b`  
-- 8-16GB RAM: `llama3.1:8b`  
+- 8-16GB RAM: `llama3.2:1b`
 - 16GB+ RAM: `llama3.1:70b` or larger  
 
 ### Ollama Cloud API Key missing
@@ -439,7 +439,7 @@ client = LLMClient(api_choice="ollama", llm="llama3.2:1b")
 client = LLMClient(api_choice="ollama", keep_alive="0")
 
 # 3. Quantized model
-client = LLMClient(api_choice="ollama", llm="llama3.1:8b-q4_0")
+client = LLMClient(api_choice="ollama", llm="llama3.2:1b-q4_0")
 
 # 4. Use Ollama Cloud (no local GPU needed)
 client = LLMClient(llm="gpt-oss:120b-cloud")

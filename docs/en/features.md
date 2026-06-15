@@ -89,9 +89,9 @@ graph TB
 
 LLM Client automatically detects which LLM provider to use based on available API keys.
 
-#### Generic API Key Support
+#### Generic API Key Support (Recommended)
 
-In addition to provider-specific keys (`OPENAI_API_KEY`, etc.), the client supports a generic `API_KEY` variable. The client analyzes the key prefix to determine the provider:
+In addition to provider-specific keys (`OPENAI_API_KEY`, etc.), the client supports a generic `API_KEY` variable. This is the recommended approach as the client analyzes the key prefix to determine the provider automatically:
 
 | Prefix | Detected Provider |
 |--------|-------------------|
