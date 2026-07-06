@@ -9,7 +9,7 @@ Der LLM Client unterstützt mehrere LLM-Provider. Jeder Provider bietet verschie
 - [Gemini](gemini.md) - Googles Gemini Pro und Flash Modelle  
 - [Ollama](ollama.md) - Lokale LLMs (Llama 3, Phi-3, etc.)  
 - [Ollama Cloud](ollama_cloud.md) - Zugriff auf leistungsstarke Modelle ohne lokale GPU  
-- [KI Connect](kiconnect.md) - KI-Infrastruktur für Hochschulen in NRW
+- [KI Connect](kiconnect.md) - KI-Infrastruktur für Hochschulen in NRW  
 
 ## So erhalten Sie API-Keys
 
@@ -18,4 +18,4 @@ Für die meisten Provider benötigen Sie einen API-Key. Anleitungen zur Erstellu
 - [OpenAI API-Key erhalten](openai.md#1-get-api-key)  
 - [Groq API-Key erhalten](groq.md#1-get-api-key)  
 - [Gemini API-Key erhalten](gemini.md#1-get-api-key)  
-- [KI Connect API-Key erhalten](kiconnect.md#1-api-schlüssel-erstellen)
+- [KI Connect API-Key erhalten](kiconnect.md#1-api-schlüssel-erstellen)  

@@ -6,9 +6,9 @@ The KI Connect provider enables access to AI models from TH Köln and other univ
 
 ### 1. Create API Key
 
-1. Log in with your campusID at [ki.th-koeln.de](https://ki.th-koeln.de).
-2. Click on your name in the bottom left and select **"API Key Management"** (API-Schlüsselverwaltung).
-3. Create a new key and copy it.
+1. Log in with your campusID at [ki.th-koeln.de](https://ki.th-koeln.de).  
+2. Click on your name in the bottom left and select **"API Key Management"** (API-Schlüsselverwaltung).  
+3. Create a new key and copy it.  
 
 ### 2. Configure
 
@@ -85,9 +85,9 @@ asyncio.run(main())
 
 ## Characteristics
 
-- **Data Privacy:** KI Connect is GDPR-compliant and optimized for use in higher education in NRW.
-- **Infrastructure:** Models are hosted on university servers in NRW or via privacy-compliant connectors (GWDG/Azure).
-- **Interface:** The API is OpenAI-compatible.
+- **Data Privacy:** KI Connect is GDPR-compliant and optimized for use in higher education in NRW.  
+- **Infrastructure:** Models are hosted on university servers in NRW or via privacy-compliant connectors (GWDG/Azure).  
+- **Interface:** The API is OpenAI-compatible.  
 
 ## Troubleshooting
 
@@ -101,6 +101,6 @@ client = LLMClient(api_choice="kiconnect", kiconnect_api_key="your-key")
 
 ## Resources
 
-- [THKI Chat (TH Köln)](https://ki.th-koeln.de)
-- [Information about THKI (Lehrpfade)](https://lehrpfade.th-koeln.de/thki-chat/)
-- [KI:connect.nrw Documentation](https://kiconnect.pages.rwth-aachen.de/pages/)
+- [THKI Chat (TH Köln)](https://ki.th-koeln.de)  
+- [Information about THKI (Lehrpfade)](https://lehrpfade.th-koeln.de/thki-chat/)  
+- [KI:connect.nrw Documentation](https://kiconnect.pages.rwth-aachen.de/pages/)  

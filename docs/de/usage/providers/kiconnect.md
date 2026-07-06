@@ -6,9 +6,9 @@ Der KI Connect Provider ermöglicht den Zugriff auf die KI-Modelle der TH Köln 
 
 ### 1. API-Schlüssel erstellen
 
-1. Melden Sie sich mit Ihrer campusID auf [ki.th-koeln.de](https://ki.th-koeln.de) an.
-2. Klicken Sie unten links auf Ihren Namen und wählen Sie **"API-Schlüsselverwaltung"**.
-3. Erstellen Sie einen neuen Schlüssel und kopieren Sie diesen.
+1. Melden Sie sich mit Ihrer campusID auf [ki.th-koeln.de](https://ki.th-koeln.de) an.  
+2. Klicken Sie unten links auf Ihren Namen und wählen Sie **"API-Schlüsselverwaltung"**.  
+3. Erstellen Sie einen neuen Schlüssel und kopieren Sie diesen.  
 
 ### 2. Konfigurieren
 
@@ -85,9 +85,9 @@ asyncio.run(main())
 
 ## Besonderheiten
 
-- **Datenschutz:** KI Connect ist datenschutzkonform und für den Einsatz in der Lehre an Hochschulen in NRW optimiert.
-- **Infrastruktur:** Die Modelle werden teilweise auf eigenen Servern in NRW (z.B. RAMSES in Köln) oder über datenschutzkonforme Anbindungen (GWDG/Azure) bereitgestellt.
-- **Schnittstelle:** Die API ist OpenAI-kompatibel.
+- **Datenschutz:** KI Connect ist datenschutzkonform und für den Einsatz in der Lehre an Hochschulen in NRW optimiert.  
+- **Infrastruktur:** Die Modelle werden teilweise auf eigenen Servern in NRW (z.B. RAMSES in Köln) oder über datenschutzkonforme Anbindungen (GWDG/Azure) bereitgestellt.  
+- **Schnittstelle:** Die API ist OpenAI-kompatibel.  
 
 ## Fehlerbehebung
 
@@ -101,6 +101,6 @@ client = LLMClient(api_choice="kiconnect", kiconnect_api_key="your-key")
 
 ## Ressourcen
 
-- [THKI Chat (TH Köln)](https://ki.th-koeln.de)
-- [Informationen zu THKI (Lehrpfade)](https://lehrpfade.th-koeln.de/thki-chat/)
-- [KI:connect.nrw Dokumentation](https://kiconnect.pages.rwth-aachen.de/pages/)
+- [THKI Chat (TH Köln)](https://ki.th-koeln.de)  
+- [Informationen zu THKI (Lehrpfade)](https://lehrpfade.th-koeln.de/thki-chat/)  
+- [KI:connect.nrw Dokumentation](https://kiconnect.pages.rwth-aachen.de/pages/)  
