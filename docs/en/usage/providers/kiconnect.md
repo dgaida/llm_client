@@ -40,21 +40,26 @@ KI Connect provides access to various models. You can find the names in the mode
 
 | Model | Description |
 |-------|-------------|
-| `GPT 5.4 mini` | Fast and efficient model (default) |
-| `GPT OSS 120B` | Capable open source model (reasoning) |
-| `Mistral Small 4 119B` | Open source model |
-| `Qwen 3.5 397B` | Large open source model |
+| `openai-gpt5.5` | Latest GPT model (default) |
+| `openai-gpt5.4-mini` | Fast and efficient model |
+| `openai-gpt-oss-120b` | Powerful open reasoning model |
+| `mistralai-mistral-small-4-119b-2603` | Mistral Small model |
+| `glm-4.7` | GLM model |
+| `qwen3.5-397b-a17b` | Large Qwen model |
+| `qwen3-omni-30b-a3b-instruct` | Qwen Omni model |
+| `deepseek-r1-distill-llama-70b` | DeepSeek R1 model |
+| `qwen-qwen3-embedding-8b` | Qwen Embedding model |
 
 ### Model Selection
 
 ```python
-# Use default model (GPT 5.4 mini)
+# Use default model (openai-gpt5.5)
 client = LLMClient(api_choice="kiconnect")
 
 # Select specific model
 client = LLMClient(
     api_choice="kiconnect",
-    llm="GPT OSS 120B"
+    llm="openai-gpt-oss-120b"
 )
 ```
 
