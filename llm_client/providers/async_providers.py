@@ -686,3 +686,96 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
         if response.status_code == 200:
             return [m["id"] for m in response.json().get("data", [])]
         return []
+
+
+class AsyncKIConnectProvider(BaseProvider, AsyncProviderMixin):
+    """Async KI Connect provider via OpenAI compatibility mode."""
+
+    def _initialize_client(self, **kwargs: Any) -> None:
+        """Initialize async KI Connect client using OpenAI compatibility."""
+        if not self.is_available():
+            raise ProviderNotAvailableError("kiconnect", "openai")
+
+        api_key = kwargs.get("api_key")
+        if not api_key:
+            raise APIKeyNotFoundError("kiconnect", "KICONNECT_API_KEY")
+
+        self.client = AsyncOpenAI(
+            api_key=api_key,
+            base_url="https://chat.kiconnect.nrw/api/v1",
+        )
+        self._validate_llm()
+
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+        """Sync method raises error - use async version."""
+        raise RuntimeError(
+            "AsyncKIConnectProvider only supports async methods. " "Use achat_completion() instead."
+        )
+
+    async def _achat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+        """Execute async chat completion with KI Connect."""
+        if not self.client:
+            raise RuntimeError("KI Connect client not initialized")
+
+        response = await self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+        message = response.choices[0].message
+
+        # Log thought signature if present (Gemini support)
+        from .providers import logger
+
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        return message.content
+
+    async def _achat_completion_stream_impl(
+        self, messages: list[dict[str, str]]
+    ) -> AsyncIterator[str]:
+        """Stream async chat completion with KI Connect."""
+        if not self.client:
+            raise RuntimeError("KI Connect client not initialized")
+
+        stream = await self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+            stream=True,
+        )
+
+        async for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                yield chunk.choices[0].delta.content
+
+    @staticmethod
+    def get_default_model() -> str:
+        """Get default KI Connect model."""
+        return "GPT 5.4 mini"
+
+    @staticmethod
+    def is_available() -> bool:
+        """Check if AsyncOpenAI (required for KI Connect) is available."""
+        return AsyncOpenAI is not None
+
+    def list_models(self) -> list[str]:
+        """List available models for KI Connect (sync)."""
+        if not self.client:
+            return []
+        try:
+            api_key = self.client.api_key
+            url = "https://chat.kiconnect.nrw/api/v1/models"
+            headers = {"Authorization": f"Bearer {api_key}"}
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                return [m["id"] for m in response.json().get("data", [])]
+        except Exception as e:
+            from .providers import logger
+
+            logger.debug(f"Error listing models for KI Connect: {e}")
+        return []

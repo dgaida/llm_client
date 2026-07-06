@@ -9,10 +9,12 @@ from llm_client.exceptions import (
     APIKeyNotFoundError,
     InvalidProviderError,
 )
+from llm_client.providers.async_providers import AsyncKIConnectProvider
 from llm_client.providers.provider_factory import ProviderFactory
 from llm_client.providers.providers import (
     GeminiProvider,
     GroqProvider,
+    KIConnectProvider,
     OllamaProvider,
     OpenAIProvider,
 )
@@ -473,3 +475,29 @@ class TestProviderFactoryAdvanced:
                 None, None, None, ollama_api_key="key", use_ollama_cloud=True
             )
             assert provider_name == "ollama"
+
+
+def test_create_kiconnect_provider():
+    """Test: ProviderFactory creates KIConnectProvider correctly."""
+    with patch("llm_client.providers.providers.OpenAI") as mock_openai:
+        mock_openai.return_value = MagicMock()
+
+        provider = ProviderFactory.create_provider(
+            api_choice="kiconnect", kiconnect_api_key="test-key"
+        )
+
+        assert isinstance(provider, KIConnectProvider)
+        assert provider.llm == "GPT 5.4 mini"
+
+
+@pytest.mark.asyncio
+async def test_create_async_kiconnect_provider():
+    """Test: ProviderFactory creates AsyncKIConnectProvider correctly."""
+    with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+        mock_async_openai.return_value = MagicMock()
+
+        provider = ProviderFactory.create_provider(
+            api_choice="kiconnect", kiconnect_api_key="test-key", use_async=True
+        )
+
+        assert isinstance(provider, AsyncKIConnectProvider)

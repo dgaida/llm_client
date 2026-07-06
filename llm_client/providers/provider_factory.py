@@ -1,4 +1,4 @@
-"""Factory for creating LLM provider instances with Ollama Cloud support."""
+"""Factory for creating LLM provider instances."""
 
 import os
 from typing import Literal
@@ -6,7 +6,13 @@ from typing import Literal
 from ..exceptions import APIKeyNotFoundError, InvalidProviderError
 from ..utils.logging_config import get_logger
 from .base_provider import BaseProvider
-from .providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
+from .providers import (
+    GeminiProvider,
+    GroqProvider,
+    KIConnectProvider,
+    OllamaProvider,
+    OpenAIProvider,
+)
 
 logger = get_logger(__name__)
 
@@ -24,6 +30,7 @@ class ProviderFactory:
         "groq": GroqProvider,
         "gemini": GeminiProvider,
         "ollama": OllamaProvider,
+        "kiconnect": KIConnectProvider,
     }
 
     _async_provider_classes = {}  # Will be populated if async module available
@@ -53,7 +60,7 @@ class ProviderFactory:
     @classmethod
     def create_provider(
         cls,
-        api_choice: Literal["openai", "groq", "gemini", "ollama"] | None = None,
+        api_choice: Literal["openai", "groq", "gemini", "ollama", "kiconnect"] | None = None,
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
@@ -61,6 +68,7 @@ class ProviderFactory:
         groq_api_key: str | None = None,
         gemini_api_key: str | None = None,
         ollama_api_key: str | None = None,
+        kiconnect_api_key: str | None = None,
         api_key: str | None = None,
         keep_alive: str = "5m",
         use_async: bool = False,
@@ -78,6 +86,7 @@ class ProviderFactory:
             groq_api_key: Groq API key.
             gemini_api_key: Gemini API key.
             ollama_api_key: Ollama Cloud API key.
+            kiconnect_api_key: KI Connect API key.
             api_key: Generic API key (used for auto-detection).
             keep_alive: Ollama keep-alive duration.
             use_async: If True, create async provider.
@@ -108,6 +117,8 @@ class ProviderFactory:
                     gemini_api_key = api_key
                 elif api_choice == "ollama" and not ollama_api_key:
                     ollama_api_key = api_key
+                elif api_choice == "kiconnect" and not kiconnect_api_key:
+                    kiconnect_api_key = api_key
 
         # Lazy load async providers
         if use_async and not cls._async_provider_classes:
@@ -123,7 +134,12 @@ class ProviderFactory:
         # Auto-select API if not specified
         if api_choice is None:
             api_choice = cls._auto_select_api(
-                openai_api_key, groq_api_key, gemini_api_key, ollama_api_key, use_ollama_cloud
+                openai_api_key,
+                groq_api_key,
+                gemini_api_key,
+                ollama_api_key,
+                kiconnect_api_key,
+                use_ollama_cloud,
             )
             logger.info(f"Auto-selected API: {api_choice}")
 
@@ -154,6 +170,8 @@ class ProviderFactory:
             kwargs["api_key"] = groq_api_key
         elif api_choice == "gemini":
             kwargs["api_key"] = gemini_api_key
+        elif api_choice == "kiconnect":
+            kwargs["api_key"] = kiconnect_api_key
         elif api_choice == "ollama":
             kwargs["keep_alive"] = keep_alive
             kwargs["use_cloud"] = use_ollama_cloud
@@ -173,6 +191,7 @@ class ProviderFactory:
             from .async_providers import (
                 AsyncGeminiProvider,
                 AsyncGroqProvider,
+                AsyncKIConnectProvider,
                 AsyncOpenAIProvider,
             )
 
@@ -181,6 +200,7 @@ class ProviderFactory:
                 "groq": AsyncGroqProvider,
                 "gemini": AsyncGeminiProvider,
                 "ollama": OllamaProvider,  # Ollama doesn't have async yet
+                "kiconnect": AsyncKIConnectProvider,
             }
             logger.debug("Async providers loaded successfully")
         except ImportError as e:
@@ -193,17 +213,19 @@ class ProviderFactory:
         groq_api_key: str | None,
         gemini_api_key: str | None,
         ollama_api_key: str | None = None,
+        kiconnect_api_key: str | None = None,
         use_ollama_cloud: bool = False,
     ) -> str:
         """Auto-select API based on available keys.
 
-        Priority: OpenAI > Groq > Gemini > Ollama Cloud (if key) > Ollama Local
+        Priority: OpenAI > Groq > Gemini > KI Connect > Ollama Cloud (if key) > Ollama Local
 
         Args:
             openai_api_key: OpenAI API key.
             groq_api_key: Groq API key.
             gemini_api_key: Gemini API key.
             ollama_api_key: Ollama Cloud API key.
+            kiconnect_api_key: KI Connect API key.
             use_ollama_cloud: If True, prefer Ollama Cloud over local.
 
         Returns:
@@ -225,6 +247,9 @@ class ProviderFactory:
         elif gemini_api_key:
             logger.debug("Selected Gemini (API key found)")
             return "gemini"
+        elif kiconnect_api_key:
+            logger.debug("Selected KI Connect (API key found)")
+            return "kiconnect"
         elif use_ollama_cloud and ollama_api_key:
             logger.debug("Selected Ollama Cloud (API key found)")
             return "ollama"

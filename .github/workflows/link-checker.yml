@@ -19,7 +19,7 @@ jobs:
         with:
           # Check all markdown files in the repository
           # Exclude domains that often return 429 or 403 Forbidden to automated checkers
-          args: --verbose --no-progress --exclude "openai.com" --exclude "medium.com" --exclude "gopenai.com" --exclude "github.com/ollama/ollama" --exclude "deeplearning.ai" "**/*.md"
+          args: --verbose --no-progress --exclude "openai.com" --exclude "medium.com" --exclude "gopenai.com" --exclude "github.com/ollama/ollama" --exclude "deeplearning.ai" --exclude "ki.th-koeln.de" "**/*.md"
           # Fail the action if broken links are found
           failIfEmpty: false
         env:

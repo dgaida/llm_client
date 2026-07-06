@@ -300,6 +300,11 @@ def create_default_config() -> dict[str, Any]:
                 "temperature": 0.8,
                 "max_tokens": 2048,
             },
+            "kiconnect": {
+                "model": "GPT 5.4 mini",
+                "temperature": 0.7,
+                "max_tokens": 512,
+            },
             "ollama": {
                 "model": "llama3.2:1b",
                 "temperature": 0.7,
