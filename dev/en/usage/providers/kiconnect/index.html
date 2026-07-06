@@ -2946,31 +2946,51 @@
 </thead>
 <tbody>
 <tr>
-<td><code>GPT 5.4 mini</code></td>
-<td>Fast and efficient model (default)</td>
+<td><code>openai-gpt5.5</code></td>
+<td>Latest GPT model (default)</td>
 </tr>
 <tr>
-<td><code>GPT OSS 120B</code></td>
-<td>Capable open source model (reasoning)</td>
+<td><code>openai-gpt5.4-mini</code></td>
+<td>Fast and efficient model</td>
 </tr>
 <tr>
-<td><code>Mistral Small 4 119B</code></td>
-<td>Open source model</td>
+<td><code>openai-gpt-oss-120b</code></td>
+<td>Powerful open reasoning model</td>
 </tr>
 <tr>
-<td><code>Qwen 3.5 397B</code></td>
-<td>Large open source model</td>
+<td><code>mistralai-mistral-small-4-119b-2603</code></td>
+<td>Mistral Small model</td>
+</tr>
+<tr>
+<td><code>glm-4.7</code></td>
+<td>GLM model</td>
+</tr>
+<tr>
+<td><code>qwen3.5-397b-a17b</code></td>
+<td>Large Qwen model</td>
+</tr>
+<tr>
+<td><code>qwen3-omni-30b-a3b-instruct</code></td>
+<td>Qwen Omni model</td>
+</tr>
+<tr>
+<td><code>deepseek-r1-distill-llama-70b</code></td>
+<td>DeepSeek R1 model</td>
+</tr>
+<tr>
+<td><code>qwen-qwen3-embedding-8b</code></td>
+<td>Qwen Embedding model</td>
 </tr>
 </tbody>
 </table>
 <h3 id="model-selection">Model Selection<a class="headerlink" href="#model-selection" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Use default model (GPT 5.4 mini)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Use default model (openai-gpt5.5)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Select specific model</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">,</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;GPT OSS 120B&quot;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;openai-gpt-oss-120b&quot;</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">)</span>
 </code></pre></div>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
