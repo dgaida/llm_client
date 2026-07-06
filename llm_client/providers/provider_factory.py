@@ -165,13 +165,13 @@ class ProviderFactory:
         # Prepare kwargs based on provider type
         kwargs = {}
         if api_choice == "openai":
-            kwargs["api_key"] = openai_api_key
+            kwargs["api_key"] = openai_api_key or api_key
         elif api_choice == "groq":
-            kwargs["api_key"] = groq_api_key
+            kwargs["api_key"] = groq_api_key or api_key
         elif api_choice == "gemini":
-            kwargs["api_key"] = gemini_api_key
+            kwargs["api_key"] = gemini_api_key or api_key
         elif api_choice == "kiconnect":
-            kwargs["api_key"] = kiconnect_api_key
+            kwargs["api_key"] = kiconnect_api_key or api_key
         elif api_choice == "ollama":
             kwargs["keep_alive"] = keep_alive
             kwargs["use_cloud"] = use_ollama_cloud
