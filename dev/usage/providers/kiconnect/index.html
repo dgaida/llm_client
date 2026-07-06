@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="de" class="no-js">
   <head>
     
       <meta charset="utf-8">
@@ -12,19 +12,19 @@
         <meta name="author" content="Daniel Gaida">
       
       
-        <link rel="canonical" href="https://dgaida.github.io/llm_client/dev/en/development/testing/">
+        <link rel="canonical" href="https://dgaida.github.io/llm_client/dev/usage/providers/kiconnect/">
       
       
-        <link rel="prev" href="../changelog/">
+        <link rel="prev" href="../ollama_cloud/">
       
       
-        <link rel="next" href="../logging/">
+        <link rel="next" href="../../../tutorials/">
       
       
         
-          <link rel="alternate" href="../../../development/testing/" hreflang="de">
+          <link rel="alternate" href="./" hreflang="de">
         
-          <link rel="alternate" href="./" hreflang="en">
+          <link rel="alternate" href="../../../en/usage/providers/kiconnect/" hreflang="en">
         
       
       
@@ -33,7 +33,7 @@
     
     
       
-        <title>Testing - LLM Client Documentation</title>
+        <title>KI Connect - LLM Client Documentation</title>
       
     
     
@@ -58,8 +58,6 @@
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
-    
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
@@ -88,8 +86,8 @@
     <div data-md-component="skip">
       
         
-        <a href="#testing" class="md-skip">
-          Skip to content
+        <a href="#ki-connect-provider" class="md-skip">
+          Zum Inhalt
         </a>
       
     </div>
@@ -101,8 +99,8 @@
       
 
 <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../" title="LLM Client Documentation" class="md-header__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
+  <nav class="md-header__inner md-grid" aria-label="Kopfzeile">
+    <a href="../../.." title="LLM Client Documentation" class="md-header__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -122,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Testing
+              KI Connect
             
           </span>
         </div>
@@ -162,20 +160,20 @@
       <div class="md-header__option">
   <div class="md-select">
     
-    <button class="md-header__button md-icon" aria-label="Select language">
+    <button class="md-header__button md-icon" aria-label="Sprache wechseln">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
     </button>
     <div class="md-select__inner">
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="../../../development/testing/" hreflang="de" class="md-select__link">
+            <a href="./" hreflang="de" class="md-select__link">
               Deutsch
             </a>
           </li>
         
           <li class="md-select__item">
-            <a href="./" hreflang="en" class="md-select__link">
+            <a href="../../../en/usage/providers/kiconnect/" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
@@ -196,16 +194,16 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Suche" placeholder="Suche" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
-      <nav class="md-search__options" aria-label="Search">
+      <nav class="md-search__options" aria-label="Suche">
         
-        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Zurücksetzen" aria-label="Zurücksetzen" tabindex="-1">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
@@ -218,7 +216,7 @@
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Initializing search
+            Suche wird initialisiert
           </div>
           <ol class="md-search-result__list" role="presentation"></ol>
         </div>
@@ -230,7 +228,7 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/dgaida/llm_client" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/dgaida/llm_client" title="Zum Repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -251,7 +249,7 @@
         
           
             
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+<nav class="md-tabs" aria-label="Hauptnavigation" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
       
@@ -261,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../" class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -280,7 +278,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../installation/" class="md-tabs__link">
+      <a href="../../../installation/" class="md-tabs__link">
         
   
   
@@ -299,7 +297,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../getting-started/" class="md-tabs__link">
+      <a href="../../../getting-started/" class="md-tabs__link">
         
   
   
@@ -318,7 +316,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../configuration/" class="md-tabs__link">
+      <a href="../../../configuration/" class="md-tabs__link">
         
   
   
@@ -335,11 +333,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../usage/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
   
@@ -361,7 +361,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tutorials/" class="md-tabs__link">
+        <a href="../../../tutorials/" class="md-tabs__link">
           
   
   
@@ -383,7 +383,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../features/" class="md-tabs__link">
+        <a href="../../../features/" class="md-tabs__link">
           
   
   
@@ -405,7 +405,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../api/" class="md-tabs__link">
+        <a href="../../../api/" class="md-tabs__link">
           
   
   
@@ -425,7 +425,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../architecture/" class="md-tabs__link">
+      <a href="../../../architecture/" class="md-tabs__link">
         
   
   
@@ -442,13 +442,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../changelog/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../development/changelog/" class="md-tabs__link">
           
   
   
@@ -468,7 +466,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../troubleshooting/" class="md-tabs__link">
+      <a href="../../../troubleshooting/" class="md-tabs__link">
         
   
   
@@ -487,7 +485,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../metrics/" class="md-tabs__link">
+      <a href="../../../metrics/" class="md-tabs__link">
         
   
   
@@ -506,7 +504,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../changelog/" class="md-tabs__link">
+      <a href="../../../changelog/" class="md-tabs__link">
         
   
   
@@ -541,7 +539,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../" title="LLM Client Documentation" class="md-nav__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
+    <a href="../../.." title="LLM Client Documentation" class="md-nav__button md-logo" aria-label="LLM Client Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -551,7 +549,7 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/dgaida/llm_client" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/dgaida/llm_client" title="Zum Repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
@@ -571,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../" class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -598,7 +596,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
+      <a href="../../../installation/" class="md-nav__link">
         
   
   
@@ -625,7 +623,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+      <a href="../../../getting-started/" class="md-nav__link">
         
   
   
@@ -652,7 +650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../configuration/" class="md-nav__link">
+      <a href="../../../configuration/" class="md-nav__link">
         
   
   
@@ -676,6 +674,8 @@
       
   
   
+    
+  
   
   
     
@@ -697,22 +697,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../usage/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   
@@ -730,13 +731,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -756,7 +757,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/cli/" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
@@ -784,7 +785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/basic-usage/" class="md-nav__link">
+      <a href="../../basic-usage/" class="md-nav__link">
         
   
   
@@ -812,7 +813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/provider_switching/" class="md-nav__link">
+      <a href="../../provider_switching/" class="md-nav__link">
         
   
   
@@ -837,6 +838,8 @@
                 
   
   
+    
+  
   
   
     
@@ -864,20 +867,21 @@
       
       
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
+          
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_5" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../usage/providers/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -895,13 +899,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -921,7 +925,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/providers/openai/" class="md-nav__link">
+      <a href="../openai/" class="md-nav__link">
         
   
   
@@ -949,7 +953,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/providers/groq/" class="md-nav__link">
+      <a href="../groq/" class="md-nav__link">
         
   
   
@@ -977,7 +981,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/providers/gemini/" class="md-nav__link">
+      <a href="../gemini/" class="md-nav__link">
         
   
   
@@ -1005,7 +1009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/providers/ollama/" class="md-nav__link">
+      <a href="../ollama/" class="md-nav__link">
         
   
   
@@ -1033,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/providers/ollama_cloud/" class="md-nav__link">
+      <a href="../ollama_cloud/" class="md-nav__link">
         
   
   
@@ -1058,10 +1062,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../usage/providers/kiconnect/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KI Connect
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1077,6 +1108,204 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Inhaltsverzeichnis
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#einrichtung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Einrichtung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Einrichtung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-schlussel-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. API-Schlüssel erstellen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Konfigurieren
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nutzung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nutzung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nutzung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grundlegende-nutzung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grundlegende Nutzung
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verfugbare-modelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verfügbare Modelle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modellauswahl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modellauswahl
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#besonderheiten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Besonderheiten
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fehlerbehebung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fehlerbehebung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fehlerbehebung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-schlussel-nicht-gefunden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API-Schlüssel nicht gefunden
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressourcen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ressourcen
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1133,7 +1362,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tutorials/" class="md-nav__link ">
+            <a href="../../../tutorials/" class="md-nav__link ">
               
   
   
@@ -1177,7 +1406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/rag-chatbot/" class="md-nav__link">
+      <a href="../../../tutorials/rag-chatbot/" class="md-nav__link">
         
   
   
@@ -1205,7 +1434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/rag-chatbot-tts/" class="md-nav__link">
+      <a href="../../../tutorials/rag-chatbot-tts/" class="md-nav__link">
         
   
   
@@ -1312,7 +1541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1340,7 +1569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../usage/token-counting/" class="md-nav__link">
+      <a href="../../token-counting/" class="md-nav__link">
         
   
   
@@ -1368,7 +1597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1396,7 +1625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1424,7 +1653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1452,7 +1681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1480,7 +1709,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1508,7 +1737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/" class="md-nav__link">
+      <a href="../../../features/" class="md-nav__link">
         
   
   
@@ -1580,7 +1809,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../api/" class="md-nav__link ">
+            <a href="../../../api/" class="md-nav__link ">
               
   
   
@@ -1624,7 +1853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/llm_client/" class="md-nav__link">
+      <a href="../../../api/llm_client/" class="md-nav__link">
         
   
   
@@ -1652,7 +1881,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/config/" class="md-nav__link">
+      <a href="../../../api/config/" class="md-nav__link">
         
   
   
@@ -1746,7 +1975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/providers_base_provider/" class="md-nav__link">
+      <a href="../../../api/providers_base_provider/" class="md-nav__link">
         
   
   
@@ -1774,7 +2003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/providers_providers/" class="md-nav__link">
+      <a href="../../../api/providers_providers/" class="md-nav__link">
         
   
   
@@ -1802,7 +2031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/providers_async_providers/" class="md-nav__link">
+      <a href="../../../api/providers_async_providers/" class="md-nav__link">
         
   
   
@@ -1830,7 +2059,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/providers_provider_factory/" class="md-nav__link">
+      <a href="../../../api/providers_provider_factory/" class="md-nav__link">
         
   
   
@@ -1858,7 +2087,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/providers_adapter/" class="md-nav__link">
+      <a href="../../../api/providers_adapter/" class="md-nav__link">
         
   
   
@@ -1956,7 +2185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils_token_counter/" class="md-nav__link">
+      <a href="../../../api/utils_token_counter/" class="md-nav__link">
         
   
   
@@ -1984,7 +2213,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils_file_utils/" class="md-nav__link">
+      <a href="../../../api/utils_file_utils/" class="md-nav__link">
         
   
   
@@ -2012,7 +2241,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/utils_logging_config/" class="md-nav__link">
+      <a href="../../../api/utils_logging_config/" class="md-nav__link">
         
   
   
@@ -2048,7 +2277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/cli/" class="md-nav__link">
+      <a href="../../../api/cli/" class="md-nav__link">
         
   
   
@@ -2076,7 +2305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/exceptions/" class="md-nav__link">
+      <a href="../../../api/exceptions/" class="md-nav__link">
         
   
   
@@ -2111,7 +2340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/" class="md-nav__link">
+      <a href="../../../architecture/" class="md-nav__link">
         
   
   
@@ -2135,10 +2364,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -2158,22 +2385,21 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
-          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -2191,7 +2417,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2209,7 +2435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../changelog/" class="md-nav__link">
+      <a href="../../../development/changelog/" class="md-nav__link">
         
   
   
@@ -2234,37 +2460,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Testing
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../development/testing/" class="md-nav__link">
         
   
   
@@ -2280,48 +2479,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#test-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Test Structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#code-quality-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Code Quality Checks
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2334,7 +2491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logging/" class="md-nav__link">
+      <a href="../../../development/logging/" class="md-nav__link">
         
   
   
@@ -2362,7 +2519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docstring-guide/" class="md-nav__link">
+      <a href="../../../development/docstring-guide/" class="md-nav__link">
         
   
   
@@ -2390,7 +2547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../contributing/" class="md-nav__link">
+      <a href="../../../development/contributing/" class="md-nav__link">
         
   
   
@@ -2418,7 +2575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../versioning/" class="md-nav__link">
+      <a href="../../../development/versioning/" class="md-nav__link">
         
   
   
@@ -2453,7 +2610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../troubleshooting/" class="md-nav__link">
+      <a href="../../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -2480,7 +2637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../metrics/" class="md-nav__link">
+      <a href="../../../metrics/" class="md-nav__link">
         
   
   
@@ -2507,7 +2664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../changelog/" class="md-nav__link">
+      <a href="../../../changelog/" class="md-nav__link">
         
   
   
@@ -2540,7 +2697,7 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+<nav class="md-nav md-nav--secondary" aria-label="Inhaltsverzeichnis">
   
   
   
@@ -2549,15 +2706,143 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      Table of contents
+      Inhaltsverzeichnis
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#test-structure" class="md-nav__link">
+  <a href="#einrichtung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Test Structure
+        Einrichtung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Einrichtung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-schlussel-erstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. API-Schlüssel erstellen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-konfigurieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Konfigurieren
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nutzung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nutzung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Nutzung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grundlegende-nutzung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grundlegende Nutzung
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verfugbare-modelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verfügbare Modelle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modellauswahl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modellauswahl
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#async-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Async Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#besonderheiten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Besonderheiten
       
     </span>
   </a>
@@ -2565,10 +2850,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#code-quality-checks" class="md-nav__link">
+  <a href="#fehlerbehebung" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Code Quality Checks
+        Fehlerbehebung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fehlerbehebung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api-schlussel-nicht-gefunden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API-Schlüssel nicht gefunden
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ressourcen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ressourcen
       
     </span>
   </a>
@@ -2595,46 +2908,103 @@
   
 
 
-<h1 id="testing">🧪 Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># All tests</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pytest
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># With coverage report</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>pytest<span class="w"> </span>--cov<span class="o">=</span>llm_client<span class="w"> </span>--cov-report<span class="o">=</span>html
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Specific tests</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>pytest<span class="w"> </span>tests/test_llm_client.py<span class="w"> </span>-v
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Tests for new features</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>pytest<span class="w"> </span>tests/test_new_features.py<span class="w"> </span>-v
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>pytest<span class="w"> </span>tests/tests_new_features_complete.py<span class="w"> </span>-v
+<h1 id="ki-connect-provider">KI Connect Provider<a class="headerlink" href="#ki-connect-provider" title="Permanent link">&para;</a></h1>
+<p>Der KI Connect Provider ermöglicht den Zugriff auf die KI-Modelle der TH Köln und anderer Hochschulen in NRW über die zentrale Infrastruktur von <a href="https://kiconnect.pages.rwth-aachen.de/pages/">KI:connect.nrw</a>.</p>
+<h2 id="einrichtung">Einrichtung<a class="headerlink" href="#einrichtung" title="Permanent link">&para;</a></h2>
+<h3 id="1-api-schlussel-erstellen">1. API-Schlüssel erstellen<a class="headerlink" href="#1-api-schlussel-erstellen" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Melden Sie sich mit Ihrer campusID auf <a href="https://ki.th-koeln.de">ki.th-koeln.de</a> an.</li>
+<li>Klicken Sie unten links auf Ihren Namen und wählen Sie <strong>"API-Schlüsselverwaltung"</strong>.</li>
+<li>Erstellen Sie einen neuen Schlüssel und kopieren Sie diesen.</li>
+</ol>
+<h3 id="2-konfigurieren">2. Konfigurieren<a class="headerlink" href="#2-konfigurieren" title="Permanent link">&para;</a></h3>
+<p>Sie können den API-Schlüssel als Umgebungsvariable setzen:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Empfehlung: Verwenden Sie KICONNECT_API_KEY</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">KICONNECT_API_KEY</span><span class="o">=</span>ihr-api-schlüssel-hier
 </code></pre></div>
-<h2 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tests/
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── test_llm_client.py              # Comprehensive tests for all providers
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── test_switch_provider.py         # Dynamic provider switching tests
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>├── test_adapter.py                 # llama-index integration tests
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>├── test_base_provider.py           # Abstract base class tests
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>├── test_providers.py               # Provider implementation tests
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>├── test_provider_factory.py        # Factory pattern tests
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>├── test_new_features.py            # Streaming and retry logic tests
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>├── tests_new_features_complete.py  # Token counting, async, config tests
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>├── test_integration.py             # End-to-end integration tests
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>└── README.md                       # Detailed test documentation
+<h2 id="nutzung">Nutzung<a class="headerlink" href="#nutzung" title="Permanent link">&para;</a></h2>
+<h3 id="grundlegende-nutzung">Grundlegende Nutzung<a class="headerlink" href="#grundlegende-nutzung" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Explizite Auswahl</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">messages</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Hallo!&quot;</span><span class="p">}]</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="code-quality-checks">Code Quality Checks<a class="headerlink" href="#code-quality-checks" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Format code</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>black<span class="w"> </span>.
+<h3 id="verfugbare-modelle">Verfügbare Modelle<a class="headerlink" href="#verfugbare-modelle" title="Permanent link">&para;</a></h3>
+<p>KI Connect bietet Zugriff auf verschiedene Modelle. Die Namen können Sie der Modellübersicht im THKI Chat entnehmen.</p>
+<table>
+<thead>
+<tr>
+<th>Modell</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GPT 5.4 mini</code></td>
+<td>Schnelles und effizientes Modell (Standard)</td>
+</tr>
+<tr>
+<td><code>GPT OSS 120B</code></td>
+<td>Leistungsstarkes offenes Modell (Reasoning)</td>
+</tr>
+<tr>
+<td><code>Mistral Small 4 119B</code></td>
+<td>Offenes Modell</td>
+</tr>
+<tr>
+<td><code>Qwen 3.5 397B</code></td>
+<td>Großes offenes Modell</td>
+</tr>
+</tbody>
+</table>
+<h3 id="modellauswahl">Modellauswahl<a class="headerlink" href="#modellauswahl" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Standardmodell verwenden (GPT 5.4 mini)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Lint</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>ruff<span class="w"> </span>check<span class="w"> </span>.
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Auto-fix</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>ruff<span class="w"> </span>check<span class="w"> </span>--fix<span class="w"> </span>.
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Type checking</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>mypy<span class="w"> </span>llm_client
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Spezifisches Modell wählen</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;GPT OSS 120B&quot;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">)</span>
 </code></pre></div>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<h3 id="streaming">Streaming<a class="headerlink" href="#streaming" title="Permanent link">&para;</a></h3>
+<p>KI Connect unterstützt Streaming für Echtzeit-Antworten:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_stream</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="async-support">Async Support<a class="headerlink" href="#async-support" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">,</span> <span class="n">use_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">achat_completion</span><span class="p">([{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Hallo&quot;</span><span class="p">}])</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</code></pre></div>
+<h2 id="besonderheiten">Besonderheiten<a class="headerlink" href="#besonderheiten" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Datenschutz:</strong> KI Connect ist datenschutzkonform und für den Einsatz in der Lehre an Hochschulen in NRW optimiert.</li>
+<li><strong>Infrastruktur:</strong> Die Modelle werden teilweise auf eigenen Servern in NRW (z.B. RAMSES in Köln) oder über datenschutzkonforme Anbindungen (GWDG/Azure) bereitgestellt.</li>
+<li><strong>Schnittstelle:</strong> Die API ist OpenAI-kompatibel.</li>
+</ul>
+<h2 id="fehlerbehebung">Fehlerbehebung<a class="headerlink" href="#fehlerbehebung" title="Permanent link">&para;</a></h2>
+<h3 id="api-schlussel-nicht-gefunden">API-Schlüssel nicht gefunden<a class="headerlink" href="#api-schlussel-nicht-gefunden" title="Permanent link">&para;</a></h3>
+<p>Stellen Sie sicher, dass <code>KICONNECT_API_KEY</code> korrekt gesetzt ist oder übergeben Sie ihn direkt:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;kiconnect&quot;</span><span class="p">,</span> <span class="n">kiconnect_api_key</span><span class="o">=</span><span class="s2">&quot;your-key&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="ressourcen">Ressourcen<a class="headerlink" href="#ressourcen" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://ki.th-koeln.de">THKI Chat (TH Köln)</a></li>
+<li><a href="https://lehrpfade.th-koeln.de/thki-chat/">Informationen zu THKI (Lehrpfade)</a></li>
+<li><a href="https://kiconnect.pages.rwth-aachen.de/pages/">KI:connect.nrw Dokumentation</a></li>
+</ul>
 
 
 
@@ -2658,7 +3028,7 @@
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
-  Back to top
+  Zurück zum Seitenanfang
 </button>
         
       </main>
@@ -2721,7 +3091,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "In Zwischenablage kopiert", "clipboard.copy": "In Zwischenablage kopieren", "search.result.more.one": "1 weiteres Suchergebnis auf dieser Seite", "search.result.more.other": "# weitere Suchergebnisse auf dieser Seite", "search.result.none": "Keine Suchergebnisse", "search.result.one": "1 Suchergebnis", "search.result.other": "# Suchergebnisse", "search.result.placeholder": "Suchbegriff eingeben", "search.result.term.missing": "Es fehlt", "select.version": "Version ausw\u00e4hlen"}, "version": null}</script>
     
     
       <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>

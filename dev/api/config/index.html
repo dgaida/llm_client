@@ -854,6 +854,8 @@
       
         
       
+        
+      
     
     
     
@@ -1037,6 +1039,34 @@
     
   
     Ollama Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/providers/kiconnect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KI Connect
   
 
     
@@ -4920,7 +4950,12 @@ multiple provider configurations.</p>
 <span class="normal"><a href="#__codelineno-0-307">307</a></span>
 <span class="normal"><a href="#__codelineno-0-308">308</a></span>
 <span class="normal"><a href="#__codelineno-0-309">309</a></span>
-<span class="normal"><a href="#__codelineno-0-310">310</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-271" name="__codelineno-0-271"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_default_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="normal"><a href="#__codelineno-0-310">310</a></span>
+<span class="normal"><a href="#__codelineno-0-311">311</a></span>
+<span class="normal"><a href="#__codelineno-0-312">312</a></span>
+<span class="normal"><a href="#__codelineno-0-313">313</a></span>
+<span class="normal"><a href="#__codelineno-0-314">314</a></span>
+<span class="normal"><a href="#__codelineno-0-315">315</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-271" name="__codelineno-0-271"></a><span class="k">def</span><span class="w"> </span><span class="nf">create_default_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <a id="__codelineno-0-272" name="__codelineno-0-272"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a default configuration dictionary.</span>
 <a id="__codelineno-0-273" name="__codelineno-0-273"></a>
 <a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">    Returns:</span>
@@ -4952,14 +4987,19 @@ multiple provider configurations.</p>
 <a id="__codelineno-0-300" name="__codelineno-0-300"></a>                <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
 <a id="__codelineno-0-301" name="__codelineno-0-301"></a>                <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">2048</span><span class="p">,</span>
 <a id="__codelineno-0-302" name="__codelineno-0-302"></a>            <span class="p">},</span>
-<a id="__codelineno-0-303" name="__codelineno-0-303"></a>            <span class="s2">&quot;ollama&quot;</span><span class="p">:</span> <span class="p">{</span>
-<a id="__codelineno-0-304" name="__codelineno-0-304"></a>                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;llama3.2:1b&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-303" name="__codelineno-0-303"></a>            <span class="s2">&quot;kiconnect&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-0-304" name="__codelineno-0-304"></a>                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;GPT 5.4 mini&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-305" name="__codelineno-0-305"></a>                <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
 <a id="__codelineno-0-306" name="__codelineno-0-306"></a>                <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
-<a id="__codelineno-0-307" name="__codelineno-0-307"></a>                <span class="s2">&quot;keep_alive&quot;</span><span class="p">:</span> <span class="s2">&quot;5m&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-308" name="__codelineno-0-308"></a>            <span class="p">},</span>
-<a id="__codelineno-0-309" name="__codelineno-0-309"></a>        <span class="p">},</span>
-<a id="__codelineno-0-310" name="__codelineno-0-310"></a>    <span class="p">}</span>
+<a id="__codelineno-0-307" name="__codelineno-0-307"></a>            <span class="p">},</span>
+<a id="__codelineno-0-308" name="__codelineno-0-308"></a>            <span class="s2">&quot;ollama&quot;</span><span class="p">:</span> <span class="p">{</span>
+<a id="__codelineno-0-309" name="__codelineno-0-309"></a>                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;llama3.2:1b&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-310" name="__codelineno-0-310"></a>                <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+<a id="__codelineno-0-311" name="__codelineno-0-311"></a>                <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
+<a id="__codelineno-0-312" name="__codelineno-0-312"></a>                <span class="s2">&quot;keep_alive&quot;</span><span class="p">:</span> <span class="s2">&quot;5m&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-313" name="__codelineno-0-313"></a>            <span class="p">},</span>
+<a id="__codelineno-0-314" name="__codelineno-0-314"></a>        <span class="p">},</span>
+<a id="__codelineno-0-315" name="__codelineno-0-315"></a>    <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -5035,12 +5075,7 @@ multiple provider configurations.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>llm_client/config.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-313">313</a></span>
-<span class="normal"><a href="#__codelineno-0-314">314</a></span>
-<span class="normal"><a href="#__codelineno-0-315">315</a></span>
-<span class="normal"><a href="#__codelineno-0-316">316</a></span>
-<span class="normal"><a href="#__codelineno-0-317">317</a></span>
-<span class="normal"><a href="#__codelineno-0-318">318</a></span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-318">318</a></span>
 <span class="normal"><a href="#__codelineno-0-319">319</a></span>
 <span class="normal"><a href="#__codelineno-0-320">320</a></span>
 <span class="normal"><a href="#__codelineno-0-321">321</a></span>
@@ -5055,27 +5090,32 @@ multiple provider configurations.</p>
 <span class="normal"><a href="#__codelineno-0-330">330</a></span>
 <span class="normal"><a href="#__codelineno-0-331">331</a></span>
 <span class="normal"><a href="#__codelineno-0-332">332</a></span>
-<span class="normal"><a href="#__codelineno-0-333">333</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-313" name="__codelineno-0-313"></a><span class="k">def</span><span class="w"> </span><span class="nf">generate_config_template</span><span class="p">(</span><span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;yaml&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-314" name="__codelineno-0-314"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a template configuration file.</span>
-<a id="__codelineno-0-315" name="__codelineno-0-315"></a>
-<a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-317" name="__codelineno-0-317"></a><span class="sd">        output_path (str | Path): Path to save template.</span>
-<a id="__codelineno-0-318" name="__codelineno-0-318"></a><span class="sd">        format (str): File format (&#39;yaml&#39; or &#39;json&#39;).</span>
-<a id="__codelineno-0-319" name="__codelineno-0-319"></a>
-<a id="__codelineno-0-320" name="__codelineno-0-320"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-321" name="__codelineno-0-321"></a><span class="sd">        &gt;&gt;&gt; generate_config_template(&quot;llm_config.yaml&quot;)</span>
-<a id="__codelineno-0-322" name="__codelineno-0-322"></a><span class="sd">        &gt;&gt;&gt; generate_config_template(&quot;llm_config.json&quot;, format=&quot;json&quot;)</span>
-<a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-324" name="__codelineno-0-324"></a>    <span class="n">config_dict</span> <span class="o">=</span> <span class="n">create_default_config</span><span class="p">()</span>
-<a id="__codelineno-0-325" name="__codelineno-0-325"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">LLMConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
-<a id="__codelineno-0-326" name="__codelineno-0-326"></a>
-<a id="__codelineno-0-327" name="__codelineno-0-327"></a>    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
-<a id="__codelineno-0-328" name="__codelineno-0-328"></a>    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;.yml&quot;</span><span class="p">]:</span>
-<a id="__codelineno-0-329" name="__codelineno-0-329"></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-330" name="__codelineno-0-330"></a>    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span> <span class="o">!=</span> <span class="s2">&quot;.json&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-331" name="__codelineno-0-331"></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-332" name="__codelineno-0-332"></a>
-<a id="__codelineno-0-333" name="__codelineno-0-333"></a>    <span class="n">config</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-333">333</a></span>
+<span class="normal"><a href="#__codelineno-0-334">334</a></span>
+<span class="normal"><a href="#__codelineno-0-335">335</a></span>
+<span class="normal"><a href="#__codelineno-0-336">336</a></span>
+<span class="normal"><a href="#__codelineno-0-337">337</a></span>
+<span class="normal"><a href="#__codelineno-0-338">338</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-318" name="__codelineno-0-318"></a><span class="k">def</span><span class="w"> </span><span class="nf">generate_config_template</span><span class="p">(</span><span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;yaml&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-319" name="__codelineno-0-319"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a template configuration file.</span>
+<a id="__codelineno-0-320" name="__codelineno-0-320"></a>
+<a id="__codelineno-0-321" name="__codelineno-0-321"></a><span class="sd">    Args:</span>
+<a id="__codelineno-0-322" name="__codelineno-0-322"></a><span class="sd">        output_path (str | Path): Path to save template.</span>
+<a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="sd">        format (str): File format (&#39;yaml&#39; or &#39;json&#39;).</span>
+<a id="__codelineno-0-324" name="__codelineno-0-324"></a>
+<a id="__codelineno-0-325" name="__codelineno-0-325"></a><span class="sd">    Examples:</span>
+<a id="__codelineno-0-326" name="__codelineno-0-326"></a><span class="sd">        &gt;&gt;&gt; generate_config_template(&quot;llm_config.yaml&quot;)</span>
+<a id="__codelineno-0-327" name="__codelineno-0-327"></a><span class="sd">        &gt;&gt;&gt; generate_config_template(&quot;llm_config.json&quot;, format=&quot;json&quot;)</span>
+<a id="__codelineno-0-328" name="__codelineno-0-328"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-329" name="__codelineno-0-329"></a>    <span class="n">config_dict</span> <span class="o">=</span> <span class="n">create_default_config</span><span class="p">()</span>
+<a id="__codelineno-0-330" name="__codelineno-0-330"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">LLMConfig</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
+<a id="__codelineno-0-331" name="__codelineno-0-331"></a>
+<a id="__codelineno-0-332" name="__codelineno-0-332"></a>    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+<a id="__codelineno-0-333" name="__codelineno-0-333"></a>    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.yaml&quot;</span><span class="p">,</span> <span class="s2">&quot;.yml&quot;</span><span class="p">]:</span>
+<a id="__codelineno-0-334" name="__codelineno-0-334"></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.yaml&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-335" name="__codelineno-0-335"></a>    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span> <span class="o">!=</span> <span class="s2">&quot;.json&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-336" name="__codelineno-0-336"></a>        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-337" name="__codelineno-0-337"></a>
+<a id="__codelineno-0-338" name="__codelineno-0-338"></a>    <span class="n">config</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
