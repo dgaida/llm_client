@@ -301,7 +301,7 @@ def create_default_config() -> dict[str, Any]:
                 "max_tokens": 2048,
             },
             "kiconnect": {
-                "model": "GPT 5.4 mini",
+                "model": "openai-gpt5.5",
                 "temperature": 0.7,
                 "max_tokens": 512,
             },

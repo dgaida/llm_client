@@ -756,7 +756,7 @@ class AsyncKIConnectProvider(BaseProvider, AsyncProviderMixin):
     @staticmethod
     def get_default_model() -> str:
         """Get default KI Connect model."""
-        return "GPT 5.4 mini"
+        return "openai-gpt5.5"
 
     @staticmethod
     def is_available() -> bool:

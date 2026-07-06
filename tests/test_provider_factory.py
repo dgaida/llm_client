@@ -487,7 +487,7 @@ def test_create_kiconnect_provider():
         )
 
         assert isinstance(provider, KIConnectProvider)
-        assert provider.llm == "GPT 5.4 mini"
+        assert provider.llm == "openai-gpt5.5"
 
 
 @pytest.mark.asyncio

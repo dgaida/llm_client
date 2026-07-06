@@ -57,7 +57,7 @@ class LLMClient:
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
-        api_choice: Literal["openai", "groq", "gemini", "ollama"] | None = None,
+        api_choice: Literal["openai", "groq", "gemini", "ollama", "kiconnect"] | None = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
         use_async: bool = False,
@@ -94,6 +94,7 @@ class LLMClient:
         self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
         self.ollama_api_key = os.getenv("OLLAMA_API_KEY")
+        self.kiconnect_api_key = os.getenv("KICONNECT_API_KEY")
         self.api_key = os.getenv("API_KEY")
 
         # Log which keys are available (without exposing values)
@@ -106,6 +107,8 @@ class LLMClient:
             available_keys.append("Gemini")
         if self.ollama_api_key:
             available_keys.append("Ollama")
+        if self.kiconnect_api_key:
+            available_keys.append("KI Connect")
         if self.api_key:
             available_keys.append("Generic (API_KEY)")
 
@@ -143,6 +146,7 @@ class LLMClient:
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             ollama_api_key=self.ollama_api_key,
+            kiconnect_api_key=self.kiconnect_api_key,
             api_key=self.api_key,
             keep_alive=keep_alive,
             use_async=use_async,
@@ -257,6 +261,7 @@ class LLMClient:
                     "groq": ("GROQ_API_KEY", "groq_api_key"),
                     "gemini": ("GEMINI_API_KEY", "gemini_api_key"),
                     "ollama": ("OLLAMA_API_KEY", "ollama_api_key"),
+                    "kiconnect": ("KICONNECT_API_KEY", "kiconnect_api_key"),
                 }
 
                 if api_choice_lower in key_map:
@@ -275,6 +280,7 @@ class LLMClient:
                     ("GROQ_API_KEY", "groq_api_key"),
                     ("GEMINI_API_KEY", "gemini_api_key"),
                     ("OLLAMA_API_KEY", "ollama_api_key"),
+                    ("KICONNECT_API_KEY", "kiconnect_api_key"),
                 ]:
                     if not getattr(self, attr_name):
                         try:
@@ -300,11 +306,13 @@ class LLMClient:
             return "gemini"
         elif "ollama" in provider_class_name:
             return "ollama"
+        elif "kiconnect" in provider_class_name:
+            return "kiconnect"
         return "unknown"
 
     def switch_provider(
         self,
-        api_choice: Literal["openai", "groq", "gemini", "ollama"],
+        api_choice: Literal["openai", "groq", "gemini", "ollama", "kiconnect"],
         llm: str | None = None,
         temperature: float | None = None,
         max_tokens: int | None = None,
@@ -361,6 +369,7 @@ class LLMClient:
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             ollama_api_key=self.ollama_api_key,
+            kiconnect_api_key=self.kiconnect_api_key,
             keep_alive=self.keep_alive,
             use_async=self.use_async,
             use_ollama_cloud=self.use_ollama_cloud,

@@ -1229,7 +1229,7 @@ class KIConnectProvider(BaseProvider):
         Returns:
             Default model name.
         """
-        return "GPT 5.4 mini"
+        return "openai-gpt5.5"
 
     @staticmethod
     def is_available() -> bool:
