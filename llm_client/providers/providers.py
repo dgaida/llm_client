@@ -1123,3 +1123,135 @@ class OllamaProvider(BaseProvider):
         return (
             f"OllamaProvider(model={self.llm}, " f"temperature={self.temperature}, " f"mode={mode})"
         )
+
+class KIConnectProvider(BaseProvider):
+    """Provider for KI Connect (KI:edu.nrw) via OpenAI compatibility mode."""
+
+    def _initialize_client(self, **kwargs: Any) -> None:
+        """Initialize KI Connect client using OpenAI compatibility.
+
+        Args:
+            **kwargs: Must contain 'api_key' for KI Connect authentication.
+
+        Raises:
+            ProviderNotAvailableError: If OpenAI package is not installed.
+            APIKeyNotFoundError: If API key is missing.
+        """
+        logger.debug("Initializing KI Connect provider")
+
+        if not self.is_available():
+            logger.error("OpenAI package not available (required for KI Connect)")
+            raise ProviderNotAvailableError("kiconnect", "openai")
+
+        api_key = kwargs.get("api_key")
+        if not api_key:
+            logger.error("KI Connect API key not found")
+            raise APIKeyNotFoundError("kiconnect", "KICONNECT_API_KEY")
+
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url="https://chat.kiconnect.nrw/api/v1",
+        )
+        logger.info(f"KI Connect client initialized with model {self.llm}")
+        self._validate_llm()
+
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
+        """Execute chat completion with KI Connect.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Returns:
+            Generated text response.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("KI Connect client not initialized")
+
+        logger.debug(f"Calling KI Connect API: model={self.llm}")
+
+        response = self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+
+        message = response.choices[0].message
+        content = message.content
+
+        # Log thought signature if present (Gemini support)
+        extra_content = getattr(message, "extra_content", None)
+        if extra_content:
+            logger.debug(f"Received extra_content: {extra_content}")
+
+        if content is None:
+            logger.debug("KI Connect response content is None")
+            return None
+
+        logger.debug(f"KI Connect response received: {len(content)} characters")
+        return content
+
+    def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream response tokens from KI Connect.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Yields:
+            str: Individual tokens.
+
+        Raises:
+            RuntimeError: If client is not initialized.
+        """
+        if not self.client:
+            raise RuntimeError("KI Connect client not initialized")
+
+        stream = self.client.chat.completions.create(
+            model=self.llm,
+            messages=messages,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+            stream=True,
+        )
+
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                yield chunk.choices[0].delta.content
+
+    @staticmethod
+    def get_default_model() -> str:
+        """Get default KI Connect model.
+
+        Returns:
+            Default model name.
+        """
+        return "GPT 5.4 mini"
+
+    @staticmethod
+    def is_available() -> bool:
+        """Check if OpenAI (required for KI Connect) is available.
+
+        Returns:
+            True if OpenAI is installed.
+        """
+        return OpenAI is not None
+
+    def list_models(self) -> list[str]:
+        """List available models for KI Connect."""
+        if not self.client:
+            return []
+        try:
+            import requests
+
+            api_key = self.client.api_key
+            url = "https://chat.kiconnect.nrw/api/v1/models"
+            headers = {"Authorization": f"Bearer {api_key}"}
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                return [m["id"] for m in response.json().get("data", [])]
+        except Exception as e:
+            logger.debug(f"Error listing models for KI Connect: {e}")
+        return []
