@@ -1,14 +1,13 @@
 """Unit tests for KI Connect provider implementation."""
 
-from unittest.mock import MagicMock, patch, AsyncMock
+from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
-from llm_client.exceptions import (
-    APIKeyNotFoundError,
-    ChatCompletionError,
-    ProviderNotAvailableError,
-)
-from llm_client.providers.providers import KIConnectProvider
+
+from llm_client.exceptions import APIKeyNotFoundError
 from llm_client.providers.async_providers import AsyncKIConnectProvider
+from llm_client.providers.providers import KIConnectProvider
+
 
 class TestKIConnectProvider:
     """Tests for KIConnectProvider."""
@@ -26,8 +25,7 @@ class TestKIConnectProvider:
             assert provider.llm == "GPT 5.4 mini"
             assert provider.client == mock_client
             mock_openai.assert_called_once_with(
-                api_key="kiconnect-test",
-                base_url="https://chat.kiconnect.nrw/api/v1"
+                api_key="kiconnect-test", base_url="https://chat.kiconnect.nrw/api/v1"
             )
 
     def test_initialization_without_api_key_raises_error(self):
@@ -60,6 +58,7 @@ class TestKIConnectProvider:
         """Test: Default model is correct."""
         assert KIConnectProvider.get_default_model() == "GPT 5.4 mini"
 
+
 @pytest.mark.asyncio
 class TestAsyncKIConnectProvider:
     """Tests for AsyncKIConnectProvider."""
@@ -70,14 +69,11 @@ class TestAsyncKIConnectProvider:
             mock_client = MagicMock()
             mock_async_openai.return_value = mock_client
 
-            provider = AsyncKIConnectProvider(
-                llm="GPT 5.4 mini", api_key="test"
-            )
+            provider = AsyncKIConnectProvider(llm="GPT 5.4 mini", api_key="test")
 
             assert provider.client == mock_client
             mock_async_openai.assert_called_once_with(
-                api_key="test",
-                base_url="https://chat.kiconnect.nrw/api/v1"
+                api_key="test", base_url="https://chat.kiconnect.nrw/api/v1"
             )
 
     async def test_achat_completion_success(self):

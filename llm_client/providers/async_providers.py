@@ -687,6 +687,7 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
             return [m["id"] for m in response.json().get("data", [])]
         return []
 
+
 class AsyncKIConnectProvider(BaseProvider, AsyncProviderMixin):
     """Async KI Connect provider via OpenAI compatibility mode."""
 

@@ -1124,6 +1124,7 @@ class OllamaProvider(BaseProvider):
             f"OllamaProvider(model={self.llm}, " f"temperature={self.temperature}, " f"mode={mode})"
         )
 
+
 class KIConnectProvider(BaseProvider):
     """Provider for KI Connect (KI:edu.nrw) via OpenAI compatibility mode."""
 
