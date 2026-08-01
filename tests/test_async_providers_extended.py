@@ -512,8 +512,9 @@ class TestAsyncProvidersCoverageExpansion:
 
     async def test_async_providers_import_errors(self):
         """Test import error fallback paths when packages are missing."""
-        import sys
         import importlib
+        import sys
+
         from llm_client.providers import async_providers
 
         with patch.dict(sys.modules, {"openai": None, "groq": None}):
@@ -586,13 +587,15 @@ class TestAsyncProvidersCoverageExpansion:
 
     async def test_async_groq_extra_coverage(self):
         """Test remaining lines in AsyncGroqProvider."""
-        from llm_client.providers.async_providers import AsyncGroqProvider
         from llm_client.exceptions import APIKeyNotFoundError
+        from llm_client.providers.async_providers import AsyncGroqProvider
 
         # 1. APIKeyNotFoundError (line 342)
-        with patch("llm_client.providers.async_providers.AsyncGroq", MagicMock()):
-            with pytest.raises(APIKeyNotFoundError):
-                AsyncGroqProvider(llm="groq-model", api_key=None)
+        with (
+            patch("llm_client.providers.async_providers.AsyncGroq", MagicMock()),
+            pytest.raises(APIKeyNotFoundError),
+        ):
+            AsyncGroqProvider(llm="groq-model", api_key=None)
 
         # 2. Sync RuntimeError (line 349)
         with patch("llm_client.providers.async_providers.AsyncGroq", MagicMock()):
@@ -603,7 +606,9 @@ class TestAsyncProvidersCoverageExpansion:
         # 3. Exception propagation in _achat_completion_impl (line 377)
         with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
             mock_client = MagicMock()
-            mock_client.chat.completions.create = AsyncMock(side_effect=ValueError("Test Exception"))
+            mock_client.chat.completions.create = AsyncMock(
+                side_effect=ValueError("Test Exception")
+            )
             mock_async_groq.return_value = mock_client
             provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
             with pytest.raises(ChatCompletionError, match="Test Exception"):
@@ -632,8 +637,13 @@ class TestAsyncProvidersCoverageExpansion:
             provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
 
             with (
-                patch("llm_client.providers.async_providers.detect_file_type", return_value="image"),
-                patch("llm_client.providers.async_providers.prepare_files_for_provider", return_value=[{"file": "data"}])
+                patch(
+                    "llm_client.providers.async_providers.detect_file_type", return_value="image"
+                ),
+                patch(
+                    "llm_client.providers.async_providers.prepare_files_for_provider",
+                    return_value=[{"file": "data"}],
+                ),
             ):
                 # Empty messages list
                 await provider.achat_completion_with_files([], files=["img.jpg"])
@@ -662,23 +672,29 @@ class TestAsyncProvidersCoverageExpansion:
 
     async def test_async_gemini_extra_coverage(self):
         """Test remaining lines in AsyncGeminiProvider."""
+        from llm_client.exceptions import APIKeyNotFoundError, ProviderNotAvailableError
         from llm_client.providers.async_providers import AsyncGeminiProvider
-        from llm_client.exceptions import ProviderNotAvailableError, APIKeyNotFoundError
 
         # 1. ProviderNotAvailableError (line 526)
-        with patch("llm_client.providers.async_providers.AsyncOpenAI", None):
-            with pytest.raises(ProviderNotAvailableError):
-                AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", None),
+            pytest.raises(ProviderNotAvailableError),
+        ):
+            AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
 
         # 2. APIKeyNotFoundError (line 530)
-        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
-            with pytest.raises(APIKeyNotFoundError):
-                AsyncGeminiProvider(llm="gemini", api_key=None)
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()),
+            pytest.raises(APIKeyNotFoundError),
+        ):
+            AsyncGeminiProvider(llm="gemini", api_key=None)
 
         # 3. Sync RuntimeError (line 540)
         with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
             provider = AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
-            with pytest.raises(ChatCompletionError, match="AsyncGeminiProvider only supports async"):
+            with pytest.raises(
+                ChatCompletionError, match="AsyncGeminiProvider only supports async"
+            ):
                 provider.chat_completion([])
 
         # 4. Tool choice branch (line 585)
@@ -703,7 +719,10 @@ class TestAsyncProvidersCoverageExpansion:
             mock_async_openai.return_value = mock_client
             provider = AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
 
-            with patch("llm_client.providers.async_providers.prepare_files_for_provider", return_value=[{"file": "data"}]):
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider",
+                return_value=[{"file": "data"}],
+            ):
                 await provider.achat_completion_with_files([], files=["img.jpg"])
                 call_args = mock_client.chat.completions.create.call_args[1]["messages"]
                 assert len(call_args) == 1
@@ -730,23 +749,29 @@ class TestAsyncProvidersCoverageExpansion:
 
     async def test_async_kiconnect_extra_coverage(self):
         """Test remaining lines in AsyncKIConnectProvider."""
+        from llm_client.exceptions import APIKeyNotFoundError, ProviderNotAvailableError
         from llm_client.providers.async_providers import AsyncKIConnectProvider
-        from llm_client.exceptions import ProviderNotAvailableError, APIKeyNotFoundError
 
         # 1. ProviderNotAvailableError (line 697)
-        with patch("llm_client.providers.async_providers.AsyncOpenAI", None):
-            with pytest.raises(ProviderNotAvailableError):
-                AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", None),
+            pytest.raises(ProviderNotAvailableError),
+        ):
+            AsyncKIConnectProvider(llm="kiconnect", api_key="key")
 
         # 2. APIKeyNotFoundError (line 701)
-        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
-            with pytest.raises(APIKeyNotFoundError):
-                AsyncKIConnectProvider(llm="kiconnect", api_key=None)
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()),
+            pytest.raises(APIKeyNotFoundError),
+        ):
+            AsyncKIConnectProvider(llm="kiconnect", api_key=None)
 
         # 3. Sync RuntimeError (line 711)
         with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
             provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
-            with pytest.raises(ChatCompletionError, match="AsyncKIConnectProvider only supports async"):
+            with pytest.raises(
+                ChatCompletionError, match="AsyncKIConnectProvider only supports async"
+            ):
                 provider.chat_completion([])
 
         # 4. Client not initialized RuntimeError in _achat_completion_impl (line 718)
@@ -822,12 +847,14 @@ class TestAsyncProvidersCoverageExpansion:
     async def test_async_kiconnect_get_default_model(self):
         """Test: AsyncKIConnectProvider.get_default_model() returns correct default model."""
         from llm_client.providers.async_providers import AsyncKIConnectProvider
+
         assert AsyncKIConnectProvider.get_default_model() == "openai-gpt5.5"
 
     async def test_async_groq_fallback_retry(self):
         """Test: AsyncGroqProvider fallback retry logic when rate limit is exceeded."""
-        from llm_client.providers.async_providers import AsyncGroqProvider
         from groq import APIStatusError
+
+        from llm_client.providers.async_providers import AsyncGroqProvider
 
         provider = AsyncGroqProvider(llm="qwen/qwen3-32b", api_key="gsk-test")
         mock_client = MagicMock()
@@ -835,36 +862,43 @@ class TestAsyncProvidersCoverageExpansion:
 
         error_response = MagicMock()
         error_response.status_code = 413
-        error_message = "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142"
+        error_message = (
+            "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142"
+        )
 
         error = APIStatusError(
             message=error_message,
             response=error_response,
-            body={"error": {"message": error_message, "type": "tokens", "code": "rate_limit_exceeded"}},
+            body={
+                "error": {"message": error_message, "type": "tokens", "code": "rate_limit_exceeded"}
+            },
         )
         error.__str__ = lambda self: error_message
 
         mock_response_success = MagicMock()
         mock_response_success.choices[0].message.content = "Async success with fallback"
 
-        mock_client.chat.completions.create = AsyncMock(
-            side_effect=[error, mock_response_success]
-        )
+        mock_client.chat.completions.create = AsyncMock(side_effect=[error, mock_response_success])
 
         messages = [{"role": "user", "content": "Large request"}]
 
         # We need to mock GroqProvider._find_fallback_model to return a model
         from llm_client.providers.providers import GroqProvider
-        with patch.object(GroqProvider, "_find_fallback_model", return_value="meta-llama/llama-4-scout-17b-16e-instruct"):
+
+        with patch.object(
+            GroqProvider,
+            "_find_fallback_model",
+            return_value="meta-llama/llama-4-scout-17b-16e-instruct",
+        ):
             res = await provider.achat_completion(messages)
             assert res == "Async success with fallback"
             assert provider.llm == "meta-llama/llama-4-scout-17b-16e-instruct"
 
     async def test_groq_tool_calls_without_content(self):
         """Test: Groq tool calls when content is None."""
-        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.providers.async_providers import AsyncGroqProvider
+        from llm_client.providers.async_providers import AsyncGroqProvider
 
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_xyz"
             mock_tool_call.type = "function"
@@ -889,9 +923,9 @@ class TestAsyncProvidersCoverageExpansion:
 
     async def test_gemini_tool_calls_without_content(self):
         """Test: Gemini tool calls when content is None."""
-        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.providers.async_providers import AsyncGeminiProvider
+        from llm_client.providers.async_providers import AsyncGeminiProvider
 
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_123"
             mock_tool_call.type = "function"
@@ -913,3 +947,4 @@ class TestAsyncProvidersCoverageExpansion:
 
             assert result["content"] is None
             assert result["tool_calls"] is not None
+            assert len(result["tool_calls"]) == 1

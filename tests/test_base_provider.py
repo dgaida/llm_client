@@ -439,17 +439,22 @@ class TestBaseProviderAbstractAndValidation:
     def test_base_provider_abstract_stubs_pass_statements(self):
         """Test calling the abstract method stubs from super class to cover 'pass' statements."""
         from unittest.mock import patch
+
         class TestSubclass(BaseProvider):
             def _initialize_client(self, **kwargs):
                 pass
+
             def _chat_completion_impl(self, messages):
                 return super()._chat_completion_impl(messages)
+
             @staticmethod
             def get_default_model():
                 return BaseProvider.get_default_model()
+
             @staticmethod
             def is_available():
                 return BaseProvider.is_available()
+
             def list_models(self) -> list[str]:
                 return super().list_models()
 
@@ -465,6 +470,7 @@ class TestBaseProviderAbstractAndValidation:
 
     def test_validate_llm_automatic_switch(self):
         """Test _validate_llm automatic model switching logic when current llm is not available."""
+
         class ValidatingProvider(ConcreteProvider):
             def list_models(self) -> list[str]:
                 return ["gpt-4", "gpt-3.5"]
@@ -476,6 +482,7 @@ class TestBaseProviderAbstractAndValidation:
 
     def test_validate_llm_raises_not_implemented_error(self):
         """Test _validate_llm handles list_models NotImplementedError gracefully."""
+
         class NotImplementedListModelsProvider(ConcreteProvider):
             def list_models(self) -> list[str]:
                 raise NotImplementedError()
@@ -487,6 +494,7 @@ class TestBaseProviderAbstractAndValidation:
 
     def test_validate_llm_raises_other_exception(self):
         """Test _validate_llm handles list_models arbitrary Exception gracefully."""
+
         class ErrorListModelsProvider(ConcreteProvider):
             def list_models(self) -> list[str]:
                 raise ValueError("generic error")

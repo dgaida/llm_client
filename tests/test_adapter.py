@@ -271,9 +271,10 @@ class TestLLMClientAdapterMethodsMockedAllEnvironments:
 
     def test_all_adapter_methods_under_mock(self):
         """Test all methods of LLMClientAdapter with a mocked environment."""
-        import sys
         import importlib
+        import sys
         import types
+
         from pydantic import BaseModel
 
         # Define mock classes that subclass BaseModel
@@ -305,12 +306,16 @@ class TestLLMClientAdapterMethodsMockedAllEnvironments:
 
         # Force reload with our dummy llama_index modules
         try:
-            with patch.dict(sys.modules, {
-                "llama_index": types.ModuleType("llama_index"),
-                "llama_index.core": types.ModuleType("llama_index.core"),
-                "llama_index.core.llms": dummy_llms
-            }):
+            with patch.dict(
+                sys.modules,
+                {
+                    "llama_index": types.ModuleType("llama_index"),
+                    "llama_index.core": types.ModuleType("llama_index.core"),
+                    "llama_index.core.llms": dummy_llms,
+                },
+            ):
                 from llm_client.providers import adapter
+
                 importlib.reload(adapter)
 
                 mock_client = MagicMock(spec=LLMClient)
@@ -380,4 +385,5 @@ class TestLLMClientAdapterMethodsMockedAllEnvironments:
         finally:
             # Always restore back to original state outside of the mock context
             from llm_client.providers import adapter
+
             importlib.reload(adapter)

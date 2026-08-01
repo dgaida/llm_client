@@ -9,7 +9,6 @@ from llm_client.exceptions import (
     APIKeyNotFoundError,
     InvalidProviderError,
 )
-from llm_client.providers.async_providers import AsyncKIConnectProvider
 from llm_client.providers.provider_factory import ProviderFactory
 from llm_client.providers.providers import (
     GeminiProvider,
@@ -541,16 +540,12 @@ class TestProviderFactoryCoverageExpansion:
         ):
             # Ollama prefix: ollama_... (line 119)
             mock_detect.return_value = "ollama"
-            provider = ProviderFactory.create_provider(
-                api_choice=None, api_key="ollama_fake_key"
-            )
+            provider = ProviderFactory.create_provider(api_choice=None, api_key="ollama_fake_key")
             assert isinstance(provider, OllamaProvider)
 
             # KI Connect prefix: kic_... (line 121)
             mock_detect.return_value = "kiconnect"
-            provider_kic = ProviderFactory.create_provider(
-                api_choice=None, api_key="kic_fake_key"
-            )
+            provider_kic = ProviderFactory.create_provider(api_choice=None, api_key="kic_fake_key")
             assert isinstance(provider_kic, KIConnectProvider)
 
     def test_load_async_providers_import_error(self):
@@ -578,6 +573,6 @@ class TestProviderFactoryCoverageExpansion:
             openai_api_key=None,
             groq_api_key=None,
             gemini_api_key=None,
-            kiconnect_api_key="kic-some-key"
+            kiconnect_api_key="kic-some-key",
         )
         assert selected == "kiconnect"
