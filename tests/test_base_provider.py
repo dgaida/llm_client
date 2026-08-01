@@ -431,3 +431,67 @@ class TestFileUploadSupport:
         provider = ErrorFileProvider(llm="test-model")
         with pytest.raises(ChatCompletionError, match="File error"):
             provider.chat_completion_with_files([], ["test.jpg"])
+
+
+class TestBaseProviderAbstractAndValidation:
+    """Extra tests designed to cover base_provider.py abstract method stubs and validation code."""
+
+    def test_base_provider_abstract_stubs_pass_statements(self):
+        """Test calling the abstract method stubs from super class to cover 'pass' statements."""
+        from unittest.mock import patch
+        class TestSubclass(BaseProvider):
+            def _initialize_client(self, **kwargs):
+                pass
+            def _chat_completion_impl(self, messages):
+                return super()._chat_completion_impl(messages)
+            @staticmethod
+            def get_default_model():
+                return BaseProvider.get_default_model()
+            @staticmethod
+            def is_available():
+                return BaseProvider.is_available()
+            def list_models(self) -> list[str]:
+                return super().list_models()
+
+        # Instantiate (without validating to bypass automatic switches in this specific stub check)
+        with patch.object(BaseProvider, "_validate_llm"):
+            obj = TestSubclass(llm="test")
+
+        # Invoke all super methods to execute the 'pass' lines
+        assert obj._chat_completion_impl([]) is None
+        assert TestSubclass.get_default_model() is None
+        assert TestSubclass.is_available() is None
+        assert obj.list_models() is None
+
+    def test_validate_llm_automatic_switch(self):
+        """Test _validate_llm automatic model switching logic when current llm is not available."""
+        class ValidatingProvider(ConcreteProvider):
+            def list_models(self) -> list[str]:
+                return ["gpt-4", "gpt-3.5"]
+
+        provider = ValidatingProvider(llm="gpt-2")
+        provider._validate_llm()
+        # Should automatically switch model to first available (gpt-4)
+        assert provider.llm == "gpt-4"
+
+    def test_validate_llm_raises_not_implemented_error(self):
+        """Test _validate_llm handles list_models NotImplementedError gracefully."""
+        class NotImplementedListModelsProvider(ConcreteProvider):
+            def list_models(self) -> list[str]:
+                raise NotImplementedError()
+
+        provider = NotImplementedListModelsProvider(llm="gpt-original")
+        provider._validate_llm()
+        # Should log and proceed with original model
+        assert provider.llm == "gpt-original"
+
+    def test_validate_llm_raises_other_exception(self):
+        """Test _validate_llm handles list_models arbitrary Exception gracefully."""
+        class ErrorListModelsProvider(ConcreteProvider):
+            def list_models(self) -> list[str]:
+                raise ValueError("generic error")
+
+        provider = ErrorListModelsProvider(llm="gpt-original")
+        provider._validate_llm()
+        # Should log as debug and proceed with original model
+        assert provider.llm == "gpt-original"
