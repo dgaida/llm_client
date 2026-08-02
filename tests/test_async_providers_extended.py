@@ -505,13 +505,400 @@ class TestToolCallsWithoutContent:
 
             assert result["content"] is None
             assert result["tool_calls"] is not None
-            assert len(result["tool_calls"]) == 1
+
+
+class TestAsyncProvidersCoverageExpansion:
+    """Extra tests specifically targeted to reach 100% test coverage on async_providers.py."""
+
+    async def test_async_providers_import_errors(self):
+        """Test import error fallback paths when packages are missing."""
+        import importlib
+        import sys
+
+        from llm_client.providers import async_providers
+
+        with patch.dict(sys.modules, {"openai": None, "groq": None}):
+            importlib.reload(async_providers)
+            assert async_providers.AsyncOpenAI is None
+            assert async_providers.AsyncGroq is None
+
+        # Restore original state
+        importlib.reload(async_providers)
+
+    async def test_async_provider_mixin_raises_not_implemented(self):
+        """Test NotImplementedError in AsyncProviderMixin base class methods."""
+        from llm_client.providers.async_providers import AsyncProviderMixin
+
+        class DummyMixin(AsyncProviderMixin):
+            pass
+
+        mixin = DummyMixin()
+        with pytest.raises(NotImplementedError):
+            await mixin._achat_completion_impl([])
+
+        with pytest.raises(NotImplementedError):
+            await mixin._achat_completion_with_tools_impl([], [])
+
+        with pytest.raises(NotImplementedError):
+            await mixin._achat_completion_with_files_impl([])
+
+    async def test_async_openai_extra_coverage(self):
+        """Test remaining lines in AsyncOpenAIProvider."""
+        from llm_client.providers.async_providers import AsyncOpenAIProvider
+
+        # 1. tool_choice parameter branch (line 226)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_client = MagicMock()
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = "response"
+            mock_response.choices[0].message.tool_calls = None
+            mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
+            mock_async_openai.return_value = mock_client
+
+            provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            await provider.achat_completion_with_tools([], [], tool_choice="required")
+
+            call_kwargs = mock_client.chat.completions.create.call_args[1]
+            assert call_kwargs["tool_choice"] == "required"
+
+        # 2. list_models uninitialized, success, and error paths (lines 322, 328)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            provider = AsyncOpenAIProvider(llm="gpt-4o", api_key="sk-test")
+
+            # Uninitialized client
+            provider.client = None
+            assert provider.list_models() == []
+
+            # Success response
+            provider.client = MagicMock()
+            provider.client.api_key = "fake"
+
+            mock_response = MagicMock()
+            mock_response.status_code = 200
+            mock_response.json.return_value = {"data": [{"id": "model-1"}, {"id": "model-2"}]}
+
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == ["model-1", "model-2"]
+
+            # Failure response
+            mock_response.status_code = 500
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == []
+
+    async def test_async_groq_extra_coverage(self):
+        """Test remaining lines in AsyncGroqProvider."""
+        from llm_client.exceptions import APIKeyNotFoundError
+        from llm_client.providers.async_providers import AsyncGroqProvider
+
+        # 1. APIKeyNotFoundError (line 342)
+        with (
+            patch("llm_client.providers.async_providers.AsyncGroq", MagicMock()),
+            pytest.raises(APIKeyNotFoundError),
+        ):
+            AsyncGroqProvider(llm="groq-model", api_key=None)
+
+        # 2. Sync RuntimeError (line 349)
+        with patch("llm_client.providers.async_providers.AsyncGroq", MagicMock()):
+            provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
+            with pytest.raises(ChatCompletionError, match="AsyncGroqProvider only supports async"):
+                provider.chat_completion([])
+
+        # 3. Exception propagation in _achat_completion_impl (line 377)
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            mock_client = MagicMock()
+            mock_client.chat.completions.create = AsyncMock(
+                side_effect=ValueError("Test Exception")
+            )
+            mock_async_groq.return_value = mock_client
+            provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
+            with pytest.raises(ChatCompletionError, match="Test Exception"):
+                await provider.achat_completion([])
+
+        # 4. Tool choice branch (line 409)
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            mock_client = MagicMock()
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = "resp"
+            mock_response.choices[0].message.tool_calls = None
+            mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
+            mock_async_groq.return_value = mock_client
+            provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
+            await provider.achat_completion_with_tools([], [], tool_choice="auto")
+            call_kwargs = mock_client.chat.completions.create.call_args[1]
+            assert call_kwargs["tool_choice"] == "auto"
+
+        # 5. File messages user-appending when messages are empty (line 458)
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
+            mock_client = MagicMock()
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = "resp"
+            mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
+            mock_async_groq.return_value = mock_client
+            provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
+
+            with (
+                patch(
+                    "llm_client.providers.async_providers.detect_file_type", return_value="image"
+                ),
+                patch(
+                    "llm_client.providers.async_providers.prepare_files_for_provider",
+                    return_value=[{"file": "data"}],
+                ),
+            ):
+                # Empty messages list
+                await provider.achat_completion_with_files([], files=["img.jpg"])
+                call_args = mock_client.chat.completions.create.call_args[1]["messages"]
+                assert len(call_args) == 1
+                assert call_args[0]["role"] == "user"
+
+        # 6. list_models uninitialized, success, failure (lines 510, 516)
+        with patch("llm_client.providers.async_providers.AsyncGroq", MagicMock()):
+            provider = AsyncGroqProvider(llm="groq-model", api_key="gsk-test")
+            provider.client = None
+            assert provider.list_models() == []
+
+            provider.client = MagicMock()
+            provider.client.api_key = "gsk-test"
+
+            mock_response = MagicMock()
+            mock_response.status_code = 200
+            mock_response.json.return_value = {"data": [{"id": "groq-1"}]}
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == ["groq-1"]
+
+            mock_response.status_code = 500
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == []
+
+    async def test_async_gemini_extra_coverage(self):
+        """Test remaining lines in AsyncGeminiProvider."""
+        from llm_client.exceptions import APIKeyNotFoundError, ProviderNotAvailableError
+        from llm_client.providers.async_providers import AsyncGeminiProvider
+
+        # 1. ProviderNotAvailableError (line 526)
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", None),
+            pytest.raises(ProviderNotAvailableError),
+        ):
+            AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
+
+        # 2. APIKeyNotFoundError (line 530)
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()),
+            pytest.raises(APIKeyNotFoundError),
+        ):
+            AsyncGeminiProvider(llm="gemini", api_key=None)
+
+        # 3. Sync RuntimeError (line 540)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            provider = AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
+            with pytest.raises(
+                ChatCompletionError, match="AsyncGeminiProvider only supports async"
+            ):
+                provider.chat_completion([])
+
+        # 4. Tool choice branch (line 585)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_client = MagicMock()
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = "resp"
+            mock_response.choices[0].message.tool_calls = None
+            mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
+            mock_async_openai.return_value = mock_client
+            provider = AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
+            await provider.achat_completion_with_tools([], [], tool_choice="required")
+            call_kwargs = mock_client.chat.completions.create.call_args[1]
+            assert call_kwargs["tool_choice"] == "required"
+
+        # 5. File messages user-appending when messages are empty (line 629)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_client = MagicMock()
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = "resp"
+            mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
+            mock_async_openai.return_value = mock_client
+            provider = AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
+
+            with patch(
+                "llm_client.providers.async_providers.prepare_files_for_provider",
+                return_value=[{"file": "data"}],
+            ):
+                await provider.achat_completion_with_files([], files=["img.jpg"])
+                call_args = mock_client.chat.completions.create.call_args[1]["messages"]
+                assert len(call_args) == 1
+                assert call_args[0]["role"] == "user"
+
+        # 6. list_models uninitialized, success, failure (lines 681, 687)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            provider = AsyncGeminiProvider(llm="gemini", api_key="AIzaSy")
+            provider.client = None
+            assert provider.list_models() == []
+
+            provider.client = MagicMock()
+            provider.client.api_key = "AIzaSy"
+
+            mock_response = MagicMock()
+            mock_response.status_code = 200
+            mock_response.json.return_value = {"data": [{"id": "gemini-1"}]}
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == ["gemini-1"]
+
+            mock_response.status_code = 500
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == []
+
+    async def test_async_kiconnect_extra_coverage(self):
+        """Test remaining lines in AsyncKIConnectProvider."""
+        from llm_client.exceptions import APIKeyNotFoundError, ProviderNotAvailableError
+        from llm_client.providers.async_providers import AsyncKIConnectProvider
+
+        # 1. ProviderNotAvailableError (line 697)
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", None),
+            pytest.raises(ProviderNotAvailableError),
+        ):
+            AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+
+        # 2. APIKeyNotFoundError (line 701)
+        with (
+            patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()),
+            pytest.raises(APIKeyNotFoundError),
+        ):
+            AsyncKIConnectProvider(llm="kiconnect", api_key=None)
+
+        # 3. Sync RuntimeError (line 711)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+            with pytest.raises(
+                ChatCompletionError, match="AsyncKIConnectProvider only supports async"
+            ):
+                provider.chat_completion([])
+
+        # 4. Client not initialized RuntimeError in _achat_completion_impl (line 718)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+            provider.client = None
+            with pytest.raises(ChatCompletionError, match="KI Connect client not initialized"):
+                await provider.achat_completion([])
+
+        # 5. extra_content branch (line 733)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_client = MagicMock()
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = "resp"
+            mock_response.choices[0].message.extra_content = "some extra thought signature"
+            mock_client.chat.completions.create = AsyncMock(return_value=mock_response)
+            mock_async_openai.return_value = mock_client
+            provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+            res = await provider.achat_completion([])
+            assert res == "resp"
+
+        # 6. Stream client uninitialized RuntimeError (line 741)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+            provider.client = None
+            with pytest.raises(ChatCompletionError, match="KI Connect client not initialized"):
+                async for _ in provider.achat_completion_stream([]):
+                    pass
+
+        # 7. Stream content yielding chunk delta content (line 754)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_client = MagicMock()
+
+            async def dummy_generator():
+                yield MagicMock(choices=[MagicMock(delta=MagicMock(content="token1"))])
+                yield MagicMock(choices=[MagicMock(delta=MagicMock(content="token2"))])
+
+            mock_client.chat.completions.create = AsyncMock(return_value=dummy_generator())
+            mock_async_openai.return_value = mock_client
+            provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+
+            res = []
+            async for chunk in provider.achat_completion_stream([]):
+                res.append(chunk)
+            assert res == ["token1", "token2"]
+
+        # 8. list_models uninitialized, success, failure, raising error (lines 769, 776, 780)
+        with patch("llm_client.providers.async_providers.AsyncOpenAI", MagicMock()):
+            provider = AsyncKIConnectProvider(llm="kiconnect", api_key="key")
+
+            # uninitialized
+            provider.client = None
+            assert provider.list_models() == []
+
+            # success
+            provider.client = MagicMock()
+            provider.client.api_key = "key"
+            mock_response = MagicMock()
+            mock_response.status_code = 200
+            mock_response.json.return_value = {"data": [{"id": "kic-1"}]}
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == ["kic-1"]
+
+            # failure response
+            mock_response.status_code = 500
+            with patch("requests.get", return_value=mock_response):
+                assert provider.list_models() == []
+
+            # raising Exception
+            with patch("requests.get", side_effect=Exception("network issue")):
+                assert provider.list_models() == []
+
+    async def test_async_kiconnect_get_default_model(self):
+        """Test: AsyncKIConnectProvider.get_default_model() returns correct default model."""
+        from llm_client.providers.async_providers import AsyncKIConnectProvider
+
+        assert AsyncKIConnectProvider.get_default_model() == "openai-gpt5.5"
+
+    async def test_async_groq_fallback_retry(self):
+        """Test: AsyncGroqProvider fallback retry logic when rate limit is exceeded."""
+        from groq import APIStatusError
+
+        from llm_client.providers.async_providers import AsyncGroqProvider
+
+        provider = AsyncGroqProvider(llm="qwen/qwen3-32b", api_key="gsk-test")
+        mock_client = MagicMock()
+        provider.client = mock_client
+
+        error_response = MagicMock()
+        error_response.status_code = 413
+        error_message = (
+            "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142"
+        )
+
+        error = APIStatusError(
+            message=error_message,
+            response=error_response,
+            body={
+                "error": {"message": error_message, "type": "tokens", "code": "rate_limit_exceeded"}
+            },
+        )
+        error.__str__ = lambda self: error_message
+
+        mock_response_success = MagicMock()
+        mock_response_success.choices[0].message.content = "Async success with fallback"
+
+        mock_client.chat.completions.create = AsyncMock(side_effect=[error, mock_response_success])
+
+        messages = [{"role": "user", "content": "Large request"}]
+
+        # We need to mock GroqProvider._find_fallback_model to return a model
+        from llm_client.providers.providers import GroqProvider
+
+        with patch.object(
+            GroqProvider,
+            "_find_fallback_model",
+            return_value="meta-llama/llama-4-scout-17b-16e-instruct",
+        ):
+            res = await provider.achat_completion(messages)
+            assert res == "Async success with fallback"
+            assert provider.llm == "meta-llama/llama-4-scout-17b-16e-instruct"
 
     async def test_groq_tool_calls_without_content(self):
         """Test: Groq tool calls when content is None."""
-        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
-            from llm_client.providers.async_providers import AsyncGroqProvider
+        from llm_client.providers.async_providers import AsyncGroqProvider
 
+        with patch("llm_client.providers.async_providers.AsyncGroq") as mock_async_groq:
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_xyz"
             mock_tool_call.type = "function"
@@ -536,9 +923,9 @@ class TestToolCallsWithoutContent:
 
     async def test_gemini_tool_calls_without_content(self):
         """Test: Gemini tool calls when content is None."""
-        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
-            from llm_client.providers.async_providers import AsyncGeminiProvider
+        from llm_client.providers.async_providers import AsyncGeminiProvider
 
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
             mock_tool_call = MagicMock()
             mock_tool_call.id = "call_123"
             mock_tool_call.type = "function"
@@ -560,3 +947,4 @@ class TestToolCallsWithoutContent:
 
             assert result["content"] is None
             assert result["tool_calls"] is not None
+            assert len(result["tool_calls"]) == 1

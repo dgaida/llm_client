@@ -1019,3 +1019,279 @@ class TestProviderFeatures:
                 call_args = mock_client.chat.completions.create.call_args[1]
                 assert len(call_args["messages"]) == 3
                 assert call_args["messages"][2]["role"] == "user"
+
+
+class TestProvidersCoverageExpansion:
+    """Extra tests designed to cover remaining untested lines in providers.py."""
+
+    def test_module_level_import_fallbacks(self):
+        """Test import error fallback paths at module level when dependencies are missing."""
+        import importlib
+        import sys
+
+        from llm_client.providers import providers
+
+        with patch.dict(sys.modules, {"openai": None, "groq": None, "ollama": None}):
+            importlib.reload(providers)
+            assert providers.OpenAI is None
+            assert providers.Groq is None
+            assert providers.Client is None
+            assert providers.OLLAMA_AVAILABLE is False
+
+        # Restore original state
+        importlib.reload(providers)
+
+    def test_list_models_uninitialized_checks(self):
+        """Test list_models returns [] when client is not initialized."""
+        # 1. OpenAI (line 264)
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            p_openai = OpenAIProvider(llm="gpt-4o", api_key="sk-test")
+            p_openai.client = None
+            assert p_openai.list_models() == []
+
+        # 2. Groq (line 580)
+        with patch("llm_client.providers.providers.Groq", MagicMock()):
+            p_groq = GroqProvider(llm="llama-3.3-70b-versatile", api_key="gsk-test")
+            p_groq.client = None
+            assert p_groq.list_models() == []
+
+        # 3. Gemini (line 805)
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            p_gemini = GeminiProvider(llm="gemini-3.1-flash-lite", api_key="AIzaSy-test")
+            p_gemini.client = None
+            assert p_gemini.list_models() == []
+
+        # 4. Ollama (line 1112)
+        with patch("llm_client.providers.providers.Client", MagicMock()):
+            p_ollama = OllamaProvider(llm="llama3.2")
+            p_ollama.client = None
+            assert p_ollama.list_models() == []
+
+        # 5. KI Connect (line 1246)
+        from llm_client.providers.providers import KIConnectProvider
+
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            p_kic = KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+            p_kic.client = None
+            assert p_kic.list_models() == []
+
+    def test_groq_sync_fallback(self):
+        """Test Groq fallback retry logic in sync chat completion when rate limit is exceeded (lines 328-335)."""
+        from groq import APIStatusError
+
+        provider = GroqProvider(llm="qwen/qwen3-32b", api_key="gsk-test")
+        mock_client = MagicMock()
+        provider.client = mock_client
+
+        error_response = MagicMock()
+        error_response.status_code = 413
+        error_message = (
+            "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142"
+        )
+
+        error = APIStatusError(
+            message=error_message,
+            response=error_response,
+            body={
+                "error": {"message": error_message, "type": "tokens", "code": "rate_limit_exceeded"}
+            },
+        )
+        error.__str__ = lambda self: error_message
+
+        mock_response_success = MagicMock()
+        mock_response_success.choices[0].message.content = "Success with fallback"
+
+        mock_client.chat.completions.create.side_effect = [error, mock_response_success]
+
+        messages = [{"role": "user", "content": "Large request"}]
+
+        with patch.object(
+            GroqProvider,
+            "_find_fallback_model",
+            return_value="meta-llama/llama-4-scout-17b-16e-instruct",
+        ):
+            res = provider.chat_completion(messages)
+            assert res == "Success with fallback"
+            assert provider.llm == "meta-llama/llama-4-scout-17b-16e-instruct"
+
+    def test_groq_validation_and_parsing_fallbacks(self):
+        """Test Groq fallback model finder edge cases and parsing branches."""
+        from unittest.mock import mock_open
+
+        with patch("llm_client.providers.providers.Groq", MagicMock()):
+            provider = GroqProvider(llm="qwen/qwen3-32b", api_key="gsk-test")
+
+            # 1. Exception propagation in _chat_completion_impl (line 336)
+            provider.client = MagicMock()
+            provider.client.chat.completions.create.side_effect = ValueError("Some generic error")
+            with pytest.raises(ValueError, match="Some generic error"):
+                provider._chat_completion_impl([])
+
+            # 2. Token count parsing fails in _find_fallback_model (lines 368-369)
+            assert (
+                provider._find_fallback_model("Rate limit exceeded without requested count") is None
+            )
+
+            # 3. Rate limits file not found (lines 377-378)
+            with patch("pathlib.Path.exists", return_value=False):
+                assert provider._find_fallback_model("Requested 21142") is None
+
+            # 4. TPM with raw integer representation and compound ignore (lines 400, 408, 410)
+            mock_md_content = """# Groq Free Plan Rate Limits
+| MODEL ID | RPM | RPD | TPM | TPD | ASH | ASD |
+| --- | --- | --- | --- | --- | --- | --- |
+| groq/compound | 30 | 1K | 6,000 | 500K | - | - |
+| test-model-k | 30 | 1K | 6K | 500K | - | - |
+| test-model | 30 | 1K | 6,000 | 500K | - | - |
+"""
+            with patch("builtins.open", mock_open(read_data=mock_md_content)):
+                # Request 5000 tokens, should find test-model-k or test-model with 6,000 TPM
+                found = provider._find_fallback_model("Requested 5000")
+                assert found in ["test-model-k", "test-model"]
+
+            # 5. Error parsing rate limits file on exception (lines 419-421)
+            with patch("builtins.open", side_effect=PermissionError("no read access")):
+                assert provider._find_fallback_model("Requested 21142") is None
+
+    def test_ollama_provider_coverage_expansion(self):
+        """Test remaining lines in OllamaProvider."""
+        with patch("llm_client.providers.providers.Client") as mock_client:
+            # 1. Ollama Cloud APIKeyNotFoundError (lines 882-883)
+            with pytest.raises(APIKeyNotFoundError):
+                OllamaProvider(llm="model-cloud", api_key=None)
+
+            # 1b. Initialize local client with custom host (lines 894-895)
+            p_custom_host = OllamaProvider(llm="llama3.2", host="http://localhost:11434")
+            assert p_custom_host.host == "http://localhost:11434"
+            mock_client.assert_called_with(host="http://localhost:11434")
+
+            # 2. Chat completion client unavailable error (line 959)
+            provider = OllamaProvider(llm="llama3.2")
+            with (
+                patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
+                pytest.raises(ChatCompletionError, match="ollama provider not available"),
+            ):
+                provider.chat_completion([])
+
+            # 3. Chat completion stream client unavailable error (line 988)
+            with (
+                patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
+                pytest.raises(ProviderNotAvailableError, match="ollama provider not available"),
+            ):
+                list(provider.chat_completion_stream([]))
+
+            # 4. File uploads with empty enhanced_messages list (line 1013)
+            provider_vision = OllamaProvider(llm="llava")
+            with (
+                patch("llm_client.utils.file_utils.detect_file_type", return_value="image"),
+                patch("llm_client.utils.file_utils.encode_file_base64", return_value="base64"),
+            ):
+                provider_vision.chat_completion_with_files([], files=["image.png"])
+                # Verifies that it constructs correctly and executes without error
+                assert provider_vision.client.chat.called
+
+            # 4b. Chat completion with files when client unavailable (line 988 inside _chat_completion_with_files_impl)
+            with (
+                patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
+                pytest.raises(ChatCompletionError, match="ollama provider not available"),
+            ):
+                provider_vision.chat_completion_with_files([], files=["image.png"])
+
+            # 5. Tool calling client unavailable error (line 1051)
+            provider_tools = OllamaProvider(llm="llama3.2")
+            with (
+                patch("llm_client.providers.providers.OLLAMA_AVAILABLE", False),
+                pytest.raises(ChatCompletionError, match="ollama provider not available"),
+            ):
+                provider_tools.chat_completion_with_tools([], [])
+
+            # 6. repr method (lines 1122-1123)
+            p_local = OllamaProvider(llm="llama3")
+            assert "mode=local" in repr(p_local)
+
+            p_cloud = OllamaProvider(llm="llama3-cloud", api_key="sk")
+            assert "mode=cloud" in repr(p_cloud)
+
+    def test_kiconnect_provider_coverage_expansion(self):
+        """Test remaining lines in KIConnectProvider."""
+        from llm_client.providers.providers import KIConnectProvider
+
+        # 0. Test KIConnect get_default_model (line 1232)
+        assert KIConnectProvider.get_default_model() == "openai-gpt5.5"
+
+        # 1. ProviderNotAvailableError when OpenAI not installed (lines 1144-1145)
+        with (
+            patch("llm_client.providers.providers.OpenAI", None),
+            pytest.raises(ProviderNotAvailableError, match="kiconnect provider not available"),
+        ):
+            KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+
+        # 1b. APIKeyNotFoundError when key is missing (lines 1149-1150)
+        with (
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+            pytest.raises(APIKeyNotFoundError, match="KICONNECT_API_KEY not found"),
+        ):
+            KIConnectProvider(llm="openai-gpt5.5", api_key=None)
+
+        # 2. RuntimeError when client is uninitialized in _chat_completion_impl (line 1172)
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            p_kic = KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+            p_kic.client = None
+            with pytest.raises(ChatCompletionError, match="KI Connect client not initialized"):
+                p_kic.chat_completion([])
+
+        # 3. extra_content branch (line 1189) and None response content (lines 1192-1193)
+        with patch("llm_client.providers.providers.OpenAI"):
+            mock_client = MagicMock()
+            p_kic = KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+            p_kic.client = mock_client
+
+            # With extra_content (line 1189)
+            mock_message = MagicMock()
+            mock_message.content = "resp content"
+            mock_message.extra_content = "some reasoning"
+            mock_response = MagicMock()
+            mock_response.choices = [MagicMock(message=mock_message)]
+            mock_client.chat.completions.create.return_value = mock_response
+
+            assert p_kic.chat_completion([]) == "resp content"
+
+            # With None content (lines 1192-1193)
+            mock_message.content = None
+            assert p_kic.chat_completion([]) is None
+
+        # 4. Stream client not initialized RuntimeError (line 1210)
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            p_kic = KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+            p_kic.client = None
+            with pytest.raises(RuntimeError, match="KI Connect client not initialized"):
+                list(p_kic.chat_completion_stream([]))
+
+        # 5. Stream chunk yielding (line 1223)
+        with patch("llm_client.providers.providers.OpenAI"):
+            mock_client = MagicMock()
+            p_kic = KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+            p_kic.client = mock_client
+
+            mock_chunk_1 = MagicMock()
+            mock_chunk_1.choices = [MagicMock(delta=MagicMock(content="token1"))]
+            mock_chunk_2 = MagicMock()
+            mock_chunk_2.choices = [MagicMock(delta=MagicMock(content="token2"))]
+
+            mock_client.chat.completions.create.return_value = [mock_chunk_1, mock_chunk_2]
+
+            chunks = list(p_kic.chat_completion_stream([]))
+            assert chunks == ["token1", "token2"]
+
+        # 6. list_models raises Exception (lines 1255-1257)
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            p_kic = KIConnectProvider(llm="openai-gpt5.5", api_key="key")
+            with patch("requests.get", side_effect=Exception("Timeout")):
+                assert p_kic.list_models() == []
+
+            # 6b. list_models success (line 1255)
+            mock_resp = MagicMock()
+            mock_resp.status_code = 200
+            mock_resp.json.return_value = {"data": [{"id": "model-kic-1"}]}
+            with patch("requests.get", return_value=mock_resp):
+                assert p_kic.list_models() == ["model-kic-1"]

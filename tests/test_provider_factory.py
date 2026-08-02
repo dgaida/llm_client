@@ -9,7 +9,6 @@ from llm_client.exceptions import (
     APIKeyNotFoundError,
     InvalidProviderError,
 )
-from llm_client.providers.async_providers import AsyncKIConnectProvider
 from llm_client.providers.provider_factory import ProviderFactory
 from llm_client.providers.providers import (
     GeminiProvider,
@@ -500,4 +499,80 @@ async def test_create_async_kiconnect_provider():
             api_choice="kiconnect", kiconnect_api_key="test-key", use_async=True
         )
 
-        assert isinstance(provider, AsyncKIConnectProvider)
+        assert provider.__class__.__name__ == "AsyncKIConnectProvider"
+
+
+class TestProviderFactoryCoverageExpansion:
+    """Extra tests designed to cover provider_factory.py edge cases and fallbacks."""
+
+    def test_provider_factory_auto_detect_from_prefix_ollama_and_kiconnect(self):
+        """Test auto-detecting ollama and kiconnect from api_key prefix."""
+        # 1. Test detect_provider_from_key directly (covers lines 48-58)
+        assert ProviderFactory.detect_provider_from_key("sk-123") == "openai"
+        assert ProviderFactory.detect_provider_from_key("gsk-123") == "groq"
+        assert ProviderFactory.detect_provider_from_key("gsk_123") == "groq"
+        assert ProviderFactory.detect_provider_from_key("AIza123") == "gemini"
+        assert ProviderFactory.detect_provider_from_key("unknown") is None
+        assert ProviderFactory.detect_provider_from_key("") is None
+
+        # 2. Test auto-detection and assignment via generic api_key (covers lines 113, 115, 117)
+        with (
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+            patch("llm_client.providers.providers.Groq", MagicMock()),
+        ):
+            # openai auto-detect (line 113)
+            p_openai = ProviderFactory.create_provider(api_choice=None, api_key="sk-test")
+            assert isinstance(p_openai, OpenAIProvider)
+
+            # groq auto-detect (line 115)
+            p_groq = ProviderFactory.create_provider(api_choice=None, api_key="gsk-test")
+            assert isinstance(p_groq, GroqProvider)
+
+            # gemini auto-detect (line 117)
+            p_gemini = ProviderFactory.create_provider(api_choice=None, api_key="AIzaSy-test")
+            assert isinstance(p_gemini, GeminiProvider)
+
+        # 3. Test mock auto-detection for ollama and kiconnect (covers lines 119, 121)
+        with (
+            patch("llm_client.providers.providers.Client", MagicMock()),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+            patch.object(ProviderFactory, "detect_provider_from_key") as mock_detect,
+        ):
+            # Ollama prefix: ollama_... (line 119)
+            mock_detect.return_value = "ollama"
+            provider = ProviderFactory.create_provider(api_choice=None, api_key="ollama_fake_key")
+            assert isinstance(provider, OllamaProvider)
+
+            # KI Connect prefix: kic_... (line 121)
+            mock_detect.return_value = "kiconnect"
+            provider_kic = ProviderFactory.create_provider(api_choice=None, api_key="kic_fake_key")
+            assert isinstance(provider_kic, KIConnectProvider)
+
+    def test_load_async_providers_import_error(self):
+        """Test loading async providers when they raise an ImportError (lines 206-208)."""
+        # Save original state
+        original_async_classes = ProviderFactory._async_provider_classes
+
+        try:
+            # Force reload of async providers to trigger import error fallback
+            ProviderFactory._async_provider_classes = {}
+
+            with patch.dict(sys.modules, {"llm_client.providers.async_providers": None}):
+                ProviderFactory._load_async_providers()
+
+            # Should fall back to copying sync provider classes
+            assert ProviderFactory._async_provider_classes == ProviderFactory._provider_classes
+
+        finally:
+            # Restore original state
+            ProviderFactory._async_provider_classes = original_async_classes
+
+    def test_auto_select_api_kiconnect(self):
+        """Test auto selecting API when KI Connect API key is provided and others are not (lines 251-252)."""
+        selected = ProviderFactory._auto_select_api(
+            openai_api_key=None,
+            groq_api_key=None,
+            gemini_api_key=None,
+            kiconnect_api_key="kic-some-key",
+        )
+        assert selected == "kiconnect"

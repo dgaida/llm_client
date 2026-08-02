@@ -264,3 +264,126 @@ class TestLLMClientAdapterIntegration:
         ]
 
         mock_llm_client.chat_completion.assert_called_once_with(expected_call)
+
+
+class TestLLMClientAdapterMethodsMockedAllEnvironments:
+    """Extra tests designed to run in all environments and cover all paths of LLMClientAdapter."""
+
+    def test_all_adapter_methods_under_mock(self):
+        """Test all methods of LLMClientAdapter with a mocked environment."""
+        import importlib
+        import sys
+        import types
+
+        from pydantic import BaseModel
+
+        # Define mock classes that subclass BaseModel
+        class DummyLLM(BaseModel):
+            model_config = {"arbitrary_types_allowed": True}
+
+        class MockChatMessage:
+            def __init__(self, role, content):
+                self.role = role
+                self.content = content
+
+        class MockChatResponse:
+            def __init__(self, message):
+                self.message = message
+
+        class MockLLMMetadata:
+            def __init__(self, context_window, num_output, is_chat_model, model_name):
+                self.context_window = context_window
+                self.num_output = num_output
+                self.is_chat_model = is_chat_model
+                self.model_name = model_name
+
+        dummy_llms = types.ModuleType("llama_index.core.llms")
+        dummy_llms.LLM = DummyLLM
+        dummy_llms.ChatMessage = MockChatMessage
+        dummy_llms.ChatResponse = MockChatResponse
+        dummy_llms.LLMMetadata = MockLLMMetadata
+        dummy_llms.CompletionResponse = object
+
+        # Force reload with our dummy llama_index modules
+        try:
+            with patch.dict(
+                sys.modules,
+                {
+                    "llama_index": types.ModuleType("llama_index"),
+                    "llama_index.core": types.ModuleType("llama_index.core"),
+                    "llama_index.core.llms": dummy_llms,
+                },
+            ):
+                from llm_client.providers import adapter
+
+                importlib.reload(adapter)
+
+                mock_client = MagicMock(spec=LLMClient)
+                mock_client.llm = "gpt-4o-mini"
+                mock_client.chat_completion.return_value = "Test response from LLM"
+
+                # Test init
+                adapter_instance = adapter.LLMClientAdapter(client=mock_client)
+                assert adapter_instance.client is mock_client
+
+                # Test chat
+                messages = [MockChatMessage(role="user", content="Hello")]
+                resp = adapter_instance.chat(messages)
+                assert resp.message.content == "Test response from LLM"
+
+                # Test model
+                assert adapter_instance.model == "gpt-4o-mini"
+
+                # Test metadata
+                metadata = adapter_instance.metadata
+                assert metadata.model_name == "gpt-4o-mini"
+
+                # Test __repr__
+                assert "LLMClientAdapter" in repr(adapter_instance)
+                assert "client=" in repr(adapter_instance)
+
+                # Test repr when client is None
+                adapter_no_client = adapter.LLMClientAdapter(client=None)
+                assert "client=None" in repr(adapter_no_client)
+
+                # Test raised ValueErrors when client is None
+                with pytest.raises(ValueError, match="LLMClient instance must be provided"):
+                    _ = adapter_no_client.model
+
+                with pytest.raises(ValueError, match="LLMClient instance must be provided"):
+                    _ = adapter_no_client.metadata
+
+                with pytest.raises(ValueError, match="LLMClient instance must be provided"):
+                    adapter_no_client.chat([])
+
+                # Test NotImplementedError raises
+                with pytest.raises(NotImplementedError):
+                    adapter_instance.complete("prompt")
+
+                with pytest.raises(NotImplementedError):
+                    adapter_instance.stream_chat([])
+
+                with pytest.raises(NotImplementedError):
+                    adapter_instance.stream_complete("prompt")
+
+                # Test async NotImplementedError raises (running sync since they just return/raise)
+                # But let's check with await as well since they are defined with async
+                import asyncio
+
+                with pytest.raises(NotImplementedError):
+                    asyncio.run(adapter_instance.astream_chat([]))
+
+                with pytest.raises(NotImplementedError):
+                    asyncio.run(adapter_instance.astream_complete("prompt"))
+
+                with pytest.raises(NotImplementedError):
+                    asyncio.run(adapter_instance.achat([]))
+
+                with pytest.raises(NotImplementedError):
+                    asyncio.run(adapter_instance.acomplete("prompt"))
+
+        finally:
+            # Always restore back to original state outside of the mock context
+            from llm_client.providers import adapter
+
+            importlib.reload(adapter)
