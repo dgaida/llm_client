@@ -575,6 +575,24 @@ async def analyze_files():
 asyncio.run(analyze_files())
 ```
 
+### Abfrage unterstützter und verfügbarer Provider
+
+Der `LLMClient` bietet zwei Klassenmethoden, um abzufragen, welche LLM-API-Anbieter von der Bibliothek unterstützt werden und welche im aktuellen Environment verfügbar (d.h. die entsprechenden Pakete installiert) sind.
+
+```python
+from llm_client import LLMClient
+
+# Liste aller unterstützten Provider abfragen
+supported = LLMClient.get_supported_providers()
+print(supported)
+# Ausgabe: ['openai', 'groq', 'gemini', 'ollama', 'kiconnect']
+
+# Liste aller aktuell installierten/verfügbaren Provider abfragen
+available = LLMClient.get_available_providers()
+print(available)
+# Ausgabe: z.B. ['openai', 'groq', 'gemini', 'ollama', 'kiconnect']
+```
+
 ### Weitere Informationen
 
 - [API-Referenz: chat_completion_with_files()](api/llm_client.md#llm_client.llm_client.LLMClient.chat_completion_with_files)  
