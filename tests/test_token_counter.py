@@ -261,13 +261,14 @@ class TestTokenCountingEdgeCases:
 
     def test_tiktoken_import_error_on_module_load(self):
         """Test: TIKTOKEN_AVAILABLE is False when tiktoken is not installed."""
-        import sys
         import importlib
+        import sys
 
         # Temporarily hide tiktoken
         with patch.dict(sys.modules, {"tiktoken": None}):
             # Reload module
             import llm_client.utils.token_counter
+
             importlib.reload(llm_client.utils.token_counter)
 
             # Assert TIKTOKEN_AVAILABLE is False

@@ -645,6 +645,7 @@ class TestCLIVersion:
         """Test running cli.py as __main__."""
         import runpy
         import sys
+
         with patch.object(sys, "argv", ["llm-client", "providers"]):
             try:
                 runpy.run_module("llm_client.cli", run_name="__main__")
@@ -653,14 +654,15 @@ class TestCLIVersion:
 
     def test_cli_import_without_rich(self):
         """Test CLI importing and running without rich module available."""
-        import sys
         import importlib
+        import sys
 
         # Get all rich modules currently loaded
         rich_keys = {k: None for k in sys.modules if k == "rich" or k.startswith("rich.")}
         with patch.dict(sys.modules, rich_keys):
             # Reload cli
             import llm_client.cli
+
             importlib.reload(llm_client.cli)
 
             assert llm_client.cli.RICH_AVAILABLE is False

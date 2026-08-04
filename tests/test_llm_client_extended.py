@@ -719,6 +719,7 @@ class TestLLMClientAdditionalCoverage:
 
             async def mock_async_call(*args, **kwargs):
                 return {"content": "tool result"}
+
             client.provider.achat_completion_with_tools = mock_async_call
 
             result = await client.achat_completion_with_tools([], [])

@@ -135,13 +135,14 @@ class TestLLMConfigFileOperations:
 
     def test_yaml_import_error_on_module_load(self):
         """Test: YAML_AVAILABLE is False when yaml is not installed."""
-        import sys
         import importlib
+        import sys
 
         # Temporarily hide yaml
         with patch.dict(sys.modules, {"yaml": None}):
             # Reload module
             import llm_client.config
+
             importlib.reload(llm_client.config)
 
             # Assert YAML_AVAILABLE is False
