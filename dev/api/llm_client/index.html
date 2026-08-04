@@ -1915,6 +1915,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#llm_client.llm_client.LLMClient.get_available_providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_available_providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm_client.llm_client.LLMClient.get_supported_providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_supported_providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#llm_client.llm_client.LLMClient.switch_provider" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3038,6 +3060,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#llm_client.llm_client.LLMClient.get_available_providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_available_providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm_client.llm_client.LLMClient.get_supported_providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_supported_providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#llm_client.llm_client.LLMClient.switch_provider" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4017,7 +4061,25 @@ different LLM APIs (OpenAI, Groq, Gemini, Ollama). It supports:
 <span class="normal"><a href="#__codelineno-0-769">769</a></span>
 <span class="normal"><a href="#__codelineno-0-770">770</a></span>
 <span class="normal"><a href="#__codelineno-0-771">771</a></span>
-<span class="normal"><a href="#__codelineno-0-772">772</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMClient</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-772">772</a></span>
+<span class="normal"><a href="#__codelineno-0-773">773</a></span>
+<span class="normal"><a href="#__codelineno-0-774">774</a></span>
+<span class="normal"><a href="#__codelineno-0-775">775</a></span>
+<span class="normal"><a href="#__codelineno-0-776">776</a></span>
+<span class="normal"><a href="#__codelineno-0-777">777</a></span>
+<span class="normal"><a href="#__codelineno-0-778">778</a></span>
+<span class="normal"><a href="#__codelineno-0-779">779</a></span>
+<span class="normal"><a href="#__codelineno-0-780">780</a></span>
+<span class="normal"><a href="#__codelineno-0-781">781</a></span>
+<span class="normal"><a href="#__codelineno-0-782">782</a></span>
+<span class="normal"><a href="#__codelineno-0-783">783</a></span>
+<span class="normal"><a href="#__codelineno-0-784">784</a></span>
+<span class="normal"><a href="#__codelineno-0-785">785</a></span>
+<span class="normal"><a href="#__codelineno-0-786">786</a></span>
+<span class="normal"><a href="#__codelineno-0-787">787</a></span>
+<span class="normal"><a href="#__codelineno-0-788">788</a></span>
+<span class="normal"><a href="#__codelineno-0-789">789</a></span>
+<span class="normal"><a href="#__codelineno-0-790">790</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMClient</span><span class="p">:</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Universal client for interacting with various LLM providers.</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    This client uses a strategy pattern with provider classes to handle</span>
@@ -4741,35 +4803,53 @@ different LLM APIs (OpenAI, Groq, Gemini, Ollama). It supports:
 <a id="__codelineno-0-741" name="__codelineno-0-741"></a>        <span class="n">model_name</span> <span class="o">=</span> <span class="n">model</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span>
 <a id="__codelineno-0-742" name="__codelineno-0-742"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="o">.</span><span class="n">count_string_tokens</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
 <a id="__codelineno-0-743" name="__codelineno-0-743"></a>
-<a id="__codelineno-0-744" name="__codelineno-0-744"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-745" name="__codelineno-0-745"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">llm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-746" name="__codelineno-0-746"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current model name.</span>
+<a id="__codelineno-0-744" name="__codelineno-0-744"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-0-745" name="__codelineno-0-745"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_supported_providers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-746" name="__codelineno-0-746"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get list of all supported LLM providers.</span>
 <a id="__codelineno-0-747" name="__codelineno-0-747"></a>
 <a id="__codelineno-0-748" name="__codelineno-0-748"></a><span class="sd">        Returns:</span>
-<a id="__codelineno-0-749" name="__codelineno-0-749"></a><span class="sd">            Name of the current model.</span>
+<a id="__codelineno-0-749" name="__codelineno-0-749"></a><span class="sd">            list[str]: List of supported provider names, e.g., [&#39;openai&#39;, &#39;groq&#39;, ...].</span>
 <a id="__codelineno-0-750" name="__codelineno-0-750"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-751" name="__codelineno-0-751"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">llm</span>
+<a id="__codelineno-0-751" name="__codelineno-0-751"></a>        <span class="k">return</span> <span class="n">ProviderFactory</span><span class="o">.</span><span class="n">get_supported_providers</span><span class="p">()</span>
 <a id="__codelineno-0-752" name="__codelineno-0-752"></a>
-<a id="__codelineno-0-753" name="__codelineno-0-753"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-754" name="__codelineno-0-754"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the underlying API client (for backward compatibility).</span>
+<a id="__codelineno-0-753" name="__codelineno-0-753"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-0-754" name="__codelineno-0-754"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_available_providers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get list of currently available LLM providers (whose library is installed).</span>
 <a id="__codelineno-0-756" name="__codelineno-0-756"></a>
 <a id="__codelineno-0-757" name="__codelineno-0-757"></a><span class="sd">        Returns:</span>
-<a id="__codelineno-0-758" name="__codelineno-0-758"></a><span class="sd">            Any: The provider&#39;s client instance.</span>
+<a id="__codelineno-0-758" name="__codelineno-0-758"></a><span class="sd">            list[str]: List of available provider names.</span>
 <a id="__codelineno-0-759" name="__codelineno-0-759"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-760" name="__codelineno-0-760"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">client</span>
+<a id="__codelineno-0-760" name="__codelineno-0-760"></a>        <span class="k">return</span> <span class="n">ProviderFactory</span><span class="o">.</span><span class="n">get_available_providers</span><span class="p">()</span>
 <a id="__codelineno-0-761" name="__codelineno-0-761"></a>
-<a id="__codelineno-0-762" name="__codelineno-0-762"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-763" name="__codelineno-0-763"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return string representation of the client.</span>
-<a id="__codelineno-0-764" name="__codelineno-0-764"></a>
-<a id="__codelineno-0-765" name="__codelineno-0-765"></a><span class="sd">        Returns:</span>
-<a id="__codelineno-0-766" name="__codelineno-0-766"></a><span class="sd">            String with client configuration info.</span>
-<a id="__codelineno-0-767" name="__codelineno-0-767"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-768" name="__codelineno-0-768"></a>        <span class="n">async_suffix</span> <span class="o">=</span> <span class="s2">&quot; (async)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_async</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-<a id="__codelineno-0-769" name="__codelineno-0-769"></a>        <span class="k">return</span> <span class="p">(</span>
-<a id="__codelineno-0-770" name="__codelineno-0-770"></a>            <span class="sa">f</span><span class="s2">&quot;LLMClient(api=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_choice</span><span class="si">}</span><span class="s2">, model=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="si">}</span><span class="s2">, &quot;</span>
-<a id="__codelineno-0-771" name="__codelineno-0-771"></a>            <span class="sa">f</span><span class="s2">&quot;temperature=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="si">}{</span><span class="n">async_suffix</span><span class="si">}</span><span class="s2">)&quot;</span>
-<a id="__codelineno-0-772" name="__codelineno-0-772"></a>        <span class="p">)</span>
+<a id="__codelineno-0-762" name="__codelineno-0-762"></a>    <span class="nd">@property</span>
+<a id="__codelineno-0-763" name="__codelineno-0-763"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">llm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-764" name="__codelineno-0-764"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current model name.</span>
+<a id="__codelineno-0-765" name="__codelineno-0-765"></a>
+<a id="__codelineno-0-766" name="__codelineno-0-766"></a><span class="sd">        Returns:</span>
+<a id="__codelineno-0-767" name="__codelineno-0-767"></a><span class="sd">            Name of the current model.</span>
+<a id="__codelineno-0-768" name="__codelineno-0-768"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-769" name="__codelineno-0-769"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">llm</span>
+<a id="__codelineno-0-770" name="__codelineno-0-770"></a>
+<a id="__codelineno-0-771" name="__codelineno-0-771"></a>    <span class="nd">@property</span>
+<a id="__codelineno-0-772" name="__codelineno-0-772"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<a id="__codelineno-0-773" name="__codelineno-0-773"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the underlying API client (for backward compatibility).</span>
+<a id="__codelineno-0-774" name="__codelineno-0-774"></a>
+<a id="__codelineno-0-775" name="__codelineno-0-775"></a><span class="sd">        Returns:</span>
+<a id="__codelineno-0-776" name="__codelineno-0-776"></a><span class="sd">            Any: The provider&#39;s client instance.</span>
+<a id="__codelineno-0-777" name="__codelineno-0-777"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-778" name="__codelineno-0-778"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="o">.</span><span class="n">client</span>
+<a id="__codelineno-0-779" name="__codelineno-0-779"></a>
+<a id="__codelineno-0-780" name="__codelineno-0-780"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-781" name="__codelineno-0-781"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Return string representation of the client.</span>
+<a id="__codelineno-0-782" name="__codelineno-0-782"></a>
+<a id="__codelineno-0-783" name="__codelineno-0-783"></a><span class="sd">        Returns:</span>
+<a id="__codelineno-0-784" name="__codelineno-0-784"></a><span class="sd">            String with client configuration info.</span>
+<a id="__codelineno-0-785" name="__codelineno-0-785"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-786" name="__codelineno-0-786"></a>        <span class="n">async_suffix</span> <span class="o">=</span> <span class="s2">&quot; (async)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_async</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+<a id="__codelineno-0-787" name="__codelineno-0-787"></a>        <span class="k">return</span> <span class="p">(</span>
+<a id="__codelineno-0-788" name="__codelineno-0-788"></a>            <span class="sa">f</span><span class="s2">&quot;LLMClient(api=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_choice</span><span class="si">}</span><span class="s2">, model=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="si">}</span><span class="s2">, &quot;</span>
+<a id="__codelineno-0-789" name="__codelineno-0-789"></a>            <span class="sa">f</span><span class="s2">&quot;temperature=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="si">}{</span><span class="n">async_suffix</span><span class="si">}</span><span class="s2">)&quot;</span>
+<a id="__codelineno-0-790" name="__codelineno-0-790"></a>        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -5312,27 +5392,27 @@ different LLM APIs (OpenAI, Groq, Gemini, Ollama). It supports:
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>llm_client/llm_client.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-762">762</a></span>
-<span class="normal"><a href="#__codelineno-0-763">763</a></span>
-<span class="normal"><a href="#__codelineno-0-764">764</a></span>
-<span class="normal"><a href="#__codelineno-0-765">765</a></span>
-<span class="normal"><a href="#__codelineno-0-766">766</a></span>
-<span class="normal"><a href="#__codelineno-0-767">767</a></span>
-<span class="normal"><a href="#__codelineno-0-768">768</a></span>
-<span class="normal"><a href="#__codelineno-0-769">769</a></span>
-<span class="normal"><a href="#__codelineno-0-770">770</a></span>
-<span class="normal"><a href="#__codelineno-0-771">771</a></span>
-<span class="normal"><a href="#__codelineno-0-772">772</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-762" name="__codelineno-0-762"></a><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-763" name="__codelineno-0-763"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return string representation of the client.</span>
-<a id="__codelineno-0-764" name="__codelineno-0-764"></a>
-<a id="__codelineno-0-765" name="__codelineno-0-765"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-766" name="__codelineno-0-766"></a><span class="sd">        String with client configuration info.</span>
-<a id="__codelineno-0-767" name="__codelineno-0-767"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-768" name="__codelineno-0-768"></a>    <span class="n">async_suffix</span> <span class="o">=</span> <span class="s2">&quot; (async)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_async</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-<a id="__codelineno-0-769" name="__codelineno-0-769"></a>    <span class="k">return</span> <span class="p">(</span>
-<a id="__codelineno-0-770" name="__codelineno-0-770"></a>        <span class="sa">f</span><span class="s2">&quot;LLMClient(api=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_choice</span><span class="si">}</span><span class="s2">, model=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="si">}</span><span class="s2">, &quot;</span>
-<a id="__codelineno-0-771" name="__codelineno-0-771"></a>        <span class="sa">f</span><span class="s2">&quot;temperature=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="si">}{</span><span class="n">async_suffix</span><span class="si">}</span><span class="s2">)&quot;</span>
-<a id="__codelineno-0-772" name="__codelineno-0-772"></a>    <span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-780">780</a></span>
+<span class="normal"><a href="#__codelineno-0-781">781</a></span>
+<span class="normal"><a href="#__codelineno-0-782">782</a></span>
+<span class="normal"><a href="#__codelineno-0-783">783</a></span>
+<span class="normal"><a href="#__codelineno-0-784">784</a></span>
+<span class="normal"><a href="#__codelineno-0-785">785</a></span>
+<span class="normal"><a href="#__codelineno-0-786">786</a></span>
+<span class="normal"><a href="#__codelineno-0-787">787</a></span>
+<span class="normal"><a href="#__codelineno-0-788">788</a></span>
+<span class="normal"><a href="#__codelineno-0-789">789</a></span>
+<span class="normal"><a href="#__codelineno-0-790">790</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-780" name="__codelineno-0-780"></a><span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-781" name="__codelineno-0-781"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Return string representation of the client.</span>
+<a id="__codelineno-0-782" name="__codelineno-0-782"></a>
+<a id="__codelineno-0-783" name="__codelineno-0-783"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-784" name="__codelineno-0-784"></a><span class="sd">        String with client configuration info.</span>
+<a id="__codelineno-0-785" name="__codelineno-0-785"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-786" name="__codelineno-0-786"></a>    <span class="n">async_suffix</span> <span class="o">=</span> <span class="s2">&quot; (async)&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_async</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+<a id="__codelineno-0-787" name="__codelineno-0-787"></a>    <span class="k">return</span> <span class="p">(</span>
+<a id="__codelineno-0-788" name="__codelineno-0-788"></a>        <span class="sa">f</span><span class="s2">&quot;LLMClient(api=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_choice</span><span class="si">}</span><span class="s2">, model=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="si">}</span><span class="s2">, &quot;</span>
+<a id="__codelineno-0-789" name="__codelineno-0-789"></a>        <span class="sa">f</span><span class="s2">&quot;temperature=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span><span class="si">}{</span><span class="n">async_suffix</span><span class="si">}</span><span class="s2">)&quot;</span>
+<a id="__codelineno-0-790" name="__codelineno-0-790"></a>    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -7621,6 +7701,134 @@ generation. The LLM can decide which tools to call based on the context.</p>
 <a id="__codelineno-0-230" name="__codelineno-0-230"></a>        <span class="n">use_ollama_cloud</span><span class="o">=</span><span class="n">use_ollama_cloud</span><span class="p">,</span>
 <a id="__codelineno-0-231" name="__codelineno-0-231"></a>        <span class="n">ollama_host</span><span class="o">=</span><span class="n">ollama_host</span><span class="p">,</span>
 <a id="__codelineno-0-232" name="__codelineno-0-232"></a>    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="llm_client.llm_client.LLMClient.get_available_providers" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_available_providers</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#llm_client.llm_client.LLMClient.get_available_providers" class="headerlink" title="Permanent link">&para;</a></h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get list of currently available LLM providers (whose library is installed).</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>list[str]: List of available provider names.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>llm_client/llm_client.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-753">753</a></span>
+<span class="normal"><a href="#__codelineno-0-754">754</a></span>
+<span class="normal"><a href="#__codelineno-0-755">755</a></span>
+<span class="normal"><a href="#__codelineno-0-756">756</a></span>
+<span class="normal"><a href="#__codelineno-0-757">757</a></span>
+<span class="normal"><a href="#__codelineno-0-758">758</a></span>
+<span class="normal"><a href="#__codelineno-0-759">759</a></span>
+<span class="normal"><a href="#__codelineno-0-760">760</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-753" name="__codelineno-0-753"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-754" name="__codelineno-0-754"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_available_providers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-755" name="__codelineno-0-755"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get list of currently available LLM providers (whose library is installed).</span>
+<a id="__codelineno-0-756" name="__codelineno-0-756"></a>
+<a id="__codelineno-0-757" name="__codelineno-0-757"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-758" name="__codelineno-0-758"></a><span class="sd">        list[str]: List of available provider names.</span>
+<a id="__codelineno-0-759" name="__codelineno-0-759"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-760" name="__codelineno-0-760"></a>    <span class="k">return</span> <span class="n">ProviderFactory</span><span class="o">.</span><span class="n">get_available_providers</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h6 id="llm_client.llm_client.LLMClient.get_supported_providers" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_supported_providers</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#llm_client.llm_client.LLMClient.get_supported_providers" class="headerlink" title="Permanent link">&para;</a></h6>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get list of all supported LLM providers.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span>[<span title="str">str</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>list[str]: List of supported provider names, e.g., ['openai', 'groq', ...].</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>llm_client/llm_client.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-744">744</a></span>
+<span class="normal"><a href="#__codelineno-0-745">745</a></span>
+<span class="normal"><a href="#__codelineno-0-746">746</a></span>
+<span class="normal"><a href="#__codelineno-0-747">747</a></span>
+<span class="normal"><a href="#__codelineno-0-748">748</a></span>
+<span class="normal"><a href="#__codelineno-0-749">749</a></span>
+<span class="normal"><a href="#__codelineno-0-750">750</a></span>
+<span class="normal"><a href="#__codelineno-0-751">751</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-744" name="__codelineno-0-744"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-745" name="__codelineno-0-745"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_supported_providers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-746" name="__codelineno-0-746"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get list of all supported LLM providers.</span>
+<a id="__codelineno-0-747" name="__codelineno-0-747"></a>
+<a id="__codelineno-0-748" name="__codelineno-0-748"></a><span class="sd">    Returns:</span>
+<a id="__codelineno-0-749" name="__codelineno-0-749"></a><span class="sd">        list[str]: List of supported provider names, e.g., [&#39;openai&#39;, &#39;groq&#39;, ...].</span>
+<a id="__codelineno-0-750" name="__codelineno-0-750"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-751" name="__codelineno-0-751"></a>    <span class="k">return</span> <span class="n">ProviderFactory</span><span class="o">.</span><span class="n">get_supported_providers</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
