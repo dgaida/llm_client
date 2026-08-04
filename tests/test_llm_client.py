@@ -496,3 +496,23 @@ class TestLLMClientTypeHints:
             response = client.chat_completion([{"role": "user", "content": "Hi"}])
 
             assert isinstance(response, str)
+
+
+class TestLLMClientListing:
+    """Tests for listing supported and available providers via LLMClient class."""
+
+    def test_get_supported_providers(self):
+        """Test that get_supported_providers returns all supported provider names."""
+        supported = LLMClient.get_supported_providers()
+        assert isinstance(supported, list)
+        assert "openai" in supported
+        assert "groq" in supported
+        assert "gemini" in supported
+        assert "ollama" in supported
+        assert "kiconnect" in supported
+
+    def test_get_available_providers(self):
+        """Test that get_available_providers returns currently installed/available providers."""
+        available = LLMClient.get_available_providers()
+        assert isinstance(available, list)
+        assert "openai" in available

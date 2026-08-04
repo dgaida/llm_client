@@ -741,6 +741,24 @@ class LLMClient:
         model_name = model or self.llm
         return self.token_counter.count_string_tokens(text, model=model_name)
 
+    @classmethod
+    def get_supported_providers(cls) -> list[str]:
+        """Get list of all supported LLM providers.
+
+        Returns:
+            list[str]: List of supported provider names, e.g., ['openai', 'groq', ...].
+        """
+        return ProviderFactory.get_supported_providers()
+
+    @classmethod
+    def get_available_providers(cls) -> list[str]:
+        """Get list of currently available LLM providers (whose library is installed).
+
+        Returns:
+            list[str]: List of available provider names.
+        """
+        return ProviderFactory.get_available_providers()
+
     @property
     def llm(self) -> str:
         """Get the current model name.

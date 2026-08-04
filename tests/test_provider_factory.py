@@ -576,3 +576,24 @@ class TestProviderFactoryCoverageExpansion:
             kiconnect_api_key="kic-some-key",
         )
         assert selected == "kiconnect"
+
+
+class TestProviderFactoryListing:
+    """Tests for listing supported and available providers."""
+
+    def test_get_supported_providers(self):
+        """Test that get_supported_providers returns all supported provider names."""
+        supported = ProviderFactory.get_supported_providers()
+        assert isinstance(supported, list)
+        assert "openai" in supported
+        assert "groq" in supported
+        assert "gemini" in supported
+        assert "ollama" in supported
+        assert "kiconnect" in supported
+
+    def test_get_available_providers_contains_openai(self):
+        """Test that get_available_providers returns currently installed/available providers."""
+        available = ProviderFactory.get_available_providers()
+        assert isinstance(available, list)
+        # In this environment, openai is installed
+        assert "openai" in available

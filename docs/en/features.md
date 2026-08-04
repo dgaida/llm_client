@@ -350,6 +350,26 @@ client = LLMClient(
 
 ## 🛠️ Developer Features
 
+### Provider Listing
+
+Query supported and currently available providers (whose library is installed in the current environment):
+
+```python
+from llm_client import LLMClient
+
+# Get all supported providers
+supported = LLMClient.get_supported_providers()
+print(supported)
+# Output: ['openai', 'groq', 'gemini', 'ollama', 'kiconnect']
+
+# Get currently available/installed providers
+available = LLMClient.get_available_providers()
+print(available)
+# Output: e.g., ['openai', 'groq', 'gemini', 'ollama', 'kiconnect']
+```
+
+---
+
 ### Comprehensive Logging
 
 Built-in logging for debugging and monitoring:

@@ -265,6 +265,17 @@ class ProviderFactory:
             return "ollama"
 
     @classmethod
+    def get_supported_providers(cls) -> list[str]:
+        """Get list of all supported LLM providers.
+
+        Returns:
+            List of supported provider names.
+        """
+        supported = list(cls._provider_classes.keys())
+        logger.debug(f"Supported providers: {supported}")
+        return supported
+
+    @classmethod
     def get_available_providers(cls) -> list[str]:
         """Get list of available providers (where package is installed).
 
