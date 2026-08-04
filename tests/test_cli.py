@@ -243,6 +243,29 @@ class TestInteractiveCommand:
         assert result.exit_code == 0
         mock_from_config.assert_called_once()
 
+    @patch("llm_client.cli.LLMClient")
+    @patch("llm_client.cli.Prompt.ask")
+    def test_interactive_switch_provider_error(self, mock_ask, mock_llm, runner, mock_client):
+        """Test switch provider raising an exception in interactive mode."""
+        mock_llm.return_value = mock_client
+        mock_client.switch_provider.side_effect = Exception("Invalid provider")
+        mock_ask.side_effect = ["switch groq", "exit"]
+
+        result = runner.invoke(cli, ["interactive"])
+
+        assert result.exit_code == 0
+        assert "Could not switch provider" in result.output
+
+    @patch("llm_client.cli.LLMClient")
+    def test_interactive_init_error(self, mock_llm, runner):
+        """Test interactive mode initialization error."""
+        mock_llm.side_effect = Exception("Init error")
+
+        result = runner.invoke(cli, ["interactive"])
+
+        assert result.exit_code == 1
+        assert "Init error" in result.output
+
 
 class TestTokensCommand:
     """Tests for the tokens command."""
@@ -366,6 +389,18 @@ class TestConfigCommands:
 
         assert result.exit_code == 1
         assert "invalid" in result.output.lower()
+
+    @patch("llm_client.cli.LLMConfig.from_file")
+    def test_config_validate_exception(self, mock_from_file, runner, tmp_path):
+        """Test config validate raising an exception."""
+        config_file = tmp_path / "config.yaml"
+        config_file.write_text("test: data")
+        mock_from_file.side_effect = Exception("Parser error")
+
+        result = runner.invoke(cli, ["config", "validate", str(config_file)])
+
+        assert result.exit_code == 1
+        assert "Parser error" in result.output
 
     @patch("llm_client.cli.LLMConfig.from_file")
     def test_config_show(self, mock_from_file, runner, tmp_path):
@@ -605,6 +640,36 @@ class TestCLIVersion:
         with patch("llm_client.cli.cli") as mock_cli:
             main()
             mock_cli.assert_called_once()
+
+    def test_cli_run_as_main(self):
+        """Test running cli.py as __main__."""
+        import runpy
+        import sys
+
+        with patch.object(sys, "argv", ["llm-client", "providers"]):
+            try:
+                runpy.run_module("llm_client.cli", run_name="__main__")
+            except SystemExit as e:
+                assert e.code == 0
+
+    def test_cli_import_without_rich(self):
+        """Test CLI importing and running without rich module available."""
+        import importlib
+        import sys
+
+        # Get all rich modules currently loaded
+        rich_keys = {k: None for k in sys.modules if k == "rich" or k.startswith("rich.")}
+        with patch.dict(sys.modules, rich_keys):
+            # Reload cli
+            import llm_client.cli
+
+            importlib.reload(llm_client.cli)
+
+            assert llm_client.cli.RICH_AVAILABLE is False
+            assert llm_client.cli.console is None
+
+        # Restore normal state
+        importlib.reload(llm_client.cli)
 
 
 if __name__ == "__main__":
