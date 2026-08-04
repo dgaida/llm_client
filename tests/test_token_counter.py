@@ -246,18 +246,35 @@ class TestTokenCountingEdgeCases:
             assert isinstance(count, int)
             assert count > 0
 
-    # def test_count_tokens_with_exception_no_fallback(self):
-    #     """Test: Raises exception when fallback disabled."""
-    #     with (
-    #         patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
-    #         patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
-    #     ):
-    #         mock_tk.get_encoding.side_effect = Exception("Encoding error")
-    #
-    #         messages = [{"role": "user", "content": "Test"}]
-    #
-    #         with pytest.raises(Exception):
-    #             TokenCounter.count_tokens(messages, model="gpt-4o", fallback=False)
+    def test_count_tokens_with_exception_no_fallback(self):
+        """Test: Raises exception when fallback disabled."""
+        with (
+            patch("llm_client.utils.token_counter.TIKTOKEN_AVAILABLE", True),
+            patch("llm_client.utils.token_counter.tiktoken") as mock_tk,
+        ):
+            mock_tk.get_encoding.side_effect = Exception("Encoding error")
+
+            messages = [{"role": "user", "content": "Test"}]
+
+            with pytest.raises(Exception, match="Encoding error"):
+                TokenCounter.count_tokens(messages, model="gpt-4o", fallback=False)
+
+    def test_tiktoken_import_error_on_module_load(self):
+        """Test: TIKTOKEN_AVAILABLE is False when tiktoken is not installed."""
+        import sys
+        import importlib
+
+        # Temporarily hide tiktoken
+        with patch.dict(sys.modules, {"tiktoken": None}):
+            # Reload module
+            import llm_client.utils.token_counter
+            importlib.reload(llm_client.utils.token_counter)
+
+            # Assert TIKTOKEN_AVAILABLE is False
+            assert llm_client.utils.token_counter.TIKTOKEN_AVAILABLE is False
+
+        # Restore module back to normal state
+        importlib.reload(llm_client.utils.token_counter)
 
     def test_count_tokens_missing_content(self):
         """Test: Handle messages with missing content."""

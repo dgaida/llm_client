@@ -511,6 +511,8 @@ class TestLLMClientAdditionalCoverage:
         monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
         monkeypatch.setenv("GEMINI_API_KEY", "AIzaSy-test")
         monkeypatch.setenv("OLLAMA_API_KEY", "ollama-test")
+        monkeypatch.setenv("KICONNECT_API_KEY", "kiconnect-test")
+        monkeypatch.setenv("API_KEY", "generic-test")
 
         with patch("llm_client.providers.providers.OpenAI", MagicMock()):
             client = LLMClient()
@@ -518,6 +520,8 @@ class TestLLMClientAdditionalCoverage:
             assert client.groq_api_key == "gsk-test"
             assert client.gemini_api_key == "AIzaSy-test"
             assert client.ollama_api_key == "ollama-test"
+            assert client.kiconnect_api_key == "kiconnect-test"
+            assert client.api_key == "generic-test"
 
     def test_get_api_choice_from_provider_branches(self, monkeypatch):
         """Test: All branches of _get_api_choice_from_provider."""
@@ -678,3 +682,57 @@ class TestLLMClientAdditionalCoverage:
             # This should hit the except branch in the loop
             client._load_colab_secrets()
             assert client.openai_api_key is None
+
+    def test_load_colab_secrets_outer_exception(self, monkeypatch):
+        """Test: colab secrets handles outer exception when google.colab cannot be imported/accessed."""
+        monkeypatch.setenv("COLAB_GPU", "1")
+
+        class BadColab:
+            @property
+            def userdata(self):
+                raise Exception("Fatal colab error")
+
+        with (
+            patch.dict("sys.modules", {"google.colab": BadColab()}),
+            patch("llm_client.providers.providers.OpenAI", MagicMock()),
+        ):
+            client = LLMClient(api_choice="openai")
+            assert client.api_choice == "openai"
+
+    def test_get_api_choice_from_provider_kiconnect(self, monkeypatch):
+        """Test: _get_api_choice_from_provider returns kiconnect."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk")
+        with patch("llm_client.providers.providers.OpenAI", MagicMock()):
+            client = LLMClient(api_choice="openai")
+            client.provider = MagicMock()
+            client.provider.__class__.__name__ = "KIConnectProvider"
+            assert client._get_api_choice_from_provider() == "kiconnect"
+
+    @pytest.mark.asyncio
+    async def test_achat_completion_with_tools_success(self, monkeypatch):
+        """Test: achat_completion_with_tools successful call."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_async_openai.return_value = MagicMock()
+
+            client = LLMClient(api_choice="openai", use_async=True)
+
+            async def mock_async_call(*args, **kwargs):
+                return {"content": "tool result"}
+            client.provider.achat_completion_with_tools = mock_async_call
+
+            result = await client.achat_completion_with_tools([], [])
+            assert result == {"content": "tool result"}
+
+    @pytest.mark.asyncio
+    async def test_achat_completion_with_files_nonexistent_raises_error(self, monkeypatch):
+        """Test: achat_completion_with_files raises FileNotFoundError for missing files."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        with patch("llm_client.providers.async_providers.AsyncOpenAI") as mock_async_openai:
+            mock_provider = MagicMock()
+            mock_provider.achat_completion_with_files = MagicMock()
+            mock_async_openai.return_value = mock_provider
+
+            client = LLMClient(api_choice="openai", use_async=True)
+            with pytest.raises(FileNotFoundError, match="File not found: nonexistent_file.txt"):
+                await client.achat_completion_with_files([], files=["nonexistent_file.txt"])
