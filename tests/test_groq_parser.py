@@ -14,7 +14,7 @@ def test_parse_groq_limits_creation():
         assert "# Groq Free Plan Rate Limits" in content
         assert "| MODEL ID | RPM | RPD | TPM | TPD | ASH | ASD |" in content
         # Check for at least one known model from the hardcoded fallback or live scrape
-        assert "meta-llama/llama-4-scout-17b-16e-instruct" in content
+        assert "openai/gpt-oss-120b" in content
 
 
 def test_tpm_parsing_logic():
@@ -22,18 +22,17 @@ def test_tpm_parsing_logic():
 
     provider = GroqProvider(llm="test", api_key="test")
 
-    error_msg = "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142"
+    error_msg = "Rate limit exceeded on tokens per minute (TPM): Limit 1000, Requested 2000"
 
-    # meta-llama/llama-4-scout-17b-16e-instruct has 30K TPM in our md file
     fallback = provider._find_fallback_model(error_msg)
-    assert fallback == "meta-llama/llama-4-scout-17b-16e-instruct"
+    assert fallback == "meta-llama/llama-prompt-guard-2-22m"
 
     # Test with very high request
     error_msg_high = "Requested 100000"
     fallback_high = provider._find_fallback_model(error_msg_high)
     assert fallback_high is None
 
-    # requested 25000 should also give meta-llama/llama-4-scout-17b-16e-instruct (30K)
-    error_msg_25k = "Requested 25000"
-    fallback_25k = provider._find_fallback_model(error_msg_25k)
-    assert fallback_25k == "meta-llama/llama-4-scout-17b-16e-instruct"
+    # requested 5000 should also give meta-llama/llama-prompt-guard-2-22m (15K)
+    error_msg_5k = "Requested 5000"
+    fallback_5k = provider._find_fallback_model(error_msg_5k)
+    assert fallback_5k == "meta-llama/llama-prompt-guard-2-22m"
