@@ -350,9 +350,9 @@ client = LLMClient(
 
 ## 🛠️ Developer Features
 
-### Provider Listing
+### Provider and Model Listing
 
-Query supported and currently available providers (whose library is installed in the current environment):
+Query supported and currently available providers (whose library is installed in the current environment), as well as available models for each provider:
 
 ```python
 from llm_client import LLMClient
@@ -366,6 +366,12 @@ print(supported)
 available = LLMClient.get_available_providers()
 print(available)
 # Output: e.g., ['openai', 'groq', 'gemini', 'ollama', 'kiconnect']
+
+# Get available models for the currently active provider
+client = LLMClient(api_choice="openai")
+models = client.list_models()
+print(models)
+# Output: e.g., ['gpt-4o', 'gpt-4o-mini', ...]
 ```
 
 ---

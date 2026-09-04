@@ -759,6 +759,18 @@ class LLMClient:
         """
         return ProviderFactory.get_available_providers()
 
+    def list_models(self) -> list[str]:
+        """List available models for the active LLM provider.
+
+        Returns:
+            list[str]: List of available model IDs/names.
+
+        Examples:
+            >>> client = LLMClient(api_choice="openai")
+            >>> models = client.list_models()
+        """
+        return self.provider.list_models()
+
     @property
     def llm(self) -> str:
         """Get the current model name.

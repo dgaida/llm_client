@@ -60,6 +60,18 @@ for chunk in client.chat_completion_stream(messages):
 print("\n")
 ```
 
+## Listing Available Models
+
+```python
+from llm_client import LLMClient
+
+client = LLMClient(api_choice="openai")
+
+# List models available for the active provider
+models = client.list_models()
+print("Available models:", models)
+```
+
 ## Using Different Models
 
 ```python
