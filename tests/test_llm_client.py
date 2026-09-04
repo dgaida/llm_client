@@ -516,3 +516,11 @@ class TestLLMClientListing:
         available = LLMClient.get_available_providers()
         assert isinstance(available, list)
         assert "openai" in available
+
+    def test_list_models(self, monkeypatch):
+        """Test that client.list_models() delegates to current provider's list_models()."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+        client = LLMClient(api_choice="openai")
+        with patch.object(client.provider, "list_models", return_value=["gpt-4o", "gpt-4o-mini"]):
+            models = client.list_models()
+            assert models == ["gpt-4o", "gpt-4o-mini"]

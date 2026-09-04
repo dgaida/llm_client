@@ -575,9 +575,9 @@ async def analyze_files():
 asyncio.run(analyze_files())
 ```
 
-### Abfrage unterstützter und verfügbarer Provider
+### Abfrage unterstützter und verfügbarer Provider sowie Modelle
 
-Der `LLMClient` bietet zwei Klassenmethoden, um abzufragen, welche LLM-API-Anbieter von der Bibliothek unterstützt werden und welche im aktuellen Environment verfügbar (d.h. die entsprechenden Pakete installiert) sind.
+Der `LLMClient` bietet zwei Klassenmethoden, um abzufragen, welche LLM-API-Anbieter von der Bibliothek unterstützt werden und welche im aktuellen Environment verfügbar (d.h. die entsprechenden Pakete installiert) sind. Zudem lässt sich mit `list_models()` für jeden Provider abfragen, welche Modelle aktuell verfügbar sind.
 
 ```python
 from llm_client import LLMClient
@@ -591,6 +591,12 @@ print(supported)
 available = LLMClient.get_available_providers()
 print(available)
 # Ausgabe: z.B. ['openai', 'groq', 'gemini', 'ollama', 'kiconnect']
+
+# Verfügbare Modelle für den aktuell gewählten Provider ausgeben
+client = LLMClient(api_choice="openai")
+models = client.list_models()
+print(models)
+# Ausgabe: z.B. ['gpt-4o', 'gpt-4o-mini', ...]
 ```
 
 ### Weitere Informationen

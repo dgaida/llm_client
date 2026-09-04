@@ -20,7 +20,7 @@ def test_groq_fallback_sync(mock_groq_client):
     # Create the error
     error_response = MagicMock()
     error_response.status_code = 413
-    error_message = "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142, please reduce your message size"
+    error_message = "Rate limit exceeded on tokens per minute (TPM): Limit 1000, Requested 2000, please reduce your message size"
 
     # We need to make sure str(error) contains the message
     error = APIStatusError(
@@ -41,7 +41,7 @@ def test_groq_fallback_sync(mock_groq_client):
         response = provider.chat_completion(messages)
 
     assert response == "Success with fallback"
-    assert provider.llm == "meta-llama/llama-4-scout-17b-16e-instruct"
+    assert provider.llm == "meta-llama/llama-prompt-guard-2-22m"
     assert mock_groq_client.chat.completions.create.call_count == 2
 
     # Verify both calls had correct parameters
@@ -49,7 +49,7 @@ def test_groq_fallback_sync(mock_groq_client):
     assert first_call.kwargs["model"] == "qwen/qwen3-32b"
 
     second_call = mock_groq_client.chat.completions.create.call_args_list[1]
-    assert second_call.kwargs["model"] == "meta-llama/llama-4-scout-17b-16e-instruct"
+    assert second_call.kwargs["model"] == "meta-llama/llama-prompt-guard-2-22m"
 
 
 @pytest.mark.asyncio
@@ -62,7 +62,7 @@ async def test_groq_fallback_async():
 
     error_response = MagicMock()
     error_response.status_code = 413
-    error_message = "Rate limit exceeded on tokens per minute (TPM): Limit 10000, Requested 21142"
+    error_message = "Rate limit exceeded on tokens per minute (TPM): Limit 1000, Requested 2000"
 
     error = APIStatusError(
         message=error_message,
@@ -88,5 +88,5 @@ async def test_groq_fallback_async():
         response = await provider.achat_completion(messages)
 
     assert response == "Async success with fallback"
-    assert provider.llm == "meta-llama/llama-4-scout-17b-16e-instruct"
+    assert provider.llm == "meta-llama/llama-prompt-guard-2-22m"
     assert mock_async_client.chat.completions.create.call_count == 2
