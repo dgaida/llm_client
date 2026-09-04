@@ -2710,26 +2710,26 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Development installation</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/dgaida/llm_client.git
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nb">cd</span><span class="w"> </span>llm_client
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[all]&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[all]"</span>
 </code></pre></div>
 <p>After installation, you can use either:<br />
 - <code>llm-client</code> (full command)<br />
 - <code>llm</code> (shorter alias)  </p>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Simple query</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;What is Python?&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"What is Python?"</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Interactive mode</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>llm-client<span class="w"> </span>interactive
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># With specific provider</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Explain AI&quot;</span><span class="w"> </span>--provider<span class="w"> </span>openai
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Explain AI"</span><span class="w"> </span>--provider<span class="w"> </span>openai
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Stream response</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Tell me a story&quot;</span><span class="w"> </span>--stream
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Tell me a story"</span><span class="w"> </span>--stream
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Count tokens</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>llm-client<span class="w"> </span>tokens<span class="w"> </span><span class="s2">&quot;Hello world!&quot;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>llm-client<span class="w"> </span>tokens<span class="w"> </span><span class="s2">"Hello world!"</span>
 </code></pre></div>
 <hr />
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
@@ -2748,22 +2748,22 @@
 - <code>--markdown / --no-markdown</code> - Render as markdown (default: markdown)  </p>
 <p><strong>Examples:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Basic query</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;What is machine learning?&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"What is machine learning?"</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># With specific provider and model</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Explain quantum computing&quot;</span><span class="w"> </span>--provider<span class="w"> </span>openai<span class="w"> </span>--model<span class="w"> </span>gpt-4o
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Explain quantum computing"</span><span class="w"> </span>--provider<span class="w"> </span>openai<span class="w"> </span>--model<span class="w"> </span>gpt-4o
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Stream response in real-time</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Tell me a long story about AI&quot;</span><span class="w"> </span>--stream
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Tell me a long story about AI"</span><span class="w"> </span>--stream
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Lower temperature for more focused responses</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;What is 2+2?&quot;</span><span class="w"> </span>--temperature<span class="w"> </span><span class="m">0</span>.1
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"What is 2+2?"</span><span class="w"> </span>--temperature<span class="w"> </span><span class="m">0</span>.1
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># From config file</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Hello&quot;</span><span class="w"> </span>--config<span class="w"> </span>llm_config.yaml
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Hello"</span><span class="w"> </span>--config<span class="w"> </span>llm_config.yaml
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
 <a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1"># Use Ollama Cloud</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Analyze this code&quot;</span><span class="w"> </span>--provider<span class="w"> </span>ollama<span class="w"> </span>--model<span class="w"> </span>gpt-oss:120b-cloud
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Analyze this code"</span><span class="w"> </span>--provider<span class="w"> </span>ollama<span class="w"> </span>--model<span class="w"> </span>gpt-oss:120b-cloud
 </code></pre></div></p>
 <hr />
 <h3 id="interactive-chat-sessions"><code>interactive</code> - Chat Sessions<a class="headerlink" href="#interactive-chat-sessions" title="Permanent link">&para;</a></h3>
@@ -2790,13 +2790,13 @@
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span>--provider<span class="w"> </span>openai
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># With system message (set context)</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span>--system<span class="w"> </span><span class="s2">&quot;You are a Python expert who gives concise answers&quot;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span>--system<span class="w"> </span><span class="s2">"You are a Python expert who gives concise answers"</span>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># With config file</span>
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span>--config<span class="w"> </span>llm_config.yaml<span class="w"> </span>--provider<span class="w"> </span>groq
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
 <a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># Coding assistant</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span>--system<span class="w"> </span><span class="s2">&quot;You are an expert software engineer&quot;</span><span class="w"> </span>--provider<span class="w"> </span>openai
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>llm-client<span class="w"> </span>interactive<span class="w"> </span>--system<span class="w"> </span><span class="s2">"You are an expert software engineer"</span><span class="w"> </span>--provider<span class="w"> </span>openai
 </code></pre></div></p>
 <p><strong>Sample Session:</strong>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>╭─────────────────────────────────────────╮
@@ -2825,10 +2825,10 @@
 <a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>
 <a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>### Multimodal Query (Image Analysis)
 <a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>```bash
-<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>llm-client chat &quot;What is in this image?&quot; --provider gemini --file image.jpg
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>llm-client chat "What is in this image?" --provider gemini --file image.jpg
 </code></pre></div></p>
 <h3 id="complex-system-prompt">Complex System Prompt<a class="headerlink" href="#complex-system-prompt" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">&quot;Write a unit test for this function&quot;</span><span class="w"> </span>--system<span class="w"> </span><span class="s2">&quot;You are a senior QA engineer&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>llm-client<span class="w"> </span>chat<span class="w"> </span><span class="s2">"Write a unit test for this function"</span><span class="w"> </span>--system<span class="w"> </span><span class="s2">"You are a senior QA engineer"</span>
 </code></pre></div>
 
 

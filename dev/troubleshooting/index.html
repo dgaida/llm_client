@@ -3699,7 +3699,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>tiktoken
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Oder alle optionalen Abhängigkeiten</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[all]&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[all]"</span>
 </code></pre></div></p>
 <hr />
 <h2 id="api-keys">API-Keys<a class="headerlink" href="#api-keys" title="Permanent link">&para;</a></h2>
@@ -3712,7 +3712,7 @@
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Windows (PowerShell)</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nv">$env</span>:OPENAI_API_KEY<span class="o">=</span><span class="s2">&quot;sk-...&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nv">$env</span>:OPENAI_API_KEY<span class="o">=</span><span class="s2">"sk-..."</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Windows (CMD)</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nb">set</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>sk-...
@@ -3737,7 +3737,7 @@
 </code></pre></div></p>
 <p><strong>Lösung 4 - Programmatisch</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sk-...&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"OPENAI_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"sk-..."</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMClient</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">()</span>
@@ -3748,11 +3748,11 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Key ausgeben (sicher in lokaler Umgebung)</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">))</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"OPENAI_API_KEY"</span><span class="p">))</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># In Colab</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">userdata</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">userdata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">))</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">userdata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"OPENAI_API_KEY"</span><span class="p">))</span>
 </code></pre></div></p>
 <p><strong>Mögliche Ursachen</strong>:<br />
 - Leerzeichen im Key<br />
@@ -3766,15 +3766,15 @@
 </code></pre></div>
 <p><strong>Lösung</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Korrekte Provider-Namen</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">)</span>   <span class="c1"># ✓</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;groq&quot;</span><span class="p">)</span>     <span class="c1"># ✓</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>   <span class="c1"># ✓</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">)</span>   <span class="c1"># ✓</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">)</span>   <span class="c1"># ✓</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"groq"</span><span class="p">)</span>     <span class="c1"># ✓</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"gemini"</span><span class="p">)</span>   <span class="c1"># ✓</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">)</span>   <span class="c1"># ✓</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Liste verfügbare Provider</span>
 <a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProviderFactory</span>
 <a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">available</span> <span class="o">=</span> <span class="n">ProviderFactory</span><span class="o">.</span><span class="n">get_available_providers</span><span class="p">()</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Verfügbar: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Verfügbar: </span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="providernotavailableerror">ProviderNotAvailableError<a class="headerlink" href="#providernotavailableerror" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Provider-Paket nicht installiert.</p>
@@ -3793,13 +3793,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIKeyNotFoundError</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">client</span><span class="o">.</span><span class="n">switch_provider</span><span class="p">(</span><span class="s2">&quot;groq&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">client</span><span class="o">.</span><span class="n">switch_provider</span><span class="p">(</span><span class="s2">"groq"</span><span class="p">)</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="k">except</span> <span class="n">APIKeyNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;API-Key fehlt: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">key_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"API-Key fehlt: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">key_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="c1"># Setze Key und versuche erneut</span>
 <a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GROQ_API_KEY&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gsk-...&quot;</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="n">client</span><span class="o">.</span><span class="n">switch_provider</span><span class="p">(</span><span class="s2">&quot;groq&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">"GROQ_API_KEY"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"gsk-..."</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="n">client</span><span class="o">.</span><span class="n">switch_provider</span><span class="p">(</span><span class="s2">"groq"</span><span class="p">)</span>
 </code></pre></div></p>
 <hr />
 <h2 id="ollama">Ollama<a class="headerlink" href="#ollama" title="Permanent link">&para;</a></h2>
@@ -3821,7 +3821,7 @@
 </code></pre></div></p>
 <h3 id="model-not-found">Model not found<a class="headerlink" href="#model-not-found" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Modell nicht verfügbar.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">ChatCompletionError</span><span class="p">:</span> <span class="n">model</span> <span class="s1">&#39;llama3.2:1b&#39;</span> <span class="ow">not</span> <span class="n">found</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">ChatCompletionError</span><span class="p">:</span> <span class="n">model</span> <span class="s1">'llama3.2:1b'</span> <span class="ow">not</span> <span class="n">found</span>
 </code></pre></div>
 <p><strong>Lösung</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Liste installierte Modelle</span>
@@ -3839,10 +3839,10 @@
 <p><strong>Problem</strong>: Modell ist zu groß für verfügbaren RAM.</p>
 <p><strong>Lösung</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Verwende kleineres Modell</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b&quot;</span><span class="p">)</span>  <span class="c1"># ~1.3GB</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">"llama3.2:1b"</span><span class="p">)</span>  <span class="c1"># ~1.3GB</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Oder quantisiertes Modell</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b-q4_0&quot;</span><span class="p">)</span>  <span class="c1"># Kleiner</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">"llama3.2:1b-q4_0"</span><span class="p">)</span>  <span class="c1"># Kleiner</span>
 </code></pre></div></p>
 <p><strong>Empfehlungen nach RAM</strong>:<br />
 - &lt; 4GB RAM: <code>llama3.2:1b</code><br />
@@ -3858,7 +3858,7 @@
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OLLAMA_API_KEY</span><span class="o">=</span>your_api_key
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Oder in secrets.env</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;OLLAMA_API_KEY=your_api_key&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>secrets.env
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"OLLAMA_API_KEY=your_api_key"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>secrets.env
 </code></pre></div></p>
 <hr />
 <h2 id="streaming">Streaming<a class="headerlink" href="#streaming" title="Permanent link">&para;</a></h2>
@@ -3869,7 +3869,7 @@
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_stream</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
 <a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="k">except</span> <span class="n">StreamingNotSupportedError</span><span class="p">:</span>
 <a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="c1"># Fallback auf normale Completion</span>
 <a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
@@ -3889,11 +3889,11 @@
 <a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_stream</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
 <a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>        <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Streaming unterbrochen: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Streaming unterbrochen: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>    <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
-<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Teilweise Antwort: </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Teilweise Antwort: </span><span class="si">{</span><span class="s1">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></p>
 <hr />
 <h2 id="token-counting">Token-Zählung<a class="headerlink" href="#token-counting" title="Permanent link">&para;</a></h2>
@@ -3909,7 +3909,7 @@
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1"># Nutzt automatisch Schätzung</span>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">counter</span> <span class="o">=</span> <span class="n">TokenCounter</span><span class="p">()</span>
 <a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="n">token_count</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Geschätzte Tokens: </span><span class="si">{</span><span class="n">token_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Geschätzte Tokens: </span><span class="si">{</span><span class="n">token_count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="falsche-token-zahl">Falsche Token-Zahl<a class="headerlink" href="#falsche-token-zahl" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Token-Count weicht stark ab.</p>
@@ -3918,17 +3918,17 @@
 - tiktoken nicht installiert (Schätzung)  </p>
 <p><strong>Lösung</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Spezifiziere korrektes Modell</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">token_count</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">token_count</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-4o"</span><span class="p">)</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Für spezifische Modelle</span>
 <a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">TokenCounter</span>
 <a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="n">counter</span> <span class="o">=</span> <span class="n">TokenCounter</span><span class="p">()</span>
 <a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
 <a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># GPT-4o</span>
-<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="n">count</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="n">count</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-4o"</span><span class="p">)</span>
 <a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>
 <a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="c1"># GPT-3.5</span>
-<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="n">count</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-3.5-turbo&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="n">count</span> <span class="o">=</span> <span class="n">counter</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"gpt-3.5-turbo"</span><span class="p">)</span>
 </code></pre></div></p>
 <hr />
 <h2 id="async-probleme">Async-Probleme<a class="headerlink" href="#async-probleme" title="Permanent link">&para;</a></h2>
@@ -3966,7 +3966,7 @@
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>pip<span class="w"> </span>install<span class="w"> </span>asyncio
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
 <a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Oder komplette Installation</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[all]&quot;</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[all]"</span>
 </code></pre></div></p>
 <hr />
 <h2 id="configuration-files">Konfigurationsdateien<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h2>
@@ -3976,13 +3976,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="c1"># Prüfe Pfad</span>
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;llm_config.yaml&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"llm_config.yaml"</span><span class="p">)</span>
 <a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">config_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datei nicht gefunden: </span><span class="si">{</span><span class="n">config_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Datei nicht gefunden: </span><span class="si">{</span><span class="n">config_path</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
 <a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>    <span class="c1"># Erstelle Template</span>
 <a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">llm_client.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_config_template</span>
-<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>    <span class="n">generate_config_template</span><span class="p">(</span><span class="s2">&quot;llm_config.yaml&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>    <span class="n">generate_config_template</span><span class="p">(</span><span class="s2">"llm_config.yaml"</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="valueerror-invalid-configuration">ValueError: Invalid configuration<a class="headerlink" href="#valueerror-invalid-configuration" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Konfiguration ungültig.</p>
@@ -3990,13 +3990,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">LLMConfig</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="c1"># Validiere Config</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">config</span> <span class="o">=</span> <span class="n">LLMConfig</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">&quot;llm_config.yaml&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="n">config</span> <span class="o">=</span> <span class="n">LLMConfig</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">"llm_config.yaml"</span><span class="p">)</span>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="n">is_valid</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 <a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
 <a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid</span><span class="p">:</span>
-<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fehler in Konfiguration:&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Fehler in Konfiguration:"</span><span class="p">)</span>
 <a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
-<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></p>
 <p><strong>Häufige Fehler</strong>:<br />
 - Fehlender <code>model</code> Parameter<br />
@@ -4009,7 +4009,7 @@
 </code></pre></div></p>
 <p><strong>Alternative - JSON verwenden</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Nutze JSON statt YAML</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="n">generate_config_template</span><span class="p">(</span><span class="s2">&quot;llm_config.json&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="n">generate_config_template</span><span class="p">(</span><span class="s2">"llm_config.json"</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"json"</span><span class="p">)</span>
 </code></pre></div></p>
 <hr />
 <h2 id="file-upload">Datei-Upload<a class="headerlink" href="#file-upload" title="Permanent link">&para;</a></h2>
@@ -4018,13 +4018,13 @@
 <p><strong>Lösung</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;document.pdf&quot;</span><span class="p">]</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"image.jpg"</span><span class="p">,</span> <span class="s2">"document.pdf"</span><span class="p">]</span>
 <a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>
 <a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="c1"># Prüfe Dateien</span>
 <a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
 <a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datei nicht gefunden: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Aktuelles Verzeichnis: </span><span class="si">{</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Datei nicht gefunden: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Aktuelles Verzeichnis: </span><span class="si">{</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="valueerror-unsupported-file-type">ValueError: Unsupported file type<a class="headerlink" href="#valueerror-unsupported-file-type" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Dateityp nicht unterstützt.</p>
@@ -4032,13 +4032,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client.file_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_file_for_provider</span>
 <a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>
 <a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="c1"># Prüfe Datei für Provider</span>
-<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="n">is_valid</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">validate_file_for_provider</span><span class="p">(</span><span class="s2">&quot;video.mp4&quot;</span><span class="p">,</span> <span class="s2">&quot;openai&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="n">is_valid</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">validate_file_for_provider</span><span class="p">(</span><span class="s2">"video.mp4"</span><span class="p">,</span> <span class="s2">"openai"</span><span class="p">)</span>
 <a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>
 <a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid</span><span class="p">:</span>
-<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fehler: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Fehler: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>    <span class="c1"># OpenAI unterstützt keine Videos</span>
 <a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>    <span class="c1"># Nutze stattdessen Gemini</span>
-<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>    <span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>    <span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"gemini"</span><span class="p">)</span>
 </code></pre></div></p>
 <p><strong>Provider-Dateiunterstützung</strong>:<br />
 - OpenAI: Bilder, PDFs<br />
@@ -4051,12 +4051,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileUploadNotSupportedError</span>
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>
 <a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_with_files</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">])</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_with_files</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="s2">"image.jpg"</span><span class="p">])</span>
 <a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="k">except</span> <span class="n">FileUploadNotSupportedError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datei-Upload nicht unterstützt: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Datei-Upload nicht unterstützt: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>    <span class="c1"># Wechsel zu Provider mit File-Support</span>
-<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>    <span class="n">client</span><span class="o">.</span><span class="n">switch_provider</span><span class="p">(</span><span class="s2">&quot;gemini&quot;</span><span class="p">)</span>
-<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_with_files</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">])</span>
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>    <span class="n">client</span><span class="o">.</span><span class="n">switch_provider</span><span class="p">(</span><span class="s2">"gemini"</span><span class="p">)</span>
+<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion_with_files</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="s2">"image.jpg"</span><span class="p">])</span>
 </code></pre></div></p>
 <hr />
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
@@ -4070,14 +4070,14 @@
 <a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 <a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
 <a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
-<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dauer: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dauer: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s"</span><span class="p">)</span>
 <a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>
 <a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a><span class="c1"># Wenn &gt; 10s: Netzwerkproblem oder API-Überlastung</span>
 </code></pre></div></p>
 <p><strong>2. Zu viele Tokens</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Prüfe Token-Count</span>
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="n">token_count</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">count_tokens</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
-<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tokens: </span><span class="si">{</span><span class="n">token_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Tokens: </span><span class="si">{</span><span class="n">token_count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>
 <a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="c1"># Reduziere Input</span>
 <a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="k">if</span> <span class="n">token_count</span> <span class="o">&gt;</span> <span class="mi">2000</span><span class="p">:</span>
@@ -4086,9 +4086,9 @@
 </code></pre></div></p>
 <p><strong>3. Falsches Modell</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Schnellere Modelle verwenden</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;groq&quot;</span><span class="p">)</span>  <span class="c1"># Sehr schnell</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"groq"</span><span class="p">)</span>  <span class="c1"># Sehr schnell</span>
 <a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="c1"># oder</span>
-<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;openai&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">)</span>  <span class="c1"># Schneller als gpt-4o</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">"gpt-4o-mini"</span><span class="p">)</span>  <span class="c1"># Schneller als gpt-4o</span>
 </code></pre></div></p>
 <h3 id="rate-limit-errors">Rate Limit Errors<a class="headerlink" href="#rate-limit-errors" title="Permanent link">&para;</a></h3>
 <p><strong>Problem</strong>: Zu viele Anfragen.</p>
@@ -4103,9 +4103,9 @@
 <a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 <a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>        <span class="k">break</span>
 <a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>        <span class="k">if</span> <span class="s2">&quot;rate&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>        <span class="k">if</span> <span class="s2">"rate"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
 <a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>            <span class="n">wait_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">attempt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span>
-<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rate limit, warte </span><span class="si">{</span><span class="n">wait_time</span><span class="si">}</span><span class="s2">s...&quot;</span><span class="p">)</span>
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Rate limit, warte </span><span class="si">{</span><span class="n">wait_time</span><span class="si">}</span><span class="s2">s..."</span><span class="p">)</span>
 <a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span>
 <a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a>        <span class="k">else</span><span class="p">:</span>
 <a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a>            <span class="k">raise</span>
@@ -4117,16 +4117,16 @@
 <p><strong>Problem</strong>: Out of Memory bei großen Modellen.</p>
 <p><strong>Lösung</strong>:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># 1. Kleineres Modell verwenden</span>
-<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">"llama3.2:1b"</span><span class="p">)</span>
 <a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>
 <a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="c1"># 2. Modell nach Nutzung entladen</span>
-<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">keep_alive</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">,</span> <span class="n">keep_alive</span><span class="o">=</span><span class="s2">"0"</span><span class="p">)</span>
 <a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>
 <a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a><span class="c1"># 3. Quantisiertes Modell</span>
-<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">&quot;ollama&quot;</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">&quot;llama3.2:1b-q4_0&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">api_choice</span><span class="o">=</span><span class="s2">"ollama"</span><span class="p">,</span> <span class="n">llm</span><span class="o">=</span><span class="s2">"llama3.2:1b-q4_0"</span><span class="p">)</span>
 <a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>
 <a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a><span class="c1"># 4. Ollama Cloud verwenden (keine lokale GPU nötig)</span>
-<a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="s2">&quot;gpt-oss:120b-cloud&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="s2">"gpt-oss:120b-cloud"</span><span class="p">)</span>
 </code></pre></div></p>
 <hr />
 <h2 id="weitere-hilfe">Weitere Hilfe<a class="headerlink" href="#weitere-hilfe" title="Permanent link">&para;</a></h2>
@@ -4134,7 +4134,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">llm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_logging</span>
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="c1"># Aktiviere Debug-Logging</span>
-<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="n">enable_logging</span><span class="p">(</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="n">enable_logging</span><span class="p">(</span><span class="s2">"DEBUG"</span><span class="p">)</span>
 <a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>
 <a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="c1"># Jetzt werden alle internen Schritte geloggt</span>
 <a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="n">client</span> <span class="o">=</span> <span class="n">LLMClient</span><span class="p">()</span>
@@ -4146,9 +4146,9 @@
 <a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="k">try</span><span class="p">:</span>
 <a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 <a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="k">except</span> <span class="n">ChatCompletionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Provider: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">provider</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original Error: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">original_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error Type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">original_error</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Provider: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">provider</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Original Error: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">original_error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error Type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">original_error</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="issue-auf-github-erstellen">Issue auf GitHub erstellen<a class="headerlink" href="#issue-auf-github-erstellen" title="Permanent link">&para;</a></h3>
 <p>Wenn das Problem weiterhin besteht:</p>
