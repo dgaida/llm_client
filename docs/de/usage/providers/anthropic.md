@@ -37,7 +37,7 @@ print(response)
 
 ## Unterstützte Features
 
-- **Streaming**: Unterstützung von `chat_completion_stream` / `achat_completion_stream`.
-- **Tool-Calling**: Automatische Konvertierung von OpenAI-Tool-Formaten in das Anthropic Tool-Schema.
-- **Datei-Upload / Multi-Modalität**: Unterstützung von Bildern (PNG, JPEG, WEBP, GIF) und PDF-Dokumenten über Base64-Blöcke.
-- **Async API**: Nutzung von `AsyncAnthropicProvider` via `LLMClient(api_choice="anthropic", use_async=True)`.
+- **Streaming**: Unterstützung von `chat_completion_stream` / `achat_completion_stream`.  
+- **Tool-Calling**: Automatische Konvertierung von OpenAI-Tool-Formaten in das Anthropic Tool-Schema.  
+- **Datei-Upload / Multi-Modalität**: Unterstützung von Bildern (PNG, JPEG, WEBP, GIF) und PDF-Dokumenten über Base64-Blöcke.  
+- **Async API**: Nutzung von `AsyncAnthropicProvider` via `LLMClient(api_choice="anthropic", use_async=True)`.  

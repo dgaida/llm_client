@@ -939,7 +939,7 @@ To add a new provider:
 
 ### Provider Guides  
 - [OpenAI](docs/en/usage/providers/openai.md)  
-- [Anthropic](docs/en/usage/providers/anthropic.md)
+- [Anthropic](docs/en/usage/providers/anthropic.md)  
 - [Groq](docs/en/usage/providers/groq.md)  
 - [Google Gemini](docs/en/usage/providers/gemini.md)  
 - [Ollama (local)](docs/en/usage/providers/ollama.md)  

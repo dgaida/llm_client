@@ -310,7 +310,7 @@ ollama pull llama3.2:1b
 
 ### Provider-Guides  
 - [OpenAI](docs/de/usage/providers/openai.md)  
-- [Anthropic](docs/de/usage/providers/anthropic.md)
+- [Anthropic](docs/de/usage/providers/anthropic.md)  
 - [Groq](docs/de/usage/providers/groq.md)  
 - [Google Gemini](docs/de/usage/providers/gemini.md)  
 - [Ollama (lokal)](docs/de/usage/providers/ollama.md)  

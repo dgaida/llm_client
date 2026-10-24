@@ -5,7 +5,7 @@ Der LLM Client unterstützt mehrere LLM-Provider. Jeder Provider bietet verschie
 ## Unterstützte Provider
 
 - [OpenAI](openai.md) - GPT-4o, GPT-4o-mini, GPT-3.5-turbo  
-- [Anthropic](anthropic.md) - Claude 3.5 Sonnet, Claude 3.7 Sonnet, Haiku, Opus
+- [Anthropic](anthropic.md) - Claude 3.5 Sonnet, Claude 3.7 Sonnet, Haiku, Opus  
 - [Groq](groq.md) - Llama 3.3, Mixtral (Ultra-schnelle Inferenz)  
 - [Gemini](gemini.md) - Googles Gemini Pro und Flash Modelle  
 - [Ollama](ollama.md) - Lokale LLMs (Llama 3, Phi-3, etc.)  
@@ -17,7 +17,7 @@ Der LLM Client unterstützt mehrere LLM-Provider. Jeder Provider bietet verschie
 Für die meisten Provider benötigen Sie einen API-Key. Anleitungen zur Erstellung finden Sie auf den jeweiligen Provider-Seiten:
 
 - [OpenAI API-Key erhalten](openai.md#1-get-api-key)  
-- [Anthropic API-Key erhalten](anthropic.md)
+- [Anthropic API-Key erhalten](anthropic.md)  
 - [Groq API-Key erhalten](groq.md#1-get-api-key)  
 - [Gemini API-Key erhalten](gemini.md#1-get-api-key)  
 - [KI Connect API-Key erhalten](kiconnect.md#1-api-schlüssel-erstellen)  
