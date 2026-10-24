@@ -65,7 +65,9 @@ class ProviderFactory:
     @classmethod
     def create_provider(
         cls,
-        api_choice: Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"] | None = None,
+        api_choice: (
+            Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"] | None
+        ) = None,
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,

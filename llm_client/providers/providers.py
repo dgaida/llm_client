@@ -1289,8 +1289,7 @@ class AnthropicProvider(BaseProvider):
             kwargs["system"] = system_prompt
 
         with self.client.messages.stream(**kwargs) as stream:
-            for text in stream.text_stream:
-                yield text
+            yield from stream.text_stream
 
     def _convert_tools_for_anthropic(self, tools: list[dict]) -> list[dict]:
         """Convert OpenAI-formatted tools to Anthropic tool definitions."""
@@ -1302,7 +1301,9 @@ class AnthropicProvider(BaseProvider):
                     {
                         "name": func.get("name"),
                         "description": func.get("description", ""),
-                        "input_schema": func.get("parameters", {"type": "object", "properties": {}}),
+                        "input_schema": func.get(
+                            "parameters", {"type": "object", "properties": {}}
+                        ),
                     }
                 )
             else:
@@ -1362,7 +1363,11 @@ class AnthropicProvider(BaseProvider):
                         "type": "function",
                         "function": {
                             "name": block.name,
-                            "arguments": json.dumps(block.input) if isinstance(block.input, dict) else str(block.input),
+                            "arguments": (
+                                json.dumps(block.input)
+                                if isinstance(block.input, dict)
+                                else str(block.input)
+                            ),
                         },
                     }
                 )

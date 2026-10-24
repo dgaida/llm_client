@@ -57,7 +57,9 @@ class LLMClient:
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
-        api_choice: Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"] | None = None,
+        api_choice: (
+            Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"] | None
+        ) = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
         use_async: bool = False,
@@ -321,7 +323,9 @@ class LLMClient:
 
     def switch_provider(
         self,
-        api_choice: Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"],
+        api_choice: Literal[
+            "openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"
+        ],
         llm: str | None = None,
         temperature: float | None = None,
         max_tokens: int | None = None,

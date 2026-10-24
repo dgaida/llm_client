@@ -309,7 +309,7 @@ class TestErrorHandlingIntegration:
 
             with pytest.raises(
                 InvalidProviderError,
-            match="Invalid provider: nonexistent. Valid providers are:",
+                match="Invalid provider: nonexistent. Valid providers are:",
             ):
                 client.switch_provider("nonexistent")
 

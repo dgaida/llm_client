@@ -711,8 +711,7 @@ class AsyncAnthropicProvider(BaseProvider, AsyncProviderMixin):
     def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
         """Sync method raises error - use async version."""
         raise RuntimeError(
-            "AsyncAnthropicProvider only supports async methods. "
-            "Use achat_completion() instead."
+            "AsyncAnthropicProvider only supports async methods. " "Use achat_completion() instead."
         )
 
     async def _achat_completion_impl(self, messages: list[dict[str, str]]) -> str:
@@ -792,7 +791,11 @@ class AsyncAnthropicProvider(BaseProvider, AsyncProviderMixin):
                         "type": "function",
                         "function": {
                             "name": block.name,
-                            "arguments": json.dumps(block.input) if isinstance(block.input, dict) else str(block.input),
+                            "arguments": (
+                                json.dumps(block.input)
+                                if isinstance(block.input, dict)
+                                else str(block.input)
+                            ),
                         },
                     }
                 )
@@ -833,7 +836,9 @@ class AsyncAnthropicProvider(BaseProvider, AsyncProviderMixin):
                 enhanced_messages.append({"role": "user", "content": file_blocks})
 
         temp_provider = AnthropicProvider.__new__(AnthropicProvider)
-        system_prompt, anthropic_messages = temp_provider._convert_messages_for_anthropic(enhanced_messages)
+        system_prompt, anthropic_messages = temp_provider._convert_messages_for_anthropic(
+            enhanced_messages
+        )
 
         kwargs: dict[str, Any] = {
             "model": self.llm,

@@ -1,11 +1,14 @@
 """Tests for Anthropic provider (sync and async)."""
 
-import pytest
-from unittest.mock import MagicMock, AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
-from llm_client import LLMClient, ProviderFactory, AnthropicProvider
+import pytest
+
+from llm_client import AnthropicProvider
+from llm_client.exceptions import APIKeyNotFoundError
 from llm_client.providers.async_providers import AsyncAnthropicProvider
-from llm_client.exceptions import APIKeyNotFoundError, ProviderNotAvailableError
+
+pytest_plugins = ("pytest_asyncio",)
 
 
 class TestAnthropicProvider:
@@ -88,12 +91,17 @@ class TestAnthropicProvider:
                 "function": {
                     "name": "get_weather",
                     "description": "Get weather info",
-                    "parameters": {"type": "object", "properties": {"location": {"type": "string"}}},
+                    "parameters": {
+                        "type": "object",
+                        "properties": {"location": {"type": "string"}},
+                    },
                 },
             }
         ]
 
-        result = provider.chat_completion_with_tools([{"role": "user", "content": "Weather in Berlin?"}], tools)
+        result = provider.chat_completion_with_tools(
+            [{"role": "user", "content": "Weather in Berlin?"}], tools
+        )
         assert result["content"] == "Checking weather..."
         assert len(result["tool_calls"]) == 1
         assert result["tool_calls"][0]["function"]["name"] == "get_weather"
