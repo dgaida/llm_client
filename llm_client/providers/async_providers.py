@@ -21,6 +21,11 @@ except ImportError:
     AsyncOpenAI = None  # type: ignore
 
 try:
+    from anthropic import AsyncAnthropic
+except ImportError:
+    AsyncAnthropic = None  # type: ignore
+
+try:
     from groq import APIStatusError, AsyncGroq
 except ImportError:
     AsyncGroq = None  # type: ignore
@@ -686,6 +691,218 @@ class AsyncGeminiProvider(BaseProvider, AsyncProviderMixin):
         if response.status_code == 200:
             return [m["id"] for m in response.json().get("data", [])]
         return []
+
+
+class AsyncAnthropicProvider(BaseProvider, AsyncProviderMixin):
+    """Async Anthropic provider."""
+
+    def _initialize_client(self, **kwargs: Any) -> None:
+        """Initialize async Anthropic client."""
+        if not self.is_available():
+            raise ProviderNotAvailableError("anthropic", "anthropic")
+
+        api_key = kwargs.get("api_key")
+        if not api_key:
+            raise APIKeyNotFoundError("anthropic", "ANTHROPIC_API_KEY")
+
+        self.client = AsyncAnthropic(api_key=api_key)
+        self._validate_llm()
+
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+        """Sync method raises error - use async version."""
+        raise RuntimeError(
+            "AsyncAnthropicProvider only supports async methods. "
+            "Use achat_completion() instead."
+        )
+
+    async def _achat_completion_impl(self, messages: list[dict[str, str]]) -> str:
+        """Execute async chat completion with Anthropic."""
+        if not self.client:
+            raise RuntimeError("Anthropic client not initialized")
+
+        from .providers import AnthropicProvider
+
+        temp_provider = AnthropicProvider.__new__(AnthropicProvider)
+        system_prompt, anthropic_messages = temp_provider._convert_messages_for_anthropic(messages)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        response = await self.client.messages.create(**kwargs)
+
+        text_parts = [b.text for b in response.content if getattr(b, "type", None) == "text"]
+        return "".join(text_parts)
+
+    async def _achat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute async chat completion with tools using Anthropic."""
+        if not self.client:
+            raise RuntimeError("Anthropic client not initialized")
+
+        from .providers import AnthropicProvider
+
+        temp_provider = AnthropicProvider.__new__(AnthropicProvider)
+        system_prompt, anthropic_messages = temp_provider._convert_messages_for_anthropic(messages)
+        anthropic_tools = temp_provider._convert_tools_for_anthropic(tools)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "tools": anthropic_tools,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        if tool_choice is not None:
+            if isinstance(tool_choice, str):
+                if tool_choice == "auto":
+                    kwargs["tool_choice"] = {"type": "auto"}
+                elif tool_choice == "any":
+                    kwargs["tool_choice"] = {"type": "any"}
+            elif isinstance(tool_choice, dict):
+                kwargs["tool_choice"] = tool_choice
+
+        response = await self.client.messages.create(**kwargs)
+
+        content_str = None
+        text_parts = [b.text for b in response.content if getattr(b, "type", None) == "text"]
+        if text_parts:
+            content_str = "".join(text_parts)
+
+        tool_calls = []
+        for block in response.content:
+            if getattr(block, "type", None) == "tool_use":
+                import json
+
+                tool_calls.append(
+                    {
+                        "id": block.id,
+                        "type": "function",
+                        "function": {
+                            "name": block.name,
+                            "arguments": json.dumps(block.input) if isinstance(block.input, dict) else str(block.input),
+                        },
+                    }
+                )
+
+        return {
+            "content": content_str,
+            "tool_calls": tool_calls if tool_calls else None,
+        }
+
+    async def _achat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute async chat completion with files using Anthropic."""
+        if not self.client:
+            raise RuntimeError("Anthropic client not initialized")
+
+        from .providers import AnthropicProvider
+
+        enhanced_messages = [msg.copy() for msg in messages]
+
+        if files:
+            file_blocks = prepare_files_for_provider(files, "anthropic")
+
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                content = last_msg.get("content", "")
+                blocks = []
+                if isinstance(content, str):
+                    if content:
+                        blocks.append({"type": "text", "text": content})
+                elif isinstance(content, list):
+                    blocks.extend(content)
+                blocks.extend(file_blocks)
+                last_msg["content"] = blocks
+            else:
+                enhanced_messages.append({"role": "user", "content": file_blocks})
+
+        temp_provider = AnthropicProvider.__new__(AnthropicProvider)
+        system_prompt, anthropic_messages = temp_provider._convert_messages_for_anthropic(enhanced_messages)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        response = await self.client.messages.create(**kwargs)
+
+        text_parts = [b.text for b in response.content if getattr(b, "type", None) == "text"]
+        return "".join(text_parts)
+
+    async def _achat_completion_stream_impl(
+        self, messages: list[dict[str, str]]
+    ) -> AsyncIterator[str]:
+        """Stream async chat completion with Anthropic."""
+        if not self.client:
+            raise RuntimeError("Anthropic client not initialized")
+
+        from .providers import AnthropicProvider
+
+        temp_provider = AnthropicProvider.__new__(AnthropicProvider)
+        system_prompt, anthropic_messages = temp_provider._convert_messages_for_anthropic(messages)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        async with self.client.messages.stream(**kwargs) as stream:
+            async for text in stream.text_stream:
+                yield text
+
+    @staticmethod
+    def get_default_model() -> str:
+        """Get default Anthropic model."""
+        return "claude-3-5-sonnet-20241022"
+
+    @staticmethod
+    def is_available() -> bool:
+        """Check if AsyncAnthropic is available."""
+        return AsyncAnthropic is not None
+
+    def list_models(self) -> list[str]:
+        """List available models for Anthropic (sync fallback)."""
+        if not self.client:
+            return []
+        try:
+            api_key = self.client.api_key
+            url = "https://api.anthropic.com/v1/models"
+            headers = {"x-api-key": api_key, "anthropic-version": "2023-06-01"}
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                return [m["id"] for m in response.json().get("data", [])]
+        except Exception:
+            pass
+        return [
+            "claude-3-7-sonnet-20250219",
+            "claude-3-5-sonnet-20241022",
+            "claude-3-5-haiku-20241022",
+            "claude-3-opus-20240229",
+        ]
 
 
 class AsyncKIConnectProvider(BaseProvider, AsyncProviderMixin):

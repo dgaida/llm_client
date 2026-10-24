@@ -14,12 +14,14 @@ Main classes:
 
 Provider implementations:
 - OpenAIProvider: For OpenAI API
+- AnthropicProvider: For Anthropic Claude API
 - GroqProvider: For Groq API
 - GeminiProvider: For Google Gemini API
 - OllamaProvider: For local Ollama API
 
 Async providers (optional):
 - AsyncOpenAIProvider: Async OpenAI support
+- AsyncAnthropicProvider: Async Anthropic support
 - AsyncGroqProvider: Async Groq support
 - AsyncGeminiProvider: Async Gemini support
 
@@ -57,7 +59,13 @@ from .exceptions import (
 from .llm_client import LLMClient
 from .providers.base_provider import BaseProvider
 from .providers.provider_factory import ProviderFactory
-from .providers.providers import GeminiProvider, GroqProvider, OllamaProvider, OpenAIProvider
+from .providers.providers import (
+    AnthropicProvider,
+    GeminiProvider,
+    GroqProvider,
+    OllamaProvider,
+    OpenAIProvider,
+)
 from .utils.file_utils import detect_file_type, validate_file_for_provider
 from .utils.logging_config import disable_logging, enable_logging, setup_logging
 from .utils.token_counter import TokenCounter
@@ -71,6 +79,7 @@ __all__ = [
     "LLMConfig",
     # Providers
     "OpenAIProvider",
+    "AnthropicProvider",
     "GroqProvider",
     "GeminiProvider",
     "OllamaProvider",
@@ -97,12 +106,20 @@ __all__ = [
 # Optional async providers
 try:
     from .providers.async_providers import (
+        AsyncAnthropicProvider,
         AsyncGeminiProvider,
         AsyncGroqProvider,
         AsyncOpenAIProvider,
     )
 
-    __all__.extend(["AsyncOpenAIProvider", "AsyncGroqProvider", "AsyncGeminiProvider"])
+    __all__.extend(
+        [
+            "AsyncOpenAIProvider",
+            "AsyncAnthropicProvider",
+            "AsyncGroqProvider",
+            "AsyncGeminiProvider",
+        ]
+    )
 except ImportError:
     # Async providers not available
     pass

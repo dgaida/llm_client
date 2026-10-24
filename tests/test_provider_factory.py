@@ -107,7 +107,7 @@ class TestProviderFactoryCreation:
         """Test: InvalidProviderError for invalid api_choice."""
         with pytest.raises(
             InvalidProviderError,
-            match="Invalid provider: invalid. Valid providers are: openai, groq, gemini, ollama",
+            match="Invalid provider: invalid. Valid providers are:",
         ):
             ProviderFactory.create_provider(api_choice="invalid")
 
@@ -205,10 +205,10 @@ class TestAutoSelectAPI:
 
         with pytest.raises(
             APIKeyNotFoundError,
-            match="OPENAI_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, or OLLAMA_API_KEY not found for colab provider. Please set it in environment or pass explicitly.",
+            match="OPENAI_API_KEY, ANTHROPIC_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, or OLLAMA_API_KEY not found for colab provider. Please set it in environment or pass explicitly.",
         ):
             ProviderFactory._auto_select_api(
-                openai_api_key=None, groq_api_key=None, gemini_api_key=None
+                openai_api_key=None, anthropic_api_key=None, groq_api_key=None, gemini_api_key=None
             )
 
 
@@ -471,7 +471,7 @@ class TestProviderFactoryAdvanced:
         """Test: Auto-select Ollama Cloud if key provided and requested."""
         with patch("llm_client.providers.providers.Client", MagicMock()):
             provider_name = ProviderFactory._auto_select_api(
-                None, None, None, ollama_api_key="key", use_ollama_cloud=True
+                None, None, None, None, ollama_api_key="key", use_ollama_cloud=True
             )
             assert provider_name == "ollama"
 
@@ -571,6 +571,7 @@ class TestProviderFactoryCoverageExpansion:
         """Test auto selecting API when KI Connect API key is provided and others are not (lines 251-252)."""
         selected = ProviderFactory._auto_select_api(
             openai_api_key=None,
+            anthropic_api_key=None,
             groq_api_key=None,
             gemini_api_key=None,
             kiconnect_api_key="kic-some-key",

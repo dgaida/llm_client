@@ -57,7 +57,7 @@ class LLMClient:
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
-        api_choice: Literal["openai", "groq", "gemini", "ollama", "kiconnect"] | None = None,
+        api_choice: Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"] | None = None,
         secrets_path: str = "secrets.env",
         keep_alive: str = "5m",
         use_async: bool = False,
@@ -91,6 +91,7 @@ class LLMClient:
 
         # Load API keys from environment
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
+        self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
         self.groq_api_key = os.getenv("GROQ_API_KEY")
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
         self.ollama_api_key = os.getenv("OLLAMA_API_KEY")
@@ -101,6 +102,8 @@ class LLMClient:
         available_keys = []
         if self.openai_api_key:
             available_keys.append("OpenAI")
+        if self.anthropic_api_key:
+            available_keys.append("Anthropic")
         if self.groq_api_key:
             available_keys.append("Groq")
         if self.gemini_api_key:
@@ -143,6 +146,7 @@ class LLMClient:
             temperature=temperature,
             max_tokens=max_tokens,
             openai_api_key=self.openai_api_key,
+            anthropic_api_key=self.anthropic_api_key,
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             ollama_api_key=self.ollama_api_key,
@@ -258,6 +262,8 @@ class LLMClient:
                 api_choice_lower = api_choice.lower()
                 key_map = {
                     "openai": ("OPENAI_API_KEY", "openai_api_key"),
+                    "anthropic": ("ANTHROPIC_API_KEY", "anthropic_api_key"),
+                    "claude": ("ANTHROPIC_API_KEY", "anthropic_api_key"),
                     "groq": ("GROQ_API_KEY", "groq_api_key"),
                     "gemini": ("GEMINI_API_KEY", "gemini_api_key"),
                     "ollama": ("OLLAMA_API_KEY", "ollama_api_key"),
@@ -277,6 +283,7 @@ class LLMClient:
                 # Load all keys for auto-selection
                 for key_name, attr_name in [
                     ("OPENAI_API_KEY", "openai_api_key"),
+                    ("ANTHROPIC_API_KEY", "anthropic_api_key"),
                     ("GROQ_API_KEY", "groq_api_key"),
                     ("GEMINI_API_KEY", "gemini_api_key"),
                     ("OLLAMA_API_KEY", "ollama_api_key"),
@@ -300,6 +307,8 @@ class LLMClient:
         provider_class_name = self.provider.__class__.__name__.lower()
         if "openai" in provider_class_name:
             return "openai"
+        elif "anthropic" in provider_class_name:
+            return "anthropic"
         elif "groq" in provider_class_name:
             return "groq"
         elif "gemini" in provider_class_name:
@@ -312,7 +321,7 @@ class LLMClient:
 
     def switch_provider(
         self,
-        api_choice: Literal["openai", "groq", "gemini", "ollama", "kiconnect"],
+        api_choice: Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"],
         llm: str | None = None,
         temperature: float | None = None,
         max_tokens: int | None = None,
@@ -366,6 +375,7 @@ class LLMClient:
             temperature=self.temperature,
             max_tokens=self.max_tokens,
             openai_api_key=self.openai_api_key,
+            anthropic_api_key=self.anthropic_api_key,
             groq_api_key=self.groq_api_key,
             gemini_api_key=self.gemini_api_key,
             ollama_api_key=self.ollama_api_key,
