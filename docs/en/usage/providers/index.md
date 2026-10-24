@@ -5,6 +5,7 @@ LLM Client supports multiple LLM providers. Each provider has its own set of mod
 ## Supported Providers
 
 - [OpenAI](openai.md) - GPT-4o, GPT-4o-mini, GPT-3.5-turbo  
+- [Anthropic](anthropic.md) - Claude 3.5 Sonnet, Claude 3.7 Sonnet, Haiku, Opus
 - [Groq](groq.md) - Llama 3.3, Mixtral (Ultra-fast inference)  
 - [Gemini](gemini.md) - Google's Gemini Pro and Flash models  
 - [Ollama](ollama.md) - Local LLMs (Llama 3, Phi-3, etc.)  
@@ -16,6 +17,7 @@ LLM Client supports multiple LLM providers. Each provider has its own set of mod
 To use most providers, you need an API key. Please refer to the specific provider page for instructions on how to obtain one:
 
 - [Get OpenAI API Key](openai.md#1-get-api-key)  
+- [Get Anthropic API Key](anthropic.md)
 - [Get Groq API Key](groq.md#1-get-api-key)  
 - [Get Gemini API Key](gemini.md#1-get-api-key)  
 - [Get KI Connect API Key](kiconnect.md#1-create-api-key)  

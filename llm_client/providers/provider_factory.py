@@ -7,6 +7,7 @@ from ..exceptions import APIKeyNotFoundError, InvalidProviderError
 from ..utils.logging_config import get_logger
 from .base_provider import BaseProvider
 from .providers import (
+    AnthropicProvider,
     GeminiProvider,
     GroqProvider,
     KIConnectProvider,
@@ -27,6 +28,8 @@ class ProviderFactory:
 
     _provider_classes = {
         "openai": OpenAIProvider,
+        "anthropic": AnthropicProvider,
+        "claude": AnthropicProvider,
         "groq": GroqProvider,
         "gemini": GeminiProvider,
         "ollama": OllamaProvider,
@@ -48,6 +51,8 @@ class ProviderFactory:
         if not api_key:
             return None
 
+        if api_key.startswith("sk-ant-"):
+            return "anthropic"
         if api_key.startswith("sk-"):
             return "openai"
         if api_key.startswith("gsk-") or api_key.startswith("gsk_"):
@@ -60,11 +65,14 @@ class ProviderFactory:
     @classmethod
     def create_provider(
         cls,
-        api_choice: Literal["openai", "groq", "gemini", "ollama", "kiconnect"] | None = None,
+        api_choice: (
+            Literal["openai", "anthropic", "claude", "groq", "gemini", "ollama", "kiconnect"] | None
+        ) = None,
         llm: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 512,
         openai_api_key: str | None = None,
+        anthropic_api_key: str | None = None,
         groq_api_key: str | None = None,
         gemini_api_key: str | None = None,
         ollama_api_key: str | None = None,
@@ -111,6 +119,8 @@ class ProviderFactory:
                 logger.info(f"Auto-detected provider from API_KEY: {api_choice}")
                 if api_choice == "openai" and not openai_api_key:
                     openai_api_key = api_key
+                elif api_choice in ["anthropic", "claude"] and not anthropic_api_key:
+                    anthropic_api_key = api_key
                 elif api_choice == "groq" and not groq_api_key:
                     groq_api_key = api_key
                 elif api_choice == "gemini" and not gemini_api_key:
@@ -135,6 +145,7 @@ class ProviderFactory:
         if api_choice is None:
             api_choice = cls._auto_select_api(
                 openai_api_key,
+                anthropic_api_key,
                 groq_api_key,
                 gemini_api_key,
                 ollama_api_key,
@@ -166,6 +177,8 @@ class ProviderFactory:
         kwargs = {}
         if api_choice == "openai":
             kwargs["api_key"] = openai_api_key or api_key
+        elif api_choice in ["anthropic", "claude"]:
+            kwargs["api_key"] = anthropic_api_key or api_key
         elif api_choice == "groq":
             kwargs["api_key"] = groq_api_key or api_key
         elif api_choice == "gemini":
@@ -189,6 +202,7 @@ class ProviderFactory:
         logger.debug("Loading async provider classes")
         try:
             from .async_providers import (
+                AsyncAnthropicProvider,
                 AsyncGeminiProvider,
                 AsyncGroqProvider,
                 AsyncKIConnectProvider,
@@ -197,6 +211,8 @@ class ProviderFactory:
 
             cls._async_provider_classes = {
                 "openai": AsyncOpenAIProvider,
+                "anthropic": AsyncAnthropicProvider,
+                "claude": AsyncAnthropicProvider,
                 "groq": AsyncGroqProvider,
                 "gemini": AsyncGeminiProvider,
                 "ollama": OllamaProvider,  # Ollama doesn't have async yet
@@ -210,6 +226,7 @@ class ProviderFactory:
     @staticmethod
     def _auto_select_api(
         openai_api_key: str | None,
+        anthropic_api_key: str | None,
         groq_api_key: str | None,
         gemini_api_key: str | None,
         ollama_api_key: str | None = None,
@@ -218,7 +235,7 @@ class ProviderFactory:
     ) -> str:
         """Auto-select API based on available keys.
 
-        Priority: OpenAI > Groq > Gemini > KI Connect > Ollama Cloud (if key) > Ollama Local
+        Priority: OpenAI > Anthropic > Groq > Gemini > KI Connect > Ollama Cloud (if key) > Ollama Local
 
         Args:
             openai_api_key: OpenAI API key.
@@ -241,6 +258,9 @@ class ProviderFactory:
         if openai_api_key:
             logger.debug("Selected OpenAI (API key found)")
             return "openai"
+        elif anthropic_api_key:
+            logger.debug("Selected Anthropic (API key found)")
+            return "anthropic"
         elif groq_api_key:
             logger.debug("Selected Groq (API key found)")
             return "groq"
@@ -259,7 +279,7 @@ class ProviderFactory:
                 logger.error("Running in Colab but no API keys found")
                 raise APIKeyNotFoundError(
                     "colab",
-                    "OPENAI_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, or OLLAMA_API_KEY",
+                    "OPENAI_API_KEY, ANTHROPIC_API_KEY, GROQ_API_KEY, GEMINI_API_KEY, or OLLAMA_API_KEY",
                 )
             logger.debug("Selected local Ollama (no API keys found)")
             return "ollama"

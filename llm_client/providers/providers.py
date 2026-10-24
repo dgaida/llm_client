@@ -16,6 +16,11 @@ except ImportError:
     OpenAI = None  # type: ignore
 
 try:
+    from anthropic import Anthropic
+except ImportError:
+    Anthropic = None  # type: ignore
+
+try:
     from groq import APIStatusError, Groq
 except ImportError:
     Groq = None  # type: ignore
@@ -1123,6 +1128,280 @@ class OllamaProvider(BaseProvider):
         return (
             f"OllamaProvider(model={self.llm}, " f"temperature={self.temperature}, " f"mode={mode})"
         )
+
+
+class AnthropicProvider(BaseProvider):
+    """Provider for Anthropic Claude API with streaming, tool calling, and file uploads."""
+
+    def _initialize_client(self, **kwargs: Any) -> None:
+        """Initialize Anthropic client.
+
+        Args:
+            **kwargs: Must contain 'api_key' for Anthropic authentication.
+
+        Raises:
+            ProviderNotAvailableError: If anthropic package is not installed.
+            APIKeyNotFoundError: If API key is missing.
+        """
+        logger.debug("Initializing Anthropic provider")
+
+        if not self.is_available():
+            logger.error("Anthropic package not available")
+            raise ProviderNotAvailableError("anthropic", "anthropic")
+
+        api_key = kwargs.get("api_key")
+        if not api_key:
+            logger.error("Anthropic API key not found")
+            raise APIKeyNotFoundError("anthropic", "ANTHROPIC_API_KEY")
+
+        self.client = Anthropic(api_key=api_key)
+        logger.info(f"Anthropic client initialized with model {self.llm}")
+        self._validate_llm()
+
+    def _convert_messages_for_anthropic(
+        self, messages: list[dict[str, Any]]
+    ) -> tuple[str | None, list[dict[str, Any]]]:
+        """Separate system prompt from messages for Anthropic Messages API.
+
+        Anthropic expects system prompt in the top-level 'system' parameter.
+
+        Args:
+            messages: List of message dictionaries.
+
+        Returns:
+            Tuple of (system_prompt, converted_messages).
+        """
+        system_prompt = None
+        converted_messages = []
+
+        for msg in messages:
+            role = msg.get("role")
+            content = msg.get("content")
+
+            if role == "system":
+                if system_prompt is None:
+                    system_prompt = content if isinstance(content, str) else str(content)
+                else:
+                    system_prompt += "\n" + (content if isinstance(content, str) else str(content))
+            else:
+                converted_messages.append({"role": role, "content": content})
+
+        return system_prompt, converted_messages
+
+    def _chat_completion_impl(self, messages: list[dict[str, str]]) -> str | None:
+        """Execute chat completion with Anthropic."""
+        if not self.client:
+            logger.error("Anthropic client not initialized")
+            raise RuntimeError("Anthropic client not initialized")
+
+        system_prompt, anthropic_messages = self._convert_messages_for_anthropic(messages)
+
+        logger.debug(f"Calling Anthropic API: model={self.llm}, messages={len(anthropic_messages)}")
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        response = self.client.messages.create(**kwargs)
+
+        text_parts = []
+        for block in response.content:
+            if getattr(block, "type", None) == "text":
+                text_parts.append(block.text)
+
+        if not text_parts:
+            logger.debug("Anthropic response content is empty")
+            return None
+
+        result_text = "".join(text_parts)
+        logger.debug(f"Anthropic response received: {len(result_text)} characters")
+        return result_text
+
+    def _chat_completion_with_files_impl(
+        self,
+        messages: list[dict[str, str]],
+        files: list[str] | None = None,
+    ) -> str:
+        """Execute chat completion with files using Anthropic."""
+        if not self.client:
+            raise RuntimeError("Anthropic client not initialized")
+
+        from ..utils.file_utils import prepare_files_for_provider
+
+        logger.debug(f"Calling Anthropic API with {len(files or [])} files")
+
+        enhanced_messages = [msg.copy() for msg in messages]
+
+        if files:
+            file_blocks = prepare_files_for_provider(files, "anthropic")
+
+            # Find or append user message
+            if enhanced_messages and enhanced_messages[-1]["role"] == "user":
+                last_msg = enhanced_messages[-1]
+                content = last_msg.get("content", "")
+                blocks = []
+                if isinstance(content, str):
+                    if content:
+                        blocks.append({"type": "text", "text": content})
+                elif isinstance(content, list):
+                    blocks.extend(content)
+                blocks.extend(file_blocks)
+                last_msg["content"] = blocks
+            else:
+                enhanced_messages.append({"role": "user", "content": file_blocks})
+
+        system_prompt, anthropic_messages = self._convert_messages_for_anthropic(enhanced_messages)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        response = self.client.messages.create(**kwargs)
+
+        text_parts = [b.text for b in response.content if getattr(b, "type", None) == "text"]
+        return "".join(text_parts)
+
+    def _chat_completion_stream_impl(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        """Stream chat completion with Anthropic."""
+        if not self.client:
+            logger.error("Anthropic client not initialized")
+            raise RuntimeError("Anthropic client not initialized")
+
+        system_prompt, anthropic_messages = self._convert_messages_for_anthropic(messages)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        with self.client.messages.stream(**kwargs) as stream:
+            yield from stream.text_stream
+
+    def _convert_tools_for_anthropic(self, tools: list[dict]) -> list[dict]:
+        """Convert OpenAI-formatted tools to Anthropic tool definitions."""
+        anthropic_tools = []
+        for tool in tools:
+            if tool.get("type") == "function" and "function" in tool:
+                func = tool["function"]
+                anthropic_tools.append(
+                    {
+                        "name": func.get("name"),
+                        "description": func.get("description", ""),
+                        "input_schema": func.get(
+                            "parameters", {"type": "object", "properties": {}}
+                        ),
+                    }
+                )
+            else:
+                anthropic_tools.append(tool)
+        return anthropic_tools
+
+    def _chat_completion_with_tools_impl(
+        self,
+        messages: list[dict[str, str]],
+        tools: list[dict],
+        tool_choice: str | dict | None = None,
+    ) -> dict:
+        """Execute chat completion with tools using Anthropic."""
+        if not self.client:
+            raise RuntimeError("Anthropic client not initialized")
+
+        system_prompt, anthropic_messages = self._convert_messages_for_anthropic(messages)
+        anthropic_tools = self._convert_tools_for_anthropic(tools)
+
+        kwargs: dict[str, Any] = {
+            "model": self.llm,
+            "messages": anthropic_messages,
+            "tools": anthropic_tools,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+        }
+        if system_prompt:
+            kwargs["system"] = system_prompt
+
+        if tool_choice is not None:
+            if isinstance(tool_choice, str):
+                if tool_choice == "auto":
+                    kwargs["tool_choice"] = {"type": "auto"}
+                elif tool_choice == "none":
+                    # Anthropic doesn't have "none", simply omit tools or set auto
+                    pass
+                elif tool_choice == "any":
+                    kwargs["tool_choice"] = {"type": "any"}
+            elif isinstance(tool_choice, dict):
+                kwargs["tool_choice"] = tool_choice
+
+        response = self.client.messages.create(**kwargs)
+
+        content_str = None
+        text_parts = [b.text for b in response.content if getattr(b, "type", None) == "text"]
+        if text_parts:
+            content_str = "".join(text_parts)
+
+        tool_calls = []
+        for block in response.content:
+            if getattr(block, "type", None) == "tool_use":
+                import json
+
+                tool_calls.append(
+                    {
+                        "id": block.id,
+                        "type": "function",
+                        "function": {
+                            "name": block.name,
+                            "arguments": (
+                                json.dumps(block.input)
+                                if isinstance(block.input, dict)
+                                else str(block.input)
+                            ),
+                        },
+                    }
+                )
+
+        return {
+            "content": content_str,
+            "tool_calls": tool_calls if tool_calls else None,
+        }
+
+    @staticmethod
+    def get_default_model() -> str:
+        """Get default Anthropic model."""
+        return "claude-3-5-sonnet-20241022"
+
+    @staticmethod
+    def is_available() -> bool:
+        """Check if Anthropic package is available."""
+        return Anthropic is not None
+
+    def list_models(self) -> list[str]:
+        """List available models for Anthropic."""
+        if not self.client:
+            return []
+        try:
+            models = self.client.models.list()
+            return [m.id for m in models.data]
+        except Exception as e:
+            logger.debug(f"Error listing models for Anthropic: {e}")
+            return [
+                "claude-3-7-sonnet-20250219",
+                "claude-3-5-sonnet-20241022",
+                "claude-3-5-haiku-20241022",
+                "claude-3-opus-20240229",
+            ]
 
 
 class KIConnectProvider(BaseProvider):

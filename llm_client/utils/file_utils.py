@@ -128,6 +128,7 @@ def validate_file_for_provider(
     # Provider-specific file type support
     provider_support = {
         "openai": ["image", "pdf"],
+        "anthropic": ["image", "pdf"],
         "gemini": ["image", "pdf", "video", "audio"],
         "groq": ["image"],  # Limited vision support
         "ollama": ["image"],  # Vision models only
@@ -167,6 +168,46 @@ def prepare_file_for_openai(file_path: str | Path) -> dict:
     else:
         # For PDFs and other documents
         return {"type": "file", "file": {"data": base64_data, "mime_type": mime_type}}
+
+
+def prepare_file_for_anthropic(file_path: str | Path) -> dict:
+    """Prepare a file for Anthropic Messages API content block format.
+
+    Args:
+        file_path: Path to the file.
+
+    Returns:
+        Dictionary with file data in Anthropic content block format.
+
+    Examples:
+        >>> file_data = prepare_file_for_anthropic("image.jpg")
+        >>> file_data["type"]
+        'image'
+    """
+    file_type = detect_file_type(file_path)
+    mime_type = get_mime_type(file_path)
+    base64_data = encode_file_base64(file_path)
+
+    if file_type == "image":
+        return {
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": mime_type,
+                "data": base64_data,
+            },
+        }
+    elif file_type == "pdf":
+        return {
+            "type": "document",
+            "source": {
+                "type": "base64",
+                "media_type": mime_type,
+                "data": base64_data,
+            },
+        }
+    else:
+        raise ValueError(f"Anthropic does not support {file_type} files.")
 
 
 def prepare_file_for_gemini(file_path: str | Path) -> dict:
@@ -225,11 +266,14 @@ def prepare_files_for_provider(
             raise ValueError(error)
 
         # Prepare based on provider
-        if provider.lower() == "openai":
+        p_lower = provider.lower()
+        if p_lower == "openai":
             prepared_files.append(prepare_file_for_openai(file_path))
-        elif provider.lower() == "gemini":
+        elif p_lower in ["anthropic", "claude"]:
+            prepared_files.append(prepare_file_for_anthropic(file_path))
+        elif p_lower == "gemini":
             prepared_files.append(prepare_file_for_gemini(file_path))
-        elif provider.lower() in ["groq", "ollama"]:
+        elif p_lower in ["groq", "ollama"]:
             # Same format as OpenAI
             prepared_files.append(prepare_file_for_openai(file_path))
 

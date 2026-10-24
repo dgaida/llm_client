@@ -269,12 +269,13 @@ client = LLMClient(llm="gpt-oss:120b-cloud")
 
 ## 🧩 Unterstützte APIs & Default-Modelle
 
-| API    | Default-Modell                     | Bemerkung                           |
-| ------ |------------------------------------|-------------------------------------|
-| OpenAI | `gpt-4o-mini`                      | Schnell, zuverlässig                |
-| Groq   | `qwen/qwen3-32b` | Sehr effizient auf GroqCloud        |
-| Gemini | `gemini-3.1-flash-lite`             | Googles hocheffizientes Modell (Gemini 3.1, Juni 2026)  |
-| Ollama | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
+| API       | Default-Modell                     | Bemerkung                           |
+| --------- |------------------------------------|-------------------------------------|
+| OpenAI    | `gpt-4o-mini`                      | Schnell, zuverlässig                |
+| Anthropic | `claude-3-5-sonnet-20241022`        | Anthropic Claude API Messages       |
+| Groq      | `qwen/qwen3-32b`                   | Sehr effizient auf GroqCloud        |
+| Gemini    | `gemini-3.1-flash-lite`             | Googles hocheffizientes Modell      |
+| Ollama    | `llama3.2:1b`                      | Läuft lokal, kein API-Key nötig     |
 
 ### Ollama Installation
 
@@ -309,6 +310,7 @@ ollama pull llama3.2:1b
 
 ### Provider-Guides  
 - [OpenAI](docs/de/usage/providers/openai.md)  
+- [Anthropic](docs/de/usage/providers/anthropic.md)
 - [Groq](docs/de/usage/providers/groq.md)  
 - [Google Gemini](docs/de/usage/providers/gemini.md)  
 - [Ollama (lokal)](docs/de/usage/providers/ollama.md)  

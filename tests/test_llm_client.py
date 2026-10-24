@@ -81,7 +81,7 @@ class TestLLMClientInitialization:
         """Test: Ungültige API-Wahl wirft ValueError."""
         with pytest.raises(
             InvalidProviderError,
-            match="Invalid provider: invalid_api. Valid providers are: openai, groq, gemini, ollama",
+            match="Invalid provider: invalid_api. Valid providers are:",
         ):
             LLMClient(api_choice="invalid_api")
 

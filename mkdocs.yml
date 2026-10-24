@@ -99,6 +99,7 @@ nav:
       - Providers:
           - Overview: usage/providers/index.md
           - OpenAI: usage/providers/openai.md
+          - Anthropic: usage/providers/anthropic.md
           - Groq: usage/providers/groq.md
           - Gemini: usage/providers/gemini.md
           - Ollama: usage/providers/ollama.md
